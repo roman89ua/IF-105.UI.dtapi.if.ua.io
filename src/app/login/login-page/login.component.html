@@ -1,0 +1,12 @@
+<form>
+    <mat-form-field class="input-wrapper">
+       <input matInput placeholder="Login" [(ngModel)]="userData.username" name="username">
+   </mat-form-field>
+   <mat-form-field class="input-wrapper">
+       <input type="password" matInput placeholder="Password" [(ngModel)]="userData.password" name="password"> 
+   </mat-form-field>
+   <div class="input-wrapper" *ngIf="error">
+       <label>{{ error }}</label> 
+   </div>
+   <button class="input-wrapper" mat-flat-button color="primary" (click)="login()">Log In</button>
+</form>
