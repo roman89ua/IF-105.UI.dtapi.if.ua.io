@@ -1,0 +1,63 @@
+body {
+  font-size: 1rem;
+  line-height: 1.6;
+}
+.container {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 1rem;
+}
+
+.CreateForm {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  margin: 30px 0px;
+  border-radius: 25px;
+  padding: 20px;
+}
+
+.btn {
+  width: 200px;
+}
+
+a:hover {
+  cursor: pointer;
+}
+
+.material-icons.delete:hover {
+  color: red;
+}
+
+.material-icons.edit:hover {
+  color: orange;
+}
+.Form {
+  width: 50%;
+  margin: 20px 0px;
+}
+
+table {
+  width: 100%;
+}
+
+.Form {
+  margin: 20px auto;
+}
+.example-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.updateForm {
+  width: 400px;
+}
+.example-container > * {
+  width: 100%;
+}
+.mat-dialog-actions {
+  padding: 0px 0;
+  min-height: 9px;
+  margin-bottom: 0px;
+}
