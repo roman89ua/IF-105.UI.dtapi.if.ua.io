@@ -1,0 +1,11 @@
+ <div *ngIf="test">
+    <h1>
+        Test Name: {{ test.testName }}
+    </h1>
+    <h6>
+        Tasks: {{ test.testId }}
+    </h6>
+    <h2>
+        <a [routerLink]="['questions', test.testId]">Questions</a>
+    </h2>
+</div>
