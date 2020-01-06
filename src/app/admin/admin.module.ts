@@ -18,7 +18,6 @@ const adminRoutes: Routes = [
   imports: [
     CommonModule,
     FormsModule,
-    FormsModule,
     ReactiveFormsModule,
     RouterModule.forChild(adminRoutes),
     SharedModule

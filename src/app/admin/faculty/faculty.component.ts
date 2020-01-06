@@ -12,13 +12,44 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 })
 export class FacultyComponent implements OnInit {
 
-  addForm: FormGroup;
-  updateForm: FormGroup;
-  Facultys: Faculty[] = [];
+  loading = false;
+
+  addForm = new FormGroup({
+    faculty_name: new FormControl('',
+      [
+        Validators.required,
+        Validators.minLength(10),
+        Validators.pattern('[а-яА-ЯіІї ]*')
+      ]),
+    faculty_description: new FormControl('',
+      [
+        Validators.required,
+        Validators.pattern('[а-яА-ЯіІї ]*')
+      ])
+  });
+
+
+
+  updateForm = new FormGroup({
+    faculty_name: new FormControl('',
+      [
+        Validators.required,
+        Validators.minLength(10),
+        Validators.pattern('[а-яА-ЯіІї ]*')
+      ]),
+    faculty_description: new FormControl('',
+      [
+        Validators.required,
+        Validators.pattern('[а-яА-ЯіІї ]*')
+      ])
+  });
+
+
+  Faculties: Faculty[] = [];
   displayedColumns: string[] = ['id', 'name', 'desc', 'action'];
   id: number;
 
-  @ViewChild('mytable', { static: true }) table: MatTable<Element>;
+  @ViewChild('mytable', { static: false }) table: MatTable<Element>;
 
   constructor(private facultyService: FacultyService, private dialog: MatDialog) { }
 
@@ -31,43 +62,22 @@ export class FacultyComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.addForm = new FormGroup({
-      faculty_name: new FormControl('',
-        [
-          Validators.required,
-          Validators.minLength(10)
-        ]),
-      faculty_description: new FormControl('',
-        [
-          Validators.required
-        ])
-    });
-
-    this.updateForm = new FormGroup({
-      faculty_name: new FormControl('',
-        [
-          Validators.required,
-          Validators.minLength(10)
-        ]),
-      faculty_description: new FormControl('',
-        [
-          Validators.required
-        ])
-    });
     this.getFaculty();
   }
 
   getFaculty() {
+    this.loading = true;
     this.facultyService.getAllFaculty()
       .subscribe(response => {
-        this.Facultys = response;
+        this.Faculties = response;
+        this.loading = false;
       });
   }
 
   addFaculty() {
     this.facultyService.addFaculty({ ...this.addForm.value })
       .subscribe(response => {
-        this.Facultys.push(response[0]);
+        this.Faculties.push(response[0]);
         this.table.renderRows();
       });
     this.addForm.reset();
@@ -94,8 +104,17 @@ export class FacultyComponent implements OnInit {
   removeFaculty(id: number) {
     this.facultyService.removeFaculty(id)
       .subscribe((response) => {
-        this.Facultys = this.Facultys.filter(item => item.faculty_id !== id);
+        this.Faculties = this.Faculties.filter(item => item.faculty_id !== id);
       });
   }
-
+  getErrorMessageName() {
+    return this.get('faculty_name').hasError('required') ? 'Це поле є обовязкове*' :
+      this.get('faculty_name').hasError('pattern') ? 'Поле містить недопустимі символи(Цифри або латинські букви)' :
+        '';
+  }
+  getErrorMessageDescription() {
+    return this.get('faculty_description').hasError('required') ? 'Це поле є обовязкове*' :
+      this.get('faculty_description').hasError('pattern') ? 'Поле містить недопустимі символи (Цифри або латинські букви)' :
+        '';
+  }
 }

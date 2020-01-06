@@ -12,7 +12,4 @@ export class AdminPanelComponent implements OnInit {
 
   ngOnInit() {
   }
-  ToFaculty() {
-    this.router.navigate(['admin/faculty']);
-}
 }

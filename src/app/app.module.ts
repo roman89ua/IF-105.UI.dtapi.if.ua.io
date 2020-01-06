@@ -18,6 +18,10 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
+<<<<<<< HEAD
+=======
+    LoginModule,
+>>>>>>> Added data entry checks and loading state visualization
     SharedModule,
     BrowserAnimationsModule
   ],
