@@ -4,8 +4,8 @@ import { AdminPanelComponent } from './admin-panel-page/admin-panel.component';
 import { Routes, RouterModule } from '@angular/router';
 import { FacultyComponent } from './faculty/faculty.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-
 import { SharedModule } from '../shared/shared.module';
+
 
 
 

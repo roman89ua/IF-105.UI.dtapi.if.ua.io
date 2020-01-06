@@ -28,8 +28,6 @@ export class FacultyComponent implements OnInit {
       ])
   });
 
-
-
   updateForm = new FormGroup({
     faculty_name: new FormControl('',
       [
@@ -107,14 +105,16 @@ export class FacultyComponent implements OnInit {
         this.Faculties = this.Faculties.filter(item => item.faculty_id !== id);
       });
   }
-  getErrorMessageName() {
-    return this.get('faculty_name').hasError('required') ? 'Це поле є обовязкове*' :
-      this.get('faculty_name').hasError('pattern') ? 'Поле містить недопустимі символи(Цифри або латинські букви)' :
+
+  getErrorMessageName(form: FormGroup) {
+    return form.get('faculty_name').hasError('required') ? 'Це поле є обовязкове*' :
+      form.get('faculty_name').hasError('pattern') ? 'Поле містить недопустимі символи(Цифри або латинські букви)' :
         '';
   }
-  getErrorMessageDescription() {
-    return this.get('faculty_description').hasError('required') ? 'Це поле є обовязкове*' :
-      this.get('faculty_description').hasError('pattern') ? 'Поле містить недопустимі символи (Цифри або латинські букви)' :
+
+  getErrorMessageDescription(form: FormGroup) {
+    return form.get('faculty_description').hasError('required') ? 'Це поле є обовязкове*' :
+      form.get('faculty_description').hasError('pattern') ? 'Поле містить недопустимі символи (Цифри або латинські букви)' :
         '';
   }
 }

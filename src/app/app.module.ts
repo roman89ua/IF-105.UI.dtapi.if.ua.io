@@ -9,6 +9,7 @@ import { ApiHttpInterceptor } from './http.interceptor';
 
 import { SharedModule } from './shared/shared.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { LoginModule } from './login/login.module';
 
 @NgModule({
   declarations: [
@@ -18,11 +19,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
-<<<<<<< HEAD
-=======
-    LoginModule,
->>>>>>> Added data entry checks and loading state visualization
     SharedModule,
+    LoginModule,
     BrowserAnimationsModule
   ],
   providers: [{

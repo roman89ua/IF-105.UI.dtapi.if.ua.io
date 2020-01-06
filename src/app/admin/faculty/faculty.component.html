@@ -14,7 +14,7 @@
             placeholder="Введіть факультет"
           />
           <mat-error *ngIf="addForm.get('faculty_name').invalid">{{
-            getErrorMessageName.call(addForm)
+            getErrorMessageName(addForm)
           }}</mat-error>
 
           <mat-hint></mat-hint>
@@ -31,7 +31,7 @@
             placeholder="Введіть опис"
           ></textarea>
           <mat-error *ngIf="addForm.get('faculty_description').invalid">{{
-            getErrorMessageDescription.call(addForm)
+            getErrorMessageDescription(addForm)
           }}</mat-error>
           <mat-hint></mat-hint>
         </mat-form-field>
@@ -117,9 +117,7 @@
             formControlName="faculty_name"
           />
         </mat-form-field>
-        <mat-error *ngIf="updateForm.get('faculty_name').invalid">{{
-          getErrorMessageName.call(updateForm)
-        }}</mat-error>
+        <mat-error *ngIf="updateForm.get('faculty_name').invalid">{{getErrorMessageName(updateForm)}}</mat-error>
         <mat-form-field>
           <textarea
             matInput
@@ -131,7 +129,7 @@
           ></textarea>
         </mat-form-field>
         <mat-error *ngIf="updateForm.get('faculty_description').invalid">{{
-          getErrorMessageDescription.call(updateForm)
+          getErrorMessageDescription(updateForm)
         }}</mat-error>
         <mat-dialog-actions>
           <button mat-button [disabled]="updateForm.invalid" type="submit">
