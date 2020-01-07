@@ -10,7 +10,7 @@ export class TestService {
 
   constructor(private http: HttpClient) {}
 
-  testURI: string = 'http://dtapi.if.ua/Test/getRecords/1';
+  testURI: string = 'Test/getRecords/1';
 
   // currentExam = this.getExams()
 
