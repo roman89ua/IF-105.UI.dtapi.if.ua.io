@@ -1,0 +1,26 @@
+<form [formGroup]="newQuestionForm" (ngSubmit)="createQuestion()">
+    <div>
+        Question text 
+        <input type="text" formControlName="question_text">
+    </div>
+    <div>
+        Question type
+        <select formControlName="type">
+            <option value="1">Simple choice</option>
+            <option value="2">Multi choice</option>
+            <option value="3">Input</option>
+            <option value="4">Numerical(range)</option>
+        </select>
+    </div>
+    <div>
+        Question level
+        <select formControlName="level">
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+        </select>
+    </div>
+
+    <button (click)="log()">Log</button>
+    <input type="submit">
+</form>

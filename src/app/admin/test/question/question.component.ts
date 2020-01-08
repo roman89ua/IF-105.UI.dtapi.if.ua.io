@@ -20,7 +20,34 @@ export class QuestionComponent implements OnInit {
 
   questions: IQuestion[]
 
+  expandedQuestion: IQuestion
+
   constructor(private questionService: QuestionService) { }
+
+  log() {
+    console.log(23)
+  }
+
+  expandQuestionAnswers(id, question) {
+
+    let selectedQuestion: IQuestion;
+    selectedQuestion = this.questions.find((question) => {
+      return question.question_id === id
+    })
+    this.expandedQuestion = this.expandedQuestion == selectedQuestion ? null : selectedQuestion
+    
+    if (selectedQuestion.answers.length) {
+      return
+    }
+    else {
+      this.questionService.getQuestionAnswers(id)
+      .subscribe((res) => {
+        selectedQuestion.answers = res;
+      })
+    }
+
+    
+  }
 
   showAnswers(id) {
     this.questionService.getQuestionAnswers(id)
