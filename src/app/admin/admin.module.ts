@@ -22,7 +22,6 @@ const adminRoutes: Routes = [
   imports: [
     CommonModule,
     RouterModule.forChild(adminRoutes),
-  ],
-  bootstrap: [AdminComponent]
+  ]
 })
 export class AdminModule { }
