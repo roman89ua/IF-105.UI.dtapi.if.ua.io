@@ -33,9 +33,17 @@ export class GroupComponent implements OnInit {
   @ViewChild("table", { static: true }) table: MatTable<Group>;
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
 
+  applyFilter(filterValue: string) {
+    this.dataSource.filter = filterValue.trim().toLowerCase();
+  }
+
   constructor(protected httpService: HttpService, public dialog: MatDialog) {}
 
   ngOnInit() {
+    this.viewAllGroups();
+  }
+
+  viewAllGroups() {
     this.httpService.getRecords("group").subscribe((result: Group[]) => {
       this.listGroups = result;
       this.dataSource.data = this.listGroups;
@@ -43,6 +51,7 @@ export class GroupComponent implements OnInit {
     });
     this.dataSource.paginator = this.paginator;
   }
+
 
   // add modal window for add new group
   addGroupDialog(group: Group): void {

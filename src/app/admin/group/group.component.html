@@ -4,10 +4,13 @@
   <button mat-raised-button color="prime" (click)="viewGroupDialog('getGroupsByFaculty')">
     View groups faculty
   </button>
+  <mat-form-field>
+    <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
+  </mat-form-field>
   <table mat-table #table [dataSource]="dataSource">
     <ng-container matColumnDef="id">
       <th mat-header-cell *matHeaderCellDef>#</th>
-      <td mat-cell *matCellDef="let group; let rIndex = index;">{{ rIndex+1 }}</td>
+      <td mat-cell *matCellDef="let group; let rIndex = index;">{{ rIndex+1 }}({{group.group_id}})</td>
     </ng-container>
     <ng-container matColumnDef="name">
       <th mat-header-cell *matHeaderCellDef>Name</th>
