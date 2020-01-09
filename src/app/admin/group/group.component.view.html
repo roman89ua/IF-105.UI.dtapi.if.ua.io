@@ -1,0 +1,35 @@
+<h1 mat-dialog-title>Choose 
+    <span *ngIf="data.action=='getGroupsBySpeciality'"> speciality</span>
+    <span *ngIf="data.action=='getGroupsByFaculty'"> faculty</span>
+  </h1>
+  <div mat-dialog-content>
+    <mat-form-field *ngIf="data.action=='getGroupsBySpeciality'" class="example-full-width">
+      <mat-label>Speciality</mat-label>
+      <mat-select [(ngModel)]="data.id" name="id">
+        <mat-option
+          *ngFor="let item of specialities"
+          [value]="item.speciality_id"
+        >
+          {{item.speciality_name}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field *ngIf="data.action=='getGroupsByFaculty'" class="example-full-width">
+      <mat-label>Faculty</mat-label>
+      <mat-select [(ngModel)]="data.id" name="id">
+        <mat-option
+          *ngFor="let item of faculties"
+          [value]="item.faculty_id"
+        >
+          {{item.faculty_name}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+  <div mat-dialog-actions>
+    <button mat-raised-button mat-dialog-close cdkFocusInitial>Cancel</button>
+    <button mat-raised-button [mat-dialog-close]="data" color="warn">
+      View
+    </button>
+  </div>
+  
