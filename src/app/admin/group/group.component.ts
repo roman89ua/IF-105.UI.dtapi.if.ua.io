@@ -1,14 +1,13 @@
 import { Component, OnInit, ViewChild, Inject } from "@angular/core";
 import { HttpService } from "../../shared/http.service";
-import { Group, Speciality, Faculty, DialogData } from "./entity.interface";
+import { Group } from "../entity.interface";
 import { MatTableDataSource, MatTable } from "@angular/material";
 import { MatPaginator } from "@angular/material/paginator";
-import {
-  MatDialog,
-  MatDialogRef,
-  MAT_DIALOG_DATA
-} from "@angular/material/dialog";
-import { GroupDialogAddComponent } from './groupDialogAdd/groupDialogAdd.component';
+import { MatDialog } from "@angular/material/dialog";
+import { GroupDialogAddComponent } from '../groupDialogAdd/groupDialogAdd.component';
+import { GroupDialogDelComponent } from '../groupDialogDel/groupDialogDel.component';
+import { GroupDialogEditComponent } from '../groupDialogEdit/groupDialogEdit.component';
+import { GroupDialogViewComponent } from '../groupDialogView/groupDialogView.component';
 
 @Component({
   selector: "app-group",
@@ -48,7 +47,6 @@ export class GroupComponent implements OnInit {
     this.dataSource.paginator = this.paginator;
   }
 
-
   // add modal window for add new group
   addGroupDialog(group: Group): void {
     const dialogRef = this.dialog.open(GroupDialogAddComponent, {
@@ -75,7 +73,7 @@ export class GroupComponent implements OnInit {
   }
   // add modal window for confirm delete
   deleteGroupDialog(group: Group): void {
-    const dialogRef = this.dialog.open(GroupComponentDelete, {
+    const dialogRef = this.dialog.open(GroupDialogDelComponent, {
       width: "300px",
       data: group
     });
@@ -103,7 +101,7 @@ export class GroupComponent implements OnInit {
   }
   // add modal window for edit group
   editGroupDialog(group: Group): void {
-    const dialogRef = this.dialog.open(GroupComponentEdit, {
+    const dialogRef = this.dialog.open(GroupDialogEditComponent, {
       width: "500px",
       data: group
     });
@@ -135,7 +133,7 @@ export class GroupComponent implements OnInit {
 
   // add modal window for view groups by speciality or faculty
   viewGroupDialog(action: string): void {
-    const dialogRef = this.dialog.open(GroupComponentView, {
+    const dialogRef = this.dialog.open(GroupDialogViewComponent, {
       width: "500px",
       data: {action: action}
     });
@@ -164,78 +162,4 @@ export class GroupComponent implements OnInit {
     });
   }
 
-}
-
-
-// Add Component for modal window Delete
-@Component({
-  selector: "app-group-delete",
-  templateUrl: "./group.component.delete.html",
-  styleUrls: ["./group.component.scss"]
-})
-export class GroupComponentDelete {
-  constructor(
-    public dialogRef: MatDialogRef<GroupComponentDelete>,
-    @Inject(MAT_DIALOG_DATA) public data: DialogData
-  ) {}
-}
-
-// Add Component for modal window Edit
-@Component({
-  selector: "app-group-edit",
-  templateUrl: "./group.component.edit.html",
-  styleUrls: ["./group.component.scss"]
-})
-export class GroupComponentEdit implements OnInit {
-  specialities: Speciality[] = [];
-  faculties: Faculty[] = [];
-
-  constructor(
-    private httpService: HttpService,
-    public dialogRef: MatDialogRef<GroupComponentEdit>,
-    @Inject(MAT_DIALOG_DATA) public data: DialogData
-  ) {}
-
-  ngOnInit() {
-    this.httpService
-      .getRecords("speciality")
-      .subscribe((result: Speciality[]) => {
-        this.specialities = result;
-        console.log(this.specialities);
-      });
-    this.httpService.getRecords("faculty").subscribe((result: Faculty[]) => {
-      this.faculties = result;
-      console.log(this.faculties);
-    });
-  }
-}
-
-// Add Component for modal window View
-@Component({
-  selector: "app-group-view",
-  templateUrl: "./group.component.view.html",
-  styleUrls: ["./group.component.scss"]
-})
-export class GroupComponentView implements OnInit {
-  specialities: Speciality[] = [];
-  faculties: Faculty[] = [];
-
-  constructor(
-    private httpService: HttpService,
-    public dialogRef: MatDialogRef<GroupComponentView>,
-    @Inject(MAT_DIALOG_DATA) public data: DialogData
-  ) {}
-
-  ngOnInit() {
-    this.httpService
-      .getRecords("speciality")
-      .subscribe((result: Speciality[]) => {
-        this.specialities = result;
-        console.log(this.specialities);
-      });
-    this.httpService.getRecords("faculty").subscribe((result: Faculty[]) => {
-      this.faculties = result;
-      console.log(this.faculties);
-    });
-  }
 }

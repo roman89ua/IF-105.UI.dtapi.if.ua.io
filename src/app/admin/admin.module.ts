@@ -1,14 +1,12 @@
 import { NgModule } from "@angular/core";
 import { CommonModule } from "@angular/common";
-import { AdminPanelComponent } from "./admin-panel-page/admin-panel.component";
+import { AdminComponent } from "./admin.component";
 import { Routes, RouterModule } from "@angular/router";
-import {
-  GroupComponent,
-  GroupComponentDelete,
-  GroupComponentEdit,
-  GroupComponentView
-} from "./group/group.component";
-import { GroupDialogAddComponent } from './group/groupDialogAdd/groupDialogAdd.component';
+import { GroupComponent } from "./group/group.component";
+import { GroupDialogAddComponent } from './groupDialogAdd/groupDialogAdd.component';
+import { GroupDialogDelComponent } from './groupDialogDel/groupDialogDel.component';
+import { GroupDialogEditComponent } from './groupDialogEdit/groupDialogEdit.component';
+import { GroupDialogViewComponent } from './groupDialogView/groupDialogView.component';
 
 import { MatButtonModule } from "@angular/material/button";
 import { MatTableModule } from "@angular/material/table";
@@ -20,22 +18,22 @@ import { MatSelectModule } from "@angular/material/select";
 import { FormsModule } from "@angular/forms";
 
 const adminRoutes: Routes = [
-  { path: "", component: AdminPanelComponent },
+  { path: "", component: AdminComponent },
   { path: "group", component: GroupComponent },
   { path: "group_add", component: GroupDialogAddComponent },
-  { path: "group_edit", component: GroupComponentEdit },
-  { path: "group_delete", component: GroupComponentDelete },
-  { path: "group_view", component: GroupComponentView }
+  { path: "group_edit", component: GroupDialogEditComponent },
+  { path: "group_delete", component: GroupDialogDelComponent },
+  { path: "group_view", component: GroupDialogViewComponent }
 ];
 
 @NgModule({
   declarations: [
-    AdminPanelComponent,
+    AdminComponent,
     GroupComponent,
     GroupDialogAddComponent,
-    GroupComponentDelete,
-    GroupComponentEdit,
-    GroupComponentView
+    GroupDialogDelComponent,
+    GroupDialogEditComponent,
+    GroupDialogViewComponent
   ],
   imports: [
     CommonModule, 

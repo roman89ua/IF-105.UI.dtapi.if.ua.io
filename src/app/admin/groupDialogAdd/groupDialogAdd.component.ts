@@ -1,8 +1,7 @@
-import { Component, OnInit, ViewChild, Inject } from "@angular/core";
-import { HttpService } from "../../../shared/http.service";
+import { Component, OnInit, Inject } from "@angular/core";
+import { HttpService } from "../../shared/http.service";
 import { Speciality, Faculty, DialogData } from "../entity.interface";
 import {
-  MatDialog,
   MatDialogRef,
   MAT_DIALOG_DATA
 } from "@angular/material/dialog";
@@ -10,7 +9,7 @@ import {
 @Component({
     selector: "app-groupDialogAdd",
     templateUrl: "./groupDialogAdd.component.html",
-    styleUrls: ["../group.component.scss"]
+    styleUrls: ["./groupDialogAdd.component.scss"]
   })
   export class GroupDialogAddComponent implements OnInit {
     specialities: Speciality[] = [];
