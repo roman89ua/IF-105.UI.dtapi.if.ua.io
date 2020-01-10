@@ -4,11 +4,11 @@ import { AdminPanelComponent } from "./admin-panel-page/admin-panel.component";
 import { Routes, RouterModule } from "@angular/router";
 import {
   GroupComponent,
-  GroupComponentAdd,
   GroupComponentDelete,
   GroupComponentEdit,
   GroupComponentView
 } from "./group/group.component";
+import { GroupDialogAddComponent } from './group/groupDialogAdd/groupDialogAdd.component';
 
 import { MatButtonModule } from "@angular/material/button";
 import { MatTableModule } from "@angular/material/table";
@@ -22,7 +22,7 @@ import { FormsModule } from "@angular/forms";
 const adminRoutes: Routes = [
   { path: "", component: AdminPanelComponent },
   { path: "group", component: GroupComponent },
-  { path: "group_add", component: GroupComponentAdd },
+  { path: "group_add", component: GroupDialogAddComponent },
   { path: "group_edit", component: GroupComponentEdit },
   { path: "group_delete", component: GroupComponentDelete },
   { path: "group_view", component: GroupComponentView }
@@ -32,7 +32,7 @@ const adminRoutes: Routes = [
   declarations: [
     AdminPanelComponent,
     GroupComponent,
-    GroupComponentAdd,
+    GroupDialogAddComponent,
     GroupComponentDelete,
     GroupComponentEdit,
     GroupComponentView

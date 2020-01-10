@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild, Inject } from "@angular/core";
 import { HttpService } from "../../shared/http.service";
-import { Group, Speciality, Faculty } from "./entity.interface";
+import { Group, Speciality, Faculty, DialogData } from "./entity.interface";
 import { MatTableDataSource, MatTable } from "@angular/material";
 import { MatPaginator } from "@angular/material/paginator";
 import {
@@ -8,16 +8,12 @@ import {
   MatDialogRef,
   MAT_DIALOG_DATA
 } from "@angular/material/dialog";
-
-export interface DialogData {
-  data: any;
-}
+import { GroupDialogAddComponent } from './groupDialogAdd/groupDialogAdd.component';
 
 @Component({
   selector: "app-group",
   templateUrl: "./group.component.html",
   styleUrls: ["./group.component.scss"],
-  providers: [HttpService, MatDialog]
 })
 export class GroupComponent implements OnInit {
   listGroups: Group[] = [];
@@ -55,7 +51,7 @@ export class GroupComponent implements OnInit {
 
   // add modal window for add new group
   addGroupDialog(group: Group): void {
-    const dialogRef = this.dialog.open(GroupComponentAdd, {
+    const dialogRef = this.dialog.open(GroupDialogAddComponent, {
       width: "500px",
       data: {}
     });
@@ -170,35 +166,6 @@ export class GroupComponent implements OnInit {
 
 }
 
-// Add Component for modal window Add
-@Component({
-  selector: "app-group-add",
-  templateUrl: "./group.component.add.html",
-  styleUrls: ["./group.component.scss"]
-})
-export class GroupComponentAdd implements OnInit {
-  specialities: Speciality[] = [];
-  faculties: Faculty[] = [];
-
-  constructor(
-    private httpService: HttpService,
-    public dialogRef: MatDialogRef<GroupComponentAdd>,
-    @Inject(MAT_DIALOG_DATA) public data: DialogData
-  ) {}
-
-  ngOnInit() {
-    this.httpService
-      .getRecords("speciality")
-      .subscribe((result: Speciality[]) => {
-        this.specialities = result;
-        console.log(this.specialities);
-      });
-    this.httpService.getRecords("faculty").subscribe((result: Faculty[]) => {
-      this.faculties = result;
-      console.log(this.faculties);
-    });
-  }
-}
 
 // Add Component for modal window Delete
 @Component({
