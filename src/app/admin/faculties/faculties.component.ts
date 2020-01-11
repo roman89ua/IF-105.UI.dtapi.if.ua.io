@@ -6,8 +6,6 @@ import { MatDialog, MatTableDataSource, MatTable, MatSnackBar } from '@angular/m
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { ConfirmDiaglogComponent, ConfirmDialogModel } from './confirm-diaglog/confirm-diaglog.component';
 
-
-
 @Component({
   selector: 'app-faculties',
   templateUrl: './faculties.component.html',
@@ -29,7 +27,7 @@ export class FacultiesComponent implements OnInit, AfterViewInit {
 
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
 
-  AddForm = new FormGroup({
+  addForm = new FormGroup({
     faculty_name: new FormControl('',
       [
         Validators.required,
@@ -42,7 +40,7 @@ export class FacultiesComponent implements OnInit, AfterViewInit {
       ])
   });
 
-  UpdateForm = new FormGroup({
+  updateForm = new FormGroup({
     faculty_name: new FormControl('',
       [
         Validators.required,
@@ -89,7 +87,7 @@ export class FacultiesComponent implements OnInit, AfterViewInit {
   }
 
   addFaculty() {
-    this.facultyService.addFaculty({ ...this.AddForm.value })
+    this.facultyService.addFaculty({ ...this.addForm.value })
       .subscribe(response => {
         this.dataSource.data = [...this.dataSource.data, response[0]];
         this.table.renderRows();
@@ -104,7 +102,7 @@ export class FacultiesComponent implements OnInit, AfterViewInit {
 
   getObjectFromTable(templateRef: TemplateRef<any>, element: Faculty) {
     this.dialog.open(templateRef);
-    this.UpdateForm.patchValue({
+    this.updateForm.patchValue({
       faculty_name: element.faculty_name,
       faculty_description: element.faculty_description,
     });
@@ -112,7 +110,7 @@ export class FacultiesComponent implements OnInit, AfterViewInit {
   }
 
   updateFaculty() {
-    this.facultyService.updateFaculty(this.id, { ...this.UpdateForm.value })
+    this.facultyService.updateFaculty(this.id, { ...this.updateForm.value })
       .subscribe(response => {
         this.getFaculty();
         this.closeDialog();
@@ -128,7 +126,7 @@ export class FacultiesComponent implements OnInit, AfterViewInit {
   }
 
 
-  DeleteFacultyDialog(faculty: Faculty): void {
+  deleteFacultyDialog(faculty: Faculty): void {
     const dialogData = new ConfirmDialogModel('Підтвердження', faculty);
     const dialogRef = this.dialog.open(ConfirmDiaglogComponent, {
       maxWidth: '400px',

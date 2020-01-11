@@ -2,9 +2,9 @@
 <ng-template #loadingBlock>
   <mat-progress-bar mode="indeterminate"></mat-progress-bar>
 </ng-template>
-<div class="container">
+<section class="container">
   <div class="create-form">
-    <form [formGroup]="AddForm" #addform="ngForm" (ngSubmit)="addFaculty()">
+    <form [formGroup]="addForm" #addform="ngForm" (ngSubmit)="addFaculty()">
       <div class="example-container">
         <mat-form-field appearance="outline">
           <mat-label>Факультет</mat-label>
@@ -13,8 +13,8 @@
             formControlName="faculty_name"
             placeholder="Введіть факультет"
           />
-          <mat-error *ngIf="AddForm.get('faculty_name').invalid && (AddForm.get('faculty_name').dirty || AddForm.get('faculty_name').touched)">{{
-            getErrorMessageName(AddForm)
+          <mat-error *ngIf="addForm.get('faculty_name').invalid && (addForm.get('faculty_name').dirty || addForm.get('faculty_name').touched)">{{
+            getErrorMessageName(addForm)
           }}</mat-error>
 
           <mat-hint></mat-hint>
@@ -30,8 +30,8 @@
             cdkAutosizeMaxRows="5"
             placeholder="Введіть опис"
           ></textarea>
-          <mat-error *ngIf="AddForm.get('faculty_description').invalid && (AddForm.get('faculty_description').dirty || AddForm.get('faculty_description').touched)" >{{
-            getErrorMessageDescription(AddForm)
+          <mat-error *ngIf="addForm.get('faculty_description').invalid && (addForm.get('faculty_description').dirty || addForm.get('faculty_description').touched)" >{{
+            getErrorMessageDescription(addForm)
           }}</mat-error>
           <mat-hint></mat-hint>
         </mat-form-field>
@@ -40,7 +40,7 @@
           mat-raised-button
           color="primary"
           class="btn"
-          [disabled]="AddForm.invalid"
+          [disabled]="addForm.invalid"
           type="submit"
         >
           Додати
@@ -82,7 +82,7 @@
             </i></a
           >
           |
-          <a (click)="DeleteFacultyDialog(element)"
+          <a (click)="deleteFacultyDialog(element)"
             ><i class="material-icons delete">
               delete
             </i></a
@@ -105,11 +105,11 @@
     >
     </mat-progress-spinner>
   </ng-template>
-</div>
+</section>
 
 <ng-template #myDialog>
   <div class="update-form">
-    <form [formGroup]="UpdateForm" #updateform="ngForm" (ngSubmit)="updateFaculty()">
+    <form [formGroup]="updateForm" #updateform="ngForm" (ngSubmit)="updateFaculty()">
       <div class="example-container">
         <mat-form-field>
           <input
@@ -118,7 +118,7 @@
             formControlName="faculty_name"
           />
         </mat-form-field>
-        <mat-error *ngIf="UpdateForm.get('faculty_name').invalid  && (UpdateForm.get('faculty_name').dirty ||  UpdateForm.get('faculty_name').touched)">{{getErrorMessageName(UpdateForm)}}</mat-error>
+        <mat-error *ngIf="updateForm.get('faculty_name').invalid  && (updateForm.get('faculty_name').dirty ||  updateForm.get('faculty_name').touched)">{{getErrorMessageName(updateForm)}}</mat-error>
         <mat-form-field>
           <textarea
             matInput
@@ -129,11 +129,11 @@
             formControlName="faculty_description"
           ></textarea>
         </mat-form-field>
-        <mat-error *ngIf="UpdateForm.get('faculty_description').invalid  && (UpdateForm.get('faculty_description').dirty || UpdateForm.get('faculty_description').touched)">{{
-          getErrorMessageDescription(UpdateForm)
+        <mat-error *ngIf="updateForm.get('faculty_description').invalid  && (updateForm.get('faculty_description').dirty || updateForm.get('faculty_description').touched)">{{
+          getErrorMessageDescription(updateForm)
         }}</mat-error>
         <mat-dialog-actions>
-          <button mat-button [disabled]="UpdateForm.invalid || !(UpdateForm.get('faculty_name').dirty || UpdateForm.get('faculty_description').dirty)"   type="submit">
+          <button mat-button [disabled]="updateForm.invalid || !(updateForm.get('faculty_name').dirty || updateForm.get('faculty_description').dirty)"   type="submit">
             Оновити
           </button>
           <button mat-button type="button" (click)="closeDialog()">
