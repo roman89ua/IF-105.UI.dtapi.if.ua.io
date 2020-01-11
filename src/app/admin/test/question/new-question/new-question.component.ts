@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormControl } from '@angular/forms';
+import { FormGroup, FormControl, FormBuilder } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { questionService, QuestionService } from '../question.service';
+import { QuestionService } from '../question.service';
  
 
 @Component({
@@ -11,15 +11,49 @@ import { questionService, QuestionService } from '../question.service';
 })
 export class NewQuestionComponent implements OnInit {
 
+  constructor(
+    private route: ActivatedRoute,
+    private questionService: QuestionService
+  ) { }
+
   newQuestionForm = new FormGroup({
     question_text: new FormControl(''),
     level: new FormControl(''),
     type: new FormControl(''),
   });
 
-  newQuestionData: {};
-
+  answers: {id: number, answer_text: string, true_answer: number}[] = [];
   testId: number;
+
+  addAnswer() {
+    if (!this.answers.length) {
+      this.answers.push({id: 1, answer_text: '', true_answer: 0})
+    } else {
+      let id;
+      id = this.answers.reduce((maxId, val) => {
+         return (val.id > maxId) ? val.id  : maxId
+      }, 0)
+      this.answers.push({id: id + 1, answer_text: '', true_answer: 0})
+    }
+  }
+
+  saveAnswerValue(val) {
+    this.answers = this.answers
+      .map((answer) => {
+        if (answer.id === val.id) {
+          return val
+        }
+        else {
+          return answer
+        }
+      })
+  }
+
+  log() {
+    console.log({...this.newQuestionForm.value, test_id: this.testId, attachment: ''});
+  }
+
+    // answers: {id: number}[];
 
   // questionData: {
   //   question_text: string,
@@ -28,15 +62,6 @@ export class NewQuestionComponent implements OnInit {
   //   test_id: number,
   //   attachment: string
   // }
-
-  log() {
-    console.log({...this.newQuestionForm.value, test_id: this.testId, attachment: ''});
-  }
-
-  constructor(
-    private route: ActivatedRoute,
-    private questionService: QuestionService
-  ) { }
 
   createQuestion() {
     const questionData = {

@@ -1,1 +1,9 @@
-<p>question-answer works!</p>
+<p>question-answer works! ID: {{ id }}</p>
+<form [formGroup]="answerForm">
+    Answer text: <input type="text" value="questionAnswer.answer_text" (change)="changeAnswerDataHandler()" formControlName="answer_text">
+    <div>
+        True: <input type="radio" id="correct-option" formControlName="true_answer" value="1">
+        False: <input type="radio" id="incorrect-option" formControlName="true_answer" value="0">
+    </div>
+    {{ questionAnswer.answer_text }}
+</form>    

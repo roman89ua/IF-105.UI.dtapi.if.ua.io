@@ -45,9 +45,14 @@ export class QuestionComponent implements OnInit {
         selectedQuestion.answers = res;
       })
     }
-
-    
   }
+
+  deleteQuestion(id) {
+    this.questionService.deleteQuestion(id)
+      .subscribe((res) => {
+        console.log(res);
+      })
+  } 
 
   showAnswers(id) {
     this.questionService.getQuestionAnswers(id)

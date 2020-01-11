@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { FormGroup, FormControl } from '@angular/forms';
+
 
 @Component({
   selector: 'app-question-answer',
@@ -7,11 +9,25 @@ import { Component, OnInit } from '@angular/core';
 })
 export class QuestionAnswerComponent implements OnInit {
 
-  answers: [];
+  @Input() questionAnswer: any;
+  @Output() answerData = new EventEmitter();
 
   constructor() { }
 
+  answerForm = new FormGroup ({
+    answer_text: new FormControl(''),
+    true_answer: new FormControl(''),
+  });
+
+  changeAnswerDataHandler() {
+    this.answerData.emit({ id: this.questionAnswer.id, ...this.answerForm.value })
+  }
+
   ngOnInit() {
+    this.answerForm.setValue({
+       answer_text: this.questionAnswer.answer_text,
+       true_answer: this.questionAnswer.true_answer
+      })
   }
 
 }

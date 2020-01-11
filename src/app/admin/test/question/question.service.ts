@@ -22,6 +22,11 @@ export class QuestionService {
       .pipe(tap(res=>console.log(res)))
   }
 
+  deleteQuestion(id) {
+    return this.http.get('question/del/' + id)
+      .pipe(tap(res=>console.log(res)))
+
+  }
   addNewQuestion(data) {
     return this.http.post('question/insertData', data)
       .pipe(tap(res=>console.log(res)))
