@@ -1,7 +1,8 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { AdminPanelComponent } from './admin-panel-page/admin-panel.component';
+import { AdminComponent } from './admin.component';
 import { Routes, RouterModule } from '@angular/router';
+<<<<<<< HEAD
 import { TestComponent } from './test/test.component';
 import { QuestionComponent } from './test/question/question.component';
 import { SharedModule } from '../shared/shared.module';
@@ -22,6 +23,26 @@ const adminRoutes: Routes = [
     CommonModule,
     SharedModule,
     RouterModule.forChild(adminRoutes),
+=======
+import { StudentsComponent } from './students/students.component';
+
+
+const routes: Routes = [
+  { path: '', component: AdminComponent , 
+    children:[
+      { path: 'students', component: StudentsComponent }
+      // Here you can add routes for your entities
+  ]}
+];
+@NgModule({
+  declarations: [
+    AdminComponent,
+    StudentsComponent
+  ],
+  imports: [
+    CommonModule,
+    RouterModule.forChild(routes),
+>>>>>>> master
   ]
 })
 export class AdminModule { }
