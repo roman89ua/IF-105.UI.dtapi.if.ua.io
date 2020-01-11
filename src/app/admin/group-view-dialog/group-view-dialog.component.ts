@@ -7,17 +7,17 @@ import {
 } from "@angular/material/dialog";
 
 @Component({
-    selector: "app-groupDialogView",
-    templateUrl: "./groupDialogView.component.html",
-    styleUrls: ["./groupDialogView.component.scss"]
+    selector: "app-group-view-dialog",
+    templateUrl: "./group-view-dialog.component.html",
+    styleUrls: ["./group-view-dialog.component.scss"]
   })
-  export class GroupDialogViewComponent implements OnInit {
+  export class GroupViewDialogComponent implements OnInit {
     specialities: Speciality[] = [];
     faculties: Faculty[] = [];
   
     constructor(
       private httpService: HttpService,
-      public dialogRef: MatDialogRef<GroupDialogViewComponent>,
+      public dialogRef: MatDialogRef<GroupViewDialogComponent>,
       @Inject(MAT_DIALOG_DATA) public data: DialogData
     ) {}
   

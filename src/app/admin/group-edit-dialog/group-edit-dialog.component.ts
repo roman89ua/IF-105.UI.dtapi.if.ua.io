@@ -7,17 +7,17 @@ import {
 } from "@angular/material/dialog";
 
 @Component({
-    selector: "app-groupDialogAdd",
-    templateUrl: "./groupDialogAdd.component.html",
-    styleUrls: ["./groupDialogAdd.component.scss"]
+    selector: "app-group-edit-dialog",
+    templateUrl: "./group-edit-dialog.component.html",
+    styleUrls: ["./group-edit-dialog.component.scss"]
   })
-  export class GroupDialogAddComponent implements OnInit {
+  export class GroupEditDialogComponent implements OnInit {
     specialities: Speciality[] = [];
     faculties: Faculty[] = [];
   
     constructor(
       private httpService: HttpService,
-      public dialogRef: MatDialogRef<GroupDialogAddComponent>,
+      public dialogRef: MatDialogRef<GroupEditDialogComponent>,
       @Inject(MAT_DIALOG_DATA) public data: DialogData
     ) {}
   
@@ -34,4 +34,3 @@ import {
       });
     }
   }
-  

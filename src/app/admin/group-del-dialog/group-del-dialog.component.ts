@@ -6,13 +6,13 @@ import {
 } from "@angular/material/dialog";
 
 @Component({
-    selector: "app-groupDialogDel",
-    templateUrl: "./groupDialogDel.component.html",
-    styleUrls: ["./groupDialogDel.component.scss"]
+    selector: "app-group-del-dialog",
+    templateUrl: "./group-del-dialog.component.html",
+    styleUrls: ["./group-del-dialog.component.scss"]
   })
-  export class GroupDialogDelComponent {
+  export class GroupDelDialogComponent {
     constructor(
-      public dialogRef: MatDialogRef<GroupDialogDelComponent>,
+      public dialogRef: MatDialogRef<GroupDelDialogComponent>,
       @Inject(MAT_DIALOG_DATA) public data: DialogData
     ) {}
   }

@@ -3,10 +3,10 @@ import { CommonModule } from "@angular/common";
 import { AdminComponent } from "./admin.component";
 import { Routes, RouterModule } from "@angular/router";
 import { GroupComponent } from "./group/group.component";
-import { GroupDialogAddComponent } from './groupDialogAdd/groupDialogAdd.component';
-import { GroupDialogDelComponent } from './groupDialogDel/groupDialogDel.component';
-import { GroupDialogEditComponent } from './groupDialogEdit/groupDialogEdit.component';
-import { GroupDialogViewComponent } from './groupDialogView/groupDialogView.component';
+import { GroupAddDialogComponent } from './group-add-dialog/group-add-dialog.component';
+import { GroupDelDialogComponent } from './group-del-dialog/group-del-dialog.component';
+import { GroupEditDialogComponent } from './group-edit-dialog/group-edit-dialog.component';
+import { GroupViewDialogComponent } from './group-view-dialog/group-view-dialog.component';
 
 import { MatButtonModule } from "@angular/material/button";
 import { MatTableModule } from "@angular/material/table";
@@ -20,20 +20,20 @@ import { FormsModule } from "@angular/forms";
 const adminRoutes: Routes = [
   { path: "", component: AdminComponent },
   { path: "group", component: GroupComponent },
-  { path: "group_add", component: GroupDialogAddComponent },
-  { path: "group_edit", component: GroupDialogEditComponent },
-  { path: "group_delete", component: GroupDialogDelComponent },
-  { path: "group_view", component: GroupDialogViewComponent }
+  { path: "group_add", component: GroupAddDialogComponent },
+  { path: "group_edit", component: GroupEditDialogComponent },
+  { path: "group_delete", component: GroupDelDialogComponent },
+  { path: "group_view", component: GroupViewDialogComponent },
 ];
 
 @NgModule({
   declarations: [
     AdminComponent,
     GroupComponent,
-    GroupDialogAddComponent,
-    GroupDialogDelComponent,
-    GroupDialogEditComponent,
-    GroupDialogViewComponent
+    GroupAddDialogComponent,
+    GroupDelDialogComponent,
+    GroupEditDialogComponent,
+    GroupViewDialogComponent
   ],
   imports: [
     CommonModule, 
