@@ -2,9 +2,9 @@ import { Component, OnInit, AfterViewInit, } from '@angular/core';
 import { Faculty, FacultyService } from './faculties.service';
 import { ViewChild, TemplateRef } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
-import { MatDialog, MatTableDataSource, MatTable, MatSnackBar } from '@angular/material';
+import { MatDialog, MatTableDataSource, MatTable, MatSnackBar, MatSnackBarConfig } from '@angular/material';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { ConfirmDiaglogComponent, ConfirmDialogModel } from './confirm-diaglog/confirm-diaglog.component';
+import { ConfirmDiaglogComponent, ConfirmDialogModel } from '../confirm-diaglog/confirm-diaglog.component';
 
 @Component({
   selector: 'app-faculties',
@@ -62,7 +62,6 @@ export class FacultiesComponent implements OnInit, AfterViewInit {
   openSnackBar(message: string, action?: string) {
     this.snackBar.open(message, action, {
       duration: 2500,
-      panelClass: 'center',
     });
   }
 
