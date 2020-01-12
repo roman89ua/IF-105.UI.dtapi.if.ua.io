@@ -1,0 +1,147 @@
+<a routerLink="..">Назад</a>
+<ng-template #loadingBlock>
+  <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+</ng-template>
+<section class="container">
+  <div class="create-form">
+    <form [formGroup]="addForm" #addform="ngForm" (ngSubmit)="addFaculty()">
+      <div class="example-container">
+        <mat-form-field appearance="outline">
+          <mat-label>Факультет</mat-label>
+          <input
+            matInput
+            formControlName="faculty_name"
+            placeholder="Введіть факультет"
+          />
+          <mat-error *ngIf="addForm.get('faculty_name').invalid && (addForm.get('faculty_name').dirty || addForm.get('faculty_name').touched)">{{
+            getErrorMessageName(addForm)
+          }}</mat-error>
+
+          <mat-hint></mat-hint>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Опис</mat-label>
+          <textarea
+            matInput
+            formControlName="faculty_description"
+            cdkTextareaAutosize
+            cdkAutosizeMinRows="1"
+            cdkAutosizeMaxRows="5"
+            placeholder="Введіть опис"
+          ></textarea>
+          <mat-error *ngIf="addForm.get('faculty_description').invalid && (addForm.get('faculty_description').dirty || addForm.get('faculty_description').touched)" >{{
+            getErrorMessageDescription(addForm)
+          }}</mat-error>
+          <mat-hint></mat-hint>
+        </mat-form-field>
+
+        <button
+          mat-raised-button
+          color="primary"
+          class="btn"
+          [disabled]="addForm.invalid"
+          type="submit"
+        >
+          Додати
+        </button>
+      </div>
+    </form>
+  </div>
+
+ 
+    <div class="mat-elevation-z8" >
+    <table
+      mat-table
+      [dataSource]="dataSource"
+      #table
+      class="my-table" *ngIf="!loading; else loadingBlock">
+      <ng-container matColumnDef="id">
+        <th mat-header-cell *matHeaderCellDef>ID.</th>
+        <td mat-cell *matCellDef="let element">{{ element.faculty_id }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="name">
+        <th mat-header-cell *matHeaderCellDef>Факультет</th>
+        <td mat-cell *matCellDef="let element">{{ element.faculty_name }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="desc">
+        <th mat-header-cell *matHeaderCellDef>Опис</th>
+        <td mat-cell *matCellDef="let element">
+          {{ element.faculty_description }}
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="action">
+        <th mat-header-cell *matHeaderCellDef>Дії</th>
+        <td mat-cell *matCellDef="let element" class="action-link">
+          <a (click)="getObjectFromTable(myDialog, element)"
+            ><i class="material-icons edit">
+              edit
+            </i></a
+          >
+          |
+          <a (click)="deleteFacultyDialog(element)"
+            ><i class="material-icons delete">
+              delete
+            </i></a
+          >
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+    </table>
+    <mat-paginator  [pageSizeOptions]="[5, 10, 20]"   showFirstLastButtons></mat-paginator>
+    </div>
+
+  <ng-template>
+    <mat-progress-spinner
+      class="example-margin"
+      color="primary"
+      mode="indeterminate"
+      value="indeterminate"
+    >
+    </mat-progress-spinner>
+  </ng-template>
+</section>
+
+<ng-template #myDialog>
+  <div class="update-form">
+    <form [formGroup]="updateForm" #updateform="ngForm" (ngSubmit)="updateFaculty()">
+      <div class="example-container">
+        <mat-form-field>
+          <input
+            matInput
+            placeholder="Факультет"
+            formControlName="faculty_name"
+          />
+        </mat-form-field>
+        <mat-error *ngIf="updateForm.get('faculty_name').invalid  && (updateForm.get('faculty_name').dirty ||  updateForm.get('faculty_name').touched)">{{getErrorMessageName(updateForm)}}</mat-error>
+        <mat-form-field>
+          <textarea
+            matInput
+            cdkTextareaAutosize
+            cdkAutosizeMinRows="1"
+            cdkAutosizeMaxRows="5"
+            placeholder="Опис"
+            formControlName="faculty_description"
+          ></textarea>
+        </mat-form-field>
+        <mat-error *ngIf="updateForm.get('faculty_description').invalid  && (updateForm.get('faculty_description').dirty || updateForm.get('faculty_description').touched)">{{
+          getErrorMessageDescription(updateForm)
+        }}</mat-error>
+        <mat-dialog-actions>
+          <button mat-button [disabled]="updateForm.invalid || !(updateForm.get('faculty_name').dirty || updateForm.get('faculty_description').dirty)"   type="submit">
+            Оновити
+          </button>
+          <button mat-button type="button" (click)="closeDialog()">
+            Закрити
+          </button>
+        </mat-dialog-actions>
+      </div>
+    </form>
+  </div>
+</ng-template>
+
