@@ -8,17 +8,30 @@ import { GroupDelDialogComponent } from './group-del-dialog/group-del-dialog.com
 import { GroupEditDialogComponent } from './group-edit-dialog/group-edit-dialog.component';
 import { GroupViewDialogComponent } from './group-view-dialog/group-view-dialog.component';
 
-import { MatButtonModule } from "@angular/material/button";
-import { MatTableModule } from "@angular/material/table";
+import { StudentsComponent } from './students/students.component';
+import { AdminUserService } from './admin-user/admin-user.service';
+import { AdminUserComponent } from './admin-user/admin-user.component';
+import { MatTableModule } from '@angular/material/table';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatButtonModule } from '@angular/material/button';
+import { SharedModule } from '../shared/shared.module';
+import { DeleteConfirmationDialogComponent } from '../shared/delete-confirmation-dialog/delete-confirmation-dialog.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+
 import { MatInputModule } from "@angular/material/input";
 import { MatDialogModule } from "@angular/material/dialog";
 import { MatMenuModule } from "@angular/material/menu";
-import { MatPaginatorModule } from "@angular/material";
 import { MatSelectModule } from "@angular/material/select";
-import { FormsModule } from "@angular/forms";
+import { CreateAdminUserComponent } from './admin-user/create-admin-user/create-admin-user.component';
 
 const adminRoutes: Routes = [
-  { path: "", component: AdminComponent },
+  { path: "", component: AdminComponent,
+    children:[
+      { path: 'students', component: StudentsComponent },
+      { path: 'admin-user', component: AdminUserComponent},
+      // Here you can add routes for your entities
+    ]
+  },
   { path: "group", component: GroupComponent },
   { path: "group_add", component: GroupAddDialogComponent },
   { path: "group_edit", component: GroupEditDialogComponent },
@@ -33,7 +46,10 @@ const adminRoutes: Routes = [
     GroupAddDialogComponent,
     GroupDelDialogComponent,
     GroupEditDialogComponent,
-    GroupViewDialogComponent
+    GroupViewDialogComponent,
+    StudentsComponent,
+    AdminUserComponent,
+    CreateAdminUserComponent,
   ],
   imports: [
     CommonModule, 
@@ -45,7 +61,15 @@ const adminRoutes: Routes = [
     MatMenuModule,
     MatSelectModule,
     MatPaginatorModule,
-    FormsModule
+    FormsModule,
+    SharedModule,
+    ReactiveFormsModule,
+  ],
+  providers: [
+    AdminUserService,
+  ],
+  entryComponents: [
+    CreateAdminUserComponent,
   ]
 })
 export class AdminModule {}
