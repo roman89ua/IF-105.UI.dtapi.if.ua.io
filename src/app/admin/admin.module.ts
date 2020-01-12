@@ -5,7 +5,6 @@ import { Routes, RouterModule } from '@angular/router';
 import { StudentsComponent } from './students/students.component';
 import { FacultiesComponent } from './faculties/faculties.component';
 import { ConfirmDiaglogComponent } from './confirm-diaglog/confirm-diaglog.component';
-import { SharedModule } from '../shared/shared.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { GroupComponent } from './group/group.component';
 import { GroupAddDialogComponent } from './group-add-dialog/group-add-dialog.component';
@@ -53,7 +52,7 @@ const routes: Routes = [
     RouterModule.forChild(routes),
   ],
   providers: [
-    AdminUserService, RouterModule.forChild(routes),
+    AdminUserService,
   ],
   entryComponents: [
     ConfirmDiaglogComponent,
