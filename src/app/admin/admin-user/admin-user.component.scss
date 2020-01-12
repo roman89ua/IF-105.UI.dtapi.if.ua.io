@@ -7,3 +7,18 @@
     margin-top: 50px;
     margin-bottom: 30px;
 }
+
+mat-icon {
+    cursor: pointer;
+
+    &:hover{
+        &[aria-label="edit"] {
+            color: orange;
+        }
+        &[aria-label="delete"] {
+            color: red;
+        }
+    }
+
+
+}

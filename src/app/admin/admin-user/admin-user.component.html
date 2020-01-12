@@ -1,7 +1,9 @@
 
-<button class="addAdmin" mat-flat-button color="primary" (click)="addAdminHandler()">
- Add new admin
+<button class="addAdmin" mat-stroked-button (click)="addAdminHandler()">
+  <mat-icon aria-hidden="false" aria-label="add">add</mat-icon>
+  add admin
 </button>
+
 <div class="mat-table-wrapper">
   <table mat-table [dataSource]="userList">
 
@@ -23,12 +25,8 @@
     <ng-container matColumnDef="actionsColumn">
       <th mat-header-cell *matHeaderCellDef> </th>
       <td mat-cell *matCellDef="let user">
-        <button mat-flat-button color="primary" (click)="updateHandler(user.id)">
-          Update
-        </button>
-        <button mat-flat-button color="warn" (click)="deleteHandler(user.username, user.id)">
-          Delete
-        </button>
+        <mat-icon aria-hidden="false" aria-label="edit" (click)="updateHandler(user.id)">edit</mat-icon>
+        <mat-icon aria-hidden="false" aria-label="delete" (click)="deleteHandler(user.username, user.id)">delete</mat-icon>
       </td>
     </ng-container>
 
