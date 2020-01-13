@@ -1,0 +1,26 @@
+<h3>Add new admin</h3>
+<form class="input-wrapper" [formGroup]="addForm">
+    <mat-form-field class="example-full-width">
+        <input matInput placeholder="name" formControlName="username">
+    </mat-form-field>
+
+    <mat-form-field class="example-full-width">
+        <input matInput placeholder="email" formControlName="email">
+    </mat-form-field>
+
+    <mat-form-field class="example-full-width">
+        <input matInput placeholder="password" formControlName="password">
+    </mat-form-field>
+
+    <mat-form-field class="example-full-width">
+        <input matInput placeholder="confirm your password" formControlName="password_confirm">
+    </mat-form-field>
+
+    <button mat-flat-button color="primary" [disabled]="!addForm.valid" (click)="addAdminHandler()">
+        Add
+    </button>
+
+    <button mat-flat-button color="primary" (click)="cancelCreateAdminHandler()">
+        Cancel
+    </button>
+</form>

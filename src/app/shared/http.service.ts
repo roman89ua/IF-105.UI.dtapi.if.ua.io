@@ -51,7 +51,7 @@ export class HttpService {
     /** POST Update item for id */
     public update(entity: string, id: number, data: any): Observable<any> {
       const url = `${entity}/update/${id}`;
-      return this.httpClient.post(url,data, httpOptions);
+      return this.httpClient.post(url, data, httpOptions);
     }
     /** Method only for group */
     /** GET Get groups by speciality (action: getGroupsBySpeciality) or faculty (action: getGroupsByFaculty) */
