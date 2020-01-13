@@ -6,7 +6,7 @@
     <div>
         Question type
         <select formControlName="type">
-            <option value="1">Simple choice</option>
+            <option value="1" selected>Simple choice</option>
             <option value="2">Multi choice</option>
             <option value="3">Input</option>
             <option value="4">Numerical(range)</option>
@@ -15,21 +15,22 @@
     <div>
         Question level
         <select formControlName="level">
-            <option value="1">1</option>
+            <option value="1" selected>1</option>
             <option value="2">2</option>
             <option value="3">3</option>
         </select>
     </div>
 
-    <button type="button" (click)="addAnswer()">Add answer</button>
+    <button type="button" (click)="addAnswer()" [disabled]="+questionType === 4">Add answer</button>
 
     <div *ngIf="answers" >
-        <div *ngFor="let answer of answers">
-            <app-question-answer 
+        <div *ngFor="let answer of answers; let i = index">
+            <app-question-answer
+                [index]="i"
+                [questionType]="questionType"
                 [questionAnswer]="answer"
                 (answerDataChange)="saveAnswerValue($event)"></app-question-answer>
         </div>
     </div>
-
     <input type="submit">
 </form>

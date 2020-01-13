@@ -20,9 +20,9 @@ import { GroupViewDialogComponent } from './group-view-dialog/group-view-dialog.
 const routes: Routes = [
   { path: '', component: AdminComponent ,
     children: [
-      { path: 'exams', component: TestComponent },
+      { path: 'exams/:id', component: TestComponent },
       { path: 'exams/:id/questions', component: QuestionComponent },
-      { path: 'exams/:id/questions/new', component: NewQuestionComponent }
+      { path: 'exams/:id/questions/new', component: NewQuestionComponent },
       { path: 'students', component: StudentsComponent },
       { path: 'faculties', component: FacultiesComponent},
       { path: 'group', component: GroupComponent },
@@ -43,7 +43,11 @@ const routes: Routes = [
     GroupAddDialogComponent,
     GroupDelDialogComponent,
     GroupEditDialogComponent,
-    GroupViewDialogComponent
+    GroupViewDialogComponent,
+    TestComponent,
+    QuestionAnswerComponent,
+    QuestionComponent,
+    NewQuestionComponent
   ],
   imports: [
     CommonModule,

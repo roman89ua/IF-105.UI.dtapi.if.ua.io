@@ -5,6 +5,7 @@ import {animate, state, style, transition, trigger} from '@angular/animations';
 import { switchMap, filter } from 'rxjs/operators';
 import { MatTable } from '@angular/material/table';
 import { of } from 'rxjs';
+import { ActivatedRoute } from '@angular/router';
 
 
 @Component({
@@ -23,12 +24,13 @@ export class QuestionComponent implements OnInit {
 
   questions: IQuestion[]
   expandedQuestion: IQuestion
+  testId: number;
 
-  constructor(private questionService: QuestionService) { }
+  constructor(
+    private route: ActivatedRoute,
+    private questionService: QuestionService
+  ) { }
 
-  log(index) {
-    console.log(index)
-  }
 
   @ViewChild("table", { static: true }) table: MatTable<any>;
 
@@ -92,7 +94,9 @@ export class QuestionComponent implements OnInit {
 
   
   ngOnInit() {
-    this.questionService.getTestQuestion()
+    this.testId = +this.route.snapshot.paramMap.get('id');
+
+    this.questionService.getTestQuestion(this.testId)
       .subscribe((res: IQuestion[]) => {
         const questionsWithEmptyAnswers = res.map((question) => {
           return { ...question, answers: [] }

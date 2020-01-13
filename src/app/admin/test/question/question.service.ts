@@ -11,8 +11,8 @@ export class QuestionService {
 
   constructor(private http: HttpClient) { }
 
-  getTestQuestion() {
-    return this.http.get('question/getRecordsRangeByTest/1/50/0')
+  getTestQuestion(id) {
+    return this.http.get(`question/getRecordsRangeByTest/${id}/50/0`)
       .pipe(tap(res=>console.log(res)))
   }
 

@@ -10,6 +10,8 @@ import { FormGroup, FormControl } from '@angular/forms';
 export class QuestionAnswerComponent implements OnInit {
 
   @Input() questionAnswer: any;
+  @Input() questionType: number;
+  @Input() index: number;
   @Output() answerDataChange = new EventEmitter();
 
   constructor() { }

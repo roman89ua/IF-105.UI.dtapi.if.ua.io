@@ -37,7 +37,7 @@
                 <div *ngIf="question.answers.length && question.answers !== 'No answers were added to this question'">
                     <li *ngFor="let answer of question.answers">
                         <span>{{answer.answer_text}}</span>
-                        <span>{{answer.answer_id}}</span>
+                        <span *ngIf="+answer.true_answer"> True answer </span>
                     </li>
                 </div>
                 <div *ngIf="question.answers === 'No answers were added to this question'">
