@@ -21,17 +21,15 @@
         </select>
     </div>
 
-    <button (click)="log()">Log</button>
-    
     <button type="button" (click)="addAnswer()">Add answer</button>
 
     <div *ngIf="answers" >
         <div *ngFor="let answer of answers">
             <app-question-answer 
                 [questionAnswer]="answer"
-                (emitValue)="saveAnswerValue($event)"></app-question-answer>
+                (answerDataChange)="saveAnswerValue($event)"></app-question-answer>
         </div>
     </div>
 
-    <!-- <input type="submit"> -->
+    <input type="submit">
 </form>

@@ -10,7 +10,7 @@ import { FormGroup, FormControl } from '@angular/forms';
 export class QuestionAnswerComponent implements OnInit {
 
   @Input() questionAnswer: any;
-  @Output() answerData = new EventEmitter();
+  @Output() answerDataChange = new EventEmitter();
 
   constructor() { }
 
@@ -20,7 +20,7 @@ export class QuestionAnswerComponent implements OnInit {
   });
 
   changeAnswerDataHandler() {
-    this.answerData.emit({ id: this.questionAnswer.id, ...this.answerForm.value })
+    this.answerDataChange.emit({ id: this.questionAnswer.id, ...this.answerForm.value, attachment: '' })
   }
 
   ngOnInit() {

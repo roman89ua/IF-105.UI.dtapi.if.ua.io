@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, FormBuilder } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { QuestionService } from '../question.service';
+import { switchMap } from 'rxjs/operators';
  
 
 @Component({
@@ -22,22 +23,23 @@ export class NewQuestionComponent implements OnInit {
     type: new FormControl(''),
   });
 
-  answers: {id: number, answer_text: string, true_answer: number}[] = [];
+  answers: {id: number, answer_text: string, true_answer: number, attachment: string}[] = [];
   testId: number;
 
   addAnswer() {
     if (!this.answers.length) {
-      this.answers.push({id: 1, answer_text: '', true_answer: 0})
+      this.answers.push({id: 1, answer_text: '', true_answer: 0, attachment: ''})
     } else {
       let id;
       id = this.answers.reduce((maxId, val) => {
          return (val.id > maxId) ? val.id  : maxId
       }, 0)
-      this.answers.push({id: id + 1, answer_text: '', true_answer: 0})
+      this.answers.push({id: id + 1, answer_text: '', true_answer: 0, attachment: ''})
     }
   }
 
   saveAnswerValue(val) {
+    console.log(val, 826)
     this.answers = this.answers
       .map((answer) => {
         if (answer.id === val.id) {
@@ -48,6 +50,11 @@ export class NewQuestionComponent implements OnInit {
         }
       })
   }
+
+  // saveAnswers() {
+  //   this.questionService.addAnswerCollection(this.answers)
+  //     .subscribe(a=>console.log(a, 'success'))
+  // }
 
   log() {
     console.log({...this.newQuestionForm.value, test_id: this.testId, attachment: ''});
@@ -70,6 +77,7 @@ export class NewQuestionComponent implements OnInit {
       attachment: ''
     }
     this.questionService.addNewQuestion(questionData)
+      .pipe(switchMap((res:{question_id:number}[]) => this.questionService.addAnswerCollection(this.answers, res[0].question_id)))
       .subscribe(() => console.log('Question was created successfuly'))
   }
 
