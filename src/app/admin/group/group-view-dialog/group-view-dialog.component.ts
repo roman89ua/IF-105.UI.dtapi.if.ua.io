@@ -1,6 +1,6 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { HttpService } from '../../../shared/http.service';
-import { Speciality, Faculty, DialogData } from '../../entity.interface';
+import { Speciality, Faculty, DialogData } from '../../../shared/entity.interface';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 @Component({

@@ -1,20 +1,20 @@
 import { Component, OnInit, Inject } from "@angular/core";
 import { HttpService } from "../../../shared/http.service";
-import { Speciality, Faculty, DialogData } from "../../entity.interface";
+import { Speciality, Faculty, DialogData } from "../../../shared/entity.interface";
 import { MatDialogRef, MAT_DIALOG_DATA } from "@angular/material/dialog";
 
 @Component({
-  selector: "app-group-add-dialog",
-  templateUrl: "./group-add-dialog.component.html",
-  styleUrls: ["./group-add-dialog.component.scss"]
+  selector: "app-group-add-edit-dialog",
+  templateUrl: "./group-add-edit-dialog.component.html",
+  styleUrls: ["./group-add-edit-dialog.component.scss"]
 })
-export class GroupAddDialogComponent implements OnInit {
+export class GroupAddEditDialogComponent implements OnInit {
   specialities: Speciality[] = [];
   faculties: Faculty[] = [];
 
   constructor(
     private httpService: HttpService,
-    public dialogRef: MatDialogRef<GroupAddDialogComponent>,
+    public dialogRef: MatDialogRef<GroupAddEditDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: DialogData
   ) {}
 

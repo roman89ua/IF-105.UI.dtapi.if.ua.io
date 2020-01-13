@@ -1,9 +1,9 @@
-<h3 mat-dialog-title>Додати нову групу</h3>
+<h3 mat-dialog-title>{{data.description.title}}</h3>
 <div mat-dialog-content>
   <mat-form-field class="example-full-width">
     <input
       matInput
-      [(ngModel)]="data.group_name"
+      [(ngModel)]="data.data.group_name"
       placeholder="Шифр групи"
       #name="ngModel" required
      >
@@ -13,7 +13,7 @@
   </mat-form-field>
   <mat-form-field class="example-full-width">
     <mat-label>Спеціальність</mat-label>
-    <mat-select [(ngModel)]="data.speciality_id" name="speciality_id" #speciality="ngModel" required>
+    <mat-select [(ngModel)]="data.data.speciality_id" name="speciality_id" #speciality="ngModel" required>
       <mat-option
         *ngFor="let item of specialities"
         [value]="item.speciality_id"
@@ -27,7 +27,7 @@
   </mat-form-field>
   <mat-form-field class="example-full-width">
     <mat-label>Інститут/факультет</mat-label>
-    <mat-select [(ngModel)]="data.faculty_id" name="faculty_id" #faculty="ngModel" required>
+    <mat-select [(ngModel)]="data.data.faculty_id" name="faculty_id" #faculty="ngModel" required>
       <mat-option
         *ngFor="let item of faculties"
         [value]="item.faculty_id"
@@ -42,8 +42,8 @@
 </div>
 <div mat-dialog-actions>
   <button mat-raised-button mat-dialog-close cdkFocusInitial>Відмінити</button>
-  <button mat-raised-button [mat-dialog-close]="data" color="warn" [disabled]="name.invalid || speciality.invalid || faculty.invalid">
+  <button mat-raised-button [mat-dialog-close]="data.data" color="warn" [disabled]="name.invalid || speciality.invalid || faculty.invalid">
     <mat-icon aria-hidden="false" aria-label="save">save</mat-icon>
-    Зберегти
+    {{data.description.action}}
   </button>
 </div>

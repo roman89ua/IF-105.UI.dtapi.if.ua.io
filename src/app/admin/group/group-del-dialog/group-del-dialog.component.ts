@@ -1,5 +1,5 @@
 import { Component, Inject } from '@angular/core';
-import { DialogData } from '../../entity.interface';
+import { DialogData } from '../../../shared/entity.interface';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 @Component({

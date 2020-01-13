@@ -7,9 +7,8 @@ import { FacultiesComponent } from './faculties/faculties.component';
 import { ConfirmDiaglogComponent } from './confirm-diaglog/confirm-diaglog.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { GroupComponent } from './group/group.component';
-import { GroupAddDialogComponent } from './group/group-add-dialog/group-add-dialog.component';
+import { GroupAddEditDialogComponent } from './group/group-add-edit-dialog/group-add-edit-dialog.component';
 import { GroupDelDialogComponent } from './group/group-del-dialog/group-del-dialog.component';
-import { GroupEditDialogComponent } from './group/group-edit-dialog/group-edit-dialog.component';
 import { GroupViewDialogComponent } from './group/group-view-dialog/group-view-dialog.component';
 import { AdminUserService } from './admin-user/admin-user.service';
 import { AdminUserComponent } from './admin-user/admin-user.component';
@@ -36,9 +35,8 @@ const routes: Routes = [
     FacultiesComponent,
     ConfirmDiaglogComponent,
     GroupComponent,
-    GroupAddDialogComponent,
+    GroupAddEditDialogComponent,
     GroupDelDialogComponent,
-    GroupEditDialogComponent,
     GroupViewDialogComponent,
     StudentsComponent,
     AdminUserComponent,
@@ -55,9 +53,8 @@ const routes: Routes = [
   entryComponents: [
     ConfirmDiaglogComponent,
     CreateAdminUserComponent,
-    GroupAddDialogComponent,
+    GroupAddEditDialogComponent,
     GroupDelDialogComponent,
-    GroupEditDialogComponent,
     GroupViewDialogComponent
   ]
 })
