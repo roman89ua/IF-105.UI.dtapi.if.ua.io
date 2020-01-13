@@ -1,9 +1,22 @@
 button {
-    margin-left: 5px;
+  margin-left: 5px;
 }
 table {
-    width: 100%;
+  width: 100%;
 }
 mat-form-field {
-    width: 100%;
+  width: 100%;
+}
+
+mat-icon {
+  cursor: pointer;
+
+  &:hover {
+    &[aria-label="edit"] {
+      color: orange;
+    }
+    &[aria-label="delete"] {
+      color: red;
+    }
   }
+}
