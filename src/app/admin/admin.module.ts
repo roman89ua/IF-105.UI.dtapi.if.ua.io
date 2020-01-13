@@ -14,6 +14,8 @@ import { GroupViewDialogComponent } from './group-view-dialog/group-view-dialog.
 import { AdminUserService } from './admin-user/admin-user.service';
 import { AdminUserComponent } from './admin-user/admin-user.component';import { SharedModule } from '../shared/shared.module';
 import { CreateAdminUserComponent } from './admin-user/create-admin-user/create-admin-user.component';
+import { SubjectsComponent } from './subjects/subjects.component';
+import { SubjectsCreateModalComponent } from './subjects/subjects-create-modal/subjects-create-modal.component';
 
 const routes: Routes = [
   { path: '', component: AdminComponent ,
@@ -26,6 +28,8 @@ const routes: Routes = [
       { path: 'group_edit', component: GroupEditDialogComponent },
       { path: 'group_delete', component: GroupDelDialogComponent },
       { path: 'group_view', component: GroupViewDialogComponent },
+      { path: 'subjects', component: SubjectsComponent },
+      
   ]}
 ];
 
@@ -43,6 +47,8 @@ const routes: Routes = [
     StudentsComponent,
     AdminUserComponent,
     CreateAdminUserComponent,
+    SubjectsComponent,
+    SubjectsCreateModalComponent,
   ],
   imports: [
     CommonModule, 
