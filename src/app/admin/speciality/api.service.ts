@@ -6,7 +6,7 @@ import { HttpClient } from '@angular/common/http';
 })
 export class ApiService {
 
-  //in case of interseptior missing add url into apiURI
+  // in case of interseptior missing add url into apiURI
   apiURI = '';
 
   constructor(private http: HttpClient) { }

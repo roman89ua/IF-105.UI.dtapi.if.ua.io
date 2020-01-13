@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Speciality } from '.././../entity.interface'
+import { Speciality } from '.././../entity.interface';
 import { ApiService } from '../api.service';
 import { DialogConfirmComponent, DialogConfirmModel } from '../dialog-confirm/dialog-confirm.component';
 

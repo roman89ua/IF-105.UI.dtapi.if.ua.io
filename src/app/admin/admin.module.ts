@@ -12,18 +12,24 @@ import { GroupAddDialogComponent } from './group-add-dialog/group-add-dialog.com
 import { GroupDelDialogComponent } from './group-del-dialog/group-del-dialog.component';
 import { GroupEditDialogComponent } from './group-edit-dialog/group-edit-dialog.component';
 import { GroupViewDialogComponent } from './group-view-dialog/group-view-dialog.component';
+import { SpecialityListComponent } from './speciality/speciality-list/speciality-list.component';
+import { DialogFormComponent } from './speciality/dialog-form/dialog-form.component';
+import { DialogConfirmComponent } from './speciality/dialog-confirm/dialog-confirm.component';
 
 const routes: Routes = [
-  { path: '', component: AdminComponent ,
+  {
+    path: '', component: AdminComponent,
     children: [
       { path: 'students', component: StudentsComponent },
-      { path: 'faculties', component: FacultiesComponent},
+      { path: 'faculties', component: FacultiesComponent },
       { path: 'group', component: GroupComponent },
       { path: 'group_add', component: GroupAddDialogComponent },
       { path: 'group_edit', component: GroupEditDialogComponent },
       { path: 'group_delete', component: GroupDelDialogComponent },
       { path: 'group_view', component: GroupViewDialogComponent },
-  ]}
+      { path: 'speciality', component: SpecialityListComponent },
+    ]
+  }
 ];
 
 @NgModule({
@@ -36,7 +42,10 @@ const routes: Routes = [
     GroupAddDialogComponent,
     GroupDelDialogComponent,
     GroupEditDialogComponent,
-    GroupViewDialogComponent
+    GroupViewDialogComponent,
+    SpecialityListComponent,
+    DialogFormComponent,
+    DialogConfirmComponent
   ],
   imports: [
     CommonModule,
@@ -45,6 +54,10 @@ const routes: Routes = [
     ReactiveFormsModule,
     RouterModule.forChild(routes),
   ],
-  entryComponents: [ConfirmDiaglogComponent]
+  entryComponents: [
+    ConfirmDiaglogComponent,
+    DialogFormComponent,
+    DialogConfirmComponent
+  ]
 })
-export class AdminModule {}
+export class AdminModule { }
