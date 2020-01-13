@@ -1,0 +1,52 @@
+
+<div class="mat-elevation-z8" >
+  <table
+    mat-table
+    [dataSource]="dataSource"
+    #table
+    class="my-table" *ngIf="!loading; else loadingBlock">
+    <ng-container matColumnDef="id">
+      <th mat-header-cell *matHeaderCellDef>ID</th>
+      <td mat-cell *matCellDef="let testItem">{{ testItem.test_id }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="name">
+      <th mat-header-cell *matHeaderCellDef>Назва</th>
+      <td mat-cell *matCellDef="let testItem">{{ testItem.test_name }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="subject">
+      <th mat-header-cell *matHeaderCellDef>Предмет</th>
+      <td mat-cell *matCellDef="let testItem">{{ getSubjectNameById(testItem.subject_id) }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="tasks">
+      <th mat-header-cell *matHeaderCellDef>Кількість тестів</th>
+      <td mat-cell *matCellDef="let testItem">
+        {{ testItem.tasks }}
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="action">
+      <th mat-header-cell *matHeaderCellDef>Дії</th>
+      <td mat-cell *matCellDef="let element" class="action-link">
+        <i class="material-icons edit">
+          edit
+        </i>
+        |
+        <i class="material-icons delete">
+          delete
+        </i>
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+  </table>
+  <mat-paginator  [pageSizeOptions]="[5, 10, 20]"   showFirstLastButtons></mat-paginator>
+</div>
+
+<mat-paginator
+  [pageSizeOptions]="[5, 10, 20]"
+  showFirstLastButtons
+></mat-paginator>

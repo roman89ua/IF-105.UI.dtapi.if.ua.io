@@ -12,8 +12,10 @@ import { GroupDelDialogComponent } from './group-del-dialog/group-del-dialog.com
 import { GroupEditDialogComponent } from './group-edit-dialog/group-edit-dialog.component';
 import { GroupViewDialogComponent } from './group-view-dialog/group-view-dialog.component';
 import { AdminUserService } from './admin-user/admin-user.service';
-import { AdminUserComponent } from './admin-user/admin-user.component';import { SharedModule } from '../shared/shared.module';
+import { AdminUserComponent } from './admin-user/admin-user.component';
+import { SharedModule } from '../shared/shared.module';
 import { CreateAdminUserComponent } from './admin-user/create-admin-user/create-admin-user.component';
+import { TestListComponent } from './tests/list/test-list.component';
 
 const routes: Routes = [
   { path: '', component: AdminComponent ,
@@ -26,6 +28,7 @@ const routes: Routes = [
       { path: 'group_edit', component: GroupEditDialogComponent },
       { path: 'group_delete', component: GroupDelDialogComponent },
       { path: 'group_view', component: GroupViewDialogComponent },
+      { path: 'tests', component: TestListComponent },
   ]}
 ];
 
@@ -40,12 +43,13 @@ const routes: Routes = [
     GroupDelDialogComponent,
     GroupEditDialogComponent,
     GroupViewDialogComponent,
+    TestListComponent,
     StudentsComponent,
     AdminUserComponent,
     CreateAdminUserComponent,
   ],
   imports: [
-    CommonModule, 
+    CommonModule,
     FormsModule,
     SharedModule,
     ReactiveFormsModule,

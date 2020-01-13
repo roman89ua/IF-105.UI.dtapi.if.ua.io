@@ -9,6 +9,9 @@
          <mat-list-item >
             <a matLine routerLink="group">Groups</a>
          </mat-list-item>
+          <mat-list-item >
+          <a matLine routerLink="tests">Tests</a>
+          </mat-list-item>
          <mat-list-item >
             <a matLine routerLink="admin-user">User Admins</a>
          </mat-list-item>
@@ -17,7 +20,7 @@
       <button mat-button [matMenuTriggerFor]="menu">{{(authService.getCurrentUser() | async)?.username}}</button>
       <mat-menu #menu="matMenu">
         <button mat-menu-item (click)="logoutHandler()">Log out</button>
-        
+
       </mat-menu>
 </mat-toolbar>
 <router-outlet></router-outlet>
