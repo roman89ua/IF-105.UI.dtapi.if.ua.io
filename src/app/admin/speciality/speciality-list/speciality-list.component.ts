@@ -20,7 +20,7 @@ export class SpecialityListComponent implements OnInit {
 
   result: any;
   public entity = 'Speciality';
-  faculties: Speciality[] = [];
+  Speciality: Speciality[] = [];
   displayedColumns: string[] = ['code', 'name', 'buttons'];
   dataSource = new MatTableDataSource<Speciality>();
 
@@ -46,9 +46,7 @@ export class SpecialityListComponent implements OnInit {
     const action = 'getRecords';
     this.apiService.getEntity(this.entity, action).subscribe((data: Speciality[]) => this.dataSource.data = data);
   }
-  openDialogWithTemplateRef(templateRef: TemplateRef<any>) {
-    this.dialog.open(templateRef);
-  }
+
   delSpecialityDialog(speciality: Speciality): void {
     const dialogData = new DialogConfirmModel(speciality);
     const dialogRef = this.dialog.open(DialogConfirmComponent, {
@@ -69,6 +67,8 @@ export class SpecialityListComponent implements OnInit {
         this.dataSource.data = this.dataSource.data.filter(speciality => speciality.speciality_id !== obj.speciality_id);
       });
   }
-  // this.dataSource.data = response;
+
+
+ 
 
 }
