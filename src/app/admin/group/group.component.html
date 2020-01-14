@@ -1,51 +1,40 @@
 <button mat-raised-button color="prime" (click)="viewGroupDialog('getGroupsBySpeciality')">
-    View groups speciality
+  <mat-icon aria-hidden="false" aria-label="search">search</mat-icon>
+    Перегляд груп за спеціальністю
   </button>
   <button mat-raised-button color="prime" (click)="viewGroupDialog('getGroupsByFaculty')">
-    View groups faculty
+    <mat-icon aria-hidden="false" aria-label="search">search</mat-icon>
+    Перегляд груп по інституту
+  </button>
+  <button mat-raised-button color="prime" (click)="addGroupDialog()">
+    <mat-icon aria-hidden="false" aria-label="add">add</mat-icon>
+    Додати нову групу
   </button>
   <mat-form-field>
     <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
   </mat-form-field>
   <table mat-table #table [dataSource]="dataSource">
     <ng-container matColumnDef="id">
-      <th mat-header-cell *matHeaderCellDef>#</th>
+      <th mat-header-cell *matHeaderCellDef>№</th>
       <td mat-cell *matCellDef="let group; let rIndex = index;">{{ rIndex+1 }}({{group.group_id}})</td>
     </ng-container>
     <ng-container matColumnDef="name">
-      <th mat-header-cell *matHeaderCellDef>Name</th>
+      <th mat-header-cell *matHeaderCellDef>Шифр групи</th>
       <td mat-cell *matCellDef="let group">{{ group.group_name }}</td>
     </ng-container>
-  <!--   <ng-container matColumnDef="speciality">
-      <th mat-header-cell *matHeaderCellDef>Speciality</th>
-      <td mat-cell *matCellDef="let group">{{ group.speciality_id }}</td>
-    </ng-container>
-    <ng-container matColumnDef="faculty">
-      <th mat-header-cell *matHeaderCellDef>Faculty</th>
-      <td mat-cell *matCellDef="let group">{{ group.faculty_id }}</td>
-    </ng-container> -->
-    <ng-container matColumnDef="but_student">
+    <ng-container matColumnDef="students">
       <th mat-header-cell *matHeaderCellDef></th>
       <td mat-cell *matCellDef="let group">
         <button mat-raised-button color="primary" routerLink="students">
-          Students
+          Список студентів
         </button>
       </td>
     </ng-container>
-    <ng-container matColumnDef="but_edit">
+    <ng-container matColumnDef="actions">
       <th mat-header-cell *matHeaderCellDef></th>
       <td mat-cell *matCellDef="let group">
-        <button mat-raised-button color="accent" (click)="editGroupDialog(group)">
-          Edit
-        </button>
-      </td>
-    </ng-container>
-    <ng-container matColumnDef="but_del">
-      <th mat-header-cell *matHeaderCellDef></th>
-      <td mat-cell *matCellDef="let group">
-        <button mat-raised-button color="warn" (click)="deleteGroupDialog(group)">
-          Delete
-        </button>
+        <mat-icon aria-hidden="false" aria-label="edit" (click)="editGroupDialog(group)">edit</mat-icon>
+        <mat-icon aria-hidden="false" aria-label="delete" (click)="deleteGroupDialog(group)">delete</mat-icon>
       </td>
     </ng-container>
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
@@ -56,7 +45,4 @@
     [pageSizeOptions]="[5, 10, 20]"
     showFirstLastButtons
   ></mat-paginator>
-  <button mat-raised-button color="prime" (click)="addGroupDialog()">
-    Add new group
-  </button>
   
