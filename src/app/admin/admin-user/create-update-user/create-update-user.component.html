@@ -1,13 +1,19 @@
 <h3>{{data ? 'Редагувати' : 'Додати нового адміна'}}</h3>
-<form class="input-wrapper" [formGroup]="addForm">
+<form class="input-wrapper" [formGroup]="userForm">
     <mat-form-field class="example-full-width">
         <input matInput placeholder="ім'я" formControlName="username">
+        <mat-error *ngIf="userForm.get('username').invalid && (userForm.get('username').dirty || userForm.get('username').touched)">
+            <span *ngIf="userForm.get('username').errors.required">Поле не заповнене </span>
+            <span *ngIf="userForm.get('username').errors.propertyIsNotUnique">Такий користувач вже існує</span>
+        </mat-error>
     </mat-form-field>
 
     <mat-form-field class="example-full-width">
         <input matInput placeholder="email" formControlName="email">
-        <mat-error *ngIf="addForm.get('email').invalid && (addForm.get('email').dirty || addForm.get('email').touched)">
-            Некоректний email
+        <mat-error *ngIf="userForm.get('email').invalid && (userForm.get('email').dirty || userForm.get('email').touched)">
+            <span *ngIf="userForm.get('email').errors.required">Поле не заповнене </span>
+            <span *ngIf="userForm.get('email').errors.email">Введіть коректний email</span>
+            <span *ngIf="userForm.get('email').errors.propertyIsNotUnique">Такий email вже існує</span>
         </mat-error>
     </mat-form-field>
 
@@ -23,12 +29,12 @@
         <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
             <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
         </button>
-        <mat-error *ngIf="addForm.get('password_confirm').invalid && (addForm.get('password_confirm').dirty || addForm.get('password_confirm').touched)">
+        <mat-error *ngIf="userForm.get('password_confirm').invalid && (userForm.get('password_confirm').dirty || userForm.get('password_confirm').touched)">
             Паролі не співпадають
         </mat-error>
     </mat-form-field>
 
-    <button mat-stroked-button color="primary" [disabled]="!addForm.valid" (click)="addAdminHandler()">
+    <button mat-stroked-button color="primary" [disabled]="!userForm.valid" (click)="addAdminHandler()">
         {{this.data ? 'Зберегти' : "Додати"}}
     </button>
 

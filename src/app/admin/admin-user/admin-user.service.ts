@@ -24,4 +24,11 @@ export class AdminUserService {
       password_confirm: body.password_confirm}
     return this.http.post(`AdminUser/update/${body.id}`, data);
   }
+
+  checkUsername(username: string) {
+    return this.http.get(`AdminUser/checkUserName/${username}`);
+  }
+  checkUserEmail(email: string) {
+    return this.http.get(`AdminUser/checkEmailAddress/${email}`);
+  }
 }

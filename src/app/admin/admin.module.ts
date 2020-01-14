@@ -13,7 +13,7 @@ import { GroupEditDialogComponent } from './group-edit-dialog/group-edit-dialog.
 import { GroupViewDialogComponent } from './group-view-dialog/group-view-dialog.component';
 import { AdminUserService } from './admin-user/admin-user.service';
 import { AdminUserComponent } from './admin-user/admin-user.component';import { SharedModule } from '../shared/shared.module';
-import { CreateAdminUserComponent } from './admin-user/create-admin-user/create-admin-user.component';
+import { CreateUpdateUserComponent } from './admin-user/create-update-user/create-update-user.component';
 import { SpecialityListComponent } from './speciality/speciality-list/speciality-list.component';
 import { DialogFormComponent } from './speciality/dialog-form/dialog-form.component';
 import { DialogConfirmComponent } from './speciality/dialog-confirm/dialog-confirm.component';
@@ -49,7 +49,7 @@ const routes: Routes = [
     GroupViewDialogComponent,
     StudentsComponent,
     AdminUserComponent,
-    CreateAdminUserComponent,
+    CreateUpdateUserComponent,
     SpecialityListComponent,
     DialogFormComponent,
     DialogConfirmComponent
@@ -66,7 +66,7 @@ const routes: Routes = [
   ],
   entryComponents: [
     ConfirmDiaglogComponent,
-    CreateAdminUserComponent,
+    CreateUpdateUserComponent,
     DialogFormComponent,
     DialogConfirmComponent
   ]
