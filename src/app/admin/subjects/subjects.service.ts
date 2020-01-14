@@ -7,22 +7,21 @@ import { HttpClient } from '@angular/common/http';
   providedIn: 'root'
 })
 export class SubjectsService {
-
   
   constructor(private http: HttpClient) {}
-  // getSubjects() {
-  //   return this.http.get('Subject/getRecords');
-  // }
+  creatSubject(body) {
+    return this.http.post('Subject/insertData', body);
 
-  // deleteSubject(id: number) {
-  //   return this.http.get(`Subject/del/${id}`);
-  // }
+  }
+  readSubjects() {
+    return this.http.get('Subject/getRecords');
+  }
 
-  // insertSubject(body) {
-  //   return this.http.post('Subject/insertData', body);
+  updateSubject(id: number, budy){
+    return this.http.post(`Subject/update/${id}`, budy);
+  }
 
-  // }
-  // editSubject(){
-
-  // }
+  deleteSubject(id: number) {
+    return this.http.get(`Subject/del/${id}`);
+  }
 }
