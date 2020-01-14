@@ -2,11 +2,13 @@ import { Component, OnInit } from '@angular/core';
 import { Speciality } from '.././../entity.interface';
 import { ApiService } from '../api.service';
 import { DialogConfirmComponent, DialogConfirmModel } from '../dialog-confirm/dialog-confirm.component';
+import { DialogFormComponent } from '../dialog-form/dialog-form.component';
 
 import { ViewChild, TemplateRef } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatDialog, MatTableDataSource, MatTable, MatSnackBar, MatSnackBarConfig } from '@angular/material';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { mergeMap } from 'rxjs/internal/operators/mergeMap';
 
 
 @Component({
@@ -28,14 +30,14 @@ export class SpecialityListComponent implements OnInit {
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
 
 
-  SpecialityForm = new FormGroup({
-    speciality_code: new FormControl(),
-    speciality_name: new FormControl(),
-  });
-  UpdateForm = new FormGroup({
-    speciality_code: new FormControl(),
-    speciality_name: new FormControl(),
-  });
+  // SpecialityForm = new FormGroup({
+  //   speciality_code: new FormControl(),
+  //   speciality_name: new FormControl(),
+  // });
+  // UpdateForm = new FormGroup({
+  //   speciality_code: new FormControl(),
+  //   speciality_name: new FormControl(),
+  // });
 
   constructor(private apiService: ApiService, private dialog: MatDialog) { }
 
@@ -59,7 +61,6 @@ export class SpecialityListComponent implements OnInit {
       }
     });
   }
-
   delSpeciality(obj: Speciality) {
     const action = 'del';
     this.apiService.delEntity(this.entity, action, obj.speciality_id)
@@ -67,8 +68,33 @@ export class SpecialityListComponent implements OnInit {
         this.dataSource.data = this.dataSource.data.filter(speciality => speciality.speciality_id !== obj.speciality_id);
       });
   }
-
-
- 
-
+  addSpeciality() {
+    const action = "insertData "
+    const dialogRef = this.dialog.open(DialogFormComponent, {
+      width: '450px',
+      disableClose: true,
+    });
+    dialogRef.afterClosed().subscribe(data => {
+      return this.apiService.postEntity(this.entity, action, data).subscribe((data: Speciality) => {
+        this.Speciality = [data, ...this.Speciality];
+        this.getSpeciality();
+      }
+      );
+    })
+  }
+  updSpeciality(obj: Speciality) {
+    const action = "update"
+    const dialogRef = this.dialog.open(DialogFormComponent, {
+      width: '450px',
+      disableClose: true,
+    });
+    dialogRef.afterClosed().subscribe((data: Speciality) => {
+     if (data) data.speciality_id = obj.speciality_id;
+      return this.apiService.updEntity(this.entity, action, data, obj.speciality_id).subscribe((data: Speciality) => {
+        this.Speciality = [data, ...this.Speciality];
+        this.getSpeciality();
+      }
+      );
+    })
+  }
 }
