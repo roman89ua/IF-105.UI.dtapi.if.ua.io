@@ -4,6 +4,6 @@
     <span *ngIf="+questionType === 4 && index === 1">MAX</span>
     <input type="text" value="questionAnswer.answer_text" (change)="changeAnswerDataHandler()" formControlName="answer_text">
     <div *ngIf="questionType < 3">
-        True: <input type="checkbox" id="correct-option" formControlName="true_answer" (change)="changeAnswerDataHandler()" value="1">
+        True: <input type="checkbox" id="correct-option" [checked]="questionAnswer.true_answer == 1" formControlName="true_answer" (change)="changeAnswerDataHandler()" value="1">
     </div>
 </form>    

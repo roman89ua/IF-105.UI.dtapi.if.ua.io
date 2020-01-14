@@ -2,6 +2,11 @@
     <div>
         Question text 
         <input type="text" formControlName="question_text">
+        <div *ngIf="questionText.invalid && (questionText.dirty || questionText.touched)">
+            <div *ngIf="questionText.errors.required">
+                Name is required.
+            </div>
+        </div>
     </div>
     <div>
         Question type

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormControl, FormBuilder } from '@angular/forms';
+import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { QuestionService } from '../question.service';
 import { switchMap } from 'rxjs/operators';
@@ -19,10 +19,16 @@ export class NewQuestionComponent implements OnInit {
   ) { }
 
   newQuestionForm = new FormGroup({
-    question_text: new FormControl(''),
+    question_text: new FormControl('', [
+      Validators.required
+    ]),
     level: new FormControl('1'),
     type: new FormControl('1'),
   });
+
+  get questionText() {
+    return this.newQuestionForm.get('question_text');
+  } 
 
   questionType: number = 1;
 
@@ -40,19 +46,22 @@ export class NewQuestionComponent implements OnInit {
       return;
     }
 
+    let trueAnswer: number;
+    trueAnswer = (this.questionType === 3) ? 1 : 0;
+
     if (!this.answers.length) {
-      this.answers.push({id: 1, answer_text: '', true_answer: 0, attachment: ''})
+      this.answers.push({id: 1, answer_text: '', true_answer: trueAnswer, attachment: ''})
     } else {
       let id;
       id = this.answers.reduce((maxId, val) => {
          return (val.id > maxId) ? val.id  : maxId
       }, 0)
-      this.answers.push({id: id + 1, answer_text: '', true_answer: 0, attachment: ''})
+      this.answers.push({id: id + 1, answer_text: '', true_answer: trueAnswer, attachment: ''})
     }
   }
 
   saveAnswerValue(val) {
-
+    console.log(val);
     this.answers = this.answers
       .map((answer) => {
         if (answer.id === val.id) {
@@ -84,9 +93,22 @@ export class NewQuestionComponent implements OnInit {
   // }
 
   changeQuestionTypeHandler(type) {
-    console.log(this.questionType, '[Question type old]')
-    if (this.questionType === 4 || this.questionType === 3) {
+    if (this.questionType === 4 || this.questionType === 3 || type === 3 || type === 4) {
       this.answers = [];
+    }
+    if (this.questionType === 2 && type === 1) {
+      console.log('2 => 1');
+      let trueAnswersAny:boolean = false;
+      // const updatedAnswers = [...this.answers];
+      this.answers.forEach((answer) => {
+        if (+answer.true_answer === 1 && !trueAnswersAny) {
+          console.log('[true answer]');
+          trueAnswersAny = true;
+        } else {
+          answer.true_answer = 0;
+        }
+      })
+      // this.answers = [...updatedAnswers];
     }
     this.questionType = type;
     if (type === 4) {
@@ -106,14 +128,14 @@ export class NewQuestionComponent implements OnInit {
 
   createQuestion() {
     console.log(this.questionType);
-    // const questionData = {
-    //   ...this.newQuestionForm.value,
-    //   test_id: this.testId,
-    //   attachment: ''
-    // }
-    // this.questionService.addNewQuestion(questionData)
-    //   .pipe(switchMap((res:{question_id:number}[]) => this.questionService.addAnswerCollection(this.answers, res[0].question_id)))
-    //   .subscribe(() => console.log('Question was created successfuly'))
+    const questionData = {
+      ...this.newQuestionForm.value,
+      test_id: this.testId,
+      attachment: ''
+    }
+    this.questionService.addNewQuestion(questionData)
+      .pipe(switchMap((res:{question_id:number}[]) => this.questionService.addAnswerCollection(this.answers, res[0].question_id)))
+      .subscribe(() => console.log('Question was created successfuly'))
   }
 
   ngOnInit() {
