@@ -5,17 +5,24 @@ import { Routes, RouterModule } from '@angular/router';
 import { StudentsComponent } from './students/students.component';
 import { FacultiesComponent } from './faculties/faculties.component';
 import { ConfirmDiaglogComponent } from './confirm-diaglog/confirm-diaglog.component';
+
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+
 import { GroupComponent } from './group/group.component';
 import { GroupAddDialogComponent } from './group-add-dialog/group-add-dialog.component';
 import { GroupDelDialogComponent } from './group-del-dialog/group-del-dialog.component';
 import { GroupEditDialogComponent } from './group-edit-dialog/group-edit-dialog.component';
 import { GroupViewDialogComponent } from './group-view-dialog/group-view-dialog.component';
 import { AdminUserService } from './admin-user/admin-user.service';
-import { AdminUserComponent } from './admin-user/admin-user.component';import { SharedModule } from '../shared/shared.module';
+import { AdminUserComponent } from './admin-user/admin-user.component';
+import { SharedModule } from '../shared/shared.module';
 import { CreateAdminUserComponent } from './admin-user/create-admin-user/create-admin-user.component';
+// kostiuk romans modules
 import { SubjectsComponent } from './subjects/subjects.component';
 import { SubjectsCreateModalComponent } from './subjects/subjects-create-modal/subjects-create-modal.component';
+import { MatDialogModule } from '@angular/material';
+import { SubjectsService } from './subjects/subjects.service';
+
 
 const routes: Routes = [
   { path: '', component: AdminComponent ,
@@ -56,13 +63,16 @@ const routes: Routes = [
     SharedModule,
     ReactiveFormsModule,
     RouterModule.forChild(routes),
+    MatDialogModule,
   ],
   providers: [
     AdminUserService,
+    SubjectsService,
   ],
   entryComponents: [
     ConfirmDiaglogComponent,
     CreateAdminUserComponent,
+    SubjectsCreateModalComponent,
   ]
 })
 export class AdminModule {}
