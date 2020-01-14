@@ -30,8 +30,32 @@ export class AdminUserComponent implements OnInit {
 
   }
 
-  updateHandler(id: number) {
-    console.log(id);
+  updateHandler(user: any) {
+    const dialogRef = this.dialog.open(CreateAdminUserComponent, {
+      width: '450px',
+      disableClose: true,
+      data: user,
+    });
+
+    dialogRef.afterClosed()
+      .pipe(
+        mergeMap((data) => {
+          if (data) {
+            return this.adminUserService.updateUser(data);
+          }
+          return of(null);
+        })
+      )
+      .subscribe((newData: IAdminUser | null) => {
+        if (newData) {
+          this.userList = this.userList.map( user => {
+            if(user.id === newData.id) {
+              return newData;
+            }
+            return user;
+          }) 
+        }
+      });
   }
 
   deleteHandler(name: string, id: number) {

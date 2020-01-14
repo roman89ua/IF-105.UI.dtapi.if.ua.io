@@ -1,26 +1,38 @@
-<h3>Add new admin</h3>
+<h3>{{data ? 'Редагувати' : 'Додати нового адміна'}}</h3>
 <form class="input-wrapper" [formGroup]="addForm">
     <mat-form-field class="example-full-width">
-        <input matInput placeholder="name" formControlName="username">
+        <input matInput placeholder="ім'я" formControlName="username">
     </mat-form-field>
 
     <mat-form-field class="example-full-width">
         <input matInput placeholder="email" formControlName="email">
+        <mat-error *ngIf="addForm.get('email').invalid && (addForm.get('email').dirty || addForm.get('email').touched)">
+            Некоректний email
+        </mat-error>
     </mat-form-field>
 
     <mat-form-field class="example-full-width">
-        <input matInput placeholder="password" formControlName="password">
+        <input matInput placeholder="пароль" formControlName="password" [type]="hide ? 'password' : 'text'">
+        <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
+            <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+        </button>
     </mat-form-field>
 
     <mat-form-field class="example-full-width">
-        <input matInput placeholder="confirm your password" formControlName="password_confirm">
+        <input matInput placeholder="підтвердіть пароль" formControlName="password_confirm"  [type]="hide ? 'password' : 'text'">
+        <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
+            <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+        </button>
+        <mat-error *ngIf="addForm.get('password_confirm').invalid && (addForm.get('password_confirm').dirty || addForm.get('password_confirm').touched)">
+            Паролі не співпадають
+        </mat-error>
     </mat-form-field>
 
-    <button mat-flat-button color="primary" [disabled]="!addForm.valid" (click)="addAdminHandler()">
-        Add
+    <button mat-stroked-button color="primary" [disabled]="!addForm.valid" (click)="addAdminHandler()">
+        {{this.data ? 'Зберегти' : "Додати"}}
     </button>
 
-    <button mat-flat-button color="primary" (click)="cancelCreateAdminHandler()">
-        Cancel
+    <button mat-stroked-button color="primary" (click)="cancelCreateAdminHandler()">
+        Відміна
     </button>
 </form>
