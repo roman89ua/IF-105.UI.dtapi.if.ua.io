@@ -52,36 +52,36 @@ export class SpecialityListComponent implements OnInit {
       });
   }
   addSpeciality() {
-    const action = "insertData "
+    const action = 'insertData';
     const dialogRef = this.dialog.open(DialogFormComponent, {
       width: '450px',
       disableClose: true,
     });
     dialogRef.afterClosed().subscribe(data => {
       if (data) {
-        return this.apiService.postEntity(this.entity, action, data).subscribe((data: Speciality) => {
-          this.Speciality = [data, ...this.Speciality];
+        return this.apiService.postEntity(this.entity, action, data).subscribe((obj: Speciality) => {
+          this.Speciality = [obj, ...this.Speciality];
           this.getSpeciality();
         }
         );
       }
-    })
+    });
   }
   updSpeciality(obj: Speciality) {
-    const action = "update"
+    const action = 'update';
     const dialogRef = this.dialog.open(DialogFormComponent, {
       width: '450px',
       disableClose: true,
-    })
+    });
     dialogRef.afterClosed().subscribe((data: Speciality) => {
       if (data) {
         data.speciality_id = obj.speciality_id;
-        return this.apiService.updEntity(this.entity, action, data, obj.speciality_id).subscribe((data: Speciality) => {
-          this.Speciality = [data, ...this.Speciality];
+        return this.apiService.updEntity(this.entity, action, data, obj.speciality_id).subscribe((specialityObj: Speciality) => {
+          this.Speciality = [specialityObj, ...this.Speciality];
           this.getSpeciality();
         }
         );
       }
-    })
+    });
   }
 }
