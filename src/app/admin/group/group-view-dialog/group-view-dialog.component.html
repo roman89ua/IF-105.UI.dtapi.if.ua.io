@@ -1,10 +1,10 @@
-<h1 mat-dialog-title>Choose 
-    <span *ngIf="data.action=='getGroupsBySpeciality'"> speciality</span>
-    <span *ngIf="data.action=='getGroupsByFaculty'"> faculty</span>
-  </h1>
+<h3 mat-dialog-title>Виберіть 
+    <span *ngIf="data.action=='getGroupsBySpeciality'"> спеціальність</span>
+    <span *ngIf="data.action=='getGroupsByFaculty'"> інститут/факультет</span>
+  </h3>
   <div mat-dialog-content>
     <mat-form-field *ngIf="data.action=='getGroupsBySpeciality'" class="example-full-width">
-      <mat-label>Speciality</mat-label>
+      <mat-label>Спеціальність</mat-label>
       <mat-select [(ngModel)]="data.id" name="id">
         <mat-option
           *ngFor="let item of specialities"
@@ -15,7 +15,7 @@
       </mat-select>
     </mat-form-field>
     <mat-form-field *ngIf="data.action=='getGroupsByFaculty'" class="example-full-width">
-      <mat-label>Faculty</mat-label>
+      <mat-label>Інститут/факультет</mat-label>
       <mat-select [(ngModel)]="data.id" name="id">
         <mat-option
           *ngFor="let item of faculties"
@@ -27,8 +27,9 @@
     </mat-form-field>
   </div>
   <div mat-dialog-actions>
-    <button mat-raised-button mat-dialog-close cdkFocusInitial>Cancel</button>
+    <button mat-raised-button mat-dialog-close cdkFocusInitial>Відмінити</button>
     <button mat-raised-button [mat-dialog-close]="data" color="warn">
-      View
+      <mat-icon aria-hidden="false" aria-label="search">search</mat-icon>
+      Показати
     </button>
   </div>
