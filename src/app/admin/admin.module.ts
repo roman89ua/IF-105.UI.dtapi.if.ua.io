@@ -14,16 +14,20 @@ import { AdminUserService } from './admin-user/admin-user.service';
 import { AdminUserComponent } from './admin-user/admin-user.component';
 import { SharedModule } from '../shared/shared.module';
 import { CreateAdminUserComponent } from './admin-user/create-admin-user/create-admin-user.component';
+import { SpecialityListComponent } from './speciality/speciality-list/speciality-list.component';
+import { DialogFormComponent } from './speciality/dialog-form/dialog-form.component';
+import { DialogConfirmComponent } from './speciality/dialog-confirm/dialog-confirm.component';
+
 
 const routes: Routes = [
   {
-    path: '',
-    component: AdminComponent,
+    path: '', component: AdminComponent,
     children: [
       { path: 'students', component: StudentsComponent },
-      { path: 'admin-user', component: AdminUserComponent },
-      { path: 'faculties', component: FacultiesComponent },
-      { path: 'group', component: GroupComponent }
+      { path: 'admin-user', component: AdminUserComponent},
+      { path: 'faculties', component: FacultiesComponent},
+      { path: 'group', component: GroupComponent },
+      { path: 'speciality', component: SpecialityListComponent },
     ]
   }
 ];
@@ -40,7 +44,10 @@ const routes: Routes = [
     GroupViewDialogComponent,
     StudentsComponent,
     AdminUserComponent,
-    CreateAdminUserComponent
+    CreateAdminUserComponent,
+    SpecialityListComponent,
+    DialogFormComponent,
+    DialogConfirmComponent
   ],
   imports: [
     CommonModule,
@@ -53,9 +60,11 @@ const routes: Routes = [
   entryComponents: [
     ConfirmDiaglogComponent,
     CreateAdminUserComponent,
+    DialogFormComponent,
+    DialogConfirmComponent,
     GroupAddEditDialogComponent,
     GroupDelDialogComponent,
     GroupViewDialogComponent
   ]
 })
-export class AdminModule {}
+export class AdminModule { }
