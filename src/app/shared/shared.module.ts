@@ -42,15 +42,25 @@ import {MatTabsModule} from '@angular/material/tabs';
 import {MatToolbarModule} from '@angular/material/toolbar';
 import {MatTooltipModule} from '@angular/material/tooltip';
 import {MatTreeModule} from '@angular/material/tree';
+import { DeleteConfirmationDialogComponent } from './delete-confirmation-dialog/delete-confirmation-dialog.component';
+import { DialogService } from './dialog.service';
 
 
 @NgModule({
-  declarations: [],
+  declarations: [
+    DeleteConfirmationDialogComponent
+  ],
   imports: [
     CommonModule,
+    MatDialogModule,
+    MatButtonModule,
   ],
   providers: [
     AuthService,
+    DialogService,
+  ],
+  entryComponents: [
+    DeleteConfirmationDialogComponent,
   ],
   exports: [
     A11yModule,
