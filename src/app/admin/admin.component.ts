@@ -8,15 +8,12 @@ import { Router } from '@angular/router';
   styleUrls: ['./admin.component.scss']
 })
 export class AdminComponent implements OnInit {
+  constructor(public authService: AuthService, private router: Router) {}
 
-  constructor(public authService: AuthService, private router: Router) { }
-
-  ngOnInit() {
-  }
+  ngOnInit() {}
   logoutHandler() {
-    this.authService.logout()
-    .subscribe(() => {
-      this.router.navigate(['login'])
+    this.authService.logout().subscribe(() => {
+      this.router.navigate(['login']);
     });
   }
 }
