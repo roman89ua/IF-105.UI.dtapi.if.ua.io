@@ -48,22 +48,16 @@ const routes: Routes = [
     GroupComponent,
     GroupAddEditDialogComponent,
     GroupDelDialogComponent,
-<<<<<<< HEAD
-    GroupEditDialogComponent,
     GroupViewDialogComponent,
     TestComponent,
     QuestionAnswerComponent,
     QuestionComponent,
-    NewQuestionComponent
-=======
-    GroupViewDialogComponent,
-    StudentsComponent,
+    NewQuestionComponent,
     AdminUserComponent,
     CreateAdminUserComponent,
     SpecialityListComponent,
     DialogFormComponent,
     DialogConfirmComponent
->>>>>>> master
   ],
   imports: [
     CommonModule,

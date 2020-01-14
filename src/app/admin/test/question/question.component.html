@@ -11,15 +11,24 @@
         </td>
     </ng-container>
 
-    <ng-container matColumnDef="{{column}}" *ngFor="let column of ['question_text', 'question_id']">
-        <th mat-header-cell *matHeaderCellDef> {{column}} </th>
-        <td mat-cell *matCellDef="let question"> {{question[column]}} </td>
+    <ng-container matColumnDef="question_text">
+        <th mat-header-cell *matHeaderCellDef> Тект питання </th>
+        <td mat-cell *matCellDef="let question"> {{ question.question_text }} </td>
     </ng-container>
 
     <ng-container matColumnDef='answers'>
         <th mat-header-cell *matHeaderCellDef> Show answers </th>
         <td mat-cell *matCellDef="let question"> 
-           <button (click)="expandQuestionAnswers(question.question_id, question)">Answers</button>
+           <button [disabled]="answersLoading && question.question_id == expandedQuestionId" class="button-with-spinner" mat-raised-button color="primary" (click)="expandQuestionAnswers(question.question_id, question)">
+               <span *ngIf="answersLoading && question.question_id == expandedQuestionId" class="spinner-wrapper">
+                   <mat-spinner color="warn" [diameter]="25"></mat-spinner>
+               </span>
+               <span [ngStyle]="{'visibility': answersLoading && question.question_id == expandedQuestionId ? 'hidden' : 'visible'}" class="button-with-spinner-inner">
+                 Відповіді
+                <mat-icon aria-hidden="false" aria-label="Example thumbs up SVG icon">expand_more</mat-icon>
+               </span>
+               <!-- *ngIf="answersLoading" -->
+            </button>
         </td>
     </ng-container>
 
@@ -35,10 +44,16 @@
         <td mat-cell *matCellDef="let question" [attr.colspan]="5">
             <div class="question-answers" [@answersExpand]="question == expandedQuestion ? 'expanded' : 'collapsed'">
                 <div *ngIf="question.answers.length && question.answers !== 'No answers were added to this question'">
-                    <li *ngFor="let answer of question.answers">
+                    <mat-list>
+                        <mat-list-item  *ngFor="let answer of question.answers"> 
+                            {{ answer.answer_text }}
+                        </mat-list-item>
+                    </mat-list>
+
+                    <!-- <li >
                         <span>{{answer.answer_text}}</span>
                         <span *ngIf="+answer.true_answer"> True answer </span>
-                    </li>
+                    </li> -->
                 </div>
                 <div *ngIf="question.answers === 'No answers were added to this question'">
                     {{ question.answers }}
@@ -50,8 +65,8 @@
         </td>
     </ng-container>
 
-    <tr mat-header-row *matHeaderRowDef="['No', 'question_text', 'question_id', 'answers', 'delete']"></tr>
-    <tr mat-row *matRowDef="let question; columns: ['No', 'question_text', 'question_id', 'answers', 'delete'];"
+    <tr mat-header-row *matHeaderRowDef="['No', 'question_text', 'answers', 'delete']"></tr>
+    <tr mat-row *matRowDef="let question; columns: ['No', 'question_text', 'answers', 'delete'];"
         class="question-row"
         [class.example-expanded-row]="expandedQuestion == question">
     </tr>

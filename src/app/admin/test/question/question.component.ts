@@ -25,6 +25,8 @@ export class QuestionComponent implements OnInit {
   questions: IQuestion[]
   expandedQuestion: IQuestion
   testId: number;
+  answersLoading: boolean = false;
+  expandedQuestionId: number = 1;
 
   constructor(
     private route: ActivatedRoute,
@@ -43,11 +45,13 @@ export class QuestionComponent implements OnInit {
   expandQuestionAnswers(id) {
     let selectedQuestion: IQuestion;
     selectedQuestion = this.getQuestionById(id);
-    this.expandedQuestion = this.expandedQuestion == selectedQuestion ? null : selectedQuestion
     if (selectedQuestion.answers.length) {
+      this.expandedQuestion = this.expandedQuestion == selectedQuestion ? null : selectedQuestion
       return
     }
     else {
+      this.answersLoading = true;
+      this.expandedQuestionId = id;
       this.questionService.getQuestionAnswers(id)
       .subscribe((res: any) => { //FIX
         if (res.response === 'no records') {
@@ -55,6 +59,8 @@ export class QuestionComponent implements OnInit {
         } else {
           selectedQuestion.answers = res;
         }
+        this.expandedQuestion = this.expandedQuestion == selectedQuestion ? null : selectedQuestion
+        this.answersLoading = false;
       })
     }
   }
