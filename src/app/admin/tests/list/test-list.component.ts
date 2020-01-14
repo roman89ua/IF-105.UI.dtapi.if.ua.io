@@ -36,7 +36,6 @@ export class TestListComponent implements OnInit {
   _loadSubjects() {
     this.httpService.getRecords('subject').subscribe((result: Subject[]) => {
       this.listSubjects = result;
-      console.log(this.listSubjects);
     });
   }
 
@@ -56,7 +55,6 @@ export class TestListComponent implements OnInit {
     this.httpService.getRecords('test').subscribe((result: Test[]) => {
       this.listGroups = result;
       this.dataSource.data = this.listGroups;
-      console.log(result);
     });
     this.dataSource.paginator = this.paginator;
   }
