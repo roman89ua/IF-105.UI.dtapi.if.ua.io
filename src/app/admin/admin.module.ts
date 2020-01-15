@@ -12,6 +12,7 @@ import { GroupAddDialogComponent } from './group-add-dialog/group-add-dialog.com
 import { GroupDelDialogComponent } from './group-del-dialog/group-del-dialog.component';
 import { GroupEditDialogComponent } from './group-edit-dialog/group-edit-dialog.component';
 import { GroupViewDialogComponent } from './group-view-dialog/group-view-dialog.component';
+import { TimeTableComponent } from './time-table/time-table.component';
 
 const routes: Routes = [
   { path: '', component: AdminComponent ,
@@ -23,6 +24,7 @@ const routes: Routes = [
       { path: 'group_edit', component: GroupEditDialogComponent },
       { path: 'group_delete', component: GroupDelDialogComponent },
       { path: 'group_view', component: GroupViewDialogComponent },
+      { path: 'timeTable', component: TimeTableComponent },
   ]}
 ];
 
@@ -36,7 +38,8 @@ const routes: Routes = [
     GroupAddDialogComponent,
     GroupDelDialogComponent,
     GroupEditDialogComponent,
-    GroupViewDialogComponent
+    GroupViewDialogComponent,
+    TimeTableComponent
   ],
   imports: [
     CommonModule,
