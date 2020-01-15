@@ -1,1 +1,13 @@
-<p>confirm works!</p>
+<h3 mat-dialog-title>Підтведження</h3>
+<mat-dialog-content>
+  <div><mat-icon>info</mat-icon>{{ data.message }}</div>
+</mat-dialog-content>
+<mat-divider></mat-divider>
+<mat-dialog-actions align="center">
+  <button mat-raised-button color="primary" mat-dialog-close>
+    Відмінити
+  </button>
+  <button mat-raised-button color="primary" mat-dialog-close="true">
+    Підтвердити
+  </button>
+</mat-dialog-actions>

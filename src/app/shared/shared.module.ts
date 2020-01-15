@@ -60,6 +60,8 @@ import { ModalService } from '../shared/services/modal.service';
     CommonModule,
     MatDialogModule,
     MatButtonModule,
+    MatDividerModule,
+    MatIconModule,
   ],
   providers: [
     AuthService,
