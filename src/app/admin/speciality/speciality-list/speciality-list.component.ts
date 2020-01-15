@@ -13,11 +13,11 @@ import { MatDialog, MatTableDataSource, MatTable, MatPaginator } from '@angular/
 
 export class SpecialityListComponent implements OnInit {
 
-  result: any;
+  public result: any;
   public entity = 'Speciality';
-  Speciality: Speciality[] = [];
-  displayedColumns: string[] = ['code', 'name', 'buttons'];
-  dataSource = new MatTableDataSource<Speciality>();
+  public speciality: Speciality[] = [];
+  public displayedColumns: string[] = ['code', 'name', 'buttons'];
+  public dataSource = new MatTableDataSource<Speciality>();
 
   @ViewChild('table', { static: false }) table: MatTable<Element>;
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
@@ -60,7 +60,7 @@ export class SpecialityListComponent implements OnInit {
     dialogRef.afterClosed().subscribe(data => {
       if (data) {
         return this.apiService.postEntity(this.entity, action, data).subscribe((obj: Speciality) => {
-          this.Speciality = [obj, ...this.Speciality];
+          this.speciality = [obj, ...this.speciality];
           this.getSpeciality();
         }
         );
@@ -77,7 +77,7 @@ export class SpecialityListComponent implements OnInit {
       if (data) {
         data.speciality_id = obj.speciality_id;
         return this.apiService.updEntity(this.entity, action, data, obj.speciality_id).subscribe((specialityObj: Speciality) => {
-          this.Speciality = [specialityObj, ...this.Speciality];
+          this.speciality = [specialityObj, ...this.speciality];
           this.getSpeciality();
         }
         );
