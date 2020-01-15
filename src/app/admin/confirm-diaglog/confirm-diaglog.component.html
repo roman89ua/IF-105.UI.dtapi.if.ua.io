@@ -3,7 +3,9 @@
   </h1>
    
   <div mat-dialog-content>
-    <p>Ви дійсно бажаєте видалити: {{obj.faculty_name}} ?</p>
+    <p *ngIf="obj.faculty_name">Ви дійсно бажаєте видалити: {{obj.faculty_name}} ?</p>
+    <p *ngIf="obj">При видаленні питання ви видалите всі відповіді?</p>
+    <p *ngIf="!obj">Ви дійсно бажаєте видалити питання?</p>
   </div>
    
   <div mat-dialog-actions>

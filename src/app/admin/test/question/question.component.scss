@@ -35,3 +35,23 @@ table {
     display: flex;
     align-items: center;
   }
+
+  .true-answer-icon {
+    margin-left: 5px;
+  }
+
+.actions {
+  mat-icon {
+    cursor: pointer;
+  
+    &:hover {
+      &[aria-label="edit"] {
+        color: orange;
+      }
+      &[aria-label="delete"] {
+        color: red;
+      }
+    }
+  }
+}  
+

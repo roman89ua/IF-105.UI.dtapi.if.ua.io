@@ -1,6 +1,7 @@
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { Component, OnInit, Inject } from '@angular/core';
 import { Faculty } from '../faculties/faculties.service';
+import { IQuestion } from '../test/question/question';
 
 @Component({
   selector: 'app-confirm-diaglog',
@@ -9,7 +10,7 @@ import { Faculty } from '../faculties/faculties.service';
 })
 export class ConfirmDiaglogComponent implements OnInit {
   title: string;
-  obj: Faculty;
+  obj: Faculty | boolean;
 
   constructor(public dialogRef: MatDialogRef<ConfirmDiaglogComponent>, @Inject(MAT_DIALOG_DATA) public data: ConfirmDialogModel) {
     this.title = data.title;
@@ -17,18 +18,19 @@ export class ConfirmDiaglogComponent implements OnInit {
   }
 
   onConfirm(): void {
-    this.dialogRef.close(this.obj);
+    this.dialogRef.close(true);
   }
 
   onDismiss(): void {
     this.dialogRef.close(false);
   }
+  
   ngOnInit() {
   }
 
 }
 
 export class ConfirmDialogModel {
-  constructor(public title: string, public obj: Faculty) {
+  constructor(public title: string, public obj: Faculty | boolean) {
   }
 }

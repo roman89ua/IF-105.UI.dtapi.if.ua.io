@@ -6,6 +6,8 @@ import { switchMap, filter } from 'rxjs/operators';
 import { MatTable } from '@angular/material/table';
 import { of } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
+import { ConfirmDiaglogComponent, ConfirmDialogModel } from '../../confirm-diaglog/confirm-diaglog.component';
+import { MatDialog } from '@angular/material'; //FIX
 
 
 @Component({
@@ -18,6 +20,11 @@ import { ActivatedRoute } from '@angular/router';
       state('expanded', style({height: '*'})),
       transition('expanded <=> collapsed', animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)')),
     ]),
+    trigger('rotateIcon', [
+      state('collapsed', style({transform: 'rotate(0deg)'})),
+      state('expanded', style({transform: 'rotate(180deg)'})),
+      transition('expanded <=> collapsed', animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)')),
+    ])
   ],
 })
 export class QuestionComponent implements OnInit {
@@ -25,12 +32,12 @@ export class QuestionComponent implements OnInit {
   questions: IQuestion[]
   expandedQuestion: IQuestion
   testId: number;
-  answersLoading: boolean = false;
-  expandedQuestionId: number = 1;
+  loadingQuestionId: number;
 
   constructor(
     private route: ActivatedRoute,
-    private questionService: QuestionService
+    private questionService: QuestionService,
+    private dialog: MatDialog
   ) { }
 
 
@@ -50,39 +57,54 @@ export class QuestionComponent implements OnInit {
       return
     }
     else {
-      this.answersLoading = true;
-      this.expandedQuestionId = id;
+      this.loadingQuestionId = id;
       this.questionService.getQuestionAnswers(id)
       .subscribe((res: any) => { //FIX
         if (res.response === 'no records') {
-          selectedQuestion.answers = 'No answers were added to this question';
+          selectedQuestion.answers = 'No answers';
         } else {
           selectedQuestion.answers = res;
         }
         this.expandedQuestion = this.expandedQuestion == selectedQuestion ? null : selectedQuestion
-        this.answersLoading = false;
+        this.loadingQuestionId = null;
       })
     }
+  }
+
+  deleteDialog(question: any) { //FIX
+
+    
   }
 
   deleteQuestion(id) {
 
     this.questionService.getQuestionAnswers(id)
       .pipe(switchMap((val: any) => {   //FIX
-        if (val.response !== 'no records') {
-          
-          if (confirm('Видаливши це питання ви видалите всі відповіді до нього')) {
-            return this.questionService.deleteAnswerCollection(val)
-          }
-          else {
-            return of('break');
-          }
-        }
-        else {
-          // console.log('Видаливши це питання ви видалите всі відповіді до нього');
-          return of(val)
-        }
-      } ), filter(val => val !== 'break'))
+        const dialogData = new ConfirmDialogModel('Підтвердження', val.response !== 'no records');
+        const dialogRef = this.dialog.open(ConfirmDiaglogComponent, {
+          maxWidth: '400px',
+          data: dialogData
+        });
+        return dialogRef.afterClosed()
+        //       .subscribe(dialogResult => {
+        //   if (dialogResult) {
+        //     this.deleteQuestion(dialogResult.question_id);
+        //   } else { return; }
+        // });
+        
+        // if (val.response !== 'no records') {
+        //   // if (confirm('Видаливши це питання ви видалите всі відповіді до нього')) {
+        //   //   return this.questionService.deleteAnswerCollection(val)
+        //   // }
+        //   // else {
+        //   //   return of('break');
+        //   // }
+        // }
+        // else {
+        //   // console.log('Видаливши це питання ви видалите всі відповіді до нього');
+        //   return of(val)
+        // }
+      } ), filter(dialogResult => dialogResult))
       .subscribe(res =>  this.questionService.deleteQuestion(id) 
         .subscribe( res => { 
           let questionIndex;

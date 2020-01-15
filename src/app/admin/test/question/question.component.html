@@ -1,5 +1,8 @@
-  <a routerLink="new">New question</a>
-
+  <!-- <a routerLink="new">New question</a> -->
+  <a mat-raised-button color="prime" routerLink="new">
+    <mat-icon aria-hidden="false" aria-label="add">add</mat-icon>
+    Додати питання
+  </a>
   <table mat-table #table
        [dataSource]="questions" multiTemplateDataRows
        class="mat-elevation-z8">
@@ -12,20 +15,23 @@
     </ng-container>
 
     <ng-container matColumnDef="question_text">
-        <th mat-header-cell *matHeaderCellDef> Тект питання </th>
+        <th mat-header-cell *matHeaderCellDef> Текст питання </th>
         <td mat-cell *matCellDef="let question"> {{ question.question_text }} </td>
     </ng-container>
 
     <ng-container matColumnDef='answers'>
         <th mat-header-cell *matHeaderCellDef> Show answers </th>
         <td mat-cell *matCellDef="let question"> 
-           <button [disabled]="answersLoading && question.question_id == expandedQuestionId" class="button-with-spinner" mat-raised-button color="primary" (click)="expandQuestionAnswers(question.question_id, question)">
-               <span *ngIf="answersLoading && question.question_id == expandedQuestionId" class="spinner-wrapper">
+           <button [disabled]="question.question_id === loadingQuestionId" class="button-with-spinner" mat-raised-button color="primary" (click)="expandQuestionAnswers(question.question_id)">
+               <span *ngIf="question.question_id === loadingQuestionId" class="spinner-wrapper">
                    <mat-spinner color="warn" [diameter]="25"></mat-spinner>
                </span>
-               <span [ngStyle]="{'visibility': answersLoading && question.question_id == expandedQuestionId ? 'hidden' : 'visible'}" class="button-with-spinner-inner">
+               <span [ngStyle]="{'visibility': question.question_id === loadingQuestionId ? 'hidden' : 'visible'}" class="button-with-spinner-inner">
                  Відповіді
-                <mat-icon aria-hidden="false" aria-label="Example thumbs up SVG icon">expand_more</mat-icon>
+                <mat-icon
+                 [@rotateIcon]="question == expandedQuestion ? 'expanded' : 'collapsed'"
+                 aria-hidden="false"
+                 aria-label="expand">expand_more</mat-icon>
                </span>
                <!-- *ngIf="answersLoading" -->
             </button>
@@ -34,8 +40,10 @@
 
     <ng-container matColumnDef='delete'>
         <th mat-header-cell *matHeaderCellDef> Delete </th>
-        <td mat-cell *matCellDef="let question"> 
-            <button (click)="deleteQuestion(question.question_id)">Delete</button>
+        <td mat-cell *matCellDef="let question" class="actions"> 
+            <mat-icon aria-hidden="false" aria-label="edit" (click)="editGroupDialog(group)">edit</mat-icon>
+            <mat-icon aria-hidden="false" aria-label="delete" (click)="deleteQuestion(question.question_id)">delete</mat-icon>
+            <!-- <button (click)="deleteQuestion(question.question_id)">Delete</button> -->
         </td>
     </ng-container>
 
@@ -43,23 +51,31 @@
     <ng-container matColumnDef="expandedQuestion">
         <td mat-cell *matCellDef="let question" [attr.colspan]="5">
             <div class="question-answers" [@answersExpand]="question == expandedQuestion ? 'expanded' : 'collapsed'">
-                <div *ngIf="question.answers.length && question.answers !== 'No answers were added to this question'">
+                <div *ngIf="question.answers.length && question.answers !== 'No answers'">
                     <mat-list>
-                        <mat-list-item  *ngFor="let answer of question.answers"> 
-                            {{ answer.answer_text }}
+                        <mat-list-item  *ngFor="let answer of question.answers; let i=index;">
+                            <ng-container *ngIf="+question.type !== 4">
+                                {{ answer.answer_text }}
+                                <mat-icon 
+                                    aria-hidden="false" 
+                                    class="true-answer-icon" 
+                                    aria-label="expand"
+                                    *ngIf="+answer.true_answer === 1">check_circle_outline
+                                </mat-icon>
+                            </ng-container >
+                            <span *ngIf="+question.type === 4 && i === 0">
+                                Діапазон {{ question.answers[0].answer_text }} - {{ question.answers[1].answer_text }}
+                                <!-- {{ question.answers[0].answer_text) }} -->
+                            </span>
                         </mat-list-item>
                     </mat-list>
-
-                    <!-- <li >
-                        <span>{{answer.answer_text}}</span>
-                        <span *ngIf="+answer.true_answer"> True answer </span>
-                    </li> -->
                 </div>
-                <div *ngIf="question.answers === 'No answers were added to this question'">
-                    {{ question.answers }}
-                </div>
-                <div *ngIf="!question.answers.length">
-                    Loading...
+                <div *ngIf="question.answers === 'No answers'">
+                    <mat-list>
+                        <mat-list-item>
+                            No answers were added to this question
+                        </mat-list-item>
+                    </mat-list>
                 </div>
             </div>
         </td>
