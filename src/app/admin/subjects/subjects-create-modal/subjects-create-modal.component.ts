@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl,FormGroup } from '@angular/forms';
+import { FormControl,FormGroup, Validators} from '@angular/forms';
 import { MatDialogRef } from '@angular/material';
 import { SubjectsService } from '../subjects.service';
 
@@ -10,8 +10,8 @@ import { SubjectsService } from '../subjects.service';
 })
 export class SubjectsCreateModalComponent implements OnInit {
   public addSubject = new FormGroup({
-    subject_name: new FormControl(''),
-    subject_description: new FormControl('')
+    subject_name: new FormControl('', [Validators.required]),
+    subject_description: new FormControl('',[Validators.required])
 
   })
   

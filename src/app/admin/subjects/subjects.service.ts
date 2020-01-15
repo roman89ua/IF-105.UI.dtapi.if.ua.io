@@ -9,16 +9,17 @@ import { HttpClient } from '@angular/common/http';
 export class SubjectsService {
   
   constructor(private http: HttpClient) {}
-  creatSubject(body) {
-    return this.http.post('Subject/insertData', body);
+
+  creatSubject(formData) {
+    return this.http.post('Subject/insertData', formData);
 
   }
   readSubjects() {
     return this.http.get('Subject/getRecords');
   }
 
-  updateSubject(id: number, budy){
-    return this.http.post(`Subject/update/${id}`, budy);
+  updateSubject(id: number, formData){
+    return this.http.post(`Subject/update/${id}`, formData);
   }
 
   deleteSubject(id: number) {

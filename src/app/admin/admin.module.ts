@@ -24,6 +24,7 @@ import { MatDialogModule } from '@angular/material';
 import { SubjectsService } from './subjects/subjects.service';
 
 
+
 const routes: Routes = [
   { path: '', component: AdminComponent ,
     children: [
@@ -56,6 +57,7 @@ const routes: Routes = [
     CreateAdminUserComponent,
     SubjectsComponent,
     SubjectsCreateModalComponent,
+    
   ],
   imports: [
     CommonModule, 
