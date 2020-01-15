@@ -8,16 +8,14 @@ import { Faculty } from '../faculties/faculties.service';
   styleUrls: ['./confirm-diaglog.component.scss']
 })
 export class ConfirmDiaglogComponent implements OnInit {
-  title: string;
-  obj: Faculty;
+  message: string;
 
   constructor(public dialogRef: MatDialogRef<ConfirmDiaglogComponent>, @Inject(MAT_DIALOG_DATA) public data: ConfirmDialogModel) {
-    this.title = data.title;
-    this.obj = data.obj;
+    this.message = data.message;
   }
 
   onConfirm(): void {
-    this.dialogRef.close(this.obj);
+      this.dialogRef.close(true);
   }
 
   onDismiss(): void {
@@ -29,6 +27,6 @@ export class ConfirmDiaglogComponent implements OnInit {
 }
 
 export class ConfirmDialogModel {
-  constructor(public title: string, public obj: Faculty) {
+  constructor(public message: string) {
   }
 }

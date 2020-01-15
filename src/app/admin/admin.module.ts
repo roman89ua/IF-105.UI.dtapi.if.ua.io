@@ -5,40 +5,35 @@ import { Routes, RouterModule } from '@angular/router';
 import { StudentsComponent } from './students/students.component';
 import { FacultiesComponent } from './faculties/faculties.component';
 import { ConfirmDiaglogComponent } from './confirm-diaglog/confirm-diaglog.component';
-
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-
 import { GroupComponent } from './group/group.component';
-import { GroupAddDialogComponent } from './group-add-dialog/group-add-dialog.component';
-import { GroupDelDialogComponent } from './group-del-dialog/group-del-dialog.component';
-import { GroupEditDialogComponent } from './group-edit-dialog/group-edit-dialog.component';
-import { GroupViewDialogComponent } from './group-view-dialog/group-view-dialog.component';
+import { GroupAddEditDialogComponent } from './group/group-add-edit-dialog/group-add-edit-dialog.component';
+import { GroupDelDialogComponent } from './group/group-del-dialog/group-del-dialog.component';
+import { GroupViewDialogComponent } from './group/group-view-dialog/group-view-dialog.component';
 import { AdminUserService } from './admin-user/admin-user.service';
+import { CreateUpdateUserComponent } from './admin-user/create-update-user/create-update-user.component';
 import { AdminUserComponent } from './admin-user/admin-user.component';
 import { SharedModule } from '../shared/shared.module';
-import { CreateAdminUserComponent } from './admin-user/create-admin-user/create-admin-user.component';
-// kostiuk romans modules
+import { SpecialityListComponent } from './speciality/speciality-list/speciality-list.component';
+import { DialogFormComponent } from './speciality/dialog-form/dialog-form.component';
+import { DialogConfirmComponent } from './speciality/dialog-confirm/dialog-confirm.component';
+import { NavbarComponent } from './sidenav/sidenav.component';
 import { SubjectsComponent } from './subjects/subjects.component';
 import { SubjectsCreateModalComponent } from './subjects/subjects-create-modal/subjects-create-modal.component';
 import { MatDialogModule } from '@angular/material';
 import { SubjectsService } from './subjects/subjects.service';
 
 
-
 const routes: Routes = [
-  { path: '', component: AdminComponent ,
+  {
+    path: '', component: AdminComponent,
     children: [
       { path: 'students', component: StudentsComponent },
       { path: 'admin-user', component: AdminUserComponent},
       { path: 'faculties', component: FacultiesComponent},
       { path: 'group', component: GroupComponent },
-      { path: 'group_add', component: GroupAddDialogComponent },
-      { path: 'group_edit', component: GroupEditDialogComponent },
-      { path: 'group_delete', component: GroupDelDialogComponent },
-      { path: 'group_view', component: GroupViewDialogComponent },
       { path: 'subjects', component: SubjectsComponent },
-      
-  ]}
+      { path: 'speciality', component: SpecialityListComponent },
 ];
 
 @NgModule({
@@ -48,33 +43,42 @@ const routes: Routes = [
     FacultiesComponent,
     ConfirmDiaglogComponent,
     GroupComponent,
-    GroupAddDialogComponent,
+    GroupAddEditDialogComponent,
     GroupDelDialogComponent,
-    GroupEditDialogComponent,
     GroupViewDialogComponent,
     StudentsComponent,
     AdminUserComponent,
-    CreateAdminUserComponent,
+    CreateUpdateUserComponent,
+    SpecialityListComponent,
+    DialogFormComponent,
+    DialogConfirmComponent,
+    NavbarComponent
     SubjectsComponent,
     SubjectsCreateModalComponent,
-    
   ],
   imports: [
-    CommonModule, 
+    CommonModule,
     FormsModule,
     SharedModule,
     ReactiveFormsModule,
-    RouterModule.forChild(routes),
+    RouterModule.forChild(routes)
     MatDialogModule,
   ],
   providers: [
     AdminUserService,
     SubjectsService,
   ],
-  entryComponents: [
+  
+  entryComponents:[
     ConfirmDiaglogComponent,
-    CreateAdminUserComponent,
+    NavbarComponent,
+    CreateUpdateUserComponent,
+    DialogFormComponent,
+    DialogConfirmComponent,
+    GroupAddEditDialogComponent,
+    GroupDelDialogComponent,
+    GroupViewDialogComponent
     SubjectsCreateModalComponent,
   ]
 })
-export class AdminModule {}
+export class AdminModule { }

@@ -5,7 +5,7 @@ import { of } from 'rxjs';
 import { mergeMap } from 'rxjs/operators';
 import { DialogService } from 'src/app/shared/dialog.service';
 import { MatDialog } from '@angular/material';
-import { CreateAdminUserComponent } from './create-admin-user/create-admin-user.component';
+import { CreateUpdateUserComponent } from './create-update-user/create-update-user.component';
 @Component({
   selector: 'app-admin-user',
   templateUrl: './admin-user.component.html',
@@ -29,8 +29,35 @@ export class AdminUserComponent implements OnInit {
     );
   }
 
-  updateHandler(id: number) {
-    console.log(id);
+  updateHandler(user: any) {
+    const dialogRef = this.dialog.open(CreateUpdateUserComponent, {
+      width: '450px',
+      disableClose: true,
+      data: user,
+    });
+
+    let newData;
+
+    dialogRef.afterClosed()
+      .pipe(
+        mergeMap((data) => {
+          if (data) {
+            newData = data;
+            return this.adminUserService.updateUser(data);
+          }
+          return of(null);
+        })
+      )
+      .subscribe(() => {
+        if (newData) {
+          this.userList = this.userList.map( user => {
+            if(user.id === newData.id) {
+              return newData;
+            }
+            return user;
+          }) 
+        }
+      });
   }
 
   deleteHandler(name: string, id: number) {
@@ -54,7 +81,7 @@ export class AdminUserComponent implements OnInit {
 
   }
   addAdminHandler() {
-    const dialogRef = this.dialog.open(CreateAdminUserComponent, {
+    const dialogRef = this.dialog.open(CreateUpdateUserComponent, {
       width: '450px',
       disableClose: true,
     });
