@@ -5,7 +5,6 @@ import { MatTableDataSource, MatTable } from '@angular/material';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatDialog } from '@angular/material/dialog';
 import { GroupAddEditDialogComponent } from './group-add-edit-dialog/group-add-edit-dialog.component';
-import { GroupDelDialogComponent } from './group-del-dialog/group-del-dialog.component';
 import { GroupViewDialogComponent } from './group-view-dialog/group-view-dialog.component';
 import { ModalService} from '../../shared/services/modal.service'
 
@@ -72,19 +71,7 @@ export class GroupComponent implements OnInit {
       this.dataSource.paginator = this.paginator;
     });
   }
-  // create modal window for confirm delete
-  /* deleteGroupDialog(group: Group): void {
-    const dialogRef = this.dialog.open(GroupDelDialogComponent, {
-      width: '300px',
-      data: group
-    });
-
-    dialogRef.afterClosed().subscribe(result => {
-      if (result) {
-        this.delGroup(result);
-      }
-    });
-  } */
+  /** open modal window for confirm delete */
   openConfirmDialog(group: Group) {
     const message = `Підтвердіть видалення групи "${group.group_name}"`;
     this.modalService.openConfirmModal(message, ()=> {this.delGroup(group)});
