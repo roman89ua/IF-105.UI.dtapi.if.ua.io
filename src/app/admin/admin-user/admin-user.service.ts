@@ -13,7 +13,22 @@ export class AdminUserService {
     return this.http.get(`AdminUser/del/${id}`);
   }
 
-  insertUser(body) {
+  insertUser(body: any) {
     return this.http.post('AdminUser/insertData', body);
+  }
+  updateUser(body: any) {
+    const data = {
+      username: body.username,
+      email: body.email,
+      password: body.password,
+      password_confirm: body.password_confirm}
+    return this.http.post(`AdminUser/update/${body.id}`, data);
+  }
+
+  checkUsername(username: string) {
+    return this.http.get(`AdminUser/checkUserName/${username}`);
+  }
+  checkUserEmail(email: string) {
+    return this.http.get(`AdminUser/checkEmailAddress/${email}`);
   }
 }
