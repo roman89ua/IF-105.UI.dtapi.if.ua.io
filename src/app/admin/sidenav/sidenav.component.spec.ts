@@ -7,7 +7,7 @@ import { MatListModule } from '@angular/material/list';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatToolbarModule } from '@angular/material/toolbar';
 
-import { NavbarComponent } from './navbar.component';
+import { NavbarComponent } from './sidenav.component';
 
 describe('NavbarComponent', () => {
   let component: NavbarComponent;

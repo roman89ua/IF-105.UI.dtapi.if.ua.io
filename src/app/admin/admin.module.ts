@@ -14,7 +14,7 @@ import { AdminUserService } from './admin-user/admin-user.service';
 import { AdminUserComponent } from './admin-user/admin-user.component';
 import { SharedModule } from '../shared/shared.module';
 import { CreateAdminUserComponent } from './admin-user/create-admin-user/create-admin-user.component';
-import { NavbarComponent } from './navbar/navbar.component';
+import { NavbarComponent } from './sidenav/sidenav.component';
 import { SpecialityListComponent } from './speciality/speciality-list/speciality-list.component';
 import { DialogFormComponent } from './speciality/dialog-form/dialog-form.component';
 import { DialogConfirmComponent } from './speciality/dialog-confirm/dialog-confirm.component';

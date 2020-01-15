@@ -7,8 +7,8 @@ import { AuthService } from 'src/app/shared/auth.service';
 
 @Component({
   selector: 'app-navbar',
-  templateUrl: './navbar.component.html',
-  styleUrls: ['./navbar.component.scss']
+  templateUrl: './sidenav.component.html',
+  styleUrls: ['./sidenav.component.scss']
 })
 export class NavbarComponent {
 
