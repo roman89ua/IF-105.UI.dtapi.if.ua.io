@@ -17,7 +17,7 @@ import { SharedModule } from '../shared/shared.module';
 import { SpecialityListComponent } from './speciality/speciality-list/speciality-list.component';
 import { DialogFormComponent } from './speciality/dialog-form/dialog-form.component';
 import { DialogConfirmComponent } from './speciality/dialog-confirm/dialog-confirm.component';
-
+import { NavbarComponent } from './sidenav/sidenav.component';
 
 const routes: Routes = [
   {
@@ -47,7 +47,8 @@ const routes: Routes = [
     CreateUpdateUserComponent,
     SpecialityListComponent,
     DialogFormComponent,
-    DialogConfirmComponent
+    DialogConfirmComponent,
+    NavbarComponent
   ],
   imports: [
     CommonModule,
@@ -59,6 +60,7 @@ const routes: Routes = [
   providers: [AdminUserService],
   entryComponents: [
     ConfirmDiaglogComponent,
+    NavbarComponent,
     CreateUpdateUserComponent,
     DialogFormComponent,
     DialogConfirmComponent,

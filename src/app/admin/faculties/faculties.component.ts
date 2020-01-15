@@ -126,7 +126,7 @@ export class FacultiesComponent implements OnInit, AfterViewInit {
 
 
   deleteFacultyDialog(faculty: Faculty): void {
-    const dialogData = new ConfirmDialogModel('Підтвердження', faculty);
+    const dialogData = new ConfirmDialogModel(`Ви дійсно бажаєте видалити: ${faculty.faculty_name}?`);
     const dialogRef = this.dialog.open(ConfirmDiaglogComponent, {
       maxWidth: '400px',
       data: dialogData
@@ -134,7 +134,7 @@ export class FacultiesComponent implements OnInit, AfterViewInit {
     dialogRef.afterClosed().subscribe(dialogResult => {
       this.result = dialogResult;
       if (this.result) {
-        this.removeFaculty(this.result.faculty_id);
+        this.removeFaculty(faculty.faculty_id);
       } else { return; }
     });
   }
