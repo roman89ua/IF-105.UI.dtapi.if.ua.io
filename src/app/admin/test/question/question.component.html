@@ -1,11 +1,15 @@
   <!-- <a routerLink="new">New question</a> -->
+  <ng-template #loadingBlock>
+    <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+  </ng-template>
   <a mat-raised-button color="prime" routerLink="new">
     <mat-icon aria-hidden="false" aria-label="add">add</mat-icon>
     Додати питання
   </a>
   <table mat-table #table
        [dataSource]="questions" multiTemplateDataRows
-       class="mat-elevation-z8">
+       class="mat-elevation-z8"
+       *ngIf="!loadingQuestions; else loadingBlock">
 
     <ng-container matColumnDef='No'>
         <th mat-header-cell *matHeaderCellDef> № </th>

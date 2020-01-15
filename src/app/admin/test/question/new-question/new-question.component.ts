@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms';
+import { FormGroup, FormControl, FormBuilder, Validators, ValidatorFn, AbstractControl } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { QuestionService } from '../question.service';
 import { switchMap } from 'rxjs/operators';
@@ -19,16 +19,29 @@ export class NewQuestionComponent implements OnInit {
   ) { }
 
   newQuestionForm = new FormGroup({
-    question_text: new FormControl('', [
-      Validators.required
-    ]),
+    question_text: new FormControl(''),
     level: new FormControl('1'),
+    attachment: new FormControl(''),
     type: new FormControl('1'),
-  });
+  }, {validators: this.questionTaskAdded()});
+
+
+  questionTaskAdded(): ValidatorFn  {
+    return (control: FormGroup) => {
+      let invalid = control.get('question_text').value === '' && control.get('attachment').value === ''
+      return invalid ? {'noTask': true} : null;
+    }
+  }
 
   get questionText() {
     return this.newQuestionForm.get('question_text');
-  } 
+  }
+
+  get questionAttachment() {
+    return this.newQuestionForm.get('attachment');
+  }
+
+  
 
   questionType: number = 1;
 
@@ -79,7 +92,8 @@ export class NewQuestionComponent implements OnInit {
   // }
 
   log() {
-    console.log({...this.newQuestionForm.value, test_id: this.testId, attachment: ''});
+    console.log(this.newQuestionForm.value);
+    // console.log({...this.newQuestionForm.value, test_id: this.testId, attachment: ''});
   }
 
     // answers: {id: number}[];
@@ -138,9 +152,25 @@ export class NewQuestionComponent implements OnInit {
       .subscribe(() => console.log('Question was created successfuly'))
   }
 
-  ngOnInit() {
-    this.testId = +this.route.snapshot.paramMap.get('id');
-    this.newQuestionForm.get('type').valueChanges.subscribe((value: string) => this.changeQuestionTypeHandler(+value));
+  attachmentUploadHandler(e) {
+    const file = e.dataTransfer ? e.dataTransfer.files[0] : e.target.files[0];
+    if (file) {
+      this.questionService.toBase64(file)
+        .subscribe((res:string) => { this.setAttachmentValue(res) })
+    } else {
+      this.setAttachmentValue('')
+    }
   }
 
+  private setAttachmentValue(value) {
+    this.newQuestionForm.get('attachment').setValue(value)
+  }
+
+  
+
+  ngOnInit() {
+    this.testId = +this.route.snapshot.paramMap.get('id');
+    this.newQuestionForm.get('type').valueChanges
+      .subscribe((value: string) => this.changeQuestionTypeHandler(+value));
+  }
 }

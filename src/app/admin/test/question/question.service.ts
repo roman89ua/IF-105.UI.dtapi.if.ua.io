@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { IQuestion } from './question';
 import { tap, map } from 'rxjs/operators';
-import { forkJoin } from 'rxjs';
+import { forkJoin, Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -71,4 +71,16 @@ export class QuestionService {
     console.log(obsArray, '[OBS ARRAY]')
     return forkJoin(obsArray)
   }
+
+  toBase64(file) {
+    return new Observable((observer) => {
+
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+ 
+      reader.onload = () => observer.next(reader.result);
+      reader.onerror = err => observer.error(err);
+  
+    })
+  } 
 }

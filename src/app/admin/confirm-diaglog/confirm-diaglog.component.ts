@@ -10,7 +10,7 @@ import { IQuestion } from '../test/question/question';
 })
 export class ConfirmDiaglogComponent implements OnInit {
   title: string;
-  obj: Faculty | boolean;
+  obj: Faculty | string;
 
   constructor(public dialogRef: MatDialogRef<ConfirmDiaglogComponent>, @Inject(MAT_DIALOG_DATA) public data: ConfirmDialogModel) {
     this.title = data.title;
@@ -31,6 +31,6 @@ export class ConfirmDiaglogComponent implements OnInit {
 }
 
 export class ConfirmDialogModel {
-  constructor(public title: string, public obj: Faculty | boolean) {
+  constructor(public title: string, public obj: Faculty | string) {
   }
 }

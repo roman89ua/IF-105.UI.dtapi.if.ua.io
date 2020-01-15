@@ -33,6 +33,7 @@ export class QuestionComponent implements OnInit {
   expandedQuestion: IQuestion
   testId: number;
   loadingQuestionId: number;
+  loadingQuestions: boolean = false;
 
   constructor(
     private route: ActivatedRoute,
@@ -71,65 +72,46 @@ export class QuestionComponent implements OnInit {
     }
   }
 
-  deleteDialog(question: any) { //FIX
-
-    
-  }
-
   deleteQuestion(id) {
-
-    this.questionService.getQuestionAnswers(id)
-      .pipe(switchMap((val: any) => {   //FIX
-        const dialogData = new ConfirmDialogModel('Підтвердження', val.response !== 'no records');
-        const dialogRef = this.dialog.open(ConfirmDiaglogComponent, {
-          maxWidth: '400px',
-          data: dialogData
-        });
-        return dialogRef.afterClosed()
-        //       .subscribe(dialogResult => {
-        //   if (dialogResult) {
-        //     this.deleteQuestion(dialogResult.question_id);
-        //   } else { return; }
-        // });
-        
-        // if (val.response !== 'no records') {
-        //   // if (confirm('Видаливши це питання ви видалите всі відповіді до нього')) {
-        //   //   return this.questionService.deleteAnswerCollection(val)
-        //   // }
-        //   // else {
-        //   //   return of('break');
-        //   // }
-        // }
-        // else {
-        //   // console.log('Видаливши це питання ви видалите всі відповіді до нього');
-        //   return of(val)
-        // }
-      } ), filter(dialogResult => dialogResult))
-      .subscribe(res =>  this.questionService.deleteQuestion(id) 
-        .subscribe( res => { 
-          let questionIndex;
-          this.questions.forEach( (question, index) => {
-            if (question.question_id === id) {
-              questionIndex = index;
-            }
-          })
-          this.questions.splice(questionIndex, 1);
-          this.table.renderRows();
-        })
+    const dialogData = new ConfirmDialogModel('Підтвердження', 'Питання та всі відповіді до нього будуть видалені.');
+    const dialogRef = this.dialog.open(ConfirmDiaglogComponent, {
+        maxWidth: '400px',
+        data: dialogData
+    });
+    dialogRef.afterClosed()
+      .pipe(
+        filter(val => val),
+        switchMap((val:any) => { 
+          this.loadingQuestions = true;
+          return this.questionService.getQuestionAnswers(id) 
+        }),  //FIX
+        switchMap((val:any) => val.response !== 'no records' ? this.questionService.deleteAnswerCollection(val) : of(val)), //FIX
+        switchMap((val: any) => this.questionService.deleteQuestion(id) )
       )
-
+      .subscribe( res => { 
+        let questionIndex;
+        this.questions.forEach( (question, index) => {
+          if (question.question_id === id) {
+            questionIndex = index;
+          }
+        })
+        this.questions.splice(questionIndex, 1);
+        this.loadingQuestions = false;
+        this.table.renderRows();
+      })
   }
 
   
   ngOnInit() {
     this.testId = +this.route.snapshot.paramMap.get('id');
-
+    this.loadingQuestions = true;
     this.questionService.getTestQuestion(this.testId)
       .subscribe((res: IQuestion[]) => {
         const questionsWithEmptyAnswers = res.map((question) => {
           return { ...question, answers: [] }
         }) 
         this.questions = questionsWithEmptyAnswers
+        this.loadingQuestions = false;
         } )
   }
 

@@ -1,12 +1,17 @@
+<button (click)="log()"> LOG </button>
+
 <form [formGroup]="newQuestionForm" (ngSubmit)="createQuestion()">
     <div>
         Question text 
         <input type="text" formControlName="question_text">
-        <div *ngIf="questionText.invalid && (questionText.dirty || questionText.touched)">
+        <!-- <div *ngIf="questionText.invalid && (questionText.dirty || questionText.touched)">
             <div *ngIf="questionText.errors.required">
                 Name is required.
             </div>
-        </div>
+            <div *ngIf="questionText.errors.invalid">
+                aaaaaaaaaaaaaaaaaa
+            </div>
+        </div> -->
     </div>
     <div>
         Question type
@@ -25,7 +30,16 @@
             <option value="3">3</option>
         </select>
     </div>
-
+    <div>
+        attachment
+        <input type="file" (change)="attachmentUploadHandler($event)">
+        <input type="hidden" formControlName="attachment">
+        <img *ngIf="questionAttachment.value" [src]="questionAttachment.value" alt="imageSrc" class="attachment-preview-image">
+    </div>
+    
+    <div *ngIf="newQuestionForm.errors?.noTask && (questionText.dirty || questionText.touched)">
+        Питання повинне мати текст або додане зображення
+    </div>
     <button type="button" (click)="addAnswer()" [disabled]="+questionType === 4">Add answer</button>
 
     <div *ngIf="answers" >
