@@ -4,7 +4,6 @@ import { ViewChild, TemplateRef } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatDialog, MatTableDataSource, MatTable, MatSnackBar, MatSnackBarConfig } from '@angular/material';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { ConfirmDiaglogComponent, ConfirmDialogModel } from '../confirm-diaglog/confirm-diaglog.component';
 import { ModalService } from '../../shared/services/modal.service';
 
 @Component({

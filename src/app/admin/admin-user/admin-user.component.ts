@@ -20,7 +20,7 @@ export class AdminUserComponent implements OnInit {
     private adminUserService: AdminUserService,
     public dialog: MatDialog,
     private _snackBar: MatSnackBar,
-    private modalServise: ModalService) { }
+    private modalService: ModalService) { }
 
   ngOnInit() {
 
@@ -72,7 +72,7 @@ export class AdminUserComponent implements OnInit {
 
   openConfirmDialog(user: IAdminUser) {
     const message = `Підтвердіть видалення користувача "${user.username}"`;
-    this.modalServise.openConfirmModal(message, () => this.delUser(user));
+    this.modalService.openConfirmModal(message, () => this.delUser(user));
   }
   delUser(user: IAdminUser) {
     this.adminUserService.deleteUser(user.id).subscribe((data: { response?: string; } ) => {
