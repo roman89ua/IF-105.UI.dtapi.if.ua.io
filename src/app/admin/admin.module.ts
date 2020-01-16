@@ -59,7 +59,7 @@ const routes: Routes = [
     FormsModule,
     SharedModule,
     ReactiveFormsModule,
-    RouterModule.forChild(routes)
+    RouterModule.forChild(routes),
     MatDialogModule,
   ],
   providers: [
@@ -74,7 +74,7 @@ const routes: Routes = [
     DialogFormComponent,
     DialogConfirmComponent,
     GroupAddEditDialogComponent,
-    GroupViewDialogComponent
+    GroupViewDialogComponent,
     SubjectsCreateModalComponent,
   ]
 })
