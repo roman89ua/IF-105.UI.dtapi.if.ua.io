@@ -27,6 +27,10 @@
                     formControlName="faculty_description"
                     placeholder="Введіть опис">
                 </textarea>
+                <button type="button" mat-button *ngIf="addForm.get('faculty_description').value" matSuffix mat-icon-button aria-label="Clear" 
+                (click)="addForm.get('faculty_description').reset()">
+                    <mat-icon>close</mat-icon>
+                  </button>
                 <mat-error *ngIf="addForm.get('faculty_description').invalid && (addForm.get('faculty_description').dirty || addForm.get('faculty_description').touched)" >{{
                     getErrorMessageDescription(addForm)
                     }}</mat-error>
