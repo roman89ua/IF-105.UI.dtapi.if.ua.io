@@ -23,6 +23,7 @@ import { SubjectsCreateModalComponent } from './subjects/subjects-create-modal/s
 import { MatDialogModule } from '@angular/material';
 import { SubjectsService } from './subjects/subjects.service';
 import { TestListComponent } from './tests/list/test-list.component';
+import { TestAddComponent } from './tests/add/test-add.component';
 
 const routes: Routes = [
   {
@@ -47,6 +48,7 @@ const routes: Routes = [
     GroupAddEditDialogComponent,
     GroupViewDialogComponent,
     TestListComponent,
+    TestAddComponent,
     StudentsComponent,
     AdminUserComponent,
     CreateUpdateUserComponent,
@@ -70,7 +72,7 @@ const routes: Routes = [
     SubjectsService,
     StudentsService
   ],
-  entryComponents:[
+  entryComponents: [
     ConfirmDiaglogComponent,
     NavbarComponent,
     CreateUpdateUserComponent,
@@ -79,6 +81,7 @@ const routes: Routes = [
     GroupAddEditDialogComponent,
     GroupViewDialogComponent,
     SubjectsCreateModalComponent,
+    TestAddComponent,
   ]
 })
 export class AdminModule { }
