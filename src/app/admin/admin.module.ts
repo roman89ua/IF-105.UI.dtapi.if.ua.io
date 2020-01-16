@@ -8,7 +8,6 @@ import { ConfirmDiaglogComponent } from './confirm-diaglog/confirm-diaglog.compo
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { GroupComponent } from './group/group.component';
 import { GroupAddEditDialogComponent } from './group/group-add-edit-dialog/group-add-edit-dialog.component';
-import { GroupDelDialogComponent } from './group/group-del-dialog/group-del-dialog.component';
 import { GroupViewDialogComponent } from './group/group-view-dialog/group-view-dialog.component';
 import { AdminUserService } from './admin-user/admin-user.service';
 import { CreateUpdateUserComponent } from './admin-user/create-update-user/create-update-user.component';
@@ -40,7 +39,6 @@ const routes: Routes = [
     ConfirmDiaglogComponent,
     GroupComponent,
     GroupAddEditDialogComponent,
-    GroupDelDialogComponent,
     GroupViewDialogComponent,
     StudentsComponent,
     AdminUserComponent,
@@ -65,7 +63,6 @@ const routes: Routes = [
     DialogFormComponent,
     DialogConfirmComponent,
     GroupAddEditDialogComponent,
-    GroupDelDialogComponent,
     GroupViewDialogComponent
   ]
 })
