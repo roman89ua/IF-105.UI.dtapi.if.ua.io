@@ -63,4 +63,10 @@ export class HttpService {
     const url = `group/${action}/${id}`;
     return this.httpClient.get(url);
   }
+  /** Method only for TIME TABLE */
+  /** GET Get time table by subject (action: getTimeTablesForSubject/) or group (action: getTimeTablesForGroup) */
+  public getTimeTable(action: string, id: number): Observable<any> {
+    const url = `timeTable/${action}/${id}`;
+    return this.httpClient.get(url);
+  }
 }
