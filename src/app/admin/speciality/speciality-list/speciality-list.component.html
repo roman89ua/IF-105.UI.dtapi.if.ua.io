@@ -2,9 +2,8 @@
     <mat-progress-bar mode="indeterminate"></mat-progress-bar>
 </ng-template>
 <section class="container">
-
     <div class="mat-elevation-z8">
-        <table mat-table [dataSource]="dataSource" #table class="my-table" *ngIf="!loading; else loadingBlock">
+        <table mat-table [dataSource]="dataSource" #table class="table" *ngIf="!loading; else loadingBlock">
 
             <ng-container matColumnDef="code">
                 <th mat-header-cell *matHeaderCellDef>Speciality Code</th>
@@ -19,11 +18,10 @@
             <ng-container matColumnDef="buttons">
                 <th mat-header-cell *matHeaderCellDef></th>
                 <td mat-cell *matCellDef="let element" class="action-link">
-                    <a><i class="material-icons edit">
+                    <a (click)="updSpeciality(element)"><i class="material-icons edit">
                             edit
                         </i></a>
-
-                    <a (click)="openConfirmDialog(element)"><i class="material-icons delete">
+                    <a (click)="delSpecialityDialog(element)"><i class="material-icons delete">
                             delete
                         </i></a>
                 </td>
@@ -32,8 +30,10 @@
             <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
             <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
         </table>
-        <mat-paginator [pageSizeOptions]="[5, 10, 25]" showFirstLastButtons></mat-paginator>
+        <mat-paginator [pageSizeOptions]="[5, 10, 25, 50]" showFirstLastButtons></mat-paginator>
     </div>
-
-
+    <button mat-stroked-button (click)="addSpeciality()">
+        <mat-icon aria-hidden="false" aria-label="add">add</mat-icon>
+        Create new Speciality
+    </button>
 </section>
