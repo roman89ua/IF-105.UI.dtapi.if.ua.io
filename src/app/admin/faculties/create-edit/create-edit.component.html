@@ -1,0 +1,91 @@
+<h3>{{ !data ? "Додавання" : "Редагування" }} факультету</h3>
+
+<form
+  [formGroup]="addForm"
+  class="form-control "
+  #addform="ngForm"
+  (ngSubmit)="onSubmit()"
+>
+  <mat-form-field appearance="outline">
+    <mat-label>Факультет</mat-label>
+    <input
+      matInput
+      formControlName="faculty_name"
+      placeholder="Введіть факультет"
+    />
+    <button
+      type="button"
+      mat-button
+      *ngIf="faculty_name.value"
+      matSuffix
+      mat-icon-button
+      aria-label="Clear"
+      (click)="faculty_name.reset()"
+    >
+      <mat-icon>close</mat-icon>
+    </button>
+    <mat-error
+      *ngIf="
+        faculty_name.invalid && (faculty_name.dirty || faculty_name.touched)
+      "
+      >{{ getErrorMessage(faculty_name) }}</mat-error
+    >
+
+    <mat-hint></mat-hint>
+  </mat-form-field>
+
+  <mat-form-field appearance="outline">
+    <mat-label>Опис</mat-label>
+    <textarea
+      matInput
+      cdkTextareaAutosize
+      #autosize="cdkTextareaAutosize"
+      cdkAutosizeMinRows="5"
+      cdkAutosizeMaxRows="10"
+      formControlName="faculty_description"
+      placeholder="Введіть опис"
+    >
+    </textarea>
+    <button
+      type="button"
+      mat-button
+      *ngIf="faculty_description.value"
+      matSuffix
+      mat-icon-button
+      aria-label="Clear"
+      (click)="faculty_description.reset()"
+    >
+      <mat-icon>close</mat-icon>
+    </button>
+    <mat-error
+      *ngIf="
+        faculty_description.invalid &&
+        (faculty_description.dirty || faculty_description.touched)
+      "
+      >{{ getErrorMessage(faculty_description) }}</mat-error
+    >
+  </mat-form-field>
+  <button
+    mat-raised-button
+    color="primary"
+    class="btn"
+    [disabled]="
+      !data
+        ? addForm.invalid
+        : addForm.invalid || !(faculty_name.dirty || faculty_description.dirty)
+    "
+    type="submit"
+  >
+    {{ !data ? "Додати" : "Редагувати" }}
+  </button>
+  <button
+    cdkFocusInitial
+    mat-flat-button
+    color="warn"
+    type="button"
+    class="btn"
+    (click)="onDismiss()"
+  >
+    Відмінити
+  </button>
+</form>

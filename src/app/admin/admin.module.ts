@@ -16,6 +16,7 @@ import { SharedModule } from '../shared/shared.module';
 import { SpecialityListComponent } from './speciality/speciality-list/speciality-list.component';
 import { DialogFormComponent } from './speciality/dialog-form/dialog-form.component';
 import { NavbarComponent } from './sidenav/sidenav.component';
+import { CreateEditComponent } from './faculties/create-edit/create-edit.component';
 import { SubjectsComponent } from './subjects/subjects.component';
 import { SubjectsCreateModalComponent } from './subjects/subjects-create-modal/subjects-create-modal.component';
 import { MatDialogModule } from '@angular/material';
@@ -48,6 +49,7 @@ const routes: Routes = [
     SpecialityListComponent,
     DialogFormComponent,
     NavbarComponent,
+    CreateEditComponent,
     SubjectsComponent,
     SubjectsCreateModalComponent,
   ],
@@ -64,11 +66,12 @@ const routes: Routes = [
     SubjectsService,
     StudentsService
   ],
-  entryComponents:[
+  entryComponents: [
     NavbarComponent,
     CreateUpdateUserComponent,
     DialogFormComponent,
     GroupAddEditDialogComponent,
+    CreateEditComponent,
     GroupViewDialogComponent,
     SubjectsCreateModalComponent,
   ]

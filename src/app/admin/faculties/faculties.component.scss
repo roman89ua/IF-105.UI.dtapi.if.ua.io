@@ -2,15 +2,22 @@ body {
   font-size: 1rem;
   line-height: 1.6;
 }
+mat-icon {
+  cursor: pointer;
+
+  &:hover {
+    &[aria-label="edit"] {
+      color: orange;
+    }
+    &[aria-label="delete"] {
+      color: red;
+    }
+  }
+}
 .container {
   max-width: 1000px;
   margin: 0 auto;
   padding: 1rem;
-}
-
-.create-form {
-  width: 50%;
-  margin: 20px auto;
 }
 
 .btn {
@@ -29,7 +36,6 @@ a:hover {
   color: orange;
 }
 
-
 table {
   width: 100%;
 }
@@ -38,18 +44,6 @@ table {
   text-align: center;
 }
 
-.example-container {
-  display: flex;
-  flex-direction: column;
-}
-
-.update-form {
-  width: 400px;
-}
-
-.example-container > * {
-  width: 100%;
-}
 .mat-dialog-actions {
   padding: 0px 0;
   min-height: 9px;
