@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { ICreateUpdateAdminUser } from './admin-user.interface';
 
 @Injectable()
 export class AdminUserService {
@@ -13,16 +14,11 @@ export class AdminUserService {
     return this.http.get(`AdminUser/del/${id}`);
   }
 
-  insertUser(body: any) {
-    return this.http.post('AdminUser/insertData', body);
+  insertUser(payload: ICreateUpdateAdminUser) {
+    return this.http.post('AdminUser/insertData', payload);
   }
-  updateUser(body: any) {
-    const data = {
-      username: body.username,
-      email: body.email,
-      password: body.password,
-      password_confirm: body.password_confirm}
-    return this.http.post(`AdminUser/update/${body.id}`, data);
+  updateUser(id: number, payload: ICreateUpdateAdminUser) {
+    return this.http.post(`AdminUser/update/${id}`, payload);
   }
 
   checkUsername(username: string) {
