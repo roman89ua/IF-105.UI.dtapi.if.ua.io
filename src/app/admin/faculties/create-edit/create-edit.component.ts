@@ -12,7 +12,7 @@ import { Faculty } from 'src/app/shared/entity.interface';
 export class CreateEditComponent implements OnInit {
 
 
-  constructor(public dialogRef: MatDialogRef<CreateEditComponent>, @Inject(MAT_DIALOG_DATA) public data: Faculty) {}
+  constructor(public dialogRef: MatDialogRef<CreateEditComponent>, @Inject(MAT_DIALOG_DATA) public data: Faculty) { }
   @ViewChild('addform', { static: false }) addform;
 
   addForm = new FormGroup({
@@ -29,33 +29,33 @@ export class CreateEditComponent implements OnInit {
   });
   onSubmit(): void {
     this.dialogRef.close(this.addForm.value);
-}
-
-onDismiss(): void {
-  this.dialogRef.close(false);
-}
-
-get faculty_name() {
-  return this.addForm.get('faculty_name');
-}
-
-get faculty_description() {
-  return this.addForm.get('faculty_description');
-}
-
-getErrorMessage(field: FormControl) {
-  return field.hasError('required') ? 'Це поле є обовязкове*' :
-  field.hasError('pattern') ? 'Поле містить недопустимі символи або (Цифри, латинські букви)' :
-    '';
-}
-
-
-ngOnInit() {
-  if (this.data) {
-    this.addForm.patchValue({
-      faculty_name: this.data.faculty_name,
-      faculty_description: this.data.faculty_description,
-    });
   }
-}
+
+  onDismiss(): void {
+    this.dialogRef.close(false);
+  }
+
+  get faculty_name() {
+    return this.addForm.get('faculty_name');
+  }
+
+  get faculty_description() {
+    return this.addForm.get('faculty_description');
+  }
+
+  getErrorMessage(field: FormControl) {
+    return field.hasError('required') ? 'Це поле є обовязкове*' :
+      field.hasError('pattern') ? 'Поле містить недопустимі символи або (Цифри, латинські букви)' :
+        '';
+  }
+
+
+  ngOnInit() {
+    if (this.data) {
+      this.addForm.patchValue({
+        faculty_name: this.data.faculty_name,
+        faculty_description: this.data.faculty_description,
+      });
+    }
+  }
 }

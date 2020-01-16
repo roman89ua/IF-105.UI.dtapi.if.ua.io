@@ -26,11 +26,9 @@
     </button>
     <mat-error
       *ngIf="
-        faculty_name.invalid &&
-        (faculty_name.dirty ||
-          faculty_name.touched)
+        faculty_name.invalid && (faculty_name.dirty || faculty_name.touched)
       "
-      >{{ getErrorMessage(faculty_name)}}</mat-error
+      >{{ getErrorMessage(faculty_name) }}</mat-error
     >
 
     <mat-hint></mat-hint>
@@ -62,8 +60,7 @@
     <mat-error
       *ngIf="
         faculty_description.invalid &&
-        (faculty_description.dirty ||
-          faculty_description.touched)
+        (faculty_description.dirty || faculty_description.touched)
       "
       >{{ getErrorMessage(faculty_description) }}</mat-error
     >
@@ -75,11 +72,7 @@
     [disabled]="
       !data
         ? addForm.invalid
-        : addForm.invalid ||
-          !(
-            faculty_name.dirty ||
-            faculty_description.dirty
-          )
+        : addForm.invalid || !(faculty_name.dirty || faculty_description.dirty)
     "
     type="submit"
   >

@@ -102,16 +102,16 @@ export class FacultiesComponent implements OnInit, AfterViewInit {
     });
   }
 
-    openComfirmDialog(faculty: Faculty) {
-      const message = `Підтвердіть видалення факультету "${faculty.faculty_name}"?`;
-      this.modalService.openConfirmModal(message, () => this.removeFaculty(faculty.faculty_id));
-    }
-
-    removeFaculty(id: number) {
-      this.http.del('faculty', id)
-        .subscribe((response) => {
-          this.openSnackBar('Факультет видалено');
-          this.dataSource.data = this.dataSource.data.filter(item => item.faculty_id !== id);
-        });
-    }
+  openComfirmDialog(faculty: Faculty) {
+    const message = `Підтвердіть видалення факультету "${faculty.faculty_name}"?`;
+    this.modalService.openConfirmModal(message, () => this.removeFaculty(faculty.faculty_id));
   }
+
+  removeFaculty(id: number) {
+    this.http.del('faculty', id)
+      .subscribe((response) => {
+        this.openSnackBar('Факультет видалено');
+        this.dataSource.data = this.dataSource.data.filter(item => item.faculty_id !== id);
+      });
+  }
+}
