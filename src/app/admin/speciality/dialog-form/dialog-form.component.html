@@ -1,0 +1,22 @@
+<form class="input-wrapper" [formGroup]="specialityForm">
+    <mat-form-field class="example-full-width">
+        <input matInput placeholder="Speciality Code" [(ngModel)]="data.speciality_code"
+            formControlName="speciality_code">
+        <mat-error *ngIf="hasError('speciality_code', 'required')">This field is required</mat-error>
+        <mat-error *ngIf="hasError('speciality_code', 'pattern')">This field must contain only numbers</mat-error>
+    </mat-form-field>
+
+    <mat-form-field class="example-full-width">
+        <input matInput placeholder="Speciality Name" [(ngModel)]="data.speciality_name"
+            formControlName="speciality_name">
+        <mat-error *ngIf="hasError('speciality_name', 'required')">This field is required</mat-error>
+    </mat-form-field>
+
+    <button mat-flat-button class="button-margin" color="primary" (click)="addSpeciality()">
+        Submit
+    </button>
+
+    <button mat-flat-button class="button-margin" color="primary" (click)="closeSpecialityFormDialog()">
+        Cancel
+    </button>
+</form>
