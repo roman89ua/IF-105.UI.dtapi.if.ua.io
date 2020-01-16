@@ -1,33 +1,22 @@
-<p>dialog-form works!</p>
+<form class="input-wrapper" [formGroup]="specialityForm">
+    <mat-form-field class="example-full-width">
+        <input matInput placeholder="Speciality Code" [(ngModel)]="data.speciality_code"
+            formControlName="speciality_code">
+        <mat-error *ngIf="hasError('speciality_code', 'required')">This field is required</mat-error>
+        <mat-error *ngIf="hasError('speciality_code', 'pattern')">This field must contain only numbers</mat-error>
+    </mat-form-field>
 
-<mat-toolbar color="primary">
-    <span class="fill-remaining-space">Subject Creating</span>
-</mat-toolbar>
+    <mat-form-field class="example-full-width">
+        <input matInput placeholder="Speciality Name" [(ngModel)]="data.speciality_name"
+            formControlName="speciality_name">
+        <mat-error *ngIf="hasError('speciality_name', 'required')">This field is required</mat-error>
+    </mat-form-field>
 
-<div class="container" *ngIf="!post; else forminfo" novalidate>
-    <form [formGroup]="formGroup" (ngSubmit)="onSubmit(formGroup.value)" class="form">
+    <button mat-flat-button class="button-margin" color="primary" (click)="addSpeciality()">
+        Submit
+    </button>
 
-        <mat-form-field class="form-element">
-            <input matInput placeholder="Speciality Code" formControlName="name">
-            <mat-error *ngIf="!name.valid && name.touched">
-                {{ titleAlert }}
-            </mat-error>
-        </mat-form-field>
-
-        <mat-form-field class="form-element">
-            <textarea matInput placeholder="Speciality Name" matTextareaAutosize matAutosizeMinRows="2"
-                matAutosizeMaxRows="5" formControlName="description"></textarea>
-            <mat-error *ngIf="!name.valid && name.touched">
-                {{ titleAlert }}
-            </mat-error>
-        </mat-form-field>
-
-
-        <div class="form-element">
-            <button mat-raised-button color="primary" type="submit" class="button" [disabled]="!formGroup.valid">Submit
-                Form</button>
-        </div>
-
-    </form>
-</div>
-
+    <button mat-flat-button class="button-margin" color="primary" (click)="closeSpecialityFormDialog()">
+        Cancel
+    </button>
+</form>

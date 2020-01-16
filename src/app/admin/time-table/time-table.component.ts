@@ -5,7 +5,8 @@ import {Group, Subject, } from '../entity.interface';
 import {FormBuilder, FormControl, FormGroup} from '@angular/forms';
 import {isArray} from 'util';
 import {TimeTable} from '../../shared/entity.interface';
-// import {MatTableDataSource} from '@angular/material';
+import {MatTableDataSource} from '@angular/material';
+import {never} from 'rxjs';
 
 @Component({
   selector: 'app-time-table',
@@ -13,7 +14,13 @@ import {TimeTable} from '../../shared/entity.interface';
   styleUrls: ['./time-table.component.scss']
 })
 export class TimeTableComponent implements OnInit {
-  // dataSource = new MatTableDataSource<TimeTable>();
+  dataSource = new MatTableDataSource<TimeTable>();
+  displayedColumns: string[] = [
+    'id',
+    'group',
+    'start_date',
+    'start_time'
+  ];
 
   constructor(private httpService: HttpService, private formBuilder: FormBuilder) {
   }
@@ -46,13 +53,16 @@ export class TimeTableComponent implements OnInit {
         if (isArray(response)) {
           table = response;
           const ids = table.map(a => Number(a.group_id));
-          this.httpService.getByEntity('Group', ids).subscribe((value1: []) => {
+          this.httpService.getByEntity('Group', ids).subscribe((value1: [{
+            group_name: string;
+          }]) => {
             const groups = value1.map(a => a.group_name);
             for (let i = 0; i <= groups.length; i++) {
               table[i].group_name = groups[i];
             }
           });
           this.timeTable = table;
+          this.dataSource.data = table;
         } else {
           this.timeTable = [];
         }
