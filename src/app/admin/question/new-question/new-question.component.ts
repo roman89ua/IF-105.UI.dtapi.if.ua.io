@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, FormBuilder, Validators, ValidatorFn, AbstractControl } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { QuestionService } from '../question.service';
 import { switchMap } from 'rxjs/operators';
-import { Observable, of } from 'rxjs';
- 
+import { of } from 'rxjs';
+import { IAnswer } from '../question';
 
 @Component({
   selector: 'app-new-question',
@@ -15,6 +15,7 @@ export class NewQuestionComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
+    private router: Router,
     private questionService: QuestionService
   ) { }
 
@@ -25,13 +26,10 @@ export class NewQuestionComponent implements OnInit {
     type: new FormControl('1'),
   }, {validators: this.questionTaskAdded()});
 
-
-  questionTaskAdded(): ValidatorFn  {
-    return (control: FormGroup) => {
-      let invalid = control.get('question_text').value === '' && control.get('attachment').value === ''
-      return invalid ? {'noTask': true} : null;
-    }
-  }
+  attachmentTouched: boolean = false;
+  questionType: number = 1;
+  answers: IAnswer[] = [];
+  testId: number;
 
   get questionText() {
     return this.newQuestionForm.get('question_text');
@@ -41,43 +39,63 @@ export class NewQuestionComponent implements OnInit {
     return this.newQuestionForm.get('attachment');
   }
 
-  
-
-  questionType: number = 1;
-
-  answers: {id: number, answer_text: string, true_answer: number, attachment: string}[] = [];
-  testId: number;
-
-  addAnswer(questionType = null) {
-
-    if (questionType) {
-      console.log(questionType, '[ADD ANSWER]')
-      this.answers = [];
-      for (let i=1; i<=2; i++) {
-        this.answers.push({id: i, answer_text: '', true_answer: 1, attachment: ''})
-      }
-      return;
-    }
-
-    let trueAnswer: number;
-    trueAnswer = (this.questionType === 3) ? 1 : 0;
-
-    if (!this.answers.length) {
-      this.answers.push({id: 1, answer_text: '', true_answer: trueAnswer, attachment: ''})
-    } else {
-      let id;
-      id = this.answers.reduce((maxId, val) => {
-         return (val.id > maxId) ? val.id  : maxId
-      }, 0)
-      this.answers.push({id: id + 1, answer_text: '', true_answer: trueAnswer, attachment: ''})
+  questionTaskAdded(): ValidatorFn  {
+    return (control: FormGroup) => {
+      let invalid = control.get('question_text').value === '' && control.get('attachment').value === ''
+      return invalid ? {'noTask': true} : null;
     }
   }
 
-  saveAnswerValue(val) {
-    console.log(val);
+  deleteAnswer(id: number): void {
+    this.answers = this.answers.filter(answer => {
+      return answer.answer_id !== id
+    })
+  }
+
+  addAnswer(questionType = false): void {
+
+    if (questionType) {
+      this.answers = [];
+      for (let i=1; i<=2; i++) {
+        this.answers.push({
+          answer_id: i,
+          answer_text: '',
+          true_answer: 1,
+          attachment: '',
+          error: ''
+        })
+      }
+      return;
+    }
+    let trueAnswer: number;
+    trueAnswer = (this.questionType === 3) ? 1 : 0;
+    if (!this.answers.length) {
+      this.answers.push({
+        answer_id: 1,
+        answer_text: '',
+        true_answer: trueAnswer,
+        attachment: '',
+        error: ''
+      })
+    } else {
+      let id;
+      id = this.answers.reduce((maxId, val) => {
+         return (val.answer_id > maxId) ? val.answer_id  : maxId
+      }, 0)
+      this.answers.push({
+        answer_id: id + 1,
+        answer_text: '',
+        true_answer: trueAnswer,
+        attachment: '',
+        error: ''
+      })
+    }
+  }
+
+  saveAnswerValue(val: IAnswer): void {
     this.answers = this.answers
       .map((answer) => {
-        if (answer.id === val.id) {
+        if (answer.answer_id === val.answer_id) {
           return val
         }
         else {
@@ -86,87 +104,60 @@ export class NewQuestionComponent implements OnInit {
       })
   }
 
-  // saveAnswers() {
-  //   this.questionService.addAnswerCollection(this.answers)
-  //     .subscribe(a=>console.log(a, 'success'))
-  // }
 
-  log() {
-    console.log(this.newQuestionForm.value);
-    // console.log({...this.newQuestionForm.value, test_id: this.testId, attachment: ''});
-  }
-
-    // answers: {id: number}[];
-
-  // questionData: {
-  //   question_text: string,
-  //   level: number,
-  //   type: number,
-  //   test_id: number,
-  //   attachment: string
-  // }
-
-  changeQuestionTypeHandler(type) {
+  changeQuestionTypeHandler(type: number): void {
     if (this.questionType === 4 || this.questionType === 3 || type === 3 || type === 4) {
       this.answers = [];
     }
     if (this.questionType === 2 && type === 1) {
-      console.log('2 => 1');
-      let trueAnswersAny:boolean = false;
-      // const updatedAnswers = [...this.answers];
+      let trueAnswersAny = false;
       this.answers.forEach((answer) => {
         if (+answer.true_answer === 1 && !trueAnswersAny) {
-          console.log('[true answer]');
           trueAnswersAny = true;
         } else {
           answer.true_answer = 0;
         }
       })
-      // this.answers = [...updatedAnswers];
     }
     this.questionType = type;
     if (type === 4) {
-      console.log(123123);
-      this.addAnswer(1);
+      this.addAnswer(true);
     }
-    // console.log(type)
-    // if (type == 3) {
-    //   console.log('input')
-    //   this.answers = [];
-    //   this.answers.push({})
-    // } else if (type == 4) {
-    //   console.log('numeral')
-    // }
-
   }
 
   createQuestion() {
-    console.log(this.questionType);
     const questionData = {
       ...this.newQuestionForm.value,
       test_id: this.testId,
       attachment: ''
     }
     this.questionService.addNewQuestion(questionData)
-      .pipe(switchMap((res:{question_id:number}[]) => this.questionService.addAnswerCollection(this.answers, res[0].question_id)))
-      .subscribe(() => console.log('Question was created successfuly'))
+      .pipe(switchMap((res:{question_id:number}[]): any => { //FIX
+        if (this.answers.length) {
+          this.questionService.addAnswerCollection(this.answers, res[0].question_id)
+        } else {
+          of()
+        }
+      }))
+      .subscribe(() => this.router.navigate([`admin/exams/${this.testId}/questions`]))
   }
 
-  attachmentUploadHandler(e) {
+  attachmentUploadHandler(e): void {
     const file = e.dataTransfer ? e.dataTransfer.files[0] : e.target.files[0];
     if (file) {
       this.questionService.toBase64(file)
         .subscribe((res:string) => { this.setAttachmentValue(res) })
-    } else {
-      this.setAttachmentValue('')
-    }
+    } else { return }
   }
-
-  private setAttachmentValue(value) {
-    this.newQuestionForm.get('attachment').setValue(value)
-  }
-
   
+  removeImage(): void {
+    this.setAttachmentValue('');
+  }
+
+  private setAttachmentValue(value: string): void {
+    this.newQuestionForm.get('attachment').setValue(value)
+    this.attachmentTouched = true;
+  }
 
   ngOnInit() {
     this.testId = +this.route.snapshot.paramMap.get('id');

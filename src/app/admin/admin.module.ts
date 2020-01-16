@@ -2,10 +2,9 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AdminComponent } from './admin.component';
 import { Routes, RouterModule } from '@angular/router';
-import { TestComponent } from './test/test.component';
-import { QuestionComponent } from './test/question/question.component';
-import { NewQuestionComponent } from './test/question/new-question/new-question.component';
-import { QuestionAnswerComponent } from './test/question/new-question/question-answer/question-answer.component';
+import { QuestionComponent } from './question/question.component';
+import { NewQuestionComponent } from './question/new-question/new-question.component';
+import { QuestionAnswerComponent } from './question/new-question/question-answer/question-answer.component';
 import { StudentsComponent } from './students/students.component';
 import { FacultiesComponent } from './faculties/faculties.component';
 import { ConfirmDiaglogComponent } from './confirm-diaglog/confirm-diaglog.component';
@@ -27,7 +26,6 @@ const routes: Routes = [
   {
     path: '', component: AdminComponent,
     children: [
-      { path: 'exams/:id', component: TestComponent },
       { path: 'exams/:id/questions', component: QuestionComponent },
       { path: 'exams/:id/questions/new', component: NewQuestionComponent },
       { path: 'students', component: StudentsComponent },
@@ -49,7 +47,6 @@ const routes: Routes = [
     GroupAddEditDialogComponent,
     GroupDelDialogComponent,
     GroupViewDialogComponent,
-    TestComponent,
     QuestionAnswerComponent,
     QuestionComponent,
     NewQuestionComponent,

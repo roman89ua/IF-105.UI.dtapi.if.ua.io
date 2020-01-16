@@ -1,0 +1,27 @@
+.attachment-preview-image {
+    max-height: 300px;
+    max-width: 300px;
+}
+
+.full-width {
+    width: 100%;
+}
+
+.form-group {
+    padding-bottom: 20px;
+}
+
+.justify-between {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.attachment-wrapper {
+    display: flex;
+}
+
+.remove-icon {
+    cursor: pointer;
+    margin-right: 15px;
+}

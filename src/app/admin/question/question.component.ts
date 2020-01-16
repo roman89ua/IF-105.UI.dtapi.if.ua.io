@@ -1,12 +1,12 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { QuestionService } from './question.service';
 import { IQuestion } from './question';
-import {animate, state, style, transition, trigger} from '@angular/animations';
+import { animate, state, style, transition, trigger } from '@angular/animations';
 import { switchMap, filter } from 'rxjs/operators';
 import { MatTable } from '@angular/material/table';
-import { of } from 'rxjs';
+import { of, Observable } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
-import { ConfirmDiaglogComponent, ConfirmDialogModel } from '../../confirm-diaglog/confirm-diaglog.component';
+import { ConfirmDiaglogComponent, ConfirmDialogModel } from '../confirm-diaglog/confirm-diaglog.component';
 import { MatDialog } from '@angular/material'; //FIX
 
 
@@ -44,13 +44,13 @@ export class QuestionComponent implements OnInit {
 
   @ViewChild("table", { static: true }) table: MatTable<any>;
 
-  private getQuestionById(id) {
+  private getQuestionById(id: number): IQuestion {
     return this.questions.find((question) => {
       return question.question_id === id
     })
   }
 
-  expandQuestionAnswers(id) {
+  expandQuestionAnswers(id: number): void {
     let selectedQuestion: IQuestion;
     selectedQuestion = this.getQuestionById(id);
     if (selectedQuestion.answers.length) {
@@ -72,7 +72,7 @@ export class QuestionComponent implements OnInit {
     }
   }
 
-  deleteQuestion(id) {
+  deleteQuestion(id:number): void {
     const dialogData = new ConfirmDialogModel('Підтвердження', 'Питання та всі відповіді до нього будуть видалені.');
     const dialogRef = this.dialog.open(ConfirmDiaglogComponent, {
         maxWidth: '400px',
@@ -80,15 +80,17 @@ export class QuestionComponent implements OnInit {
     });
     dialogRef.afterClosed()
       .pipe(
-        filter(val => val),
-        switchMap((val:any) => { 
+        filter((val:boolean): boolean => val),
+        switchMap(() => { 
           this.loadingQuestions = true;
           return this.questionService.getQuestionAnswers(id) 
-        }),  //FIX
-        switchMap((val:any) => val.response !== 'no records' ? this.questionService.deleteAnswerCollection(val) : of(val)), //FIX
-        switchMap((val: any) => this.questionService.deleteQuestion(id) )
+        }),
+        switchMap((val: any) => { //FIX
+          return val.response !== 'no records' ? this.questionService.deleteAnswerCollection(val) : of(val)
+        }), 
+        switchMap(() => this.questionService.deleteQuestion(id) )
       )
-      .subscribe( res => { 
+      .subscribe( () => { 
         let questionIndex;
         this.questions.forEach( (question, index) => {
           if (question.question_id === id) {
