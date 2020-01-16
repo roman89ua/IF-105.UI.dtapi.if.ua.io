@@ -1,10 +1,10 @@
 import {Component, OnInit} from '@angular/core';
 import {HttpService} from '../../shared/http.service';
-import {TimeTableService, TimeTable} from './time-table.service';
-import {Group, Subject} from '../entity.interface';
+import {TimeTableService} from './time-table.service';
+import {Group, Subject, } from '../entity.interface';
 import {FormBuilder, FormControl, FormGroup} from '@angular/forms';
 import {isArray} from 'util';
-
+import {TimeTable} from '../../shared/entity.interface';
 // import {MatTableDataSource} from '@angular/material';
 
 @Component({
@@ -20,22 +20,16 @@ export class TimeTableComponent implements OnInit {
 
   subjects: Subject[] = [];
   subjectId: any;
-  groups: Group[] = [];
+  groups: string[];
   timeTable: TimeTable[] = [];
+
   subjectGroup: FormGroup;
 
   ngOnInit() {
     this.getSubjects();
-    // this.getTimeTable();
     this.subjectGroup = this.formBuilder.group({subjectId: ''});
-    this.onValueChanges();
+    this.getTimeTable();
   }
-
-  /*  private getGroups() {
-      this.httpService.getRecords('group').subscribe((response => {
-        this.groups = response;
-      }));
-    }*/
 
   private getSubjects() {
     this.httpService.getRecords('subject').subscribe((response: Subject[]) => {
@@ -43,21 +37,27 @@ export class TimeTableComponent implements OnInit {
     });
   }
 
-  private getTimeTable() {
-    this.httpService.getRecords('timeTable').subscribe((response: TimeTable[]) => {
-      this.timeTable = response;
-    });
-  }
-
-  private onValueChanges(): void {
+  private getTimeTable(): void {
+    let table = [];
     this.subjects = [];
     this.subjectGroup.get('subjectId').valueChanges.subscribe(value => {
       this.subjectId = value;
       this.httpService.getTimeTable('getTimeTablesForSubject/', this.subjectId).subscribe((response: TimeTable[]) => {
         if (isArray(response)) {
-          this.timeTable = response;
+          table = response;
+          const ids = table.map(a => Number(a.group_id));
+          this.httpService.getByEntity('Group', ids).subscribe((value1: []) => {
+            const groups = value1.map(a => a.group_name);
+            for (let i = 0; i <= groups.length; i++) {
+              table[i].group_name = groups[i];
+            }
+          });
+          this.timeTable = table;
+        } else {
+          this.timeTable = [];
         }
       });
     });
   }
+
 }

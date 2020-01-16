@@ -6,16 +6,13 @@ import {Observable} from 'rxjs';
 @Injectable({
   providedIn: 'root'
 })
-export interface TimeTable {
+/*export interface TimeTable {
   timetable_id?: number;
-  group_id?: number;
-  subject_id: number;
+  group_name: string;
   start_date: number;
   start_time: number;
-  end_date: number;
-  end_time: number;
 
-}
+}*/
 
 export class TimeTableService {
 
