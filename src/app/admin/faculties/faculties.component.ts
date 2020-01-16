@@ -4,7 +4,7 @@ import { ViewChild, TemplateRef } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatDialog, MatTableDataSource, MatTable, MatSnackBar, MatSnackBarConfig } from '@angular/material';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { ConfirmDiaglogComponent, ConfirmDialogModel } from '../confirm-diaglog/confirm-diaglog.component';
+import { ModalService } from '../../shared/services/modal.service';
 
 @Component({
   selector: 'app-faculties',
@@ -53,7 +53,10 @@ export class FacultiesComponent implements OnInit, AfterViewInit {
       ])
   });
 
-  constructor(private facultyService: FacultyService, private dialog: MatDialog, private snackBar: MatSnackBar) { }
+  constructor(private facultyService: FacultyService, 
+    private dialog: MatDialog, 
+    private snackBar: MatSnackBar,
+    private modalService: ModalService) { }
 
   openDialogWithTemplateRef(templateRef: TemplateRef<any>) {
     this.dialog.open(templateRef);
@@ -124,19 +127,9 @@ export class FacultiesComponent implements OnInit, AfterViewInit {
     this.updateform.resetForm();
   }
 
-
-  deleteFacultyDialog(faculty: Faculty): void {
-    const dialogData = new ConfirmDialogModel(`Ви дійсно бажаєте видалити: ${faculty.faculty_name}?`);
-    const dialogRef = this.dialog.open(ConfirmDiaglogComponent, {
-      maxWidth: '400px',
-      data: dialogData
-    });
-    dialogRef.afterClosed().subscribe(dialogResult => {
-      this.result = dialogResult;
-      if (this.result) {
-        this.removeFaculty(faculty.faculty_id);
-      } else { return; }
-    });
+  openComfirmDialog(faculty: Faculty) {
+    const message: string = `Підтвердіть видалення факультету "${faculty.faculty_name}"?`;
+    this.modalService.openConfirmModal(message, () => this.removeFaculty(faculty.faculty_id));
   }
 
   removeFaculty(id: number) {
