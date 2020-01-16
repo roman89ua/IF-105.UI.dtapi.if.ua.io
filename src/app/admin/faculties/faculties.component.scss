@@ -2,6 +2,18 @@ body {
   font-size: 1rem;
   line-height: 1.6;
 }
+mat-icon {
+  cursor: pointer;
+
+  &:hover {
+    &[aria-label="edit"] {
+      color: orange;
+    }
+    &[aria-label="delete"] {
+      color: red;
+    }
+  }
+}
 .container {
   max-width: 1000px;
   margin: 0 auto;
