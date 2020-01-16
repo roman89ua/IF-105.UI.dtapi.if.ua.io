@@ -47,11 +47,10 @@ export class QuestionAnswerComponent implements OnInit {
     this.questionAnswerDelete.emit(id)
   }
 
-
   // MUST BE REFACTORED
   changeAnswerDataHandler() {
     let error
-    if (this.answerForm.errors.noAnswer) {
+    if (this.answerForm.errors) {
       error = this.answerForm.errors.noAnswer;
     }
     else {
