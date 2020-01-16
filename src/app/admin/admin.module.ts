@@ -33,8 +33,8 @@ const routes: Routes = [
       { path: 'faculties', component: FacultiesComponent},
       { path: 'group', component: GroupComponent },
       { path: 'subjects', component: SubjectsComponent },
-      { path: 'speciality', component: SpecialityListComponent }
-      { path: 'tests', component: TestListComponent }
+      { path: 'speciality', component: SpecialityListComponent },
+      { path: 'tests', component: TestListComponent },
     ]}
 ];
 @NgModule({

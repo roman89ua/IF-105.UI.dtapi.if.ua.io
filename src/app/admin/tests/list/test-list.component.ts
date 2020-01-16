@@ -29,20 +29,20 @@ export class TestListComponent implements OnInit {
   constructor(protected httpService: HttpService, public dialog: MatDialog) {}
 
   ngOnInit() {
-    this._loadSubjects();
+    this.loadSubjects();
     this.viewAllTests();
   }
 
-  _loadSubjects() {
+  private loadSubjects() {
     this.httpService.getRecords('subject').subscribe((result: Subject[]) => {
       this.listSubjects = result;
     });
   }
 
   getSubjectNameById(subjectId: number): string {
-    const subject = this.listSubjects.filter(subjectItem => {
+    const subject = this.listSubjects.find(subjectItem => {
       return subjectItem.subject_id === subjectId;
-    })[0];
+    });
 
     if (subject) {
       return subject.subject_name;
