@@ -6,22 +6,17 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatDialog } from '@angular/material/dialog';
 import { GroupAddEditDialogComponent } from './group-add-edit-dialog/group-add-edit-dialog.component';
 import { GroupViewDialogComponent } from './group-view-dialog/group-view-dialog.component';
-import { ModalService} from '../../shared/services/modal.service'
+import { ModalService } from '../../shared/services/modal.service';
 
 @Component({
   selector: 'app-group',
   templateUrl: './group.component.html',
-  styleUrls: ['./group.component.scss'],
+  styleUrls: ['./group.component.scss']
 })
 export class GroupComponent implements OnInit {
   listGroups: Group[] = [];
   dataSource = new MatTableDataSource<Group>();
-  displayedColumns: string[] = [
-    'id',
-    'name',
-    'students',
-    'actions'
-  ];
+  displayedColumns: string[] = ['id', 'name', 'students', 'actions'];
 
   @ViewChild('table', { static: true }) table: MatTable<Group>;
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
@@ -49,9 +44,9 @@ export class GroupComponent implements OnInit {
     const dialogRef = this.dialog.open(GroupAddEditDialogComponent, {
       width: '500px',
       data: {
-        data: {}, 
+        data: {},
         description: {
-          title: 'Додати нову групу', 
+          title: 'Додати нову групу',
           action: 'Додати'
         }
       }
@@ -74,30 +69,37 @@ export class GroupComponent implements OnInit {
   /** open modal window for confirm delete */
   openConfirmDialog(group: Group) {
     const message = `Підтвердіть видалення групи "${group.group_name}"`;
-    this.modalService.openConfirmModal(message, ()=> {this.delGroup(group)});
+    this.modalService.openConfirmModal(message, () => {
+      this.delGroup(group);
+    });
   }
 
   /** Delete group */
   delGroup(group: Group) {
-    this.httpService.del('group', group.group_id).subscribe((result: any) => {
-      if (result) {
-        this.listGroups = this.listGroups.filter(gr => gr !== group);
-        this.dataSource.data = this.listGroups;
-        this.table.renderRows();
-        this.dataSource.paginator = this.paginator;
+    this.httpService.del('group', group.group_id).subscribe(
+      (result: any) => {
+        if (result) {
+          this.listGroups = this.listGroups.filter(gr => gr !== group);
+          this.dataSource.data = this.listGroups;
+          this.table.renderRows();
+          this.dataSource.paginator = this.paginator;
+        }
+      },
+      (error: any) => {
+        this.modalService.openErrorModal(
+          'Неможливо видалити групу із студентами. Видаліть спочатку студентів даної групи'
+        );
       }
-    }, (error: any) => {
-      this.modalService.openErrorModal('Неможливо видалити групу із студентами. Видаліть спочатку студентів даної групи');
-    });
+    );
   }
   // create modal window for edit group
   editGroupDialog(group: Group): void {
     const dialogRef = this.dialog.open(GroupAddEditDialogComponent, {
       width: '500px',
-      data: { 
-        data: group, 
-        description: { 
-          title: 'Редагувати інформацію про групу', 
+      data: {
+        data: group,
+        description: {
+          title: 'Редагувати інформацію про групу',
           action: 'Зберегти зміни'
         }
       }
@@ -112,11 +114,7 @@ export class GroupComponent implements OnInit {
   /** Edit group */
   editGroup(group: Group): void {
     this.httpService.update('group', group.group_id, group).subscribe((result: Group[]) => {
-      const index: number = result
-        ? this.listGroups.findIndex(
-            gr => gr.group_id === result[0].group_id
-          )
-        : -1;
+      const index: number = result ? this.listGroups.findIndex(gr => gr.group_id === result[0].group_id) : -1;
       if (index > -1) {
         this.listGroups[index] = result[0];
         this.table.renderRows();
@@ -128,10 +126,10 @@ export class GroupComponent implements OnInit {
   viewGroupDialog(action: string): void {
     const dialogRef = this.dialog.open(GroupViewDialogComponent, {
       width: '500px',
-      data: {action: action}
+      data: { action }
     });
 
-    dialogRef.afterClosed().subscribe((result) => {
+    dialogRef.afterClosed().subscribe(result => {
       if (result) {
         this.viewGroups(result.action, result.id);
       }

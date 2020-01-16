@@ -5,10 +5,10 @@ import { ConfirmComponent } from '../confirm/confirm.component';
 
 @Injectable()
 export class ModalService {
-  openConfirmModal(message:string, callBackFunction: Function): void { 
+  openConfirmModal(message: string, callBackFunction: () => void): void {
     const dialogRef = this.dialog.open(ConfirmComponent, {
       width: '350px',
-      data: {content: message}
+      data: { content: message }
     });
 
     dialogRef.afterClosed().subscribe(result => {
@@ -22,8 +22,8 @@ export class ModalService {
       width: '350px',
       data: {
         content: message,
-        title: title,
-        icon: icon
+        title,
+        icon
       }
     });
   }
@@ -34,5 +34,5 @@ export class ModalService {
     this.openAlertModal(message, 'Помилка', 'error');
   }
 
-  constructor( public dialog: MatDialog) { }
+  constructor(public dialog: MatDialog) {}
 }

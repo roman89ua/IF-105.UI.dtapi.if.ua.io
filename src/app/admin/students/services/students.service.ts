@@ -7,7 +7,6 @@ import { ResponseInterface } from '../interfaces/response-interface';
 
 @Injectable()
 export class StudentsService {
-
   private createStudentUrl = 'Student/insertData';
   private readStudentUrl = 'Student/getStudentsByGroup';
   private updateStudentUrl = 'Student/update';
@@ -23,11 +22,14 @@ export class StudentsService {
     return this.httpClient.get<ResponseInterface>(`${this.deleteStudentUrl}/${id}`);
   }
 
-  createStudent(body): Observable<CreareUpdateStudentsInterface|ResponseInterface> {
-    return this.httpClient.post<CreareUpdateStudentsInterface|ResponseInterface>(`${this.createStudentUrl}`, body);
+  createStudent(body): Observable<CreareUpdateStudentsInterface | ResponseInterface> {
+    return this.httpClient.post<CreareUpdateStudentsInterface | ResponseInterface>(`${this.createStudentUrl}`, body);
   }
 
-  updateUser(body, id: number): Observable<CreareUpdateStudentsInterface|ResponseInterface> {
-    return this.httpClient.post<CreareUpdateStudentsInterface|ResponseInterface>(`${this.updateStudentUrl}/${id}`, body);
+  updateUser(body, id: number): Observable<CreareUpdateStudentsInterface | ResponseInterface> {
+    return this.httpClient.post<CreareUpdateStudentsInterface | ResponseInterface>(
+      `${this.updateStudentUrl}/${id}`,
+      body
+    );
   }
 }

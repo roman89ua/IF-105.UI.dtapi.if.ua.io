@@ -11,18 +11,19 @@ import { AuthService } from 'src/app/shared/auth.service';
   styleUrls: ['./sidenav.component.scss']
 })
 export class NavbarComponent {
+  isHandset$: Observable<boolean> = this.breakpointObserver.observe(Breakpoints.Handset).pipe(
+    tap(v => console.log(v)),
+    map(result => result.matches),
+    shareReplay()
+  );
 
-  isHandset$: Observable<boolean> = this.breakpointObserver.observe(Breakpoints.Handset)
-    .pipe(
-      tap(v => console.log(v)),
-      map(result => result.matches),
-      shareReplay()
-    );
-
-  constructor(private breakpointObserver: BreakpointObserver, public authService: AuthService, private router: Router) {}
+  constructor(
+    private breakpointObserver: BreakpointObserver,
+    public authService: AuthService,
+    private router: Router
+  ) {}
   logoutHandler() {
-    this.authService.logout()
-    .subscribe(() => {
+    this.authService.logout().subscribe(() => {
       this.router.navigate(['login']);
     });
   }

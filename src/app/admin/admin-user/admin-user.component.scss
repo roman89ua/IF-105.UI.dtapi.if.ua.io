@@ -1,24 +1,22 @@
 .mat-table-wrapper {
-    table {
-        width: 100%;
-    }
+  table {
+    width: 100%;
+  }
 }
 .addAdmin {
-    margin-top: 50px;
-    margin-bottom: 30px;
+  margin-top: 50px;
+  margin-bottom: 30px;
 }
 
 mat-icon {
-    cursor: pointer;
+  cursor: pointer;
 
-    &:hover{
-        &[aria-label="edit"] {
-            color: orange;
-        }
-        &[aria-label="delete"] {
-            color: red;
-        }
+  &:hover {
+    &[aria-label='edit'] {
+      color: orange;
     }
-
-
+    &[aria-label='delete'] {
+      color: red;
+    }
+  }
 }

@@ -7,44 +7,35 @@ import { of } from 'rxjs';
 export class AuthService {
   public currentUser: any = null;
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
 
   login(userData) {
-    return this.http
-      .post(`login`, userData)
-      .pipe(
-        tap((data) => {
-          this.currentUser = data;
-        })
-      );
+    return this.http.post(`login`, userData).pipe(
+      tap(data => {
+        this.currentUser = data;
+      })
+    );
   }
 
   logout() {
-    return this.http
-      .get(`login/logout`)
-      .pipe(
-        tap(() => {
-          this.currentUser = null;
-        })
-      );
+    return this.http.get(`login/logout`).pipe(
+      tap(() => {
+        this.currentUser = null;
+      })
+    );
   }
   getCurrentUser() {
     if (this.currentUser) {
-      return of(this.currentUser)
-        .pipe(
-          first()
-        );
+      return of(this.currentUser).pipe(first());
     }
-    return this.http
-      .get(`login/isLogged`)
-      .pipe(
-        tap((data: any) => {
-          if (data && data.response === 'non logged') {
-            this.currentUser = null;
-            return;
-          }
-          this.currentUser = data;
-        })
-      );
+    return this.http.get(`login/isLogged`).pipe(
+      tap((data: any) => {
+        if (data && data.response === 'non logged') {
+          this.currentUser = null;
+          return;
+        }
+        this.currentUser = data;
+      })
+    );
   }
 }

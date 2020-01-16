@@ -7,7 +7,5 @@ import { MAT_DIALOG_DATA } from '@angular/material';
   styleUrls: ['./alert.component.scss']
 })
 export class AlertComponent {
-
-  constructor( @Inject(MAT_DIALOG_DATA) public data: any) { }
-
+  constructor(@Inject(MAT_DIALOG_DATA) public data: any) {}
 }

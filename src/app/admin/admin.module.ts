@@ -21,18 +21,19 @@ import { SubjectsCreateModalComponent } from './subjects/subjects-create-modal/s
 import { MatDialogModule } from '@angular/material';
 import { SubjectsService } from './subjects/subjects.service';
 
-
 const routes: Routes = [
   {
-    path: '', component: AdminComponent,
+    path: '',
+    component: AdminComponent,
     children: [
       { path: 'Students/:id', component: StudentsComponent },
-      { path: 'admin-user', component: AdminUserComponent},
-      { path: 'faculties', component: FacultiesComponent},
+      { path: 'admin-user', component: AdminUserComponent },
+      { path: 'faculties', component: FacultiesComponent },
       { path: 'group', component: GroupComponent },
       { path: 'subjects', component: SubjectsComponent },
       { path: 'speciality', component: SpecialityListComponent }
-    ]}
+    ]
+  }
 ];
 @NgModule({
   declarations: [
@@ -49,7 +50,7 @@ const routes: Routes = [
     DialogFormComponent,
     NavbarComponent,
     SubjectsComponent,
-    SubjectsCreateModalComponent,
+    SubjectsCreateModalComponent
   ],
   imports: [
     CommonModule,
@@ -57,20 +58,16 @@ const routes: Routes = [
     SharedModule,
     ReactiveFormsModule,
     RouterModule.forChild(routes),
-    MatDialogModule,
+    MatDialogModule
   ],
-  providers: [
-    AdminUserService,
-    SubjectsService,
-    StudentsService
-  ],
-  entryComponents:[
+  providers: [AdminUserService, SubjectsService, StudentsService],
+  entryComponents: [
     NavbarComponent,
     CreateUpdateUserComponent,
     DialogFormComponent,
     GroupAddEditDialogComponent,
     GroupViewDialogComponent,
-    SubjectsCreateModalComponent,
+    SubjectsCreateModalComponent
   ]
 })
-export class AdminModule { }
+export class AdminModule {}

@@ -5,7 +5,7 @@ import { of, from } from 'rxjs';
 import { mergeMap } from 'rxjs/operators';
 import { MatDialog, MatSnackBar } from '@angular/material';
 import { CreateUpdateUserComponent } from './create-update-user/create-update-user.component';
-import { catchError } from 'rxjs/operators'; 
+import { catchError } from 'rxjs/operators';
 import { ModalService } from '../../shared/services/modal.service';
 @Component({
   selector: 'app-admin-user',
@@ -19,34 +19,32 @@ export class AdminUserComponent implements OnInit {
   constructor(
     private adminUserService: AdminUserService,
     public dialog: MatDialog,
-    private _snackBar: MatSnackBar,
-    private modalService: ModalService) { }
+    private snackBar: MatSnackBar,
+    private modalService: ModalService
+  ) {}
 
   ngOnInit() {
-
-    this.adminUserService.getUsers()
-      .subscribe((data: Array<IAdminUser>) => {
-        this.userList = data;
-      }
-    );
-
+    this.adminUserService.getUsers().subscribe((data: Array<IAdminUser>) => {
+      this.userList = data;
+    });
   }
 
-  updateHandler(user: ICreateUpdateAdminUser & { id: number}) {
+  updateHandler(user: ICreateUpdateAdminUser & { id: number }) {
     const dialogRef = this.dialog.open(CreateUpdateUserComponent, {
       width: '450px',
       disableClose: true,
-      data: user,
+      data: user
     });
 
     let newData: IAdminUser;
 
-    dialogRef.afterClosed()
+    dialogRef
+      .afterClosed()
       .pipe(
-        mergeMap((data: ICreateUpdateAdminUser & { id: number}) => {
+        mergeMap((data: ICreateUpdateAdminUser & { id: number }) => {
           if (data) {
             const { id, username, email, password, password_confirm } = data;
-            newData = ({ id, username, email } as IAdminUser);
+            newData = { id, username, email } as IAdminUser;
             return this.adminUserService.updateUser(id, { username, email, password, password_confirm });
           }
           return of(null);
@@ -54,19 +52,20 @@ export class AdminUserComponent implements OnInit {
       )
       .subscribe(() => {
         if (newData) {
+          // tslint:disable-next-line:no-shadowed-variable
           this.userList = this.userList.map(user => {
-            if(user.id === newData.id) {
+            if (user.id === newData.id) {
               return newData;
             }
             return user;
-          }) 
+          });
         }
       });
   }
 
   openSnackBar(message: string) {
-    this._snackBar.open(message, '', {
-      duration: 2000,
+    this.snackBar.open(message, '', {
+      duration: 2000
     });
   }
 
@@ -75,15 +74,18 @@ export class AdminUserComponent implements OnInit {
     this.modalService.openConfirmModal(message, () => this.delUser(user));
   }
   delUser(user: IAdminUser) {
-    this.adminUserService.deleteUser(user.id).subscribe((data: { response?: string; } ) => {
-      if (data && data.response === 'ok') {
-        this.userList = this.userList.filter(existedUser => existedUser.id !== user.id);
+    this.adminUserService.deleteUser(user.id).subscribe(
+      (data: { response?: string }) => {
+        if (data && data.response === 'ok') {
+          this.userList = this.userList.filter(existedUser => existedUser.id !== user.id);
+        }
+      },
+      (error: any) => {
+        this.openSnackBar('Помилка видалення');
       }
-    }, (error: any) => {
-      this.openSnackBar('Помилка видалення');
-    });
+    );
   }
-/*   deleteHandler(user: IAdminUser) {
+  /*   deleteHandler(user: IAdminUser) {
     this.dialogService.openConfirmDialog(user)
     .pipe(
       mergeMap((result: any) => {
@@ -110,10 +112,11 @@ export class AdminUserComponent implements OnInit {
   addAdminHandler() {
     const dialogRef = this.dialog.open(CreateUpdateUserComponent, {
       width: '450px',
-      disableClose: true,
+      disableClose: true
     });
 
-    dialogRef.afterClosed()
+    dialogRef
+      .afterClosed()
       .pipe(
         mergeMap((data: ICreateUpdateAdminUser) => {
           if (data) {
@@ -123,7 +126,7 @@ export class AdminUserComponent implements OnInit {
         }),
         catchError(e => {
           this.openSnackBar('Сталася помилка');
-            return of(null);
+          return of(null);
         })
       )
       .subscribe((newData: IAdminUser) => {

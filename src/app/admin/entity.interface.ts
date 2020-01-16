@@ -18,5 +18,5 @@ export interface Faculty {
 }
 
 export interface DialogData {
-    data: any;
-  }
+  data: any;
+}

@@ -15,14 +15,19 @@ export interface DialogData {
 })
 export class DialogFormComponent implements OnInit {
   public specialityForm = new FormGroup({
-    speciality_code: new FormControl('',
-      Validators.compose([Validators.required, Validators.pattern('^[0-9]*$'), Validators.minLength(1)])),
+    speciality_code: new FormControl(
+      '',
+      Validators.compose([Validators.required, Validators.pattern('^[0-9]*$'), Validators.minLength(1)])
+    ),
     speciality_name: new FormControl('', [Validators.required])
   });
-  constructor(private apiService: ApiService, public dialogRef: MatDialogRef<DialogFormComponent>, @Inject(MAT_DIALOG_DATA) public data: DialogData) { }
+  constructor(
+    private apiService: ApiService,
+    public dialogRef: MatDialogRef<DialogFormComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: DialogData
+  ) {}
 
-  ngOnInit() {
-  }
+  ngOnInit() {}
 
   addSpeciality() {
     if (this.specialityForm.valid) {
@@ -34,5 +39,5 @@ export class DialogFormComponent implements OnInit {
   }
   public hasError = (controlName: string, errorName: string) => {
     return this.specialityForm.controls[controlName].hasError(errorName);
-  }
+  };
 }

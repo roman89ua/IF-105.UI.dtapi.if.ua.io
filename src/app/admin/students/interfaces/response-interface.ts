@@ -1,3 +1,3 @@
 export interface ResponseInterface {
-    response: string;
+  response: string;
 }

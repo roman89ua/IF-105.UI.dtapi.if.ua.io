@@ -1,17 +1,17 @@
 <form class="input-wrapper" [formGroup]="addSubject">
-    <mat-form-field class="example-full-width">
-        <input matInput placeholder="Назва предмета" formControlName="subject_name">
-    </mat-form-field>
+  <mat-form-field class="example-full-width">
+    <input matInput placeholder="Назва предмета" formControlName="subject_name" />
+  </mat-form-field>
 
-    <mat-form-field class="example-full-width">
-        <textarea matInput placeholder="Опис предмета" formControlName="subject_description"></textarea>
-    </mat-form-field>
+  <mat-form-field class="example-full-width">
+    <textarea matInput placeholder="Опис предмета" formControlName="subject_description"></textarea>
+  </mat-form-field>
 
-    <button mat-flat-button color="primary" [disabled]="!addSubject.valid" (click)="createSubject()">
-        Додати
-    </button>
+  <button mat-flat-button color="primary" [disabled]="!addSubject.valid" (click)="createSubject()">
+    Додати
+  </button>
 
-    <button mat-flat-button color="primary" (click)="cancelCreateNewSubject()">
-        Скасувати
-    </button>
+  <button mat-flat-button color="primary" (click)="cancelCreateNewSubject()">
+    Скасувати
+  </button>
 </form>

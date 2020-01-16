@@ -12,10 +12,10 @@ mat-icon {
   cursor: pointer;
 
   &:hover {
-    &[aria-label="edit"] {
+    &[aria-label='edit'] {
       color: orange;
     }
-    &[aria-label="delete"] {
+    &[aria-label='delete'] {
       color: red;
     }
   }

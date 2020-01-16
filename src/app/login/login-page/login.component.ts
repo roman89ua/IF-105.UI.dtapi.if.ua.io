@@ -11,14 +11,12 @@ import { AuthService } from '../../shared/auth.service';
   styleUrls: ['./login.component.scss']
 })
 export class LoginComponent implements OnInit {
-
-  public userData: { username: string; password: string; } = { username: null, password: null };
+  public userData: { username: string; password: string } = { username: null, password: null };
   public error = null;
 
-  constructor(private authService: AuthService, private router: Router) { }
+  constructor(private authService: AuthService, private router: Router) {}
 
-  ngOnInit() {
-  }
+  ngOnInit() {}
   login() {
     this.authService
       .login(this.userData)
@@ -26,7 +24,7 @@ export class LoginComponent implements OnInit {
         catchError(({ error }) => {
           this.error = error.response;
           return of();
-        }),
+        })
       )
       .subscribe(() => {
         this.error = null;

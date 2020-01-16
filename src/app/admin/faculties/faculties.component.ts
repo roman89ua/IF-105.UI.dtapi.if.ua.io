@@ -1,4 +1,4 @@
-import { Component, OnInit, AfterViewInit, } from '@angular/core';
+import { Component, OnInit, AfterViewInit } from '@angular/core';
 import { Faculty, FacultyService } from './faculties.service';
 import { ViewChild, TemplateRef } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
@@ -18,7 +18,6 @@ export class FacultiesComponent implements OnInit, AfterViewInit {
   id: number;
   loading = false;
 
-
   dataSource = new MatTableDataSource<Faculty>();
 
   @ViewChild('addform', { static: false }) addform;
@@ -28,35 +27,21 @@ export class FacultiesComponent implements OnInit, AfterViewInit {
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
 
   addForm = new FormGroup({
-    faculty_name: new FormControl('',
-      [
-        Validators.required,
-        Validators.pattern('[а-яА-ЯіІїЄє ]*')
-      ]),
-    faculty_description: new FormControl('',
-      [
-        Validators.required,
-        Validators.pattern('[а-яА-ЯіІїЄє ]*')
-      ])
+    faculty_name: new FormControl('', [Validators.required, Validators.pattern('[а-яА-ЯіІїЄє ]*')]),
+    faculty_description: new FormControl('', [Validators.required, Validators.pattern('[а-яА-ЯіІїЄє ]*')])
   });
 
   updateForm = new FormGroup({
-    faculty_name: new FormControl('',
-      [
-        Validators.required,
-        Validators.pattern('[а-яА-ЯіІїЄє ]*')
-      ]),
-    faculty_description: new FormControl('',
-      [
-        Validators.required,
-        Validators.pattern('[а-яА-ЯіІїєЄ ]*')
-      ])
+    faculty_name: new FormControl('', [Validators.required, Validators.pattern('[а-яА-ЯіІїЄє ]*')]),
+    faculty_description: new FormControl('', [Validators.required, Validators.pattern('[а-яА-ЯіІїєЄ ]*')])
   });
 
-  constructor(private facultyService: FacultyService, 
-    private dialog: MatDialog, 
+  constructor(
+    private facultyService: FacultyService,
+    private dialog: MatDialog,
     private snackBar: MatSnackBar,
-    private modalService: ModalService) { }
+    private modalService: ModalService
+  ) {}
 
   openDialogWithTemplateRef(templateRef: TemplateRef<any>) {
     this.dialog.open(templateRef);
@@ -64,7 +49,7 @@ export class FacultiesComponent implements OnInit, AfterViewInit {
 
   openSnackBar(message: string, action?: string) {
     this.snackBar.open(message, action, {
-      duration: 2500,
+      duration: 2500
     });
   }
 
@@ -81,16 +66,15 @@ export class FacultiesComponent implements OnInit, AfterViewInit {
   }
   getFaculty() {
     this.loading = true;
-    this.facultyService.getAllFaculty()
-      .subscribe(response => {
-        this.dataSource.data = response;
-        this.loading = false;
-      });
+    this.facultyService.getAllFaculty().subscribe(response => {
+      this.dataSource.data = response;
+      this.loading = false;
+    });
   }
 
   addFaculty() {
-    this.facultyService.addFaculty({ ...this.addForm.value })
-      .subscribe(response => {
+    this.facultyService.addFaculty({ ...this.addForm.value }).subscribe(
+      response => {
         this.dataSource.data = [...this.dataSource.data, response[0]];
         this.table.renderRows();
         this.openSnackBar('Факультет додано');
@@ -98,7 +82,7 @@ export class FacultiesComponent implements OnInit, AfterViewInit {
       err => {
         this.openSnackBar('Такий факультет уже існує');
       }
-      );
+    );
     this.addform.resetForm();
   }
 
@@ -106,14 +90,14 @@ export class FacultiesComponent implements OnInit, AfterViewInit {
     this.dialog.open(templateRef);
     this.updateForm.patchValue({
       faculty_name: element.faculty_name,
-      faculty_description: element.faculty_description,
+      faculty_description: element.faculty_description
     });
     this.id = element.faculty_id;
   }
 
   updateFaculty() {
-    this.facultyService.updateFaculty(this.id, { ...this.updateForm.value })
-      .subscribe(response => {
+    this.facultyService.updateFaculty(this.id, { ...this.updateForm.value }).subscribe(
+      response => {
         this.getFaculty();
         this.closeDialog();
       },
@@ -123,32 +107,35 @@ export class FacultiesComponent implements OnInit, AfterViewInit {
           this.openSnackBar('Такий факультет уже існує');
         }
       }
-      );
+    );
     this.updateform.resetForm();
   }
 
   openComfirmDialog(faculty: Faculty) {
-    const message: string = `Підтвердіть видалення факультету "${faculty.faculty_name}"?`;
+    const message = `Підтвердіть видалення факультету "${faculty.faculty_name}"?`;
     this.modalService.openConfirmModal(message, () => this.removeFaculty(faculty.faculty_id));
   }
 
   removeFaculty(id: number) {
-    this.facultyService.removeFaculty(id)
-      .subscribe((response) => {
-        this.openSnackBar('Факультет видалено');
-        this.dataSource.data = this.dataSource.data.filter(item => item.faculty_id !== id);
-      });
+    this.facultyService.removeFaculty(id).subscribe(response => {
+      this.openSnackBar('Факультет видалено');
+      this.dataSource.data = this.dataSource.data.filter(item => item.faculty_id !== id);
+    });
   }
 
   getErrorMessageName(form: FormGroup) {
-    return form.get('faculty_name').hasError('required') ? 'Це поле є обовязкове*' :
-      form.get('faculty_name').hasError('pattern') ? 'Поле містить недопустимі символи або (Цифри, латинські букви)' :
-        '';
+    return form.get('faculty_name').hasError('required')
+      ? 'Це поле є обовязкове*'
+      : form.get('faculty_name').hasError('pattern')
+      ? 'Поле містить недопустимі символи або (Цифри, латинські букви)'
+      : '';
   }
 
   getErrorMessageDescription(form: FormGroup) {
-    return form.get('faculty_description').hasError('required') ? 'Це поле є обовязкове*' :
-      form.get('faculty_description').hasError('pattern') ? 'Поле містить недопустимі символи або (Цифри, латинські букви)' :
-        '';
+    return form.get('faculty_description').hasError('required')
+      ? 'Це поле є обовязкове*'
+      : form.get('faculty_description').hasError('pattern')
+      ? 'Поле містить недопустимі символи або (Цифри, латинські букви)'
+      : '';
   }
 }

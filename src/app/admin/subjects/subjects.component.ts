@@ -1,11 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material';
 import { SubjectsCreateModalComponent } from './subjects-create-modal/subjects-create-modal.component';
-import {SubjectsService} from './subjects.service';
-import {SSubjects} from './subjects.interface';
+import { SubjectsService } from './subjects.service';
+import { SSubjects } from './subjects.interface';
 import { mergeMap } from 'rxjs/operators';
 import { of } from 'rxjs';
-
 
 @Component({
   selector: 'app-subjects',
@@ -15,24 +14,20 @@ import { of } from 'rxjs';
 export class SubjectsComponent implements OnInit {
   public subjectTableList: Array<SSubjects> = [];
 
-  constructor(
-    public dialog: MatDialog,
-    public subjectsService: SubjectsService,
-  ) { }
+  constructor(public dialog: MatDialog, public subjectsService: SubjectsService) {}
 
-  ngOnInit() {
-    
-  }
+  ngOnInit() {}
   // create modal window
-  createNewSubject(){
-    const newDialogSubject = this.dialog.open(SubjectsCreateModalComponent,{
+  createNewSubject() {
+    const newDialogSubject = this.dialog.open(SubjectsCreateModalComponent, {
       width: '500px',
-      disableClose: true,
+      disableClose: true
     });
     // create new subject at API
-    newDialogSubject.afterClosed()
+    newDialogSubject
+      .afterClosed()
       .pipe(
-        mergeMap((data) => {
+        mergeMap(data => {
           if (data) {
             return this.subjectsService.creatSubject(data);
           }

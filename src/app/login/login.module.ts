@@ -7,10 +7,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { SharedModule } from '../shared/shared.module';
 
-const loginRoutes: Routes = [
-  { path: '', component: LoginComponent },
-];
-
+const loginRoutes: Routes = [{ path: '', component: LoginComponent }];
 
 @NgModule({
   declarations: [LoginComponent],
@@ -20,7 +17,7 @@ const loginRoutes: Routes = [
     RouterModule.forChild(loginRoutes),
     MatButtonModule,
     MatInputModule,
-    SharedModule,
+    SharedModule
   ]
 })
-export class LoginModule { }
+export class LoginModule {}

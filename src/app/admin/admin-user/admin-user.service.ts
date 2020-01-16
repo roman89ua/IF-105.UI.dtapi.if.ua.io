@@ -4,7 +4,6 @@ import { ICreateUpdateAdminUser } from './admin-user.interface';
 
 @Injectable()
 export class AdminUserService {
-
   constructor(private http: HttpClient) {}
   getUsers() {
     return this.http.get('AdminUser/getRecords');

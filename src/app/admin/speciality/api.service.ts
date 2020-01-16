@@ -5,11 +5,10 @@ import { HttpClient } from '@angular/common/http';
   providedIn: 'root'
 })
 export class ApiService {
-
   // in case of interseptior missing add url into apiURI
   apiURI = '';
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
 
   getEntity(entity, action) {
     const url = `${this.apiURI}/${entity}/${action}`;
@@ -28,4 +27,3 @@ export class ApiService {
     return this.http.post(url, body);
   }
 }
-

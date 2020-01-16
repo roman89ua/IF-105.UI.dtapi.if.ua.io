@@ -1,16 +1,18 @@
 a {
-    padding: 10px;
+  padding: 10px;
 }
 .fill-space {
-    flex:1 1 auto;
+  flex: 1 1 auto;
 }
 .mat-nav-list {
-    display: flex;  
+  display: flex;
 }
-.mat-toolbar {}
-.mat-grid-list {}
+.mat-toolbar {
+}
+.mat-grid-list {
+}
 
-.example-card { 
+.example-card {
   display: flex;
   flex-direction: column;
   cursor: pointer;
@@ -21,8 +23,7 @@ a {
 }
 .container {
   margin: 0 auto;
-width: 100%;
-
+  width: 100%;
 }
 .example-container {
   position: absolute;
