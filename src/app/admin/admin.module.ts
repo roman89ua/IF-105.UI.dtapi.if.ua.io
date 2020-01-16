@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { AdminComponent } from './admin.component';
 import { Routes, RouterModule } from '@angular/router';
 import { StudentsComponent } from './students/students.component';
+import { StudentsService } from './students/services/students.service';
 import { FacultiesComponent } from './faculties/faculties.component';
 import { ConfirmDiaglogComponent } from './confirm-diaglog/confirm-diaglog.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -28,7 +29,7 @@ const routes: Routes = [
   {
     path: '', component: AdminComponent,
     children: [
-      { path: 'students', component: StudentsComponent },
+      { path: 'Students/:id', component: StudentsComponent },
       { path: 'admin-user', component: AdminUserComponent},
       { path: 'faculties', component: FacultiesComponent},
       { path: 'group', component: GroupComponent },
@@ -67,6 +68,7 @@ const routes: Routes = [
   providers: [
     AdminUserService,
     SubjectsService,
+    StudentsService
   ],
   entryComponents: [
     ConfirmDiaglogComponent,
