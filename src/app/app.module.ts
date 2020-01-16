@@ -10,6 +10,7 @@ import { ApiHttpInterceptor } from './http.interceptor';
 import { SharedModule } from './shared/shared.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -25,6 +26,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     provide: HTTP_INTERCEPTORS,
     useClass: ApiHttpInterceptor,
     multi: true,
+    
   }],
   bootstrap: [AppComponent]
 })

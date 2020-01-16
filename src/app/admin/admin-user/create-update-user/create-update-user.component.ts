@@ -16,8 +16,8 @@ export class CreateUpdateUserComponent implements OnInit {
       this.data ? this.data.username : '',
       [Validators.required],
       this.getUniqueValidator('username', 'checkUsername')),
-    password: new FormControl('', [Validators.required]),
-    password_confirm: new FormControl('', [Validators.required]),
+    password: new FormControl('', this.data ? undefined : [Validators.required]),
+    password_confirm: new FormControl('', this.data ? undefined : [Validators.required]),
     email: new FormControl(
       this.data ? this.data.email : '',
       [Validators.required, Validators.email],
@@ -27,7 +27,7 @@ export class CreateUpdateUserComponent implements OnInit {
   constructor(
       @Inject(MAT_DIALOG_DATA) public data: any,
       public dialogRef: MatDialogRef<CreateUpdateUserComponent>,
-      private adminUserService: AdminUserService, 
+      private adminUserService: AdminUserService,
     ) { }
 
   ngOnInit() {
@@ -62,12 +62,9 @@ export class CreateUpdateUserComponent implements OnInit {
       return this.adminUserService[method](control.value)
         .pipe(
           map((result: any) => {
-            return result.response ?  { propertyIsNotUnique: true } : null;
+            return result.response ? { propertyIsNotUnique: true } : null;
           })
         )
     }
   }
-  
-
-  
 }
