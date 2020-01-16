@@ -1,0 +1,20 @@
+.form-control {
+  display: block;
+  margin: 0 auto;
+}
+
+h3 {
+  text-align: center;
+}
+
+mat-form-field {
+  width: 100%;
+  margin-top: 0.75em;
+  margin-bottom: 0.75em;
+}
+.btn {
+  width: calc(50% - 10px);
+  &:first-of-type {
+    margin-right: 20px;
+  }
+}

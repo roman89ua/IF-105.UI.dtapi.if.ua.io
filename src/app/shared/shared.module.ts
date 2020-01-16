@@ -42,25 +42,32 @@ import {MatTabsModule} from '@angular/material/tabs';
 import {MatToolbarModule} from '@angular/material/toolbar';
 import {MatTooltipModule} from '@angular/material/tooltip';
 import {MatTreeModule} from '@angular/material/tree';
-import { DeleteConfirmationDialogComponent } from './delete-confirmation-dialog/delete-confirmation-dialog.component';
-import { DialogService } from './dialog.service';
+import { LayoutModule } from '@angular/cdk/layout';
+import { ConfirmComponent } from './confirm/confirm.component';
+import { AlertComponent } from './alert/alert.component';
+import { ModalService } from '../shared/services/modal.service';
+
 
 
 @NgModule({
   declarations: [
-    DeleteConfirmationDialogComponent
+    ConfirmComponent,
+    AlertComponent,
   ],
   imports: [
     CommonModule,
     MatDialogModule,
     MatButtonModule,
+    MatDividerModule,
+    MatIconModule,
   ],
   providers: [
     AuthService,
-    DialogService,
+    ModalService,
   ],
   entryComponents: [
-    DeleteConfirmationDialogComponent,
+    ConfirmComponent,
+    AlertComponent,
   ],
   exports: [
     A11yModule,
@@ -105,6 +112,7 @@ import { DialogService } from './dialog.service';
     MatTreeModule,
     PortalModule,
     ScrollingModule,
+    LayoutModule
   ]
 })
 export class SharedModule { }

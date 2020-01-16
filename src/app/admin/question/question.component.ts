@@ -4,11 +4,10 @@ import { IQuestion } from './question';
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { switchMap, filter } from 'rxjs/operators';
 import { MatTable } from '@angular/material/table';
-import { of, Observable } from 'rxjs';
+import { of } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
-import { ConfirmDiaglogComponent, ConfirmDialogModel } from '../confirm-diaglog/confirm-diaglog.component';
-import { MatDialog } from '@angular/material'; //FIX
-
+import { ConfirmComponent } from '../../shared/confirm/confirm.component';
+import { ModalService } from '../../shared/services/modal.service';
 
 @Component({
   selector: 'app-question',
@@ -38,7 +37,7 @@ export class QuestionComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private questionService: QuestionService,
-    private dialog: MatDialog
+    private modalService: ModalService
   ) { }
 
 
@@ -73,34 +72,28 @@ export class QuestionComponent implements OnInit {
   }
 
   deleteQuestion(id:number): void {
-    const dialogData = new ConfirmDialogModel('Підтвердження', 'Питання та всі відповіді до нього будуть видалені.');
-    const dialogRef = this.dialog.open(ConfirmDiaglogComponent, {
-        maxWidth: '400px',
-        data: dialogData
-    });
-    dialogRef.afterClosed()
-      .pipe(
-        filter((val:boolean): boolean => val),
-        switchMap(() => { 
-          this.loadingQuestions = true;
-          return this.questionService.getQuestionAnswers(id) 
-        }),
-        switchMap((val: any) => { //FIX
-          return val.response !== 'no records' ? this.questionService.deleteAnswerCollection(val) : of(val)
-        }), 
-        switchMap(() => this.questionService.deleteQuestion(id) )
-      )
-      .subscribe( () => { 
-        let questionIndex;
-        this.questions.forEach( (question, index) => {
-          if (question.question_id === id) {
-            questionIndex = index;
-          }
+    const message = 'Питання та всі відповіді до нього будуть видалені';
+    this.modalService.openConfirmModal(message, ()=> {
+      this.loadingQuestions = true;
+      this.questionService.getQuestionAnswers(id)
+        .pipe(
+          switchMap((val: any) => { //FIX
+            return val.response !== 'no records' ? this.questionService.deleteAnswerCollection(val) : of(val)
+          }),
+          switchMap(() => this.questionService.deleteQuestion(id))          
+        )
+        .subscribe( () => { 
+            let questionIndex;
+            this.questions.forEach( (question, index) => {
+              if (question.question_id === id) {
+                questionIndex = index;
+              }
+            })
+            this.questions.splice(questionIndex, 1);
+            this.loadingQuestions = false;
+            // this.table.renderRows();
         })
-        this.questions.splice(questionIndex, 1);
-        this.loadingQuestions = false;
-        this.table.renderRows();
-      })
+    });
   }
 
   

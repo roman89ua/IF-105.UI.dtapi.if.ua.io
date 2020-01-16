@@ -5,8 +5,8 @@ import { MatTableDataSource, MatTable } from '@angular/material';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatDialog } from '@angular/material/dialog';
 import { GroupAddEditDialogComponent } from './group-add-edit-dialog/group-add-edit-dialog.component';
-import { GroupDelDialogComponent } from './group-del-dialog/group-del-dialog.component';
 import { GroupViewDialogComponent } from './group-view-dialog/group-view-dialog.component';
+import { ModalService} from '../../shared/services/modal.service'
 
 @Component({
   selector: 'app-group',
@@ -30,7 +30,7 @@ export class GroupComponent implements OnInit {
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }
 
-  constructor(protected httpService: HttpService, public dialog: MatDialog) {}
+  constructor(protected httpService: HttpService, public dialog: MatDialog, private modalService: ModalService) {}
 
   ngOnInit() {
     this.viewAllGroups();
@@ -71,19 +71,12 @@ export class GroupComponent implements OnInit {
       this.dataSource.paginator = this.paginator;
     });
   }
-  // create modal window for confirm delete
-  deleteGroupDialog(group: Group): void {
-    const dialogRef = this.dialog.open(GroupDelDialogComponent, {
-      width: '300px',
-      data: group
-    });
-
-    dialogRef.afterClosed().subscribe(result => {
-      if (result) {
-        this.delGroup(result);
-      }
-    });
+  /** open modal window for confirm delete */
+  openConfirmDialog(group: Group) {
+    const message = `Підтвердіть видалення групи "${group.group_name}"`;
+    this.modalService.openConfirmModal(message, ()=> {this.delGroup(group)});
   }
+
   /** Delete group */
   delGroup(group: Group) {
     this.httpService.del('group', group.group_id).subscribe((result: any) => {
@@ -94,7 +87,7 @@ export class GroupComponent implements OnInit {
         this.dataSource.paginator = this.paginator;
       }
     }, (error: any) => {
-      alert('You don\'t delete group with students!');
+      this.modalService.openErrorModal('Неможливо видалити групу із студентами. Видаліть спочатку студентів даної групи');
     });
   }
   // create modal window for edit group
@@ -149,6 +142,7 @@ export class GroupComponent implements OnInit {
     this.httpService.getGroups(action, id).subscribe((result: any) => {
       if (result.hasOwnProperty('response')) {
         this.dataSource.data = [];
+        this.modalService.openInfoModal('Групи відсутні');
       } else {
         this.dataSource.data = result;
         this.table.renderRows();
