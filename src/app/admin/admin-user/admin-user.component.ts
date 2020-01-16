@@ -1,11 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { AdminUserService } from './admin-user.service';
-import { IAdminUser } from './admin-user.interface';
-import { of } from 'rxjs';
+import { IAdminUser, ICreateUpdateAdminUser } from './admin-user.interface';
+import { of, from } from 'rxjs';
 import { mergeMap } from 'rxjs/operators';
 import { DialogService } from 'src/app/shared/dialog.service';
-import { MatDialog } from '@angular/material';
-import { CreateAdminUserComponent } from './create-admin-user/create-admin-user.component';
+import { MatDialog, MatSnackBar } from '@angular/material';
+import { CreateUpdateUserComponent } from './create-update-user/create-update-user.component';
+import { catchError } from 'rxjs/operators'; 
 @Component({
   selector: 'app-admin-user',
   templateUrl: './admin-user.component.html',
@@ -18,7 +19,8 @@ export class AdminUserComponent implements OnInit {
   constructor(
     private adminUserService: AdminUserService,
     public dialogService: DialogService,
-    public dialog: MatDialog) { }
+    public dialog: MatDialog,
+    private _snackBar: MatSnackBar) { }
 
   ngOnInit() {
 
@@ -30,46 +32,89 @@ export class AdminUserComponent implements OnInit {
 
   }
 
-  updateHandler(id: number) {
-    console.log(id);
+  updateHandler(user: ICreateUpdateAdminUser & { id: number}) {
+    const dialogRef = this.dialog.open(CreateUpdateUserComponent, {
+      width: '450px',
+      disableClose: true,
+      data: user,
+    });
+
+    let newData: IAdminUser;
+
+    dialogRef.afterClosed()
+      .pipe(
+        mergeMap((data: ICreateUpdateAdminUser & { id: number}) => {
+          if (data) {
+            const { id, username, email, password, password_confirm } = data;
+            newData = ({ id, username, email } as IAdminUser);
+            return this.adminUserService.updateUser(id, { username, email, password, password_confirm });
+          }
+          return of(null);
+        })
+      )
+      .subscribe(() => {
+        if (newData) {
+          this.userList = this.userList.map(user => {
+            if(user.id === newData.id) {
+              return newData;
+            }
+            return user;
+          }) 
+        }
+      });
   }
 
-  deleteHandler(name: string, id: number) {
-    this.dialogService.openConfirmDialog({name, id})
+  openSnackBar(message: string) {
+    this._snackBar.open(message, '', {
+      duration: 2000,
+    });
+  }
+
+  deleteHandler(user: IAdminUser) {
+    this.dialogService.openConfirmDialog(user)
     .pipe(
       mergeMap((result: any) => {
         if (result.isCanceled) {
           return of(result);
         }
         return this.adminUserService.deleteUser(result.id);
+      }),
+      catchError((e: Error) => {
+        this.openSnackBar('Помилка видалення');
+        return of(null);
       })
     )
-    .subscribe((data: any) => {
+    .subscribe((data: { response?: string; isCanceled?: boolean; } | undefined) => {
       if (data && data.isCanceled) {
         return;
       }
       if (data && data.response === 'ok') {
-        this.userList = this.userList.filter(user => user.id !== id);
+        this.userList = this.userList.filter(existedUser => existedUser.id !== user.id);
       }
     });
 
   }
   addAdminHandler() {
-    const dialogRef = this.dialog.open(CreateAdminUserComponent, {
+    const dialogRef = this.dialog.open(CreateUpdateUserComponent, {
       width: '450px',
       disableClose: true,
     });
 
     dialogRef.afterClosed()
       .pipe(
-        mergeMap((data) => {
+        mergeMap((data: ICreateUpdateAdminUser) => {
           if (data) {
             return this.adminUserService.insertUser(data);
           }
           return of(null);
+        }),
+        catchError(e => {
+          this.openSnackBar('Сталася помилка');
+            return of(null);
         })
       )
-      .subscribe((newData: IAdminUser | null) => {
+      .subscribe((newData: IAdminUser) => {
+        this.openSnackBar('Збережено');
         if (newData) {
           this.userList = [newData, ...this.userList];
         }

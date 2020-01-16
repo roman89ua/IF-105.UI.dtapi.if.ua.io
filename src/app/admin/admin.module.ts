@@ -8,16 +8,15 @@ import { ConfirmDiaglogComponent } from './confirm-diaglog/confirm-diaglog.compo
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { GroupComponent } from './group/group.component';
 import { GroupAddEditDialogComponent } from './group/group-add-edit-dialog/group-add-edit-dialog.component';
-import { GroupDelDialogComponent } from './group/group-del-dialog/group-del-dialog.component';
 import { GroupViewDialogComponent } from './group/group-view-dialog/group-view-dialog.component';
 import { AdminUserService } from './admin-user/admin-user.service';
+import { CreateUpdateUserComponent } from './admin-user/create-update-user/create-update-user.component';
 import { AdminUserComponent } from './admin-user/admin-user.component';
 import { SharedModule } from '../shared/shared.module';
-import { CreateAdminUserComponent } from './admin-user/create-admin-user/create-admin-user.component';
 import { SpecialityListComponent } from './speciality/speciality-list/speciality-list.component';
 import { DialogFormComponent } from './speciality/dialog-form/dialog-form.component';
 import { DialogConfirmComponent } from './speciality/dialog-confirm/dialog-confirm.component';
-
+import { NavbarComponent } from './sidenav/sidenav.component';
 
 const routes: Routes = [
   {
@@ -40,14 +39,14 @@ const routes: Routes = [
     ConfirmDiaglogComponent,
     GroupComponent,
     GroupAddEditDialogComponent,
-    GroupDelDialogComponent,
     GroupViewDialogComponent,
     StudentsComponent,
     AdminUserComponent,
-    CreateAdminUserComponent,
+    CreateUpdateUserComponent,
     SpecialityListComponent,
     DialogFormComponent,
-    DialogConfirmComponent
+    DialogConfirmComponent,
+    NavbarComponent
   ],
   imports: [
     CommonModule,
@@ -59,11 +58,11 @@ const routes: Routes = [
   providers: [AdminUserService],
   entryComponents: [
     ConfirmDiaglogComponent,
-    CreateAdminUserComponent,
+    NavbarComponent,
+    CreateUpdateUserComponent,
     DialogFormComponent,
     DialogConfirmComponent,
     GroupAddEditDialogComponent,
-    GroupDelDialogComponent,
     GroupViewDialogComponent
   ]
 })
