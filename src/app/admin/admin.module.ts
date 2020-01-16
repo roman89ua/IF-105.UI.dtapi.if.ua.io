@@ -32,9 +32,9 @@ const routes: Routes = [
       { path: 'faculties', component: FacultiesComponent},
       { path: 'group', component: GroupComponent },
       { path: 'subjects', component: SubjectsComponent },
-      { path: 'speciality', component: SpecialityListComponent },
+      { path: 'speciality', component: SpecialityListComponent }
+    ]}
 ];
-
 @NgModule({
   declarations: [
     AdminComponent,
@@ -50,7 +50,7 @@ const routes: Routes = [
     SpecialityListComponent,
     DialogFormComponent,
     DialogConfirmComponent,
-    NavbarComponent
+    NavbarComponent,
     SubjectsComponent,
     SubjectsCreateModalComponent,
   ],
@@ -59,7 +59,7 @@ const routes: Routes = [
     FormsModule,
     SharedModule,
     ReactiveFormsModule,
-    RouterModule.forChild(routes)
+    RouterModule.forChild(routes),
     MatDialogModule,
   ],
   providers: [
@@ -74,7 +74,7 @@ const routes: Routes = [
     DialogFormComponent,
     DialogConfirmComponent,
     GroupAddEditDialogComponent,
-    GroupViewDialogComponent
+    GroupViewDialogComponent,
     SubjectsCreateModalComponent,
   ]
 })
