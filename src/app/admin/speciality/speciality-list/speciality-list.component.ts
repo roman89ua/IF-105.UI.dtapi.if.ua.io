@@ -27,6 +27,9 @@ export class SpecialityListComponent implements OnInit {
   ngOnInit() {
     this.getSpeciality();
   }
+  ngAfterViewInit(): void {
+    this.dataSource.paginator = this.paginator;
+  }
   getSpeciality(): any {
     const action = 'getRecords';
     this.apiService.getEntity(this.entity, action).subscribe((data: Speciality[]) => this.dataSource.data = data);
