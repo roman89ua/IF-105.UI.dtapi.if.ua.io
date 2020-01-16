@@ -18,6 +18,7 @@ import { SpecialityListComponent } from './speciality/speciality-list/speciality
 import { DialogFormComponent } from './speciality/dialog-form/dialog-form.component';
 import { DialogConfirmComponent } from './speciality/dialog-confirm/dialog-confirm.component';
 import { NavbarComponent } from './sidenav/sidenav.component';
+import { CreateEditComponent } from './faculties/create-edit/create-edit.component';
 
 const routes: Routes = [
   {
@@ -48,7 +49,8 @@ const routes: Routes = [
     SpecialityListComponent,
     DialogFormComponent,
     DialogConfirmComponent,
-    NavbarComponent
+    NavbarComponent,
+    CreateEditComponent
   ],
   imports: [
     CommonModule,
@@ -66,7 +68,8 @@ const routes: Routes = [
     DialogConfirmComponent,
     GroupAddEditDialogComponent,
     GroupDelDialogComponent,
-    GroupViewDialogComponent
+    GroupViewDialogComponent,
+    CreateEditComponent
   ]
 })
 export class AdminModule { }

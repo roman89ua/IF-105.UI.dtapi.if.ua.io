@@ -1,10 +1,11 @@
 import { Component, OnInit, AfterViewInit, } from '@angular/core';
-import { Faculty, FacultyService } from './faculties.service';
-import { ViewChild, TemplateRef } from '@angular/core';
+import { ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
-import { MatDialog, MatTableDataSource, MatTable, MatSnackBar, MatSnackBarConfig } from '@angular/material';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { MatDialog, MatTableDataSource, MatTable, MatSnackBar } from '@angular/material';
 import { ConfirmDiaglogComponent, ConfirmDialogModel } from '../confirm-diaglog/confirm-diaglog.component';
+import { HttpService } from 'src/app/shared/http.service';
+import { CreateEditComponent } from './create-edit/create-edit.component';
+import { Faculty } from 'src/app/shared/entity.interface';
 
 @Component({
   selector: 'app-faculties',
@@ -21,53 +22,18 @@ export class FacultiesComponent implements OnInit, AfterViewInit {
 
   dataSource = new MatTableDataSource<Faculty>();
 
-  @ViewChild('addform', { static: false }) addform;
-  @ViewChild('updateform', { static: false }) updateform;
+
   @ViewChild('table', { static: false }) table: MatTable<Element>;
 
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
 
-  addForm = new FormGroup({
-    faculty_name: new FormControl('',
-      [
-        Validators.required,
-        Validators.pattern('[а-яА-ЯіІїЄє ]*')
-      ]),
-    faculty_description: new FormControl('',
-      [
-        Validators.required,
-        Validators.pattern('[а-яА-ЯіІїЄє ]*')
-      ])
-  });
 
-  updateForm = new FormGroup({
-    faculty_name: new FormControl('',
-      [
-        Validators.required,
-        Validators.pattern('[а-яА-ЯіІїЄє ]*')
-      ]),
-    faculty_description: new FormControl('',
-      [
-        Validators.required,
-        Validators.pattern('[а-яА-ЯіІїєЄ ]*')
-      ])
-  });
-
-  constructor(private facultyService: FacultyService, private dialog: MatDialog, private snackBar: MatSnackBar) { }
-
-  openDialogWithTemplateRef(templateRef: TemplateRef<any>) {
-    this.dialog.open(templateRef);
-  }
+constructor(private dialog: MatDialog, private snackBar: MatSnackBar, private http: HttpService) { }
 
   openSnackBar(message: string, action?: string) {
     this.snackBar.open(message, action, {
       duration: 2500,
     });
-  }
-
-  closeDialog() {
-    this.dialog.closeAll();
-    this.updateform.resetForm();
   }
 
   ngOnInit(): void {
@@ -78,15 +44,15 @@ export class FacultiesComponent implements OnInit, AfterViewInit {
   }
   getFaculty() {
     this.loading = true;
-    this.facultyService.getAllFaculty()
+    this.http.getRecords('faculty')
       .subscribe(response => {
         this.dataSource.data = response;
         this.loading = false;
       });
   }
 
-  addFaculty() {
-    this.facultyService.addFaculty({ ...this.addForm.value })
+  addFaculty(faculty: Faculty) {
+    this.http.insertData('faculty', faculty)
       .subscribe(response => {
         this.dataSource.data = [...this.dataSource.data, response[0]];
         this.table.renderRows();
@@ -96,34 +62,42 @@ export class FacultiesComponent implements OnInit, AfterViewInit {
         this.openSnackBar('Такий факультет уже існує');
       }
       );
-    this.addform.resetForm();
   }
 
-  getObjectFromTable(templateRef: TemplateRef<any>, element: Faculty) {
-    this.dialog.open(templateRef);
-    this.updateForm.patchValue({
-      faculty_name: element.faculty_name,
-      faculty_description: element.faculty_description,
-    });
-    this.id = element.faculty_id;
-  }
-
-  updateFaculty() {
-    this.facultyService.updateFaculty(this.id, { ...this.updateForm.value })
+  updateFaculty(id: number, faculty: Faculty) {
+    this.http.update('faculty', id, faculty)
       .subscribe(response => {
+        this.openSnackBar('Факультет оновлено');
         this.getFaculty();
-        this.closeDialog();
       },
       err => {
-        if (err.error.response.match(/Duplicate entry/)) {
-          this.closeDialog();
           this.openSnackBar('Такий факультет уже існує');
-        }
       }
       );
-    this.updateform.resetForm();
   }
-
+  createFacultyDialog() {
+    const dialogRef = this.dialog.open(CreateEditComponent, {
+      width: '400px'
+    });
+    dialogRef.afterClosed().subscribe(dialogResult => {
+      this.result = dialogResult;
+      if (this.result) {
+        this.addFaculty(this.result);
+      } else { return; }
+    });
+  }
+  updateFacultyDialog(faculty: Faculty) {
+    const dialogRef = this.dialog.open(CreateEditComponent, {
+      width: '400px',
+      data: faculty
+    });
+    dialogRef.afterClosed().subscribe(dialogResult => {
+      this.result = dialogResult;
+      if (this.result) {
+        this.updateFaculty(faculty.faculty_id, this.result);
+      } else { return; }
+    });
+  }
 
   deleteFacultyDialog(faculty: Faculty): void {
     const dialogData = new ConfirmDialogModel(`Ви дійсно бажаєте видалити: ${faculty.faculty_name}?`);
@@ -140,22 +114,10 @@ export class FacultiesComponent implements OnInit, AfterViewInit {
   }
 
   removeFaculty(id: number) {
-    this.facultyService.removeFaculty(id)
+    this.http.del('faculty', id)
       .subscribe((response) => {
         this.openSnackBar('Факультет видалено');
         this.dataSource.data = this.dataSource.data.filter(item => item.faculty_id !== id);
       });
-  }
-
-  getErrorMessageName(form: FormGroup) {
-    return form.get('faculty_name').hasError('required') ? 'Це поле є обовязкове*' :
-      form.get('faculty_name').hasError('pattern') ? 'Поле містить недопустимі символи або (Цифри, латинські букви)' :
-        '';
-  }
-
-  getErrorMessageDescription(form: FormGroup) {
-    return form.get('faculty_description').hasError('required') ? 'Це поле є обовязкове*' :
-      form.get('faculty_description').hasError('pattern') ? 'Поле містить недопустимі символи або (Цифри, латинські букви)' :
-        '';
   }
 }

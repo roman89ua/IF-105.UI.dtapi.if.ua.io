@@ -8,11 +8,6 @@ body {
   padding: 1rem;
 }
 
-.create-form {
-  width: 50%;
-  margin: 20px auto;
-}
-
 .btn {
   width: 200px;
 }
@@ -38,18 +33,6 @@ table {
   text-align: center;
 }
 
-.example-container {
-  display: flex;
-  flex-direction: column;
-}
-
-.update-form {
-  width: 400px;
-}
-
-.example-container > * {
-  width: 100%;
-}
 .mat-dialog-actions {
   padding: 0px 0;
   min-height: 9px;

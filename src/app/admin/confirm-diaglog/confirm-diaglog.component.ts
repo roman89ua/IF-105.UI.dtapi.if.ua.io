@@ -1,6 +1,5 @@
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { Component, OnInit, Inject } from '@angular/core';
-import { Faculty } from '../faculties/faculties.service';
 
 @Component({
   selector: 'app-confirm-diaglog',
