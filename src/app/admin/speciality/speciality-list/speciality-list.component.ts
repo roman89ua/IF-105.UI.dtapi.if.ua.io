@@ -7,7 +7,7 @@ import { ViewChild, TemplateRef } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatDialog, MatTableDataSource, MatTable, MatSnackBar, MatSnackBarConfig } from '@angular/material';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-
+import { ModalService} from '../../../shared/services/modal.service';
 
 @Component({
   selector: 'app-speciality-list',
@@ -37,7 +37,9 @@ export class SpecialityListComponent implements OnInit {
     speciality_name: new FormControl(),
   });
 
-  constructor(private apiService: ApiService, private dialog: MatDialog) { }
+  constructor(private apiService: ApiService, 
+    private dialog: MatDialog, 
+    private modalService: ModalService) { }
 
   ngOnInit() {
     this.getSpeciality();
@@ -49,17 +51,9 @@ export class SpecialityListComponent implements OnInit {
   openDialogWithTemplateRef(templateRef: TemplateRef<any>) {
     this.dialog.open(templateRef);
   }
-  delSpecialityDialog(speciality: Speciality): void {
-    const dialogData = new DialogConfirmModel(speciality);
-    const dialogRef = this.dialog.open(DialogConfirmComponent, {
-      data: dialogData
-    });
-    dialogRef.afterClosed().subscribe(dialogResult => {
-      this.result = dialogResult;
-      if (this.result) {
-        this.delSpeciality(this.result);
-      }
-    });
+  openConfirmDialog(speciality: Speciality) {
+    const message = `Підтвердіть видалення спеціальності "${speciality.speciality_name}"`;
+    this.modalService.openConfirmModal(message, () => this.delSpeciality(speciality));
   }
 
   delSpeciality(obj: Speciality) {
