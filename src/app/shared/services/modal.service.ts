@@ -8,7 +8,7 @@ export class ModalService {
   openConfirmModal(message:string, callBackFunction: Function): void { 
     const dialogRef = this.dialog.open(ConfirmComponent, {
       width: '350px',
-      data: {message: message}
+      data: {content: message}
     });
 
     dialogRef.afterClosed().subscribe(result => {
@@ -17,11 +17,21 @@ export class ModalService {
       }
     });
   }
-  openInfoModal(message: string): void {
+  openAlertModal(message: string, title: string, icon: string): void {
     const dialogRef = this.dialog.open(AlertComponent, {
       width: '350px',
-      data: {message: message}
+      data: {
+        content: message,
+        title: title,
+        icon: icon
+      }
     });
+  }
+  openInfoModal(message: string): void {
+    this.openAlertModal(message, 'Повідомлення', 'info');
+  }
+  openErrorModal(message: string): void {
+    this.openAlertModal(message, 'Помилка', 'error');
   }
 
   constructor( public dialog: MatDialog) { }

@@ -87,7 +87,7 @@ export class GroupComponent implements OnInit {
         this.dataSource.paginator = this.paginator;
       }
     }, (error: any) => {
-      this.modalService.openInfoModal('Неможливо видалити групу із студентами. Видаліть спочатку студентів даної групи');
+      this.modalService.openErrorModal('Неможливо видалити групу із студентами. Видаліть спочатку студентів даної групи');
     });
   }
   // create modal window for edit group
@@ -142,6 +142,7 @@ export class GroupComponent implements OnInit {
     this.httpService.getGroups(action, id).subscribe((result: any) => {
       if (result.hasOwnProperty('response')) {
         this.dataSource.data = [];
+        this.modalService.openInfoModal('Групи відсутні');
       } else {
         this.dataSource.data = result;
         this.table.renderRows();
