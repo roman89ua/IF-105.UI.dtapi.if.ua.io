@@ -54,6 +54,7 @@ export class SpecialityListComponent implements OnInit {
   addSpeciality() {
     const action = 'insertData';
     const dialogRef = this.dialog.open(DialogFormComponent, {
+      data: {},
       width: '450px',
       disableClose: true,
     });
@@ -67,21 +68,22 @@ export class SpecialityListComponent implements OnInit {
       }
     });
   }
-  updSpeciality(obj: Speciality) {
+  updSpeciality(speciality: Speciality) {
     const action = 'update';
     const dialogRef = this.dialog.open(DialogFormComponent, {
+      data: speciality,
       width: '450px',
       disableClose: true,
     });
     dialogRef.afterClosed().subscribe((data: Speciality) => {
       if (data) {
-        data.speciality_id = obj.speciality_id;
-        return this.apiService.updEntity(this.entity, action, data, obj.speciality_id).subscribe((specialityObj: Speciality) => {
+        data.speciality_id = speciality.speciality_id;
+        return this.apiService.updEntity(this.entity, action, data, speciality.speciality_id).subscribe((specialityObj: Speciality) => {
           this.speciality = [specialityObj, ...this.speciality];
           this.getSpeciality();
-        }
-        );
+        });
       }
+      this.getSpeciality();
     });
   }
 }
