@@ -35,19 +35,22 @@ onDismiss(): void {
   this.dialogRef.close(false);
 }
 
-getErrorMessageName(form: FormGroup) {
-  return form.get('faculty_name').hasError('required') ? 'Це поле є обовязкове*' :
-    form.get('faculty_name').hasError('pattern') ? 'Поле містить недопустимі символи або (Цифри, латинські букви)' :
-      '';
+get faculty_name() {
+  return this.addForm.get('faculty_name');
 }
 
-getErrorMessageDescription(form: FormGroup) {
-  return form.get('faculty_description').hasError('required') ? 'Це поле є обовязкове*' :
-    form.get('faculty_description').hasError('pattern') ? 'Поле містить недопустимі символи або (Цифри, латинські букви)' :
-      '';
+get faculty_description() {
+  return this.addForm.get('faculty_description');
 }
+
+getErrorMessage(field: FormControl) {
+  return field.hasError('required') ? 'Це поле є обовязкове*' :
+  field.hasError('pattern') ? 'Поле містить недопустимі символи або (Цифри, латинські букви)' :
+    '';
+}
+
+
 ngOnInit() {
-
   if (this.data) {
     this.addForm.patchValue({
       faculty_name: this.data.faculty_name,

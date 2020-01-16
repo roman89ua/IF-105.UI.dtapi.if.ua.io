@@ -16,21 +16,21 @@
     <button
       type="button"
       mat-button
-      *ngIf="addForm.get('faculty_name').value"
+      *ngIf="faculty_name.value"
       matSuffix
       mat-icon-button
       aria-label="Clear"
-      (click)="addForm.get('faculty_name').reset()"
+      (click)="faculty_name.reset()"
     >
       <mat-icon>close</mat-icon>
     </button>
     <mat-error
       *ngIf="
-        addForm.get('faculty_name').invalid &&
-        (addForm.get('faculty_name').dirty ||
-          addForm.get('faculty_name').touched)
+        faculty_name.invalid &&
+        (faculty_name.dirty ||
+          faculty_name.touched)
       "
-      >{{ getErrorMessageName(addForm) }}</mat-error
+      >{{ getErrorMessage(faculty_name)}}</mat-error
     >
 
     <mat-hint></mat-hint>
@@ -51,21 +51,21 @@
     <button
       type="button"
       mat-button
-      *ngIf="addForm.get('faculty_description').value"
+      *ngIf="faculty_description.value"
       matSuffix
       mat-icon-button
       aria-label="Clear"
-      (click)="addForm.get('faculty_description').reset()"
+      (click)="faculty_description.reset()"
     >
       <mat-icon>close</mat-icon>
     </button>
     <mat-error
       *ngIf="
-        addForm.get('faculty_description').invalid &&
-        (addForm.get('faculty_description').dirty ||
-          addForm.get('faculty_description').touched)
+        faculty_description.invalid &&
+        (faculty_description.dirty ||
+          faculty_description.touched)
       "
-      >{{ getErrorMessageDescription(addForm) }}</mat-error
+      >{{ getErrorMessage(faculty_description) }}</mat-error
     >
   </mat-form-field>
   <button
@@ -77,8 +77,8 @@
         ? addForm.invalid
         : addForm.invalid ||
           !(
-            addForm.get('faculty_name').dirty ||
-            addForm.get('faculty_description').dirty
+            faculty_name.dirty ||
+            faculty_description.dirty
           )
     "
     type="submit"
