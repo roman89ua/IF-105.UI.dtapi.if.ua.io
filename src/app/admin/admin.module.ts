@@ -5,7 +5,6 @@ import { Routes, RouterModule } from '@angular/router';
 import { StudentsComponent } from './students/students.component';
 import { StudentsService } from './students/services/students.service';
 import { FacultiesComponent } from './faculties/faculties.component';
-import { ConfirmDiaglogComponent } from './confirm-diaglog/confirm-diaglog.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { GroupComponent } from './group/group.component';
 import { GroupAddEditDialogComponent } from './group/group-add-edit-dialog/group-add-edit-dialog.component';
@@ -16,7 +15,6 @@ import { AdminUserComponent } from './admin-user/admin-user.component';
 import { SharedModule } from '../shared/shared.module';
 import { SpecialityListComponent } from './speciality/speciality-list/speciality-list.component';
 import { DialogFormComponent } from './speciality/dialog-form/dialog-form.component';
-import { DialogConfirmComponent } from './speciality/dialog-confirm/dialog-confirm.component';
 import { NavbarComponent } from './sidenav/sidenav.component';
 import { CreateEditComponent } from './faculties/create-edit/create-edit.component';
 import { SubjectsComponent } from './subjects/subjects.component';
@@ -42,7 +40,6 @@ const routes: Routes = [
     AdminComponent,
     StudentsComponent,
     FacultiesComponent,
-    ConfirmDiaglogComponent,
     GroupComponent,
     GroupAddEditDialogComponent,
     GroupViewDialogComponent,
@@ -51,7 +48,6 @@ const routes: Routes = [
     CreateUpdateUserComponent,
     SpecialityListComponent,
     DialogFormComponent,
-    DialogConfirmComponent,
     NavbarComponent,
     CreateEditComponent,
     SubjectsComponent,
@@ -71,11 +67,9 @@ const routes: Routes = [
     StudentsService
   ],
   entryComponents: [
-    ConfirmDiaglogComponent,
     NavbarComponent,
     CreateUpdateUserComponent,
     DialogFormComponent,
-    DialogConfirmComponent,
     GroupAddEditDialogComponent,
     CreateEditComponent,
     GroupViewDialogComponent,
