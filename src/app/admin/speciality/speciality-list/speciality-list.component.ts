@@ -3,7 +3,7 @@ import { Speciality } from '.././../entity.interface';
 import { ApiService } from '../api.service';
 import { DialogConfirmComponent, DialogConfirmModel } from '../dialog-confirm/dialog-confirm.component';
 import { DialogFormComponent } from '../dialog-form/dialog-form.component';
-import { MatDialog, MatTableDataSource, MatTable, MatPaginator } from '@angular/material';
+import { MatDialog, MatTableDataSource, MatTable, MatPaginator, MatSnackBar } from '@angular/material';
 
 @Component({
   selector: 'app-speciality-list',
@@ -22,7 +22,7 @@ export class SpecialityListComponent implements OnInit {
   @ViewChild('table', { static: false }) table: MatTable<Element>;
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
 
-  constructor(private apiService: ApiService, private dialog: MatDialog) { }
+  constructor(private apiService: ApiService, private dialog: MatDialog, private snackBar: MatSnackBar) { }
 
   ngOnInit() {
     this.getSpeciality();
@@ -49,6 +49,8 @@ export class SpecialityListComponent implements OnInit {
     this.apiService.delEntity(this.entity, action, obj.speciality_id)
       .subscribe((data) => {
         this.dataSource.data = this.dataSource.data.filter(speciality => speciality.speciality_id !== obj.speciality_id);
+      }, err => {
+        this.openSnackBar(err.error.response);
       });
   }
   addSpeciality() {
@@ -63,6 +65,8 @@ export class SpecialityListComponent implements OnInit {
         return this.apiService.postEntity(this.entity, action, data).subscribe((obj: Speciality) => {
           this.speciality = [obj, ...this.speciality];
           this.getSpeciality();
+        }, err => {
+          this.openSnackBar(err.error.response);
         }
         );
       }
@@ -81,9 +85,17 @@ export class SpecialityListComponent implements OnInit {
         return this.apiService.updEntity(this.entity, action, data, speciality.speciality_id).subscribe((specialityObj: Speciality) => {
           this.speciality = [specialityObj, ...this.speciality];
           this.getSpeciality();
+        }, err => {
+          this.openSnackBar(err.error.response);
         });
       }
       this.getSpeciality();
     });
   }
+  openSnackBar(message: string, action?: string) {
+    this.snackBar.open(message, action, {
+      duration: 2500,
+    });
+  }
+
 }
