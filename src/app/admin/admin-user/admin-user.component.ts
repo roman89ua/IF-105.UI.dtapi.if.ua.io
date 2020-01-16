@@ -29,7 +29,6 @@ export class AdminUserComponent implements OnInit {
         this.userList = data;
       }
     );
-
   }
 
   updateHandler(user: ICreateUpdateAdminUser & { id: number}) {

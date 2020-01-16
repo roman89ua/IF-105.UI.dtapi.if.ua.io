@@ -15,6 +15,11 @@ import { SharedModule } from '../shared/shared.module';
 import { SpecialityListComponent } from './speciality/speciality-list/speciality-list.component';
 import { DialogFormComponent } from './speciality/dialog-form/dialog-form.component';
 import { NavbarComponent } from './sidenav/sidenav.component';
+import { SubjectsComponent } from './subjects/subjects.component';
+import { SubjectsCreateModalComponent } from './subjects/subjects-create-modal/subjects-create-modal.component';
+import { MatDialogModule } from '@angular/material';
+import { SubjectsService } from './subjects/subjects.service';
+
 
 const routes: Routes = [
   {
@@ -24,11 +29,10 @@ const routes: Routes = [
       { path: 'admin-user', component: AdminUserComponent},
       { path: 'faculties', component: FacultiesComponent},
       { path: 'group', component: GroupComponent },
-      { path: 'speciality', component: SpecialityListComponent },
-    ]
-  }
+      { path: 'subjects', component: SubjectsComponent },
+      { path: 'speciality', component: SpecialityListComponent }
+    ]}
 ];
-
 @NgModule({
   declarations: [
     AdminComponent,
@@ -42,22 +46,30 @@ const routes: Routes = [
     CreateUpdateUserComponent,
     SpecialityListComponent,
     DialogFormComponent,
-    NavbarComponent
+    NavbarComponent,
+    SubjectsComponent,
+    SubjectsCreateModalComponent,
   ],
   imports: [
     CommonModule,
     FormsModule,
     SharedModule,
     ReactiveFormsModule,
-    RouterModule.forChild(routes)
+    RouterModule.forChild(routes),
+    MatDialogModule,
   ],
-  providers: [AdminUserService],
-  entryComponents: [
+  providers: [
+    AdminUserService,
+    SubjectsService,
+  ],
+  
+  entryComponents:[
     NavbarComponent,
     CreateUpdateUserComponent,
     DialogFormComponent,
     GroupAddEditDialogComponent,
-    GroupViewDialogComponent
+    GroupViewDialogComponent,
+    SubjectsCreateModalComponent,
   ]
 })
 export class AdminModule { }
