@@ -1,8 +1,13 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { HttpService } from '../../../shared/http.service';
-import { Speciality, Faculty, DialogData } from '../../../shared/entity.interface';
+import { Speciality, Faculty } from '../../../shared/entity.interface';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
+export interface DialogData {
+  data: any;
+  id: number,
+  action: string
+}
 @Component({
   selector: 'app-group-view-dialog',
   templateUrl: './group-view-dialog.component.html',
@@ -16,7 +21,7 @@ export class GroupViewDialogComponent implements OnInit {
     private httpService: HttpService,
     public dialogRef: MatDialogRef<GroupViewDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: DialogData
-  ) {}
+  ) { }
 
   ngOnInit() {
     this.httpService
