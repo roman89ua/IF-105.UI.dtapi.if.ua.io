@@ -1,5 +1,5 @@
 .sidenav-container {
-  height: 100%;
+  flex: 1;
 }
 
 .sidenav {
@@ -19,9 +19,19 @@
 .mat-sidenav-fixed {
   position: absolute;
 }
-.header {
+.toolbar {
   position: fixed;
 }
+
 .fill-space {
   flex:1 1 auto;
+}
+.main-container {
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  top:0;
+  bottom: 0;
+  left: 0;
+  right: 0;
 }

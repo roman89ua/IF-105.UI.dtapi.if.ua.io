@@ -3,10 +3,10 @@ import { AdminUserService } from './admin-user.service';
 import { IAdminUser, ICreateUpdateAdminUser } from './admin-user.interface';
 import { of, from } from 'rxjs';
 import { mergeMap } from 'rxjs/operators';
-import { DialogService } from 'src/app/shared/dialog.service';
 import { MatDialog, MatSnackBar } from '@angular/material';
 import { CreateUpdateUserComponent } from './create-update-user/create-update-user.component';
 import { catchError } from 'rxjs/operators'; 
+import { ModalService } from '../../shared/services/modal.service';
 @Component({
   selector: 'app-admin-user',
   templateUrl: './admin-user.component.html',
@@ -18,9 +18,9 @@ export class AdminUserComponent implements OnInit {
 
   constructor(
     private adminUserService: AdminUserService,
-    public dialogService: DialogService,
     public dialog: MatDialog,
-    private _snackBar: MatSnackBar) { }
+    private _snackBar: MatSnackBar,
+    private modalService: ModalService) { }
 
   ngOnInit() {
 
@@ -29,6 +29,7 @@ export class AdminUserComponent implements OnInit {
         this.userList = data;
       }
     );
+
   }
 
   updateHandler(user: ICreateUpdateAdminUser & { id: number}) {
@@ -69,7 +70,20 @@ export class AdminUserComponent implements OnInit {
     });
   }
 
-  deleteHandler(user: IAdminUser) {
+  openConfirmDialog(user: IAdminUser) {
+    const message = `Підтвердіть видалення користувача "${user.username}"`;
+    this.modalService.openConfirmModal(message, () => this.delUser(user));
+  }
+  delUser(user: IAdminUser) {
+    this.adminUserService.deleteUser(user.id).subscribe((data: { response?: string; } ) => {
+      if (data && data.response === 'ok') {
+        this.userList = this.userList.filter(existedUser => existedUser.id !== user.id);
+      }
+    }, (error: any) => {
+      this.openSnackBar('Помилка видалення');
+    });
+  }
+/*   deleteHandler(user: IAdminUser) {
     this.dialogService.openConfirmDialog(user)
     .pipe(
       mergeMap((result: any) => {
@@ -92,7 +106,7 @@ export class AdminUserComponent implements OnInit {
       }
     });
 
-  }
+  } */
   addAdminHandler() {
     const dialogRef = this.dialog.open(CreateUpdateUserComponent, {
       width: '450px',
