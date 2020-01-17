@@ -3,7 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 
 const routes: Routes = [
   { path: 'login', loadChildren: './login/login.module#LoginModule' },
-  { path: 'admin', loadChildren: () => import(`./admin/admin.module`).then(m => m.AdminModule) },
+  { path: 'admin', loadChildren: () => import('./admin/admin.module').then(m => m.AdminModule) },
   { path: '', redirectTo: '/login', pathMatch: 'full' }
 ];
 
