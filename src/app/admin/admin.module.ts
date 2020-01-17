@@ -2,6 +2,9 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AdminComponent } from './admin.component';
 import { Routes, RouterModule } from '@angular/router';
+import { QuestionComponent } from './question/question.component';
+import { NewQuestionComponent } from './question/new-question/new-question.component';
+import { QuestionAnswerComponent } from './question/new-question/question-answer/question-answer.component';
 import { StudentsComponent } from './students/students.component';
 import { StudentsService } from './students/services/students.service';
 import { FacultiesComponent } from './faculties/faculties.component';
@@ -31,6 +34,8 @@ const routes: Routes = [
   {
     path: '', component: AdminComponent,
     children: [
+      { path: 'exams/:id/questions', component: QuestionComponent },
+      { path: 'exams/:id/questions/new', component: NewQuestionComponent },
       { path: 'Students/:id', component: StudentsComponent },
       { path: 'admin-user', component: AdminUserComponent},
       { path: 'faculties', component: FacultiesComponent},
@@ -48,7 +53,9 @@ const routes: Routes = [
     GroupComponent,
     GroupAddEditDialogComponent,
     GroupViewDialogComponent,
-    StudentsComponent,
+    QuestionAnswerComponent,
+    QuestionComponent,
+    NewQuestionComponent,
     AdminUserComponent,
     CreateUpdateUserComponent,
     SpecialityListComponent,
