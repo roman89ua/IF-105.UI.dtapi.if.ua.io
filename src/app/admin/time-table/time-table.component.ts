@@ -80,7 +80,7 @@ export class TimeTableComponent implements OnInit {
             group_name: string;
           }]) => {
             const groups = value1.map(a => a.group_name);
-            for (let i = 0; i <= groups.length; i++) {
+            for (let i = 0; i < groups.length; i++) {
               table[i].group_name = groups[i];
             }
           });

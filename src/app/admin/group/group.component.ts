@@ -45,7 +45,7 @@ export class GroupComponent implements OnInit {
   }
 
   // create modal window for add new group
-  addGroupDialog(group: Group): void {
+  addGroupDialog(): void {
     const dialogRef = this.dialog.open(GroupAddEditDialogComponent, {
       width: '500px',
       data: {
