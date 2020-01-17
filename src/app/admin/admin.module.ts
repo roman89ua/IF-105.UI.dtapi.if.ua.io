@@ -21,6 +21,10 @@ import { SubjectsComponent } from './subjects/subjects.component';
 import { SubjectsCreateModalComponent } from './subjects/subjects-create-modal/subjects-create-modal.component';
 import { MatDialogModule } from '@angular/material';
 import { SubjectsService } from './subjects/subjects.service';
+import {TimeTableComponent} from './time-table/time-table.component';
+import { TimeTablePipe } from './time-table/time-table.pipe';
+import { TimeTableAddDialogComponent } from './time-table/time-table-add-dialog/time-table-add-dialog.component';
+import {NgxMaterialTimepickerModule} from 'ngx-material-timepicker';
 
 
 const routes: Routes = [
@@ -32,7 +36,8 @@ const routes: Routes = [
       { path: 'faculties', component: FacultiesComponent},
       { path: 'group', component: GroupComponent },
       { path: 'subjects', component: SubjectsComponent },
-      { path: 'speciality', component: SpecialityListComponent }
+      { path: 'speciality', component: SpecialityListComponent },
+      { path: 'timeTable', component: TimeTableComponent }
     ]}
 ];
 @NgModule({
@@ -52,6 +57,9 @@ const routes: Routes = [
     CreateEditComponent,
     SubjectsComponent,
     SubjectsCreateModalComponent,
+    TimeTableComponent,
+    TimeTablePipe,
+    TimeTableAddDialogComponent,
   ],
   imports: [
     CommonModule,
@@ -60,6 +68,7 @@ const routes: Routes = [
     ReactiveFormsModule,
     RouterModule.forChild(routes),
     MatDialogModule,
+    NgxMaterialTimepickerModule,
   ],
   providers: [
     AdminUserService,
@@ -74,6 +83,7 @@ const routes: Routes = [
     CreateEditComponent,
     GroupViewDialogComponent,
     SubjectsCreateModalComponent,
+    TimeTableAddDialogComponent,
   ]
 })
 export class AdminModule { }
