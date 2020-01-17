@@ -44,7 +44,7 @@ export class TimeTableComponent implements OnInit {
     this.getTimeTable();
   }
 
-  addTimeTableDialog(timeTable: TimeTable): void {
+  addTimeTableDialog(id): void {
     const dialogRef = this.dialog.open(TimeTableAddDialogComponent, {
       width: '500px',
       data: {
@@ -52,8 +52,8 @@ export class TimeTableComponent implements OnInit {
         description: {
           title: 'Додати новий розклад',
           action: 'Додати'
-        }
-      }
+        },
+      },
     });
 
     dialogRef.afterClosed().subscribe(result => {
@@ -80,7 +80,7 @@ export class TimeTableComponent implements OnInit {
             group_name: string;
           }]) => {
             const groups = value1.map(a => a.group_name);
-            for (let i = 0; i <= groups.length; i++) {
+            for (let i = 0; i < groups.length; i++) {
               table[i].group_name = groups[i];
             }
           });
