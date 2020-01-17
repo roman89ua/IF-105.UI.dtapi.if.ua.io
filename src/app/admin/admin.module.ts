@@ -25,6 +25,7 @@ import { SubjectsService } from './subjects/subjects.service';
 import {TimeTableComponent} from './time-table/time-table.component';
 import { TimeTablePipe } from './time-table/time-table.pipe';
 import { TimeTableAddDialogComponent } from './time-table/time-table-add-dialog/time-table-add-dialog.component';
+import {NgxMaterialTimepickerModule} from 'ngx-material-timepicker';
 
 
 const routes: Routes = [
@@ -69,6 +70,7 @@ const routes: Routes = [
     ReactiveFormsModule,
     RouterModule.forChild(routes),
     MatDialogModule,
+    NgxMaterialTimepickerModule,
   ],
   providers: [
     AdminUserService,

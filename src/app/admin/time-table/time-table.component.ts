@@ -57,9 +57,7 @@ export class TimeTableComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      if (result) {
-        this.addTimeTable(result);
-      }
+      console.log('closed');
     });
   }
 
