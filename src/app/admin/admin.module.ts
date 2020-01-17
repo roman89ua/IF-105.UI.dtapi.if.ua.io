@@ -28,6 +28,7 @@ import {TimeTableComponent} from './time-table/time-table.component';
 import { TimeTablePipe } from './time-table/time-table.pipe';
 import { TimeTableAddDialogComponent } from './time-table/time-table-add-dialog/time-table-add-dialog.component';
 import {NgxMaterialTimepickerModule} from 'ngx-material-timepicker';
+import { SubjectConfirmComponent } from './subjects/subject-confirm/subject-confirm.component';
 
 
 const routes: Routes = [
@@ -67,6 +68,7 @@ const routes: Routes = [
     TimeTableComponent,
     TimeTablePipe,
     TimeTableAddDialogComponent,
+    SubjectConfirmComponent,
   ],
   imports: [
     CommonModule,
@@ -91,6 +93,7 @@ const routes: Routes = [
     GroupViewDialogComponent,
     SubjectsCreateModalComponent,
     TimeTableAddDialogComponent,
+    SubjectConfirmComponent,
   ]
 })
 export class AdminModule { }

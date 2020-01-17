@@ -1,10 +1,12 @@
-import { Component, OnInit } from '@angular/core';
-import { MatDialog } from '@angular/material';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { MatDialog, MatSort } from '@angular/material';
 import { SubjectsCreateModalComponent } from './subjects-create-modal/subjects-create-modal.component';
 import {SubjectsService} from './subjects.service';
-import {SSubjects} from './subjects.interface';
+import {ISubjects} from './subjects.interface';
 import { mergeMap } from 'rxjs/operators';
 import { of } from 'rxjs';
+import {MatTableDataSource, MatTable} from '@angular/material/table';
+import { SubjectConfirmComponent } from './subject-confirm/subject-confirm.component';
 
 
 @Component({
@@ -13,23 +15,36 @@ import { of } from 'rxjs';
   styleUrls: ['./subjects.component.scss']
 })
 export class SubjectsComponent implements OnInit {
-  public subjectTableList: Array<SSubjects> = [];
+  result: any;
+  public subjectTableList: Array<ISubjects> = [];
+  public displayedColumns: string[] = ['subject_id', 'subject_name', 'subject_description', 'subject_menu'];
+  public dataSource = new MatTableDataSource<ISubjects>();
+
+  @ViewChild(MatSort, {static: true}) sort: MatSort;
 
   constructor(
     public dialog: MatDialog,
-    public subjectsService: SubjectsService,
+    // public dialogService,
+    private subjectsService: SubjectsService,
   ) { }
 
   ngOnInit() {
-    
+    this.showSubjects();
   }
-  // create modal window
-  createNewSubject(){
-    const newDialogSubject = this.dialog.open(SubjectsCreateModalComponent,{
+  showSubjects() {
+    this.subjectsService.readSubjects()
+      .subscribe((data: Array<ISubjects>) => {
+        this.subjectTableList = data;
+        this.dataSource.sort = this.sort;
+      }
+    );
+  }
+
+  createNewSubject() {
+    const newDialogSubject = this.dialog.open(SubjectsCreateModalComponent, {
       width: '500px',
       disableClose: true,
     });
-    // create new subject at API
     newDialogSubject.afterClosed()
       .pipe(
         mergeMap((data) => {
@@ -39,10 +54,30 @@ export class SubjectsComponent implements OnInit {
           return of(null);
         })
       )
-      .subscribe((newData: SSubjects | null) => {
+      .subscribe((newData: Array<ISubjects> | null) => {
         if (newData) {
-          this.subjectTableList = [newData, ...this.subjectTableList];
+          this.subjectTableList = [...this.subjectTableList, ...newData];
+          this.dataSource.sort = this.sort;
         }
+      });
+  }
+  delete(row: ISubjects): void {
+    const dialogData = `Ви видаляєте ${row.subject_name}, ви впевнені?`;
+    const dialogRef = this.dialog.open(SubjectConfirmComponent, {
+      maxWidth: '400px',
+      data: dialogData
+    });
+    dialogRef.afterClosed().subscribe(dialogResult => {
+      this.result = dialogResult;
+      if (this.result) {
+        this.delSubject(row.subject_id);
+      }
+    });
+  }
+  delSubject(id: number) {
+    this.subjectsService.deleteSubject(id)
+      .subscribe((response) => {
+        this.subjectTableList = this.subjectTableList.filter(item => item.subject_id !== id);
       });
   }
 }
