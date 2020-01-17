@@ -1,10 +1,49 @@
 .input-wrapper{
     display: block;
-    width: 300px;
-    margin-left: auto;
-    margin-right: auto;
-    
+    width: 100%;
+    margin: 20px auto;
+    height: 40px;
 }
 .form-wrapper {
-    margin-top: 250px;
+    margin: 0;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 300px;
+    padding: 30px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.3), inset 0 0 10px rgba(0, 0, 0, 0.3);
+    border-radius: 10px;
+    text-align: center;
+}
+.header {
+    color: black;
+    border-bottom: solid 1px black;
+    text-align: center;
+    margin: 0;
+    padding: 0 0 10px 0;
+}
+.butt-wrap {
+    margin-bottom: 20px; 
+    margin-left: auto;
+    margin-right: auto;
+    width: 100%;
+    margin-top: 40px;
+    margin-bottom: 20px;
+    height: 40px;
+}
+img {
+    margin: 0 auto;
+}
+
+::ng-deep {
+
+    .mat-form-field-prefix {
+        margin-right: 5px;
+    }
+
+    .mat-form-field-flex {
+        align-items: flex-end !important;
+    }
+
 }
