@@ -23,6 +23,8 @@ import { SubjectsCreateModalComponent } from './subjects/subjects-create-modal/s
 import { MatDialogModule } from '@angular/material';
 import { SubjectsService } from './subjects/subjects.service';
 import {TimeTableComponent} from './time-table/time-table.component';
+import { TimeTablePipe } from './time-table/time-table.pipe';
+import { TimeTableAddDialogComponent } from './time-table/time-table-add-dialog/time-table-add-dialog.component';
 
 
 const routes: Routes = [
@@ -57,6 +59,8 @@ const routes: Routes = [
     SubjectsComponent,
     SubjectsCreateModalComponent,
     TimeTableComponent,
+    TimeTablePipe,
+    TimeTableAddDialogComponent,
   ],
   imports: [
     CommonModule,
@@ -80,6 +84,7 @@ const routes: Routes = [
     GroupAddEditDialogComponent,
     GroupViewDialogComponent,
     SubjectsCreateModalComponent,
+    TimeTableAddDialogComponent,
   ]
 })
 export class AdminModule { }

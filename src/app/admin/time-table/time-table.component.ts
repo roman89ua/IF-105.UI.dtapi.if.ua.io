@@ -1,12 +1,13 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {HttpService} from '../../shared/http.service';
 import {TimeTableService} from './time-table.service';
-import {Group, Subject, } from '../entity.interface';
+import {Group, Subject} from '../entity.interface';
 import {FormBuilder, FormControl, FormGroup} from '@angular/forms';
 import {isArray} from 'util';
 import {TimeTable} from '../../shared/entity.interface';
-import {MatTableDataSource} from '@angular/material';
-import {never} from 'rxjs';
+import {MatDialog, MatTable, MatTableDataSource} from '@angular/material';
+import {TimeTableAddDialogComponent} from './time-table-add-dialog/time-table-add-dialog.component';
+import {ModalService} from '../../shared/services/modal.service';
 
 @Component({
   selector: 'app-time-table',
@@ -19,15 +20,20 @@ export class TimeTableComponent implements OnInit {
     'id',
     'group',
     'start_date',
-    'start_time'
+    'start_time',
+    'actions'
   ];
 
-  constructor(private httpService: HttpService, private formBuilder: FormBuilder) {
+  @ViewChild('table', {static: true}) table: MatTable<Group>;
+
+  constructor(private httpService: HttpService,
+              private formBuilder: FormBuilder,
+              public dialog: MatDialog,
+              private modalService: ModalService) {
   }
 
   subjects: Subject[] = [];
   subjectId: any;
-  groups: string[];
   timeTable: TimeTable[] = [];
 
   subjectGroup: FormGroup;
@@ -36,6 +42,25 @@ export class TimeTableComponent implements OnInit {
     this.getSubjects();
     this.subjectGroup = this.formBuilder.group({subjectId: ''});
     this.getTimeTable();
+  }
+
+  addTimeTableDialog(timeTable: TimeTable): void {
+    const dialogRef = this.dialog.open(TimeTableAddDialogComponent, {
+      width: '500px',
+      data: {
+        data: {},
+        description: {
+          title: 'Додати новий розклад',
+          action: 'Додати'
+        }
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.addTimeTable(result);
+      }
+    });
   }
 
   private getSubjects() {
@@ -65,9 +90,16 @@ export class TimeTableComponent implements OnInit {
           this.dataSource.data = table;
         } else {
           this.timeTable = [];
+          this.dataSource.data = [];
         }
       });
     });
   }
 
+  private addTimeTable(timeTable: TimeTable) {
+    this.httpService.insertData('timeTable', timeTable).subscribe((result: TimeTable[]) => {
+      this.timeTable.push(result[0]);
+      this.table.renderRows();
+    });
+  }
 }
