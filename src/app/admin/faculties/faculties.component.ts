@@ -3,10 +3,11 @@ import { ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatDialog, MatTableDataSource, MatTable, MatSnackBar } from '@angular/material';
 
-import { HttpService } from 'src/app/shared/http.service';
+// import { HttpService } from 'src/app/shared/http.service';
 import { CreateEditComponent } from './create-edit/create-edit.component';
 import { Faculty } from 'src/app/shared/entity.interface';
 import { ModalService } from '../../shared/services/modal.service';
+import { ApiService } from 'src/app/shared/services/api.service';
 
 @Component({
   selector: 'app-faculties',
@@ -28,8 +29,8 @@ export class FacultiesComponent implements OnInit, AfterViewInit {
 
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
 
-
-  constructor(private dialog: MatDialog, private snackBar: MatSnackBar, private http: HttpService, private modalService: ModalService) { }
+  private entity: string = 'faculty';
+  constructor(private apiService: ApiService, private dialog: MatDialog, private snackBar: MatSnackBar, private modalService: ModalService) { }
 
   openSnackBar(message: string, action?: string) {
     this.snackBar.open(message, action, {
@@ -44,8 +45,10 @@ export class FacultiesComponent implements OnInit, AfterViewInit {
     this.dataSource.paginator = this.paginator;
   }
   getFaculty() {
+    // const entity = 'faculty';
+    const action = 'getRecords';
     this.loading = true;
-    this.http.getRecords('faculty')
+    this.apiService.getEntity(this.entity, action)
       .subscribe(response => {
         this.dataSource.data = response;
         this.loading = false;
@@ -53,7 +56,8 @@ export class FacultiesComponent implements OnInit, AfterViewInit {
   }
 
   addFaculty(faculty: Faculty) {
-    this.http.insertData('faculty', faculty)
+    const action = 'insertData';
+    this.apiService.postEntity(this.entity, action, faculty)
       .subscribe(response => {
         this.dataSource.data = [...this.dataSource.data, response[0]];
         this.table.renderRows();
@@ -66,7 +70,8 @@ export class FacultiesComponent implements OnInit, AfterViewInit {
   }
 
   updateFaculty(id: number, faculty: Faculty) {
-    this.http.update('faculty', id, faculty)
+    const action = 'update';
+    this.apiService.updEntity(this.entity, action, faculty, id)
       .subscribe(response => {
         this.openSnackBar('Факультет оновлено');
         this.getFaculty();
@@ -108,7 +113,8 @@ export class FacultiesComponent implements OnInit, AfterViewInit {
   }
 
   removeFaculty(id: number) {
-    this.http.del('faculty', id)
+    const action = 'del';
+    this.apiService.delEntity(this.entity, action, id)
       .subscribe((response) => {
         this.openSnackBar('Факультет видалено');
         this.dataSource.data = this.dataSource.data.filter(item => item.faculty_id !== id);

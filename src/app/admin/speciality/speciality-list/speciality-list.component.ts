@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Speciality } from '.././../entity.interface';
-import { ApiService } from '../api.service';
+import { ApiService } from '../../../shared/services/api.service';
 import { DialogFormComponent } from '../dialog-form/dialog-form.component';
 import { MatDialog, MatTableDataSource, MatTable, MatPaginator, MatSnackBar } from '@angular/material';
 import { ModalService } from '../../../shared/services/modal.service';
