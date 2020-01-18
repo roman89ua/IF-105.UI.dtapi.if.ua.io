@@ -5,8 +5,8 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 export interface DialogData {
   data: any;
-  id: number,
-  action: string
+  id: number;
+  action: string;
 }
 @Component({
   selector: 'app-group-view-dialog',

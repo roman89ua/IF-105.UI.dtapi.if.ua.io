@@ -21,10 +21,7 @@ export class SpecialityListComponent implements OnInit {
   @ViewChild('table', { static: false }) table: MatTable<Element>;
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
 
-  constructor(private apiService: ApiService, 
-    private dialog: MatDialog, 
-    private snackBar: MatSnackBar,
-    private modalService: ModalService) { }
+  constructor(private apiService: ApiService, private dialog: MatDialog, private snackBar: MatSnackBar, private modalService: ModalService) { }
 
   ngOnInit() {
     this.getSpeciality();
@@ -42,18 +39,18 @@ export class SpecialityListComponent implements OnInit {
     this.modalService.openConfirmModal(message, () => this.delSpeciality(speciality));
   }
 
-/*   delSpecialityDialog(speciality: Speciality): void {
-    const dialogData = new DialogConfirmModel(speciality);
-    const dialogRef = this.dialog.open(DialogConfirmComponent, {
-      data: dialogData
-    });
-    dialogRef.afterClosed().subscribe(dialogResult => {
-      this.result = dialogResult;
-      if (this.result) {
-        this.delSpeciality(this.result);
-      }
-    });
-  } */
+  /*   delSpecialityDialog(speciality: Speciality): void {
+      const dialogData = new DialogConfirmModel(speciality);
+      const dialogRef = this.dialog.open(DialogConfirmComponent, {
+        data: dialogData
+      });
+      dialogRef.afterClosed().subscribe(dialogResult => {
+        this.result = dialogResult;
+        if (this.result) {
+          this.delSpeciality(this.result);
+        }
+      });
+    } */
   delSpeciality(obj: Speciality) {
     const action = 'del';
     this.apiService.delEntity(this.entity, action, obj.speciality_id)

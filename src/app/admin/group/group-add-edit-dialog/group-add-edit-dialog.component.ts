@@ -1,18 +1,18 @@
-import { Component, OnInit, Inject } from "@angular/core";
-import { HttpService } from "../../../shared/http.service";
-import { Speciality, Faculty } from "../../../shared/entity.interface";
-import { MatDialogRef, MAT_DIALOG_DATA } from "@angular/material/dialog";
+import { Component, OnInit, Inject } from '@angular/core';
+import { HttpService } from '../../../shared/http.service';
+import { Speciality, Faculty } from '../../../shared/entity.interface';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 export interface DialogData {
   data: any;
-  description: any,
-  title : any,
-  action : any
+  description: any;
+  title: any;
+  action: any;
 }
 @Component({
-  selector: "app-group-add-edit-dialog",
-  templateUrl: "./group-add-edit-dialog.component.html",
-  styleUrls: ["./group-add-edit-dialog.component.scss"]
+  selector: 'app-group-add-edit-dialog',
+  templateUrl: './group-add-edit-dialog.component.html',
+  styleUrls: ['./group-add-edit-dialog.component.scss']
 })
 export class GroupAddEditDialogComponent implements OnInit {
   specialities: Speciality[] = [];
@@ -26,12 +26,12 @@ export class GroupAddEditDialogComponent implements OnInit {
 
   ngOnInit() {
     this.httpService
-      .getRecords("speciality")
+      .getRecords('speciality')
       .subscribe((result: Speciality[]) => {
         this.specialities = result;
         console.log(this.specialities);
       });
-    this.httpService.getRecords("faculty").subscribe((result: Faculty[]) => {
+    this.httpService.getRecords('faculty').subscribe((result: Faculty[]) => {
       this.faculties = result;
       console.log(this.faculties);
     });

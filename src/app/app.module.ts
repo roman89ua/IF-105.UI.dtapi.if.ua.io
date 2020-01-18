@@ -25,9 +25,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
   providers: [{
     provide: HTTP_INTERCEPTORS,
     useClass: ApiHttpInterceptor,
-    multi: true,
-    
-  }],
+    multi: true,  
+   }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

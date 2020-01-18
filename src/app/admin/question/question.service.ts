@@ -12,11 +12,11 @@ export class QuestionService {
   constructor(private http: HttpClient) { }
 
   getTestQuestion(id: number) {
-    return this.http.get(`question/getRecordsRangeByTest/${id}/20/0`)
+    return this.http.get(`question/getRecordsRangeByTest/${id}/20/0`);
   }
 
   getQuestionAnswers(id: number) {
-    return this.http.get('answer/getAnswersByQuestion/' + id)
+    return this.http.get('answer/getAnswersByQuestion/' + id);
   }
 
   deleteQuestion(id: number) {
@@ -24,30 +24,29 @@ export class QuestionService {
   }
 
   deleteAnswer(id: number) {
-    return this.http.get('answer/del/' + id)
+    return this.http.get('answer/del/' + id);
   }
 
   deleteAnswerCollection(answers: IAnswer[]) {
-    const deleteAnswerObservables = answers.map(answer => this.deleteAnswer(answer.answer_id))
-    return forkJoin(deleteAnswerObservables)
+    const deleteAnswerObservables = answers.map(answer => this.deleteAnswer(answer.answer_id));
+    return forkJoin(deleteAnswerObservables);
   }
 
   addNewQuestion(data: IQuestion) {
-    return this.http.post('question/insertData', data)
+    return this.http.post('question/insertData', data);
   }
-  
   addNewAnswer(data: IAnswer) {
-    return this.http.post('answer/insertData', data)
+    return this.http.post('answer/insertData', data);
   }
 
   addAnswerCollection(answers, questionId) {
-    answers.forEach((answer) => { 
-      //need to refactor
-      delete answer.answer_id 
-      delete answer.error
-    })  
-    const obsArray = answers.map((answer) => this.addNewAnswer({...answer, question_id: questionId}));
-    return forkJoin(obsArray)
+    answers.forEach((answer) => {
+      // need to refactor
+      delete answer.answer_id;
+      delete answer.error;
+    });
+    const obsArray = answers.map((answer) => this.addNewAnswer({ ...answer, question_id: questionId }));
+    return forkJoin(obsArray);
   }
 
   toBase64(file: File) {
@@ -55,10 +54,8 @@ export class QuestionService {
 
       const reader = new FileReader();
       reader.readAsDataURL(file);
- 
       reader.onload = () => observer.next(reader.result);
       reader.onerror = err => observer.error(err);
-  
-    })
-  } 
+    });
+  }
 }

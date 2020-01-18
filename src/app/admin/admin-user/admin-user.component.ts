@@ -5,7 +5,7 @@ import { of, from } from 'rxjs';
 import { mergeMap } from 'rxjs/operators';
 import { MatDialog, MatSnackBar } from '@angular/material';
 import { CreateUpdateUserComponent } from './create-update-user/create-update-user.component';
-import { catchError } from 'rxjs/operators'; 
+import { catchError } from 'rxjs/operators';
 import { ModalService } from '../../shared/services/modal.service';
 @Component({
   selector: 'app-admin-user',
@@ -55,11 +55,11 @@ export class AdminUserComponent implements OnInit {
       .subscribe(() => {
         if (newData) {
           this.userList = this.userList.map(user => {
-            if(user.id === newData.id) {
+            if (user.id === newData.id) {
               return newData;
             }
             return user;
-          }) 
+          });
         }
       });
   }

@@ -6,8 +6,8 @@ import { NgModule } from '@angular/core';
 import { NgxMaterialTimepickerModule } from 'ngx-material-timepicker';
 
 export interface DialogData {
-  data: any,
-  description: any
+  data: any;
+  description: any;
 }
 @Component({
   selector: 'app-time-table-add-dialog',

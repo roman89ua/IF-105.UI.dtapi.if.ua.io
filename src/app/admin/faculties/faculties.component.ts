@@ -2,8 +2,6 @@ import { Component, OnInit, AfterViewInit, } from '@angular/core';
 import { ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatDialog, MatTableDataSource, MatTable, MatSnackBar } from '@angular/material';
-
-// import { HttpService } from 'src/app/shared/http.service';
 import { CreateEditComponent } from './create-edit/create-edit.component';
 import { Faculty } from 'src/app/shared/entity.interface';
 import { ModalService } from '../../shared/services/modal.service';
@@ -21,12 +19,9 @@ export class FacultiesComponent implements OnInit, AfterViewInit {
   id: number;
   loading = false;
 
-
   dataSource = new MatTableDataSource<Faculty>();
 
-
   @ViewChild('table', { static: false }) table: MatTable<Element>;
-
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
 
   private entity: string = 'faculty';
@@ -45,7 +40,6 @@ export class FacultiesComponent implements OnInit, AfterViewInit {
     this.dataSource.paginator = this.paginator;
   }
   getFaculty() {
-    // const entity = 'faculty';
     const action = 'getRecords';
     this.loading = true;
     this.apiService.getEntity(this.entity, action)
@@ -54,7 +48,6 @@ export class FacultiesComponent implements OnInit, AfterViewInit {
         this.loading = false;
       });
   }
-
   addFaculty(faculty: Faculty) {
     const action = 'insertData';
     this.apiService.postEntity(this.entity, action, faculty)
@@ -68,7 +61,6 @@ export class FacultiesComponent implements OnInit, AfterViewInit {
         }
       );
   }
-
   updateFaculty(id: number, faculty: Faculty) {
     const action = 'update';
     this.apiService.updEntity(this.entity, action, faculty, id)
@@ -81,7 +73,6 @@ export class FacultiesComponent implements OnInit, AfterViewInit {
         }
       );
   }
-
   createFacultyDialog() {
     const dialogRef = this.dialog.open(CreateEditComponent, {
       width: '400px'
@@ -93,7 +84,6 @@ export class FacultiesComponent implements OnInit, AfterViewInit {
       } else { return; }
     });
   }
-
   updateFacultyDialog(faculty: Faculty) {
     const dialogRef = this.dialog.open(CreateEditComponent, {
       width: '400px',
@@ -106,12 +96,10 @@ export class FacultiesComponent implements OnInit, AfterViewInit {
       } else { return; }
     });
   }
-
   openComfirmDialog(faculty: Faculty) {
     const message = `Підтвердіть видалення факультету "${faculty.faculty_name}"?`;
     this.modalService.openConfirmModal(message, () => this.removeFaculty(faculty.faculty_id));
   }
-
   removeFaculty(id: number) {
     const action = 'del';
     this.apiService.delEntity(this.entity, action, id)

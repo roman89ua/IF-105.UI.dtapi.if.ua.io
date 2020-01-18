@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl,FormGroup, Validators} from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef } from '@angular/material';
 import { SubjectsService } from '../subjects.service';
 
@@ -11,20 +11,19 @@ import { SubjectsService } from '../subjects.service';
 export class SubjectsCreateModalComponent implements OnInit {
   public addSubject = new FormGroup({
     subject_name: new FormControl('', [Validators.required]),
-    subject_description: new FormControl('',[Validators.required])
+    subject_description: new FormControl('', [Validators.required])
 
-  })
-  
-  constructor(private subjectsService: SubjectsService,  public newDialogSubject: MatDialogRef<SubjectsCreateModalComponent>) { }
+  });
+
+  constructor(private subjectsService: SubjectsService, public newDialogSubject: MatDialogRef<SubjectsCreateModalComponent>) { }
 
   ngOnInit() {
   }
-  
-  createSubject(){
-    this.newDialogSubject.close(this.addSubject.value)
+  createSubject() {
+    this.newDialogSubject.close(this.addSubject.value);
   }
 
-  cancelCreateNewSubject(){
+  cancelCreateNewSubject() {
     this.newDialogSubject.close();
   }
 }

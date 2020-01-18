@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-//import { DialogService } from 'src/app/shared/dialog.service';
+// import { DialogService } from 'src/app/shared/dialog.service';
 import { ActivatedRoute } from '@angular/router';
 import { MatDialog } from '@angular/material';
 import { mergeMap } from 'rxjs/operators';
@@ -25,7 +25,7 @@ export class StudentsComponent implements OnInit {
 
   constructor(
     private studentsHttpService: StudentsService,
-    //public dialogService: DialogService,
+    // public dialogService: DialogService,
     public dialog: MatDialog,
     private activatedRoute: ActivatedRoute,
     private modalService: ModalService
@@ -45,7 +45,7 @@ export class StudentsComponent implements OnInit {
       this.STUDENTS_LIST = result;
     });
   }
-  openConfirmDialog(name: string, surname:string, id: string) {
+  openConfirmDialog(name: string, surname: string, id: string) {
     const message = `Підтвердіть видалення користувача "${surname} ${name}"`;
     this.modalService.openConfirmModal(message, () => this.delStudent(id));
   }

@@ -41,29 +41,29 @@ export class NewQuestionComponent implements OnInit {
 
   questionTaskAdded(): ValidatorFn  {
     return (control: FormGroup) => {
-      let invalid = control.get('question_text').value === '' && control.get('attachment').value === ''
+      let invalid = control.get('question_text').value === '' && control.get('attachment').value === '';
       return invalid ? {'noTask': true} : null;
-    }
+    };
   }
 
   deleteAnswer(id: number): void {
     this.answers = this.answers.filter(answer => {
-      return answer.answer_id !== id
-    })
+      return answer.answer_id !== id;
+    });
   }
 
   addAnswer(questionType = false): void {
 
     if (questionType) {
       this.answers = [];
-      for (let i=1; i<=2; i++) {
+      for (let i = 1; i <= 2; i++) {
         this.answers.push({
           answer_id: i,
           answer_text: '',
           true_answer: 1,
           attachment: '',
           error: ''
-        })
+        });
       }
       return;
     }
@@ -76,19 +76,19 @@ export class NewQuestionComponent implements OnInit {
         true_answer: trueAnswer,
         attachment: '',
         error: ''
-      })
+      });
     } else {
       let id;
       id = this.answers.reduce((maxId, val) => {
-         return (val.answer_id > maxId) ? val.answer_id  : maxId
-      }, 0)
+         return (val.answer_id > maxId) ? val.answer_id  : maxId;
+      }, 0);
       this.answers.push({
         answer_id: id + 1,
         answer_text: '',
         true_answer: trueAnswer,
         attachment: '',
         error: ''
-      })
+      });
     }
   }
 
@@ -96,12 +96,12 @@ export class NewQuestionComponent implements OnInit {
     this.answers = this.answers
       .map((answer) => {
         if (answer.answer_id === val.answer_id) {
-          return val
+          return val;
         }
         else {
-          return (val.true_answer == 1 && this.questionType === 1) ? { ...answer, true_answer: 0 } : answer
+          return (val.true_answer === 1 && this.questionType === 1) ? { ...answer, true_answer: 0 } : answer;
         }
-      })
+      });
   }
 
 
@@ -117,7 +117,7 @@ export class NewQuestionComponent implements OnInit {
         } else {
           answer.true_answer = 0;
         }
-      })
+      });
     }
     this.questionType = type;
     if (type === 4) {
@@ -130,32 +130,32 @@ export class NewQuestionComponent implements OnInit {
       ...this.newQuestionForm.value,
       test_id: this.testId,
       attachment: ''
-    }
+    };
     this.questionService.addNewQuestion(questionData)
-      .pipe(switchMap((res:{question_id:number}[]): any => { //FIX
+      .pipe(switchMap((res: {question_id: number}[]): any => { // FIX
         if (this.answers.length) {
-          this.questionService.addAnswerCollection(this.answers, res[0].question_id)
+          this.questionService.addAnswerCollection(this.answers, res[0].question_id);
         } else {
-          of()
+          of();
         }
       }))
-      .subscribe(() => this.router.navigate([`admin/exams/${this.testId}/questions`]))
+      .subscribe(() => this.router.navigate([`admin/exams/${this.testId}/questions`]));
   }
 
   attachmentUploadHandler(e): void {
     const file = e.dataTransfer ? e.dataTransfer.files[0] : e.target.files[0];
     if (file) {
       this.questionService.toBase64(file)
-        .subscribe((res:string) => { this.setAttachmentValue(res) })
-    } else { return }
+        .subscribe((res: string) => { this.setAttachmentValue(res); });
+    } else { return; }
   }
-  
+
   removeImage(): void {
     this.setAttachmentValue('');
   }
 
   private setAttachmentValue(value: string): void {
-    this.newQuestionForm.get('attachment').setValue(value)
+    this.newQuestionForm.get('attachment').setValue(value);
     this.attachmentTouched = true;
   }
 

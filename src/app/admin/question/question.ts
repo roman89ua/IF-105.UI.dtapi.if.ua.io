@@ -12,5 +12,5 @@ export interface IAnswer {
     question_id?: number;
     answer_text: string;
     attachment: string;
-    error?: string | boolean; //FIX
+    error?: string | boolean; // FIX
 }

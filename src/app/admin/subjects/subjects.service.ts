@@ -7,7 +7,6 @@ import { HttpClient } from '@angular/common/http';
   providedIn: 'root'
 })
 export class SubjectsService {
-  
   constructor(private http: HttpClient) {}
 
   creatSubject(formData) {
@@ -18,7 +17,7 @@ export class SubjectsService {
     return this.http.get('Subject/getRecords');
   }
 
-  updateSubject(id: number, formData){
+  updateSubject(id: number, formData) {
     return this.http.post(`Subject/update/${id}`, formData);
   }
 
