@@ -10,19 +10,23 @@
 
 <div class="mat-elevation-z8">
     <table mat-table [dataSource]="subjectTableList" matSort>
+        <ng-container matColumnDef="subject_number">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Номер</th>
+            <td mat-cell *matCellDef="let row; let No = index" >{{No+1}}</td>
+        </ng-container>
 
         <ng-container matColumnDef="subject_id">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header> Ідентифікатор </th>
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Ідентифікатор</th>
             <td mat-cell *matCellDef="let row"> {{row.subject_id}} </td>
         </ng-container>
 
         <ng-container matColumnDef="subject_name">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header> Назва предмета </th>
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Назва предмета</th>
             <td mat-cell *matCellDef="let row"> {{row.subject_name}} </td>
         </ng-container>
 
         <ng-container matColumnDef="subject_description">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header> Опис предмета </th>
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Опис предмета</th>
             <td mat-cell *matCellDef="let row"> {{row.subject_description}} </td>
         </ng-container>
 

@@ -17,14 +17,14 @@ import { SubjectConfirmComponent } from './subject-confirm/subject-confirm.compo
 export class SubjectsComponent implements OnInit {
   result: any;
   public subjectTableList: Array<ISubjects> = [];
-  public displayedColumns: string[] = ['subject_id', 'subject_name', 'subject_description', 'subject_menu'];
+  public displayedColumns: string[] = ['subject_number', /*'subject_id',*/ 'subject_name', 'subject_description', 'subject_menu'];
   public dataSource = new MatTableDataSource<ISubjects>();
 
   @ViewChild(MatSort, {static: true}) sort: MatSort;
 
   constructor(
     public dialog: MatDialog,
-    // public dialogService,
+    
     private subjectsService: SubjectsService,
   ) { }
 
@@ -35,6 +35,7 @@ export class SubjectsComponent implements OnInit {
     this.subjectsService.readSubjects()
       .subscribe((data: Array<ISubjects>) => {
         this.subjectTableList = data;
+        console.log(this.subjectTableList);
         this.dataSource.sort = this.sort;
       }
     );
