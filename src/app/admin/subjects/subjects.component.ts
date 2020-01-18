@@ -62,6 +62,28 @@ export class SubjectsComponent implements OnInit {
         }
       });
   }
+  edit(row: ISubjects): void{
+    const newDialogSubject = this.dialog.open(SubjectsCreateModalComponent, {
+      width: '500px',
+      disableClose: true,
+    });
+    newDialogSubject.afterClosed()
+      .pipe(
+        mergeMap((data) => {
+          if (data) {
+            return this.subjectsService.updateSubject(row.subject_id, data);
+          }
+          return of(null);
+        })
+      )
+      .subscribe((newData: Array<ISubjects> | null) => {
+        if (newData) {
+          this.showSubjects();
+          this.dataSource.sort = this.sort;
+        }
+      });
+  }
+
   delete(row: ISubjects): void {
     const dialogData = `Ви видаляєте ${row.subject_name}, ви впевнені?`;
     const dialogRef = this.dialog.open(SubjectConfirmComponent, {

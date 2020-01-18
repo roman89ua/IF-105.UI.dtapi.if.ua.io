@@ -10,6 +10,9 @@ table {
     font-size: 14px;
 }
 
-mat-icon:hover {
+.delete:hover {
     color: red;
+}
+.edit:hover {
+    color: orange;
 }
