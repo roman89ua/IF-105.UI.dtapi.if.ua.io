@@ -6,7 +6,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatDialog } from '@angular/material/dialog';
 import { GroupAddEditDialogComponent } from './group-add-edit-dialog/group-add-edit-dialog.component';
 import { GroupViewDialogComponent } from './group-view-dialog/group-view-dialog.component';
-import { ModalService} from '../../shared/services/modal.service'
+import { ModalService} from '../../shared/services/modal.service';
 
 @Component({
   selector: 'app-group',
@@ -45,7 +45,7 @@ export class GroupComponent implements OnInit {
   }
 
   // create modal window for add new group
-  addGroupDialog(group: Group): void {
+  addGroupDialog(): void {
     const dialogRef = this.dialog.open(GroupAddEditDialogComponent, {
       width: '500px',
       data: {

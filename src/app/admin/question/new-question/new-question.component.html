@@ -1,0 +1,84 @@
+<form [formGroup]="newQuestionForm" class="admin-form" (ngSubmit)="createQuestion()">
+    <mat-form-field class="full-width">
+            <mat-label>Питання</mat-label>
+            <input
+              matInput
+              formControlName="question_text"
+              placeholder="Текст питання"
+            />
+    </mat-form-field>
+    <mat-form-field class="full-width">
+        <mat-label>Тип питання</mat-label>
+        <mat-select formControlName="type">
+          <mat-option value="1">Одна відповідь</mat-option>
+          <mat-option value="2">Декілька відповідей</mat-option>
+          <mat-option value="3">Введення відповіді</mat-option>
+          <mat-option value="4">Числовий діапазон</mat-option>
+        </mat-select>
+    </mat-form-field>
+    <mat-form-field class="full-width">
+        <mat-label>Рівень питання</mat-label>
+        <mat-select formControlName="level">
+          <mat-option value="1">Перший</mat-option>
+          <mat-option value="2">Другий</mat-option>
+          <mat-option value="3">Третій</mat-option>
+          <mat-option value="4">Четвертий</mat-option>
+        </mat-select>
+    </mat-form-field>
+
+    <div class="form-group">
+        Зображення
+        <button mat-raised-button (click)="attachmentInput.click()">
+            <mat-icon aria-hidden="false" aria-label="expand">attach_file</mat-icon>
+        </button>
+        <input hidden type="file" (change)="attachmentUploadHandler($event)" #attachmentInput>
+        <input type="hidden" formControlName="attachment">
+    </div>
+
+    <div class="form-group attachment-wrapper" *ngIf="questionAttachment.value">
+        <img 
+          [src]="questionAttachment.value" 
+          alt="imageSrc" 
+          class="attachment-preview-image">
+        <mat-icon 
+          aria-hidden="false"
+          color="warn"
+          class="remove-icon"
+          aria-label="delete"
+          (click)="removeImage()">
+          close</mat-icon>
+    </div>
+    
+    <mat-error 
+      class="form-group"
+     *ngIf="newQuestionForm.errors?.noTask && (questionText.dirty || questionText.touched || attachmentTouched)">
+        Питання повинне мати текст або додане зображення
+    </mat-error>
+    <div class="form-group">
+      <button
+        mat-raised-button color="primary"
+        type="button" 
+        (click)="addAnswer()"
+        [disabled]="+questionType === 4">
+        Додати відповідь
+      </button>
+    </div>
+      
+
+    <div *ngIf="answers" >
+        <div *ngFor="let answer of answers; let i = index">
+            <app-question-answer
+                [index]="i"
+                [questionType]="questionType"
+                [questionAnswer]="answer"
+                (answerDataChange)="saveAnswerValue($event)"
+                (questionAnswerDelete)="deleteAnswer($event)"></app-question-answer>
+        </div>
+    </div>
+    <button 
+      mat-raised-button 
+      type="submit">
+      <mat-icon aria-hidden="false" aria-label="save">save</mat-icon>
+      Створити 
+    </button>
+</form>

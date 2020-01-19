@@ -20,3 +20,15 @@ export interface Faculty {
 export interface DialogData {
     data: any;
   }
+
+export interface TimeTable {
+  timetable_id: number;
+  group_id: number;
+  group_name?: string;
+  subject_id: number;
+  start_date: number;
+  start_time: number;
+  end_date: number;
+  end_time: number;
+
+}

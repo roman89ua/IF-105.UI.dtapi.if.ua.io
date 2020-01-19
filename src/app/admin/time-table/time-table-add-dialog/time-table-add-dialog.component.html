@@ -1,0 +1,30 @@
+<h3 mat-dialog-title>{{data.description.title}}</h3>
+<div mat-dialog-content>
+  <div>
+    <mat-form-field class="example-full-width">
+      <mat-label>Група</mat-label>
+      <mat-select [(ngModel)]="data.data.group_id" name="group_id" #group="ngModel">
+        <mat-option *ngFor="let group of groups" [value]="group.group_id">
+          {{group.group_name}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+  <div>
+    <mat-form-field>
+      <input matInput [matDatepicker]="picker" placeholder="Виберіть дату" disabled>
+      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker #picker disabled="false"></mat-datepicker>
+    </mat-form-field>
+  </div>
+  <div class="ngx-timepicker-field-example">
+    <ngx-timepicker-field [format]="24"></ngx-timepicker-field>
+  </div>
+  <div mat-dialog-actions>
+    <button mat-raised-button mat-dialog-close cdkFocusInitial>Відмінити</button>
+    <button mat-raised-button [mat-dialog-close]="data.data" color="warn">
+      <mat-icon aria-hidden="false" aria-label="save">save</mat-icon>
+      {{data.description.action}}
+    </button>
+  </div>
+</div>

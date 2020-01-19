@@ -3,7 +3,7 @@
 </ng-template>
 <section class="container">
     <div class="mat-elevation-z8">
-        <table mat-table [dataSource]="dataSource" #table class="table" *ngIf="!loading; else loadingBlock">
+        <table mat-table [dataSource]="dataSource" #table class="table">
 
             <ng-container matColumnDef="code">
                 <th mat-header-cell *matHeaderCellDef>Speciality Code</th>
@@ -21,7 +21,7 @@
                     <a (click)="updSpeciality(element)"><i class="material-icons edit">
                             edit
                         </i></a>
-                    <a (click)="delSpecialityDialog(element)"><i class="material-icons delete">
+                    <a (click)="openConfirmDialog(element)"><i class="material-icons delete">
                             delete
                         </i></a>
                 </td>

@@ -16,6 +16,11 @@ export interface Faculty {
   faculty_name: string;
   faculty_description: string;
 }
+export interface Subject {
+  subject_id: number;
+  subject_name: string;
+  subject_description: string;
+}
 
 export interface DialogData {
     data: any;
