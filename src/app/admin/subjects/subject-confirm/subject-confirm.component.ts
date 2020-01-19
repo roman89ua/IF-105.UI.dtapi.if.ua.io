@@ -15,7 +15,7 @@ export class SubjectConfirmComponent implements OnInit {
   confirm: string;
   constructor(public newDialogSubject: MatDialogRef<SubjectConfirmComponent>, @Inject(MAT_DIALOG_DATA) public data: string) {
   }
-  onCensle() {
+  onCansle() {
     this.newDialogSubject.close(null);
   }
   onConfirm() {
