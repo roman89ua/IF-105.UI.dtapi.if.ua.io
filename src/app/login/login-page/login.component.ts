@@ -41,9 +41,10 @@ export class LoginComponent implements OnInit {
           return of();
         }),
       )
-      .subscribe(() => {
+      .subscribe((response: any) => {
         this.error = null;
-        this.router.navigate(['admin']);
+        const navigateTo = response.roles.includes('admin') ? 'admin' : 'student';
+        this.router.navigate([navigateTo]);
       });
   }
 }
