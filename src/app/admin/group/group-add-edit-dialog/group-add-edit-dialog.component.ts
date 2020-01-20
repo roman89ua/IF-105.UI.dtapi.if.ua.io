@@ -2,12 +2,13 @@ import { Component, OnInit, Inject } from "@angular/core";
 import { HttpService } from "../../../shared/http.service";
 import { Speciality, Faculty } from "../../../shared/entity.interface";
 import { MatDialogRef, MAT_DIALOG_DATA } from "@angular/material/dialog";
+import { ModalService} from '../../../shared/services/modal.service';
 
 export interface DialogData {
   data: any;
-  description: any,
-  title : any,
-  action : any
+  description: string,
+  title : string,
+  action : string
 }
 @Component({
   selector: "app-group-add-edit-dialog",
@@ -21,7 +22,8 @@ export class GroupAddEditDialogComponent implements OnInit {
   constructor(
     private httpService: HttpService,
     public dialogRef: MatDialogRef<GroupAddEditDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: DialogData
+    @Inject(MAT_DIALOG_DATA) public data: DialogData,
+    private modalService: ModalService
   ) {}
 
   ngOnInit() {
@@ -29,9 +31,14 @@ export class GroupAddEditDialogComponent implements OnInit {
       .getRecords("speciality")
       .subscribe((result: Speciality[]) => {
         this.specialities = result;
+      }, () => {
+        this.modalService.openErrorModal('Помилка завантаження даних');
       });
-    this.httpService.getRecords("faculty").subscribe((result: Faculty[]) => {
-      this.faculties = result;
+    this.httpService.getRecords("faculty")
+      .subscribe((result: Faculty[]) => {
+        this.faculties = result;
+    }, () => {
+      this.modalService.openErrorModal('Помилка завантаження даних');
     });
   }
 }

@@ -2,6 +2,7 @@ import { Component, OnInit, Inject } from '@angular/core';
 import { HttpService } from '../../../shared/http.service';
 import { Speciality, Faculty } from '../../../shared/entity.interface';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { ModalService} from '../../../shared/services/modal.service';
 
 export interface DialogData {
   data: any;
@@ -20,17 +21,27 @@ export class GroupViewDialogComponent implements OnInit {
   constructor(
     private httpService: HttpService,
     public dialogRef: MatDialogRef<GroupViewDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: DialogData
+    @Inject(MAT_DIALOG_DATA) public data: DialogData,
+    private modalService: ModalService
   ) { }
 
   ngOnInit() {
-    this.httpService
+    if (this.data.action == 'getGroupsBySpeciality' ) {
+      this.httpService
       .getRecords('speciality')
       .subscribe((result: Speciality[]) => {
         this.specialities = result;
+      }, () => {
+        this.modalService.openErrorModal('Помилка завантаження даних');
       });
-    this.httpService.getRecords('faculty').subscribe((result: Faculty[]) => {
-      this.faculties = result;
-    });
+    }
+    
+    if (this.data.action == 'getGroupsByFaculty') {
+      this.httpService.getRecords('faculty').subscribe((result: Faculty[]) => {
+        this.faculties = result;
+      }, () => {
+        this.modalService.openErrorModal('Помилка завантаження даних');
+      });
+    }
   }
 }

@@ -1,24 +1,26 @@
 <div class="container">
+<div class="button-box">
   <button
-    mat-raised-button
-    color="prime"
-    (click)="viewGroupDialog('getGroupsBySpeciality')"
-  >
-    <mat-icon aria-hidden="false" aria-label="search">search</mat-icon>
-    Перегляд груп за спеціальністю
-  </button>
-  <button
-    mat-raised-button
-    color="prime"
-    (click)="viewGroupDialog('getGroupsByFaculty')"
-  >
-    <mat-icon aria-hidden="false" aria-label="search">search</mat-icon>
-    Перегляд груп по інституту
-  </button>
-  <button mat-raised-button color="prime" (click)="addGroupDialog()">
-    <mat-icon aria-hidden="false" aria-label="add">add</mat-icon>
-    Додати нову групу
-  </button>
+  mat-raised-button
+  color="prime"
+  (click)="viewGroupDialog('getGroupsBySpeciality')"
+>
+  <mat-icon aria-hidden="false" aria-label="search">search</mat-icon>
+  Перегляд груп за спеціальністю
+</button>
+<button
+  mat-raised-button
+  color="prime"
+  (click)="viewGroupDialog('getGroupsByFaculty')"
+>
+  <mat-icon aria-hidden="false" aria-label="search">search</mat-icon>
+  Перегляд груп по інституту
+</button>
+<button mat-raised-button color="prime" (click)="addGroupDialog()">
+  <mat-icon aria-hidden="false" aria-label="add">add</mat-icon>
+  Додати нову групу
+</button>
+</div>
   <mat-form-field>
     <input
       matInput
