@@ -12,16 +12,13 @@ export class SubjectsService {
 
   creatSubject(formData) {
     return this.http.post('Subject/insertData', formData);
-
   }
   readSubjects() {
     return this.http.get('Subject/getRecords');
   }
-
   updateSubject(id: number, formData){
     return this.http.post(`Subject/update/${id}`, formData);
   }
-
   deleteSubject(id: number) {
     return this.http.get(`Subject/del/${id}`);
   }
