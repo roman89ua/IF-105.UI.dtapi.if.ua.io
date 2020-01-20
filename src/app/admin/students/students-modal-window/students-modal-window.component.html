@@ -1,0 +1,92 @@
+<form [formGroup]="studentForm" (ngSubmit)="handleSubmit(studentForm.value)">
+    
+    <mat-form-field class="example-full-width">
+        <label>
+            Прізвище:
+            <input class="studentInput" matInput type="text" formControlName="lastname" required>
+        </label>
+        <mat-error *ngIf="studentForm.get('lastname').invalid && (studentForm.get('lastname').dirty || studentForm.get('lastname').touched)">
+            <span *ngIf="studentForm.get('lastname').errors.required">Поле не заповнене </span>
+        </mat-error>
+    </mat-form-field>
+
+    <mat-form-field class="example-full-width">
+        <label>
+            Ім'я
+            <input class="studentInput" matInput type="text" formControlName="firstname" required>
+        </label>
+        <mat-error *ngIf="studentForm.get('firstname').invalid && (studentForm.get('firstname').dirty || studentForm.get('firstname').touched)">
+            <span *ngIf="studentForm.get('firstname').errors.required">Поле не заповнене </span>
+        </mat-error>
+    </mat-form-field>
+
+    <mat-form-field class="example-full-width">
+        <label>
+            По-батькові:
+            <input class="studentInput" matInput type="text" formControlName="fathername" required>
+        </label>
+        <mat-error *ngIf="studentForm.get('fathername').invalid && (studentForm.get('fathername').dirty || studentForm.get('fathername').touched)">
+            <span *ngIf="studentForm.get('fathername').errors.required">Поле не заповнене </span>
+        </mat-error>
+    </mat-form-field>
+
+    <mat-form-field class="example-full-width">
+        <label>
+            Номер залікової книжки:
+            <input class="studentInput" matInput type="text" formControlName="gradebookID">
+        </label>
+        <mat-error *ngIf="studentForm.get('gradebookID').invalid && (studentForm.get('gradebookID').dirty || studentForm.get('gradebookID').touched)">
+            <span *ngIf="studentForm.get('gradebookID').errors.required">Поле не заповнене </span>
+            <span *ngIf="studentForm.get('gradebookID').errors.propertyIsNotUnique">Користувач з таким номером залікової книжки вже існує</span>
+        </mat-error>
+    </mat-form-field>
+
+    <mat-form-field class="example-full-width">
+        <label>
+            Унікальне ім'я юзера в системі:
+            <input class="studentInput" matInput type="text" formControlName="login">
+        </label>
+        <mat-error *ngIf="studentForm.get('login').invalid && (studentForm.get('login').dirty || studentForm.get('login').touched)">
+            <span *ngIf="studentForm.get('login').errors.required">Поле не заповнене </span>
+            <span *ngIf="studentForm.get('login').errors.propertyIsNotUnique">Такий користувач вже існує</span>
+        </mat-error>
+    </mat-form-field>
+
+    <mat-form-field class="example-full-width">
+        <label>
+            Електронна пошта:
+            <input class="studentInput" matInput type="text" formControlName="email">
+        </label>
+        <mat-error *ngIf="studentForm.get('email').invalid && (studentForm.get('email').dirty || studentForm.get('email').touched)">
+            <span *ngIf="studentForm.get('email').errors.required">Поле не заповнене </span>
+            <span *ngIf="studentForm.get('email').errors.email">Введіть коректну електронну адресу</span>
+            <span *ngIf="studentForm.get('email').errors.propertyIsNotUnique">Користувач з такою електронною адресою вже існує</span>
+        </mat-error>
+    </mat-form-field>
+
+    <mat-form-field class="example-full-width">
+        <label>
+            Введіть пароль:
+            <input class="studentInput" matInput type="password" formControlName="password">
+        </label>
+        <mat-error *ngIf="studentForm.get('password').invalid && (studentForm.get('password').dirty || studentForm.get('password').touched)">
+            <span *ngIf="studentForm.get('password').errors.required">Поле не заповнене </span>
+            <span *ngIf="studentForm.get('password').errors.minlength">Довжина паролю повинна бути більшою ніж 8 символів</span>
+        </mat-error>
+    </mat-form-field>
+
+    <mat-form-field class="example-full-width">
+        <label>
+            Підтвердіть пароль:
+            <input class="studentInput" matInput type="password" formControlName="password_confirm">
+        </label>
+        <mat-error *ngIf="studentForm.get('password_confirm').invalid && (studentForm.get('password_confirm').dirty || studentForm.get('password_confirm').touched)">
+            <span *ngIf="studentForm.get('password_confirm').errors.required">Поле не заповнене </span>
+            <span *ngIf="studentForm.get('password_confirm').errors.minlength">Довжина паролю повинна бути більшою ніж 8 символів</span>
+            <span *ngIf="studentForm.get('password_confirm').errors.notEquivalent">Паролі не співпадають</span>
+        </mat-error>
+    </mat-form-field>
+
+    <button mat-stroked-button color="primary" type="submit" [disabled]="!studentForm.valid">Надіслати форму</button>
+  
+</form>
