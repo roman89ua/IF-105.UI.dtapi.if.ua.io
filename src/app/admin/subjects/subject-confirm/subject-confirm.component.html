@@ -1,0 +1,8 @@
+<h1 mat-dialog-title>Підтвердження</h1>
+<div mat-dialog-content>
+    <p>{{confirm}}</p>
+</div>
+<div mat-dialog-actions>
+    <button mat-button color="primary" (click)="onCancel()">Скасувати</button>
+    <button mat-button color="primary" (click)="onConfirm()" cdkFocusInitial>Підтверджую</button>
+</div>

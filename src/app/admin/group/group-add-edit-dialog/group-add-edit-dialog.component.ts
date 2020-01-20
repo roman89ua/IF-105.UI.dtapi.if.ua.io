@@ -1,8 +1,14 @@
 import { Component, OnInit, Inject } from "@angular/core";
 import { HttpService } from "../../../shared/http.service";
-import { Speciality, Faculty, DialogData } from "../../../shared/entity.interface";
+import { Speciality, Faculty } from "../../../shared/entity.interface";
 import { MatDialogRef, MAT_DIALOG_DATA } from "@angular/material/dialog";
 
+export interface DialogData {
+  data: any;
+  description: any,
+  title : any,
+  action : any
+}
 @Component({
   selector: "app-group-add-edit-dialog",
   templateUrl: "./group-add-edit-dialog.component.html",

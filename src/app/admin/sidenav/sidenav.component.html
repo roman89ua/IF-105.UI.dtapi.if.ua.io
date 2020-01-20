@@ -10,7 +10,7 @@
   <span>Dtester</span>
   <span class="fill-space"></span>
   <button mat-button [matMenuTriggerFor]="menu">
-    {{ (authService.getCurrentUser() | async)?.username }}
+    {{ (currentUser$ | async)?.username }}
   </button>
   <mat-menu #menu="matMenu">
     <button mat-menu-item (click)="logoutHandler()">Log out</button>
@@ -34,6 +34,7 @@
       <mat-divider></mat-divider>
       <a mat-list-item routerLink="speciality">Спеціальності</a>
       <mat-divider></mat-divider>
+      <a mat-list-item routerLink="subjects">Предмети</a>
       <mat-divider></mat-divider>
       <a mat-list-item routerLink="timeTable">Розклад тестів</a>
       <mat-divider></mat-divider>

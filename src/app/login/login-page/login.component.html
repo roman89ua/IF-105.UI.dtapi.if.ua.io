@@ -1,12 +1,23 @@
-<form class="form-wrapper">
+<div class="form-wrapper">
+    <ng-container class="logo" *ngIf="logo">
+        <img [src]="logo">
+    </ng-container>
+<form class="">
+
+    <h3 class="header">Авторизація</h3>
     <mat-form-field class="input-wrapper">
-       <input matInput placeholder="Login" [(ngModel)]="userData.username" name="username">
-   </mat-form-field>
-   <mat-form-field class="input-wrapper">
-       <input type="password" matInput placeholder="Password" [(ngModel)]="userData.password" name="password"> 
-   </mat-form-field>
-   <div class="input-wrapper" *ngIf="error">
+        <mat-icon matPrefix aria-hidden="false" aria-label="account_box">account_box</mat-icon>
+        <input matInput placeholder="Логін" [(ngModel)]="userData.username" name="username">
+    </mat-form-field>
+    
+    <mat-form-field class="input-wrapper">
+        <mat-icon matPrefix aria-hidden="false" aria-label="work">work</mat-icon>
+        <input type="password" matInput placeholder="Пароль" [(ngModel)]="userData.password" name="password">
+    </mat-form-field>
+ 
+   <div class="" *ngIf="error">
        <label>{{ error }}</label> 
    </div>
-   <button class="input-wrapper" mat-flat-button color="primary" (click)="login()">Log In</button>
+   <button class="butt-wrap" mat-flat-button color="primary" (click)="login()">Увійти</button>
 </form>
+</div>
