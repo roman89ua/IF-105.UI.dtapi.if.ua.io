@@ -29,11 +29,9 @@ export class GroupAddEditDialogComponent implements OnInit {
       .getRecords("speciality")
       .subscribe((result: Speciality[]) => {
         this.specialities = result;
-        console.log(this.specialities);
       });
     this.httpService.getRecords("faculty").subscribe((result: Faculty[]) => {
       this.faculties = result;
-      console.log(this.faculties);
     });
   }
 }
