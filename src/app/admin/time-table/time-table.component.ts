@@ -76,15 +76,24 @@ export class TimeTableComponent implements OnInit {
     });
   }
 
-  /*editTimeTableDialog(): void {
+  editTimeTableDialog(tableEl: TimeTable): void {
     const dialogRef = this.dialog.open(TimeTableAddDialogComponent, {
       width: '500px',
-      data
-    })
+      data: {
+        data: tableEl,
+        description: {
+          title: 'Редагувати дані розкладу',
+          action: 'Редагувати'
+        }
+      }
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      console.log(result);
+    });
   }
-*/
+
   private getTimeTable(): void {
-    let table = [];
+    let table: TimeTable[] = [];
     this.subjects = [];
     this.subjectGroup.get('subjectId').valueChanges.subscribe(value => {
       this.subjectId = value;
@@ -92,13 +101,14 @@ export class TimeTableComponent implements OnInit {
         if (isArray(response)) {
           table = response;
           const ids = table.map(a => Number(a.group_id));
-          this.httpService.getByEntity('Group', ids).subscribe((value1: [{
-            group_name: string;
-          }]) => {
-            const groups = value1.map(a => a.group_name);
-            for (let i = 0; i < groups.length; i++) {
-              table[i].group_name = groups[i];
-            }
+          this.httpService.getByEntity('Group', ids).subscribe((value1: Group[]) => {
+            table.map(a => {
+              value1.find(obj => {
+                if (obj.group_id === a.group_id) {
+                  a.group_name = obj.group_name;
+                }
+              });
+            });
           });
           this.timeTable = table;
           this.dataSource.data = table;
