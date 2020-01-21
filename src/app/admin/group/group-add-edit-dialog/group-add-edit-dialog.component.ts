@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import { Component, OnInit, Inject } from '@angular/core';
 import { HttpService } from '../../../shared/http.service';
 import { Speciality, Faculty } from '../../../shared/entity.interface';
@@ -8,6 +9,20 @@ export interface DialogData {
   description: any;
   title: any;
   action: any;
+=======
+import { Component, OnInit, Inject } from "@angular/core";
+import { HttpService } from "../../../shared/http.service";
+import { Speciality, Faculty } from "../../../shared/entity.interface";
+import { MatDialogRef, MAT_DIALOG_DATA } from "@angular/material/dialog";
+import { ModalService} from '../../../shared/services/modal.service';
+
+export interface DialogData {
+  data: any;
+  description: {
+    title : string,
+    action : string
+  }
+>>>>>>> 523956a01266056a7f20440d2316030816d4abe4
 }
 @Component({
   selector: 'app-group-add-edit-dialog',
@@ -21,7 +36,8 @@ export class GroupAddEditDialogComponent implements OnInit {
   constructor(
     private httpService: HttpService,
     public dialogRef: MatDialogRef<GroupAddEditDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: DialogData
+    @Inject(MAT_DIALOG_DATA) public data: DialogData,
+    private modalService: ModalService
   ) {}
 
   ngOnInit() {
@@ -29,11 +45,20 @@ export class GroupAddEditDialogComponent implements OnInit {
       .getRecords('speciality')
       .subscribe((result: Speciality[]) => {
         this.specialities = result;
-        console.log(this.specialities);
+      }, () => {
+        this.modalService.openErrorModal('Помилка завантаження даних');
       });
+<<<<<<< HEAD
     this.httpService.getRecords('faculty').subscribe((result: Faculty[]) => {
       this.faculties = result;
       console.log(this.faculties);
+=======
+    this.httpService.getRecords("faculty")
+      .subscribe((result: Faculty[]) => {
+        this.faculties = result;
+    }, () => {
+      this.modalService.openErrorModal('Помилка завантаження даних');
+>>>>>>> 523956a01266056a7f20440d2316030816d4abe4
     });
   }
 }

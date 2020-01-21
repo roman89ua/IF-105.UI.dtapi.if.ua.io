@@ -1,9 +1,47 @@
 <div class="btn-wrapper">
     <button class="addSubject" mat-stroked-button (click)="createNewSubject()">
-    Створити новий предмет
-  </button>
+  Створити новий предмет
+</button>
 </div>
 
-<div class="list-wrapper">
-    Тут має бути таблиця із предметами
+<!-- <mat-form-field>
+  <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Пошук">
+</mat-form-field> -->
+
+<div class="mat-elevation-z8">
+    <table mat-table [dataSource]="subjectTableList" matSort>
+        <ng-container matColumnDef="subject_number">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Номер</th>
+            <td mat-cell *matCellDef="let row; let No = index" >{{No+1}}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="subject_id">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Ідентифікатор</th>
+            <td mat-cell *matCellDef="let row"> {{row.subject_id}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="subject_name">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Назва предмета</th>
+            <td mat-cell *matCellDef="let row"> {{row.subject_name}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="subject_description">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Опис предмета</th>
+            <td mat-cell *matCellDef="let row"> {{row.subject_description}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="subject_menu">
+            <th mat-header-cell *matHeaderCellDef>Дії</th>
+            <td mat-cell *matCellDef="let row">
+                <mat-icon class="edit" aria-hidden="false" aria-label="edit" (click)="edit(row)">edit</mat-icon>
+                <mat-icon class="delete" aria-hidden="false" aria-label="delete" (click)="delete(row)">delete</mat-icon>
+            </td>
+        </ng-container>
+        
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;">
+        </tr>
+    </table>
+
+    <!-- <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator> -->
 </div>

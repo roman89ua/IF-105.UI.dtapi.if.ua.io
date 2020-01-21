@@ -4,6 +4,7 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 
 export interface DialogData {
+  description: any;
   data: any;
   speciality_code: number;
   speciality_name: string;
