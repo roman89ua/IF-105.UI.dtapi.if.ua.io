@@ -4,11 +4,23 @@
     type="button"
     aria-label="Toggle sidenav"
     mat-icon-button
-    (click)="drawer.toggle()">
+    (click)="sidenav.toggle()"
+    *ngIf="(isSmall$ | async) || (isXSmall$ | async)">
     <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
   </button>
-  <span>Dtester</span>
+  <span>d-tester</span>
   <span class="fill-space"></span>
+
+  <mat-nav-list *ngIf="!(isSmall$ | async) && !(isXSmall$ | async)">
+    <a routerLinkActive='active' mat-button routerLink='faculties'>Факультети</a>
+    <a routerLinkActive='active' mat-button routerLink="group">Групи</a>
+    <a routerLinkActive='active' mat-button routerLink="speciality">Спеціальності</a>
+    <a routerLinkActive='active' mat-button routerLink="subjects">Предмети</a>
+    <a routerLinkActive='active' mat-button routerLink="timeTable">Розклад тестів</a>
+    <a routerLinkActive='active' mat-button routerLink="admin-user">Адміни</a>
+    <a routerLinkActive='active' mat-button routerLink="exams/1/questions">Питання</a>
+  </mat-nav-list>
+    <span class="fill-space"></span>
   <button mat-button [matMenuTriggerFor]="menu">
     {{ (currentUser$ | async)?.username }}
   </button>
@@ -19,29 +31,23 @@
 
 <mat-sidenav-container class="sidenav-container">
   
-  <mat-sidenav #drawer class="sidenav" fixedInViewport
-      [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
-      [mode]="(isHandset$ | async) ? 'over' : 'side'"
-      opened="false">
-    <mat-toolbar>Меню</mat-toolbar>
+  <mat-sidenav #sidenav class="sidenav" 
+      mode="over"
+      [opened]="false">
     <mat-nav-list>
-
-      <!-- <a mat-list-item routerLink='students'>Студенти</a>
-      <mat-divider></mat-divider> -->
-      <a mat-list-item routerLink='faculties'>Факультети</a>
+      <a mat-list-item  (click)="sidenav.toggle()" routerLink='faculties'>Факультети</a>
       <mat-divider></mat-divider>
-      <a mat-list-item routerLink="group">Групи</a>
+      <a mat-list-item (click)="sidenav.toggle()" routerLink="group">Групи</a>
       <mat-divider></mat-divider>
-      <a mat-list-item routerLink="speciality">Спеціальності</a>
+      <a mat-list-item (click)="sidenav.toggle()" routerLink="speciality">Спеціальності</a>
       <mat-divider></mat-divider>
-      <a mat-list-item routerLink="subjects">Предмети</a>
+      <a mat-list-item (click)="sidenav.toggle()" routerLink="subjects">Предмети</a>
       <mat-divider></mat-divider>
-      <a mat-list-item routerLink="timeTable">Розклад тестів</a>
+      <a mat-list-item (click)="sidenav.toggle()" routerLink="timeTable">Розклад тестів</a>
       <mat-divider></mat-divider>
-      <a mat-list-item routerLink="admin-user">Адміни</a>
+      <a mat-list-item (click)="sidenav.toggle()" routerLink="admin-user">Адміни</a>
       <mat-divider></mat-divider>
-      <a mat-list-item routerLink="exams/1/questions">Питання</a>
-    
+      <a mat-list-item (click)="sidenav.toggle()" routerLink="exams/1/questions">Питання</a>
     </mat-nav-list>
   </mat-sidenav>
   <mat-sidenav-content>

@@ -121,8 +121,7 @@ export class FacultiesComponent implements OnInit, AfterViewInit {
     err => {
       if (err.error.response.includes('Cannot delete')) {
         this.modalService.openInfoModal('Неможливо видалити факультет. Потрібно видалити групу цього факультету');
-      }
-      else {
+      } else {
         this.modalService.openErrorModal('Помилка видалення');
       }
       });
