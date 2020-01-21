@@ -1,10 +1,11 @@
 export interface IQuestion {
-    question_id: number;
+    question_id?: number;
     test_id: number;
     question_text: string;
     level: number;
     type: number;
-    answers?: any;
+    //string for error case
+    answers?: IAnswer[] | string;
 }
 export interface IAnswer {
     answer_id: number;
@@ -13,4 +14,5 @@ export interface IAnswer {
     answer_text: string;
     attachment: string;
     error?: string | boolean; //FIX
+    touched?: boolean
 }

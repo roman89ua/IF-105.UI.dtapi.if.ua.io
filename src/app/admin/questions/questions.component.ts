@@ -1,18 +1,17 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { QuestionService } from './question.service';
-import { IQuestion } from './question';
+import { QuestionService } from './questions.service';
+import { IQuestion } from './questions';
 import { animate, state, style, transition, trigger } from '@angular/animations';
-import { switchMap, filter } from 'rxjs/operators';
+import { switchMap } from 'rxjs/operators';
 import { MatTable } from '@angular/material/table';
 import { of } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
-import { ConfirmComponent } from '../../shared/confirm/confirm.component';
 import { ModalService } from '../../shared/services/modal.service';
 
 @Component({
-  selector: 'app-question',
-  templateUrl: './question.component.html',
-  styleUrls: ['./question.component.scss'],
+  selector: 'app-questions',
+  templateUrl: './questions.component.html',
+  styleUrls: ['./questions.component.scss'],
   animations: [
     trigger('answersExpand', [
       state('collapsed', style({height: '0px', minHeight: '0'})),

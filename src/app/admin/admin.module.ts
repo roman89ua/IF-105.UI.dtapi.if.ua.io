@@ -2,9 +2,9 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AdminComponent } from './admin.component';
 import { Routes, RouterModule } from '@angular/router';
-import { QuestionComponent } from './question/question.component';
-import { NewQuestionComponent } from './question/new-question/new-question.component';
-import { QuestionAnswerComponent } from './question/new-question/question-answer/question-answer.component';
+import { QuestionComponent } from './questions/questions.component';
+import { NewQuestionComponent } from './questions/new-question/new-question.component';
+import { QuestionAnswerComponent } from './questions/new-question/question-answer/question-answer.component';
 import { StudentsComponent } from './students/students.component';
 import { StudentsService } from './students/services/students.service';
 import { FacultiesComponent } from './faculties/faculties.component';
@@ -28,6 +28,7 @@ import {TimeTableComponent} from './time-table/time-table.component';
 import { TimeTablePipe } from './time-table/time-table.pipe';
 import { TimeTableAddDialogComponent } from './time-table/time-table-add-dialog/time-table-add-dialog.component';
 import {NgxMaterialTimepickerModule} from 'ngx-material-timepicker';
+import { QuestionTypePipe } from './questions/pipes/question-type.pipe';
 
 
 const routes: Routes = [
@@ -67,6 +68,7 @@ const routes: Routes = [
     TimeTableComponent,
     TimeTablePipe,
     TimeTableAddDialogComponent,
+    QuestionTypePipe,
   ],
   imports: [
     CommonModule,

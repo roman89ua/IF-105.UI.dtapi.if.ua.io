@@ -1,6 +1,7 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { FormGroup, FormControl, ValidatorFn } from '@angular/forms';
-import { QuestionService } from '../../question.service';
+import { FormGroup, FormControl, ValidatorFn, Validators, AbstractControl } from '@angular/forms';
+import { QuestionService } from '../../questions.service';
+import { IQuestion } from '../../questions';
 
 @Component({
   selector: 'app-question-answer',
@@ -9,7 +10,7 @@ import { QuestionService } from '../../question.service';
 })
 export class QuestionAnswerComponent implements OnInit {
 
-  @Input() questionAnswer: any;
+  @Input() questionAnswer: any;  //FIX
   @Input() questionType: number;
   @Input() index: number;
   @Output() answerDataChange = new EventEmitter();
@@ -27,15 +28,20 @@ export class QuestionAnswerComponent implements OnInit {
   }
 
   answerForm = new FormGroup ({
-    answer_text: new FormControl(''),
+    answer_text: new FormControl('', [this.answerContentAdded()]),
     true_answer: new FormControl(''),
     attachment: new FormControl('')
-  }, {validators: this.answerContentAdded()});
+  });
 
   answerContentAdded(): ValidatorFn {
-    return (control: FormGroup) => {
-      let invalid = control.get('answer_text').value === '' && control.get('attachment').value === ''
+    return (control: AbstractControl) => {
+      let invalid = false;
+      if (+this.questionType === 4 && this.questionAnswer.error) {
+        invalid = true
+        console.log(invalid);
+      }
       return invalid ? {'noAnswer': true} : null;
+      
     }
   }
 
@@ -47,19 +53,15 @@ export class QuestionAnswerComponent implements OnInit {
     this.questionAnswerDelete.emit(id)
   }
 
+
   // MUST BE REFACTORED
   changeAnswerDataHandler() {
-    let error
-    if (this.answerForm.errors) {
-      error = this.answerForm.errors.noAnswer;
-    }
-    else {
-      error = '';
-    }
+    console.log('emiting');
     this.answerDataChange.emit({
       answer_id: this.questionAnswer.answer_id,
       ...this.answerForm.value,
-      error: error
+      error: this.questionAnswer.error,
+      touched: true, //FIX
     })
   }
 
@@ -83,11 +85,18 @@ export class QuestionAnswerComponent implements OnInit {
   }
 
   ngOnInit() {
+    
     this.answerForm.setValue({
        answer_text: this.questionAnswer.answer_text,
        true_answer: this.questionAnswer.true_answer,
        attachment: this.questionAnswer.attachment
       })
+  }
+
+  ngAfterViewInit() {
+    console.log(111);
+    this.answerText.markAsTouched();
+
   }
 
 }

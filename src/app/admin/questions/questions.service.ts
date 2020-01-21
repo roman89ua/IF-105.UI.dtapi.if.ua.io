@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { IQuestion, IAnswer } from './question';
-import { tap, map } from 'rxjs/operators';
+import { IQuestion, IAnswer } from './questions';
 import { forkJoin, Observable } from 'rxjs';
 
 @Injectable({
@@ -12,7 +11,7 @@ export class QuestionService {
   constructor(private http: HttpClient) { }
 
   getTestQuestion(id: number) {
-    return this.http.get(`question/getRecordsRangeByTest/${id}/20/0`)
+    return this.http.get(`question/getRecordsRangeByTest/${id}/50/0`)
   }
 
   getQuestionAnswers(id: number) {
@@ -41,11 +40,9 @@ export class QuestionService {
   }
 
   addAnswerCollection(answers, questionId) {
-    answers.forEach((answer) => { 
-      //need to refactor
-      delete answer.answer_id 
-      delete answer.error
-    })  
+    console.log(answers);
+    console.log(questionId);
+    debugger;
     const obsArray = answers.map((answer) => this.addNewAnswer({...answer, question_id: questionId}));
     return forkJoin(obsArray)
   }

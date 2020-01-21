@@ -8,7 +8,22 @@
             formControlName="answer_text"
             placeholder="Текст відповіді"
         />
+        <!-- <div *ngId>
+            {{ questionAnswer.error }}
+        </div> -->
+        
+        <mat-error 
+                class="form-group"
+                *ngIf="answerText.errors?.noAnswer">
+                
+        </mat-error>
     </mat-form-field>
+    <div *ngIf="answerText.errors?.noAnswer">
+        1877
+    </div>
+    <div *ngIf="questionAnswer.error">
+        {{ questionAnswer.error }}
+    </div>
     <div *ngIf="questionType < 3">
         <div  class="form-group justify-between">
             <mat-checkbox
