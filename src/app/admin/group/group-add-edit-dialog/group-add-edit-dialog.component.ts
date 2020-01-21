@@ -1,20 +1,8 @@
-<<<<<<< HEAD
-import { Component, OnInit, Inject } from '@angular/core';
-import { HttpService } from '../../../shared/http.service';
-import { Speciality, Faculty } from '../../../shared/entity.interface';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-
-export interface DialogData {
-  data: any;
-  description: any;
-  title: any;
-  action: any;
-=======
 import { Component, OnInit, Inject } from "@angular/core";
-import { HttpService } from "../../../shared/http.service";
 import { Speciality, Faculty } from "../../../shared/entity.interface";
 import { MatDialogRef, MAT_DIALOG_DATA } from "@angular/material/dialog";
 import { ModalService} from '../../../shared/services/modal.service';
+import { ApiService } from 'src/app/shared/services/api.service';
 
 export interface DialogData {
   data: any;
@@ -22,7 +10,6 @@ export interface DialogData {
     title : string,
     action : string
   }
->>>>>>> 523956a01266056a7f20440d2316030816d4abe4
 }
 @Component({
   selector: 'app-group-add-edit-dialog',
@@ -34,31 +21,25 @@ export class GroupAddEditDialogComponent implements OnInit {
   faculties: Faculty[] = [];
 
   constructor(
-    private httpService: HttpService,
+    private apiService: ApiService,
     public dialogRef: MatDialogRef<GroupAddEditDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: DialogData,
     private modalService: ModalService
   ) {}
 
   ngOnInit() {
-    this.httpService
-      .getRecords('speciality')
+    this.apiService
+      .getEntity('Speciality')
       .subscribe((result: Speciality[]) => {
         this.specialities = result;
       }, () => {
         this.modalService.openErrorModal('Помилка завантаження даних');
       });
-<<<<<<< HEAD
-    this.httpService.getRecords('faculty').subscribe((result: Faculty[]) => {
-      this.faculties = result;
-      console.log(this.faculties);
-=======
-    this.httpService.getRecords("faculty")
+    this.apiService.getEntity("Faculty")
       .subscribe((result: Faculty[]) => {
         this.faculties = result;
     }, () => {
       this.modalService.openErrorModal('Помилка завантаження даних');
->>>>>>> 523956a01266056a7f20440d2316030816d4abe4
     });
   }
 }

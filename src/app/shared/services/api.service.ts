@@ -12,7 +12,7 @@ export class ApiService {
 
   constructor(private http: HttpClient) { }
 
-  getEntity(entity, id?): Observable<any> {
+  getEntity(entity: string, id?: number): Observable<any> {
     if (id === undefined) {
       return this.http.get(`${this.apiURI}/${entity}/getRecords`);
     }
@@ -21,13 +21,33 @@ export class ApiService {
       return this.http.get(`${this.apiURI}/${entity}/getRecords/${id}`);
     }
   }
-  postEntity(entity, payload): Observable<any> {
+  postEntity(entity: string, payload): Observable<any> {
     return this.http.post(`${this.apiURI}/${entity}/insertData`, payload);
   }
-  delEntity(entity, id): Observable<any> {
+  delEntity(entity: string, id: number): Observable<any> {
     return this.http.get(`${this.apiURI}/${entity}/del/${id}`);
   }
-  updEntity(entity, payload, id): Observable<any> {
+  updEntity(entity: string, payload, id: number): Observable<any> {
     return this.http.post(`${this.apiURI}/${entity}/update/${id}`, payload);
+  }
+  getEntityByAction(entity: string, action: string, id: number): Observable<any> {
+    return this.http.get(`${this.apiURI}/${entity}/${action}/${id}`);
+  }
+  getByEntityManager(entity: string, idsList: Array<number>) {
+    const data = {
+      entity: entity,
+      ids: idsList
+    };
+    return this.http.post(`${this.apiURI}/EntityManager/getEntityValues`, data);
+  }
+  /** GET range records with optional parameters: fieldName and direction (1 or -1) using for sorting data */
+  getRecordsRange(entity: string, limit: number, offset: number, fieldName: string = null, direction: number = 1): Observable<any> {
+    let url: string;
+    if (fieldName) {
+      url = `${entity}/getRecordsRange/${limit}/${offset}/${fieldName}/${direction}`;
+    } else {
+      url = `${entity}/getRecordsRange/${limit}/${offset}}`;
+    }
+    return this.http.get(url);
   }
 }
