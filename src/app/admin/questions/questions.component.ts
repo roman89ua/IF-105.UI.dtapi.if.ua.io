@@ -3,10 +3,11 @@ import { QuestionService } from './questions.service';
 import { IQuestion } from './questions';
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { switchMap } from 'rxjs/operators';
-import { MatTable } from '@angular/material/table';
+import { MatTable, MatTableDataSource } from '@angular/material/table';
 import { of } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
 import { ModalService } from '../../shared/services/modal.service';
+import { MatPaginator } from '@angular/material/paginator';
 
 @Component({
   selector: 'app-questions',
@@ -27,11 +28,15 @@ import { ModalService } from '../../shared/services/modal.service';
 })
 export class QuestionComponent implements OnInit {
 
-  questions: IQuestion[]
-  expandedQuestion: IQuestion
+  questions: IQuestion[];
+  dataSource: any;
+  expandedQuestion: IQuestion;
   testId: number;
   loadingQuestionId: number;
   loadingQuestions: boolean = false;
+  questionsCount: number;
+  pageSize:number = 10;
+  currentPage: number = 1;
 
   constructor(
     private route: ActivatedRoute,
@@ -41,11 +46,20 @@ export class QuestionComponent implements OnInit {
 
 
   @ViewChild("table", { static: true }) table: MatTable<any>;
+  @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
 
   private getQuestionById(id: number): IQuestion {
     return this.questions.find((question) => {
       return question.question_id === id
     })
+  }
+
+  log(data) {
+    // this.pageSize = data.pageSize;
+    // this.currentPage = data.pageIndex;
+    let offset = data.pageIndex * data.pageSize;
+    console.log(offset);
+    this.getQuestions(offset);
   }
 
   expandQuestionAnswers(id: number): void {
@@ -95,18 +109,24 @@ export class QuestionComponent implements OnInit {
     });
   }
 
+  getQuestions(offset = 0) {
+    this.questionService.getTestQuestions(this.testId, this.pageSize, offset)
+    .subscribe((res: IQuestion[]) => {
+      const questionsWithEmptyAnswers = res.map((question) => {
+        return { ...question, answers: [] }
+      }) 
+      this.questions = questionsWithEmptyAnswers
+      this.dataSource = new MatTableDataSource(questionsWithEmptyAnswers);
+      } )
+  }
+
   
   ngOnInit() {
     this.testId = +this.route.snapshot.paramMap.get('id');
     this.loadingQuestions = true;
-    this.questionService.getTestQuestion(this.testId)
-      .subscribe((res: IQuestion[]) => {
-        const questionsWithEmptyAnswers = res.map((question) => {
-          return { ...question, answers: [] }
-        }) 
-        this.questions = questionsWithEmptyAnswers
-        this.loadingQuestions = false;
-        } )
+    this.getQuestions();
+    this.questionService.getTestQuestionsCount(this.testId)
+        .subscribe( res =>  this.questionsCount = res );
   }
 
 }

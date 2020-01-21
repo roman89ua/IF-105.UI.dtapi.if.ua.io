@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { IQuestion, IAnswer } from './questions';
 import { forkJoin, Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -10,8 +11,8 @@ export class QuestionService {
 
   constructor(private http: HttpClient) { }
 
-  getTestQuestion(id: number) {
-    return this.http.get(`question/getRecordsRangeByTest/${id}/50/0`)
+  getTestQuestions(id: number, limit: number, offset: number) {
+    return this.http.get(`question/getRecordsRangeByTest/${id}/${limit}/${offset}`)
   }
 
   getQuestionAnswers(id: number) {
@@ -40,10 +41,10 @@ export class QuestionService {
   }
 
   addAnswerCollection(answers, questionId) {
-    console.log(answers);
-    console.log(questionId);
-    debugger;
-    const obsArray = answers.map((answer) => this.addNewAnswer({...answer, question_id: questionId}));
+    const obsArray = answers.map((answer) => {
+      answer.true_answer = answer.true_answer ? 1 : 0 
+      return this.addNewAnswer({...answer, question_id: questionId})
+    });
     return forkJoin(obsArray)
   }
 
@@ -57,5 +58,12 @@ export class QuestionService {
       reader.onerror = err => observer.error(err);
   
     })
-  } 
+  }
+    
+  getTestQuestionsCount(id) {
+    return this.http.get(`question/countRecordsByTest/${id}`)
+      .pipe(
+        map( (res: { numberOfRecords: number }) => +res.numberOfRecords ) 
+      )
+  }
 }

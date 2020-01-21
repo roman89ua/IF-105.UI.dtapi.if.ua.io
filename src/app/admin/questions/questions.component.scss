@@ -36,10 +36,6 @@ table {
     align-items: center;
   }
 
-  .true-answer-icon {
-    margin-left: 5px;
-  }
-
 .actions {
   mat-icon {
     cursor: pointer;
@@ -56,11 +52,16 @@ table {
 }  
 
 .attachmet-preview-image {
-  display: block;
-  max-height: 200px;
-  max-width: 200px;
+  display: inline-block;
+  max-height: 100px;
+  max-width: 100px;
 }
 
 .add-link {
   margin-bottom: 20px;
+}
+
+.margin-y {
+  margin-top: 10px;
+  margin-bottom: 10px;
 }
