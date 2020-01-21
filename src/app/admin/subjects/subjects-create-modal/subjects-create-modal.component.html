@@ -1,6 +1,7 @@
-<form class="input-wrapper" [formGroup]="addSubject">
+<form class="input-wrapper" [formGroup]="addSubject" autocomplete="off">
     <mat-form-field class="example-full-width">
         <input matInput placeholder="Назва предмета" formControlName="subject_name">
+        <!--  <mat-error *ngIf="subject_nameFormControl.hasError('invalid')">Це поле повинно бути заповнене</mat-error>[formControl]="subject_nameFormControl" -->
     </mat-form-field>
 
     <mat-form-field class="example-full-width">

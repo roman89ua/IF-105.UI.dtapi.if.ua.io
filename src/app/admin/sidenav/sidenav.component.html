@@ -10,7 +10,7 @@
   <span>Dtester</span>
   <span class="fill-space"></span>
   <button mat-button [matMenuTriggerFor]="menu">
-    {{ (authService.getCurrentUser() | async)?.username }}
+    {{ (currentUser$ | async)?.username }}
   </button>
   <mat-menu #menu="matMenu">
     <button mat-menu-item (click)="logoutHandler()">Log out</button>
