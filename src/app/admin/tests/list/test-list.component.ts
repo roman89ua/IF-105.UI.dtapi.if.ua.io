@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild, Inject } from '@angular/core';
 import { HttpService } from '../../../shared/http.service';
 import { Test } from '../../entity.interface';
 import { Subject } from '../../entity.interface';
-import {MatTableDataSource, MatTable, MatSnackBar} from '@angular/material';
+import { MatTableDataSource, MatTable } from '@angular/material';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatDialog } from '@angular/material/dialog';
 import { TestAddComponent } from '../add/test-add.component';
@@ -14,7 +14,7 @@ import { ModalService } from '../../../shared/services/modal.service';
   styleUrls: ['./test-list.component.scss'],
 })
 export class TestListComponent implements OnInit {
-  listGroups: Test[] = [];
+  listTests: Test[] = [];
   listSubjects: Subject[] = [];
   dataSource = new MatTableDataSource<Test>();
   displayedColumns: string[] = [
@@ -32,18 +32,11 @@ export class TestListComponent implements OnInit {
     public dialog: MatDialog,
     protected httpService: HttpService,
     private modalService: ModalService,
-    private snackBar: MatSnackBar
   ) {}
 
   ngOnInit() {
     this.loadSubjects();
     this.viewAllTests();
-  }
-
-  private loadSubjects() {
-    this.httpService.getRecords('subject').subscribe((result: Subject[]) => {
-      this.listSubjects = result;
-    });
   }
 
   public addTestDialog(): void {
@@ -65,33 +58,29 @@ export class TestListComponent implements OnInit {
     });
   }
 
-  private addTest(test: Test) {
-    this.httpService.insertData('test', test).subscribe((result: Test[]) => {
-      this.listGroups.push(result[0]);
-      this.table.renderRows();
-      this.dataSource.paginator = this.paginator;
-    });
-  }
-
-  public openConfirmDialog(test: Test) {
+  public openDeleteDialog(test: Test) {
     const message = `Підтвердіть видалення тесту ${test.test_name}?`;
 
     this.modalService.openConfirmModal(message, () => this.removeTest(test.test_id));
   }
 
-  private removeTest(id: number) {
-    this.httpService.del('test', id)
-      .subscribe((response) => {
-          this.snackBar.open('Тест видалено', null, {
-            duration: 2500,
-          });
-          this.dataSource.data = this.dataSource.data.filter(item => item.test_id !== id);
-        },
-        err => {
-          this.snackBar.open('Помилка видалення', null, {
-            duration: 2500,
-          });
-        });
+  public editTestDialog(test: Test): void {
+    const dialogRef = this.dialog.open(TestAddComponent, {
+      width: '500px',
+      data: {
+        data: test,
+        description: {
+          title: 'Редагувати інформацію про тест',
+          action: 'Зберегти зміни'
+        }
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.editTest(result);
+      }
+    });
   }
 
   public getSubjectNameById(subjectId: number): string {
@@ -106,10 +95,44 @@ export class TestListComponent implements OnInit {
     return 'Невизначений';
   }
 
+  private addTest(test: Test) {
+    this.httpService.insertData('test', test).subscribe((result: Test[]) => {
+      this.listTests.push(result[0]);
+      this.table.renderRows();
+      this.dataSource.paginator = this.paginator;
+    });
+  }
+
+  private editTest(test: Test): void {
+    this.httpService.update('test', test.test_id, test).subscribe((result: Test[]) => {
+      this.listTests = result;
+      this.dataSource.data = this.listTests;
+    }, (error: any) => {
+      this.modalService.openErrorModal('Помилка оновлення');
+    });
+  }
+
+  private removeTest(id: number) {
+    this.httpService.del('test', id)
+      .subscribe((response) => {
+          this.modalService.openInfoModal('Тест видалено');
+          this.viewAllTests();
+        },
+        err => {
+          this.modalService.openErrorModal('Помилка видалення');
+        });
+  }
+
+  private loadSubjects() {
+    this.httpService.getRecords('subject').subscribe((result: Subject[]) => {
+      this.listSubjects = result;
+    });
+  }
+
   private viewAllTests() {
     this.httpService.getRecords('test').subscribe((result: Test[]) => {
-      this.listGroups = result;
-      this.dataSource.data = this.listGroups;
+      this.listTests = result;
+      this.dataSource.data = this.listTests;
     });
     this.dataSource.paginator = this.paginator;
   }
