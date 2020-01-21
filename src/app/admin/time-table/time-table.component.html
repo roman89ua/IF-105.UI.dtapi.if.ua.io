@@ -7,8 +7,8 @@
     </mat-option>
   </mat-select>
 </mat-form-field>
-<button mat-raised-button color="prime">
-  <mat-icon aria-hidden="false" aria-label="add" (click)="addTimeTableDialog(subjectId)">add</mat-icon>
+<button mat-raised-button color="prime"  (click)="addTimeTableDialog()">
+  <mat-icon aria-hidden="false" aria-label="add">add</mat-icon>
   Додати новий розклад тестування
 </button>
 <div *ngIf="timeTable.length === 0 && subjectId != null" class="no-time">Немає розкладу для заданого предмету.</div>
