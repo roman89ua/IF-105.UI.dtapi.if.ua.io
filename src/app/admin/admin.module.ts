@@ -7,6 +7,7 @@ import { NewQuestionComponent } from './question/new-question/new-question.compo
 import { QuestionAnswerComponent } from './question/new-question/question-answer/question-answer.component';
 import { StudentsComponent } from './students/students.component';
 import { StudentsService } from './students/services/students.service';
+import { StudentsModalWindowComponent } from './students/students-modal-window/students-modal-window.component';
 import { FacultiesComponent } from './faculties/faculties.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { GroupComponent } from './group/group.component';
@@ -50,6 +51,7 @@ const routes: Routes = [
   declarations: [
     AdminComponent,
     StudentsComponent,
+    StudentsModalWindowComponent,
     FacultiesComponent,
     GroupComponent,
     GroupAddEditDialogComponent,
@@ -94,6 +96,7 @@ const routes: Routes = [
     SubjectsCreateModalComponent,
     TimeTableAddDialogComponent,
     SubjectConfirmComponent,
+    StudentsModalWindowComponent
   ]
 })
 export class AdminModule { }
