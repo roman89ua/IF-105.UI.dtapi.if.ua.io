@@ -10,7 +10,7 @@
   <span>Dtester</span>
   <span class="fill-space"></span>
   <button mat-button [matMenuTriggerFor]="menu">
-    {{ (authService.getCurrentUser() | async)?.username }}
+    {{ (currentUser$ | async)?.username }}
   </button>
   <mat-menu #menu="matMenu">
     <button mat-menu-item (click)="logoutHandler()">Log out</button>
@@ -18,7 +18,7 @@
 </mat-toolbar>
 
 <mat-sidenav-container class="sidenav-container">
-  
+
   <mat-sidenav #drawer class="sidenav" fixedInViewport
       [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
       [mode]="(isHandset$ | async) ? 'over' : 'side'"
@@ -36,18 +36,20 @@
       <mat-divider></mat-divider>
       <a mat-list-item routerLink="subjects">Предмети</a>
       <mat-divider></mat-divider>
+      <a mat-list-item routerLink="tests">Тести</a>
+      <mat-divider></mat-divider>
       <a mat-list-item routerLink="timeTable">Розклад тестів</a>
       <mat-divider></mat-divider>
       <a mat-list-item routerLink="admin-user">Адміни</a>
       <mat-divider></mat-divider>
       <a mat-list-item routerLink="exams/1/questions">Питання</a>
-    
+
     </mat-nav-list>
   </mat-sidenav>
   <mat-sidenav-content>
-    
+
     <router-outlet></router-outlet>
-  
+
   </mat-sidenav-content>
 </mat-sidenav-container>
 

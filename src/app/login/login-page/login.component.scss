@@ -10,11 +10,19 @@
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    width: 300px;
-    padding: 30px;
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.3), inset 0 0 10px rgba(0, 0, 0, 0.3);
-    border-radius: 10px;
     text-align: center;
+    img {
+        margin: 20px;
+        border-radius: 50%;
+        box-shadow: 0 0 10px rgba(255, 255, 255, 1), 0 0 20px rgba(255, 255, 255, 1), 0 0 30px rgba(255, 255, 255, 1);
+    }
+    form {
+        width: 300px;
+        padding: 30px;
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.3), inset 0 0 10px rgba(0, 0, 0, 0.3);
+        border-radius: 10px;
+        text-align: center;
+    }
 }
 .header {
     color: black;
@@ -31,7 +39,9 @@
     margin-top: 40px;
     margin-bottom: 20px;
     height: 40px;
+    background: linear-gradient(0deg, #a9544e, #7d544c);
 }
+
 img {
     margin: 0 auto;
 }

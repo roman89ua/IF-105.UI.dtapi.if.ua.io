@@ -1,0 +1,82 @@
+<h3 mat-dialog-title>{{data.description.title}}</h3>
+<div mat-dialog-content>
+  <mat-form-field class="example-full-width">
+    <input
+      matInput
+      [(ngModel)]="data.data.test_name"
+      placeholder="Назва тесту"
+      #test_name="ngModel" required
+    >
+    <mat-error *ngIf="test_name.invalid">
+      Слід <strong>обов'язково</strong> вказати назву тесту
+    </mat-error>
+  </mat-form-field>
+  <mat-form-field class="example-full-width">
+    <mat-label>Предмет</mat-label>
+    <mat-select [(ngModel)]="data.data.subject_id" name="subject_id" #subject_id="ngModel" required>
+      <mat-option
+        *ngFor="let item of subjects"
+        [value]="item.subject_id"
+      >
+        {{item.subject_name}}
+      </mat-option>
+    </mat-select>
+    <mat-error *ngIf="subject_id.invalid">
+      Слід <strong>обов'язково</strong> вибрати предмет
+    </mat-error>
+  </mat-form-field>
+  <mat-form-field class="example-full-width">
+    <mat-label>Кількість завдань</mat-label>
+    <input
+      matInput
+      type="number"
+      [(ngModel)]="data.data.tasks"
+      #tasks="ngModel" required
+    >
+    <mat-error *ngIf="tasks.invalid">
+      Слід <strong>обов'язково</strong> вказати кількість завдань
+    </mat-error>
+  </mat-form-field>
+  <mat-checkbox
+    [(ngModel)]="data.data.enabled"
+    name="enabled"
+  >
+    Включений
+  </mat-checkbox>
+  <mat-form-field class="example-full-width">
+    <mat-label>Час</mat-label>
+    <input
+      matInput
+      type="number"
+      [(ngModel)]="data.data.time_for_test"
+      #time_for_test="ngModel" required
+    >
+    <mat-error *ngIf="time_for_test.invalid">
+      Слід <strong>обов'язково</strong> вказати час виконання
+    </mat-error>
+  </mat-form-field>
+  <mat-form-field class="example-full-width">
+    <mat-label>Кількість спроб</mat-label>
+    <input
+      matInput
+      type="number"
+      [(ngModel)]="data.data.attempts"
+      #attempts="ngModel" required
+    >
+    <mat-error *ngIf="attempts.invalid">
+      Слід <strong>обов'язково</strong> вказати кількість спроб
+    </mat-error>
+  </mat-form-field>
+</div>
+<div mat-dialog-actions>
+  <button mat-raised-button mat-dialog-close>Відмінити</button>
+  <button
+    mat-raised-button
+    [mat-dialog-close]="data.data"
+    color="warn"
+    [disabled]="test_name.invalid || time_for_test.invalid || tasks.invalid || subject_id.empty || attempts.invalid"
+  >
+    <mat-icon aria-hidden="false" aria-label="save">save</mat-icon>
+    {{data.description.action}}
+  </button>
+</div>

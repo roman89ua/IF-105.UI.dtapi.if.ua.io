@@ -1,35 +1,37 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { AdminComponent } from './admin.component';
-import { Routes, RouterModule } from '@angular/router';
-import { QuestionComponent } from './questions/questions.component';
-import { NewQuestionComponent } from './questions/new-question/new-question.component';
-import { QuestionAnswerComponent } from './questions/new-question/question-answer/question-answer.component';
-import { StudentsComponent } from './students/students.component';
-import { StudentsService } from './students/services/students.service';
-import { FacultiesComponent } from './faculties/faculties.component';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { GroupComponent } from './group/group.component';
-import { GroupAddEditDialogComponent } from './group/group-add-edit-dialog/group-add-edit-dialog.component';
-import { GroupViewDialogComponent } from './group/group-view-dialog/group-view-dialog.component';
-import { AdminUserService } from './admin-user/admin-user.service';
-import { CreateUpdateUserComponent } from './admin-user/create-update-user/create-update-user.component';
-import { AdminUserComponent } from './admin-user/admin-user.component';
-import { SharedModule } from '../shared/shared.module';
-import { SpecialityListComponent } from './speciality/speciality-list/speciality-list.component';
-import { DialogFormComponent } from './speciality/dialog-form/dialog-form.component';
-import { NavbarComponent } from './sidenav/sidenav.component';
-import { CreateEditComponent } from './faculties/create-edit/create-edit.component';
-import { SubjectsComponent } from './subjects/subjects.component';
-import { SubjectsCreateModalComponent } from './subjects/subjects-create-modal/subjects-create-modal.component';
-import { MatDialogModule } from '@angular/material';
-import { SubjectsService } from './subjects/subjects.service';
+import {NgModule} from '@angular/core';
+import {CommonModule} from '@angular/common';
+import {AdminComponent} from './admin.component';
+import {Routes, RouterModule} from '@angular/router';
+import {QuestionComponent} from './questions/questions.component';
+import {NewQuestionComponent} from './questions/new-question/new-question.component';
+import {QuestionAnswerComponent} from './questions/new-question/question-answer/question-answer.component';
+import {StudentsComponent} from './students/students.component';
+import {StudentsService} from './students/services/students.service';
+import {FacultiesComponent} from './faculties/faculties.component';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import {GroupComponent} from './group/group.component';
+import {GroupAddEditDialogComponent} from './group/group-add-edit-dialog/group-add-edit-dialog.component';
+import {GroupViewDialogComponent} from './group/group-view-dialog/group-view-dialog.component';
+import {AdminUserService} from './admin-user/admin-user.service';
+import {CreateUpdateUserComponent} from './admin-user/create-update-user/create-update-user.component';
+import {AdminUserComponent} from './admin-user/admin-user.component';
+import {SharedModule} from '../shared/shared.module';
+import {SpecialityListComponent} from './speciality/speciality-list/speciality-list.component';
+import {DialogFormComponent} from './speciality/dialog-form/dialog-form.component';
+import {NavbarComponent} from './sidenav/sidenav.component';
+import {CreateEditComponent} from './faculties/create-edit/create-edit.component';
+import {SubjectsComponent} from './subjects/subjects.component';
+import {SubjectsCreateModalComponent} from './subjects/subjects-create-modal/subjects-create-modal.component';
+import {MatDialogModule} from '@angular/material';
+import {SubjectsService} from './subjects/subjects.service';
 import {TimeTableComponent} from './time-table/time-table.component';
-import { TimeTablePipe } from './time-table/time-table.pipe';
-import { TimeTableAddDialogComponent } from './time-table/time-table-add-dialog/time-table-add-dialog.component';
-import {NgxMaterialTimepickerModule} from 'ngx-material-timepicker';
-import { QuestionTypePipe } from './questions/pipes/question-type.pipe';
-
+import {TimeTablePipe} from './time-table/time-table.pipe';
+import {TimeTableAddDialogComponent} from './time-table/time-table-add-dialog/time-table-add-dialog.component';
+import {QuestionTypePipe} from './questions/pipes/question-type.pipe';
+import {StudentsModalWindowComponent} from './students/students-modal-window/students-modal-window.component';
+import {SubjectConfirmComponent} from './subjects/subject-confirm/subject-confirm.component';
+import {TestListComponent} from './tests/list/test-list.component';
+import {TestAddComponent} from './tests/add/test-add.component';
 
 const routes: Routes = [
   {
@@ -43,17 +45,21 @@ const routes: Routes = [
       { path: 'group', component: GroupComponent },
       { path: 'subjects', component: SubjectsComponent },
       { path: 'speciality', component: SpecialityListComponent },
-      { path: 'timeTable', component: TimeTableComponent }
+      { path: 'timeTable', component: TimeTableComponent },
+      { path: 'tests', component: TestListComponent },
     ]}
 ];
 @NgModule({
   declarations: [
     AdminComponent,
     StudentsComponent,
+    StudentsModalWindowComponent,
     FacultiesComponent,
     GroupComponent,
     GroupAddEditDialogComponent,
     GroupViewDialogComponent,
+    TestListComponent,
+    TestAddComponent,
     QuestionAnswerComponent,
     QuestionComponent,
     NewQuestionComponent,
@@ -69,6 +75,7 @@ const routes: Routes = [
     TimeTablePipe,
     TimeTableAddDialogComponent,
     QuestionTypePipe,
+    SubjectConfirmComponent,
   ],
   imports: [
     CommonModule,
@@ -77,7 +84,6 @@ const routes: Routes = [
     ReactiveFormsModule,
     RouterModule.forChild(routes),
     MatDialogModule,
-    NgxMaterialTimepickerModule,
   ],
   providers: [
     AdminUserService,
@@ -92,7 +98,10 @@ const routes: Routes = [
     CreateEditComponent,
     GroupViewDialogComponent,
     SubjectsCreateModalComponent,
+    TestAddComponent,
     TimeTableAddDialogComponent,
+    SubjectConfirmComponent,
+    StudentsModalWindowComponent
   ]
 })
 export class AdminModule { }

@@ -17,12 +17,10 @@ export class FacultiesComponent implements OnInit, AfterViewInit {
   result: any;
   faculties: Faculty[] = [];
   displayedColumns: string[] = ['id', 'name', 'desc', 'action'];
-  id: number;
   loading = false;
 
 
   dataSource = new MatTableDataSource<Faculty>();
-
 
   @ViewChild('table', { static: false }) table: MatTable<Element>;
 
@@ -49,6 +47,9 @@ export class FacultiesComponent implements OnInit, AfterViewInit {
       .subscribe(response => {
         this.dataSource.data = response;
         this.loading = false;
+      },
+      err => {
+        this.modalService.openErrorModal('Можливі проблеми із сервером');
       });
   }
 
@@ -60,7 +61,9 @@ export class FacultiesComponent implements OnInit, AfterViewInit {
         this.openSnackBar('Факультет додано');
       },
         err => {
-          this.openSnackBar('Такий факультет уже існує');
+          if (err.error.response.includes('Duplicate')) {
+            this.modalService.openErrorModal(`Факультети "${faculty.faculty_name}" вже існує`);
+          }
         }
       );
   }
@@ -72,7 +75,9 @@ export class FacultiesComponent implements OnInit, AfterViewInit {
         this.getFaculty();
       },
         err => {
-          this.openSnackBar('Такий факультет уже існує');
+          if (err.error.response.includes('Error when update')) {
+            this.openSnackBar('Інформація про факультет не змінювалась');
+          }
         }
       );
   }
@@ -112,6 +117,14 @@ export class FacultiesComponent implements OnInit, AfterViewInit {
       .subscribe((response) => {
         this.openSnackBar('Факультет видалено');
         this.dataSource.data = this.dataSource.data.filter(item => item.faculty_id !== id);
+      },
+    err => {
+      if (err.error.response.includes('Cannot delete')) {
+        this.modalService.openInfoModal('Неможливо видалити факультет. Потрібно видалити групу цього факультету');
+      }
+      else {
+        this.modalService.openErrorModal('Помилка видалення');
+      }
       });
   }
 }
