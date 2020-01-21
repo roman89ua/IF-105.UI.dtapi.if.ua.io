@@ -2,8 +2,8 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { tap, first } from 'rxjs/operators';
 import { of } from 'rxjs';
-import {Router} from '@angular/router';
-import {Location} from '@angular/common';
+import { Router } from '@angular/router';
+import { Location } from '@angular/common';
 
 @Injectable()
 export class AuthService {
@@ -11,7 +11,7 @@ export class AuthService {
 
   constructor(private http: HttpClient, private router: Router, private location: Location) { }
 
-  login(userData) {
+  login(userData: { username: string; password: string; }) {
     return this.http
       .post(`login`, userData)
       .pipe(
@@ -43,7 +43,6 @@ export class AuthService {
         tap((data: any) => {
           if (data && data.response === 'non logged') {
             this.currentUser = null;
-            this.location.replaceState('/');
             this.router.navigate(['login']);
 
             return;

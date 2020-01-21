@@ -40,12 +40,14 @@ export class GroupComponent implements OnInit {
     this.httpService.getRecords('group').subscribe((result: Group[]) => {
       this.listGroups = result;
       this.dataSource.data = this.listGroups;
+    }, () => {
+      this.modalService.openErrorModal('Помилка завантаження списку груп');
     });
     this.dataSource.paginator = this.paginator;
   }
 
   // create modal window for add new group
-  addGroupDialog(group: Group): void {
+  addGroupDialog(): void {
     const dialogRef = this.dialog.open(GroupAddEditDialogComponent, {
       width: '500px',
       data: {
@@ -69,6 +71,10 @@ export class GroupComponent implements OnInit {
       this.listGroups.push(result[0]);
       this.table.renderRows();
       this.dataSource.paginator = this.paginator;
+    }, (error: any) => {
+      if (error.error.response.includes('Duplicate')) {
+        this.modalService.openErrorModal(`Група "${group.group_name}" вже існує`);
+      }
     });
   }
   /** open modal window for confirm delete */
@@ -87,7 +93,12 @@ export class GroupComponent implements OnInit {
         this.dataSource.paginator = this.paginator;
       }
     }, (error: any) => {
-      this.modalService.openErrorModal('Неможливо видалити групу із студентами. Видаліть спочатку студентів даної групи');
+      if (error.error.response.includes('Cannot delete')) {
+        this.modalService.openInfoModal('Неможливо видалити групу із студентами. Видаліть спочатку студентів даної групи');
+      }
+      else {
+        this.modalService.openErrorModal('Помилка видалення');
+      }
     });
   }
   // create modal window for edit group
@@ -121,6 +132,13 @@ export class GroupComponent implements OnInit {
         this.listGroups[index] = result[0];
         this.table.renderRows();
       }
+    }, (error: any) => {
+      if (error.error.response.includes('Error when update')) {
+        this.modalService.openInfoModal('Інформація про групу не змінювалися');
+      }
+      else {
+        this.modalService.openErrorModal('Помилка оновлення');
+      }
     });
   }
 
@@ -140,7 +158,7 @@ export class GroupComponent implements OnInit {
   /** View groups by speciality or faculty */
   viewGroups(action: string, id: number): void {
     this.httpService.getGroups(action, id).subscribe((result: any) => {
-      if (result.hasOwnProperty('response')) {
+      if (result.response) {
         this.dataSource.data = [];
         this.modalService.openInfoModal('Групи відсутні');
       } else {
@@ -148,6 +166,8 @@ export class GroupComponent implements OnInit {
         this.table.renderRows();
         this.dataSource.paginator = this.paginator;
       }
+    }, () => {
+      this.modalService.openErrorModal('Неможливо відобразити дані');
     });
   }
 }

@@ -1,8 +1,10 @@
-
-<button class="addAdmin" mat-stroked-button (click)="addAdminHandler()">
-  <mat-icon aria-hidden="false" aria-label="add">add</mat-icon>
-  add admin
-</button>
+<div class="button-wrapper">
+  <h3>Адміни</h3>
+  <button class="addAdmin" mat-stroked-button (click)="addAdminHandler()">
+    <mat-icon aria-hidden="false" aria-label="add">add</mat-icon>
+    Додати адміна
+  </button>
+</div>
 
 <div class="mat-table-wrapper">
   <table mat-table [dataSource]="userList">

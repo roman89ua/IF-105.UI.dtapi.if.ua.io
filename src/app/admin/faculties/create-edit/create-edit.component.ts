@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild, Inject } from '@angular/core';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { FormGroup, FormControl, Validators, FormArray } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { Faculty } from 'src/app/shared/entity.interface';
 
@@ -24,7 +24,7 @@ export class CreateEditComponent implements OnInit {
     faculty_description: new FormControl('',
       [
         Validators.required,
-        Validators.pattern('[а-яА-ЯіІїЄє ]*')
+        Validators.pattern('[а-яА-ЯіІїЄє,. ]*')
       ])
   });
   onSubmit(): void {
@@ -36,11 +36,11 @@ export class CreateEditComponent implements OnInit {
   }
 
   get faculty_name() {
-    return this.addForm.get('faculty_name');
+    return this.addForm.get('faculty_name') as FormControl;
   }
 
   get faculty_description() {
-    return this.addForm.get('faculty_description');
+    return this.addForm.get('faculty_description') as FormControl;
   }
 
   getErrorMessage(field: FormControl) {

@@ -1,14 +1,19 @@
-<a routerLink="..">Назад</a>
+
 <ng-template #loadingBlock>
   <mat-progress-bar mode="indeterminate"></mat-progress-bar>
 </ng-template>
 
-
-<section class="container">
+<section class="header" >
+  <h3>Факультети</h3>
+  <span class="fill-space"></span>
   <button
   mat-raised-button
   color="primary"
   class="btn" (click)='createFacultyDialog()'>Додати факультет</button>
+</section>
+
+<section class="container">
+ 
 
     <div class="mat-elevation-z8" >
     <table

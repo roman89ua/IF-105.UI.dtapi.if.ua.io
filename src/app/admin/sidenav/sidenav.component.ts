@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { Observable } from 'rxjs';
 import { map, shareReplay, tap } from 'rxjs/operators';
@@ -10,7 +10,11 @@ import { AuthService } from 'src/app/shared/auth.service';
   templateUrl: './sidenav.component.html',
   styleUrls: ['./sidenav.component.scss']
 })
-export class NavbarComponent {
+export class NavbarComponent implements OnInit {
+  currentUser$: Observable<any>;
+  ngOnInit(): void {
+    this.currentUser$ = this.authService.getCurrentUser();
+  }
 
   isHandset$: Observable<boolean> = this.breakpointObserver.observe(Breakpoints.Handset)
     .pipe(

@@ -4,8 +4,7 @@
     }
 }
 .addAdmin {
-    margin-top: 50px;
-    margin-bottom: 30px;
+    margin: 10px;
 }
 
 mat-icon {
@@ -19,6 +18,14 @@ mat-icon {
             color: red;
         }
     }
-
-
+    
 }
+
+.button-wrapper {
+    display: flex;
+    justify-content: space-between;
+    h3 {
+        padding: 15px;
+    }
+ }
+
