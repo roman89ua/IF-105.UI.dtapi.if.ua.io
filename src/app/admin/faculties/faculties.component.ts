@@ -24,7 +24,6 @@ export class FacultiesComponent implements OnInit, AfterViewInit {
   @ViewChild('table', { static: false }) table: MatTable<Element>;
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
 
-  private entity: string = 'faculty';
   constructor(private apiService: ApiService, private dialog: MatDialog, private snackBar: MatSnackBar, private modalService: ModalService) { }
 
   openSnackBar(message: string, action?: string) {
@@ -40,17 +39,15 @@ export class FacultiesComponent implements OnInit, AfterViewInit {
     this.dataSource.paginator = this.paginator;
   }
   getFaculty() {
-    const action = 'getRecords';
     this.loading = true;
-    this.apiService.getEntity(this.entity, action)
+    this.apiService.getEntity('Faculty')
       .subscribe(response => {
         this.dataSource.data = response;
         this.loading = false;
       });
   }
   addFaculty(faculty: Faculty) {
-    const action = 'insertData';
-    this.apiService.postEntity(this.entity, action, faculty)
+    this.apiService.postEntity('Faculty', faculty)
       .subscribe(response => {
         this.dataSource.data = [...this.dataSource.data, response[0]];
         this.table.renderRows();
@@ -62,8 +59,7 @@ export class FacultiesComponent implements OnInit, AfterViewInit {
       );
   }
   updateFaculty(id: number, faculty: Faculty) {
-    const action = 'update';
-    this.apiService.updEntity(this.entity, action, faculty, id)
+    this.apiService.updEntity('Faculty', faculty, id)
       .subscribe(response => {
         this.openSnackBar('Факультет оновлено');
         this.getFaculty();
@@ -101,8 +97,7 @@ export class FacultiesComponent implements OnInit, AfterViewInit {
     this.modalService.openConfirmModal(message, () => this.removeFaculty(faculty.faculty_id));
   }
   removeFaculty(id: number) {
-    const action = 'del';
-    this.apiService.delEntity(this.entity, action, id)
+    this.apiService.delEntity('Faculty', id)
       .subscribe((response) => {
         this.openSnackBar('Факультет видалено');
         this.dataSource.data = this.dataSource.data.filter(item => item.faculty_id !== id);
