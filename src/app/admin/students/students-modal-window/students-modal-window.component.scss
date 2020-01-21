@@ -1,0 +1,23 @@
+.input-wrapper{
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    
+}
+
+mat-form-field {
+    width: 100%;
+
+    label {
+        .studentInput {
+            margin-top: 5px;
+        }
+    }
+}
+
+button {
+    width: calc(50% - 10px);
+    &:first-of-type {
+        margin-right: 20px;
+    }
+}
