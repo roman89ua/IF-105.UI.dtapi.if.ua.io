@@ -1,12 +1,12 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog, MatSort } from '@angular/material';
 import { SubjectsCreateModalComponent } from './subjects-create-modal/subjects-create-modal.component';
-import {SubjectsService} from './subjects.service';
-import {ISubjects} from './subjects.interface';
+import { ISubjects } from './subjects.interface';
 import { mergeMap } from 'rxjs/operators';
 import { of } from 'rxjs';
-import {MatTableDataSource, MatTable} from '@angular/material/table';
+import { MatTableDataSource, MatTable } from '@angular/material/table';
 import { SubjectConfirmComponent } from './subject-confirm/subject-confirm.component';
+import { ApiService } from 'src/app/shared/services/api.service';
 
 
 @Component({
@@ -20,33 +20,27 @@ export class SubjectsComponent implements OnInit {
   public displayedColumns: string[] = ['subject_number', /*'subject_id',*/ 'subject_name', 'subject_description', 'subject_menu'];
   public dataSource = new MatTableDataSource<ISubjects>();
 
-  @ViewChild(MatSort, {static: true}) sort: MatSort;
+  @ViewChild(MatSort, { static: true }) sort: MatSort;
 
   constructor(
     public dialog: MatDialog,
-    
-    private subjectsService: SubjectsService,
+
+    private apiService: ApiService,
   ) { }
 
-<<<<<<< HEAD
-  ngOnInit() { 
-  }
-  // create modal window
-=======
   ngOnInit() {
     this.showSubjects();
   }
   showSubjects() {
-    this.subjectsService.readSubjects()
+    this.apiService.getEntity('Subject')
       .subscribe((data: Array<ISubjects>) => {
         this.subjectTableList = data;
         console.log(this.subjectTableList);
         this.dataSource.sort = this.sort;
       }
-    );
+      );
   }
 
->>>>>>> 523956a01266056a7f20440d2316030816d4abe4
   createNewSubject() {
     const newDialogSubject = this.dialog.open(SubjectsCreateModalComponent, {
       width: '500px',
@@ -56,7 +50,7 @@ export class SubjectsComponent implements OnInit {
       .pipe(
         mergeMap((data) => {
           if (data) {
-            return this.subjectsService.creatSubject(data);
+            return this.apiService.postEntity('Subject', data);
           }
           return of(null);
         })
@@ -68,7 +62,7 @@ export class SubjectsComponent implements OnInit {
         }
       });
   }
-  edit(row: ISubjects): void{
+  edit(row: ISubjects): void {
     const newDialogSubject = this.dialog.open(SubjectsCreateModalComponent, {
       width: '500px',
       disableClose: true,
@@ -77,7 +71,7 @@ export class SubjectsComponent implements OnInit {
       .pipe(
         mergeMap((data) => {
           if (data) {
-            return this.subjectsService.updateSubject(row.subject_id, data);
+            return this.apiService.updEntity('Subject', data, row.subject_id);
           }
           return of(null);
         })
@@ -104,7 +98,7 @@ export class SubjectsComponent implements OnInit {
     });
   }
   delSubject(id: number) {
-    this.subjectsService.deleteSubject(id)
+    this.apiService.delEntity('Subject', id)
       .subscribe((response) => {
         this.subjectTableList = this.subjectTableList.filter(item => item.subject_id !== id);
       });
