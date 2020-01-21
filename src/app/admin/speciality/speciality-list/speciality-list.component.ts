@@ -13,7 +13,6 @@ import { ModalService } from '../../../shared/services/modal.service';
 export class SpecialityListComponent implements OnInit {
 
   public result: any;
-  public entity = 'Speciality';
   public speciality: Speciality[] = [];
   public displayedColumns: string[] = ['code', 'name', 'buttons'];
   public dataSource = new MatTableDataSource<Speciality>();
@@ -31,7 +30,7 @@ export class SpecialityListComponent implements OnInit {
   }
   getSpeciality(): any {
     const action = 'getRecords';
-    this.apiService.getEntity(this.entity, action).subscribe((data: Speciality[]) => this.dataSource.data = data);
+    this.apiService.getEntity('Speciality').subscribe((data: Speciality[]) => this.dataSource.data = data);
   }
 
   openConfirmDialog(speciality: Speciality) {
@@ -39,7 +38,7 @@ export class SpecialityListComponent implements OnInit {
     this.modalService.openConfirmModal(message, () => this.delSpeciality(speciality));
   }
   delSpeciality(obj: Speciality) {
-    this.apiService.delEntity(this.entity, obj.speciality_id)
+    this.apiService.delEntity('Speciality', obj.speciality_id)
       .subscribe((data) => {
         this.dataSource.data = this.dataSource.data.filter(speciality => speciality.speciality_id !== obj.speciality_id);
       }, err => {
@@ -54,7 +53,7 @@ export class SpecialityListComponent implements OnInit {
     });
     dialogRef.afterClosed().subscribe(data => {
       if (data) {
-        return this.apiService.postEntity(this.entity, data).subscribe((obj: Speciality) => {
+        return this.apiService.postEntity('Speciality', data).subscribe((obj: Speciality) => {
           this.speciality = [obj, ...this.speciality];
           this.getSpeciality();
         }, err => {
@@ -73,7 +72,7 @@ export class SpecialityListComponent implements OnInit {
     dialogRef.afterClosed().subscribe((data: Speciality) => {
       if (data) {
         data.speciality_id = speciality.speciality_id;
-        return this.apiService.updEntity(this.entity, data, speciality.speciality_id).subscribe((specialityObj: Speciality) => {
+        return this.apiService.updEntity('Speciality', data, speciality.speciality_id).subscribe((specialityObj: Speciality) => {
           this.speciality = [specialityObj, ...this.speciality];
           this.getSpeciality();
         }, err => {

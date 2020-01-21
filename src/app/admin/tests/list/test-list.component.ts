@@ -1,11 +1,11 @@
 import { Component, OnInit, ViewChild, Inject } from '@angular/core';
-import { HttpService } from '../../../shared/http.service';
 import { Test } from '../../entity.interface';
 import { Subject } from '../../entity.interface';
 import { MatTableDataSource, MatTable } from '@angular/material';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatDialog } from '@angular/material/dialog';
-import {TestAddComponent} from '../add/test-add.component';
+import { TestAddComponent } from '../add/test-add.component';
+import { ApiService } from 'src/app/shared/services/api.service';
 
 @Component({
   selector: 'app-group',
@@ -27,7 +27,7 @@ export class TestListComponent implements OnInit {
   @ViewChild('table', { static: true }) table: MatTable<Test>;
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
 
-  constructor(protected httpService: HttpService, public dialog: MatDialog) {}
+  constructor(protected apiService: ApiService, public dialog: MatDialog) { }
 
   ngOnInit() {
     this.loadSubjects();
@@ -35,7 +35,7 @@ export class TestListComponent implements OnInit {
   }
 
   private loadSubjects() {
-    this.httpService.getRecords('subject').subscribe((result: Subject[]) => {
+    this.apiService.getEntity('Subject').subscribe((result: Subject[]) => {
       this.listSubjects = result;
     });
   }
@@ -60,7 +60,7 @@ export class TestListComponent implements OnInit {
   }
 
   addTest(test: Test) {
-    this.httpService.insertData('test', test).subscribe((result: Test[]) => {
+    this.apiService.postEntity('Test', test).subscribe((result: Test[]) => {
       this.listGroups.push(result[0]);
       this.table.renderRows();
       this.dataSource.paginator = this.paginator;
@@ -80,7 +80,7 @@ export class TestListComponent implements OnInit {
   }
 
   private viewAllTests() {
-    this.httpService.getRecords('test').subscribe((result: Test[]) => {
+    this.apiService.getEntity('Test').subscribe((result: Test[]) => {
       this.listGroups = result;
       this.dataSource.data = this.listGroups;
     });
