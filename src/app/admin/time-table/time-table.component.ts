@@ -24,7 +24,7 @@ export class TimeTableComponent implements OnInit {
     'actions'
   ];
 
-  @ViewChild('table', {static: true}) table: MatTable<Group>;
+  @ViewChild('table', {static: false}) table: MatTable<Element>;
 
   constructor(private httpService: HttpService,
               private formBuilder: FormBuilder,
@@ -76,6 +76,13 @@ export class TimeTableComponent implements OnInit {
     });
   }
 
+  /*editTimeTableDialog(): void {
+    const dialogRef = this.dialog.open(TimeTableAddDialogComponent, {
+      width: '500px',
+      data
+    })
+  }
+*/
   private getTimeTable(): void {
     let table = [];
     this.subjects = [];
@@ -112,7 +119,7 @@ export class TimeTableComponent implements OnInit {
           this.timeTable.push(updatedTable[0]);
           console.log(updatedTable);
           console.log(this.dataSource.data);
-          // this.table.renderRows();
+          this.table.renderRows();
         });
       }
     });
