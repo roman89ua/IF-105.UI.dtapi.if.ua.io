@@ -13,16 +13,20 @@ import { AuthService } from 'src/app/shared/auth.service';
 })
 export class NavbarComponent implements OnInit {
 
-  constructor(private breakpointObserver: BreakpointObserver, public authService: AuthService, private router: Router) {}
+  constructor(
+    private breakpointObserver: BreakpointObserver,
+    public authService: AuthService,
+    private router: Router) { }
+
   currentUser$: Observable<any>;
 
-    isSmall$: Observable<boolean> = this.breakpointObserver.observe(Breakpoints.Small)
+  isSmall$: Observable<boolean> = this.breakpointObserver.observe(Breakpoints.Small)
     .pipe(
       map(result => result.matches),
       shareReplay()
     );
 
-    isXSmall$: Observable<boolean> = this.breakpointObserver.observe(Breakpoints.XSmall)
+  isXSmall$: Observable<boolean> = this.breakpointObserver.observe(Breakpoints.XSmall)
     .pipe(
       map(result => result.matches),
       shareReplay()
@@ -34,8 +38,8 @@ export class NavbarComponent implements OnInit {
 
   logoutHandler() {
     this.authService.logout()
-    .subscribe(() => {
-      this.router.navigate(['login']);
-    });
+      .subscribe(() => {
+        this.router.navigate(['login']);
+      });
   }
 }
