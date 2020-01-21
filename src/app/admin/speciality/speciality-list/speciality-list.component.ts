@@ -38,22 +38,8 @@ export class SpecialityListComponent implements OnInit {
     const message = `Підтвердіть видалення спеціальності "${speciality.speciality_name}"`;
     this.modalService.openConfirmModal(message, () => this.delSpeciality(speciality));
   }
-
-  /*   delSpecialityDialog(speciality: Speciality): void {
-      const dialogData = new DialogConfirmModel(speciality);
-      const dialogRef = this.dialog.open(DialogConfirmComponent, {
-        data: dialogData
-      });
-      dialogRef.afterClosed().subscribe(dialogResult => {
-        this.result = dialogResult;
-        if (this.result) {
-          this.delSpeciality(this.result);
-        }
-      });
-    } */
   delSpeciality(obj: Speciality) {
-    const action = 'del';
-    this.apiService.delEntity(this.entity, action, obj.speciality_id)
+    this.apiService.delEntity(this.entity, obj.speciality_id)
       .subscribe((data) => {
         this.dataSource.data = this.dataSource.data.filter(speciality => speciality.speciality_id !== obj.speciality_id);
       }, err => {
@@ -61,7 +47,6 @@ export class SpecialityListComponent implements OnInit {
       });
   }
   addSpeciality() {
-    const action = 'insertData';
     const dialogRef = this.dialog.open(DialogFormComponent, {
       data: {},
       width: '450px',
@@ -69,7 +54,7 @@ export class SpecialityListComponent implements OnInit {
     });
     dialogRef.afterClosed().subscribe(data => {
       if (data) {
-        return this.apiService.postEntity(this.entity, action, data).subscribe((obj: Speciality) => {
+        return this.apiService.postEntity(this.entity, data).subscribe((obj: Speciality) => {
           this.speciality = [obj, ...this.speciality];
           this.getSpeciality();
         }, err => {
@@ -80,7 +65,6 @@ export class SpecialityListComponent implements OnInit {
     });
   }
   updSpeciality(speciality: Speciality) {
-    const action = 'update';
     const dialogRef = this.dialog.open(DialogFormComponent, {
       data: speciality,
       width: '450px',
@@ -89,7 +73,7 @@ export class SpecialityListComponent implements OnInit {
     dialogRef.afterClosed().subscribe((data: Speciality) => {
       if (data) {
         data.speciality_id = speciality.speciality_id;
-        return this.apiService.updEntity(this.entity, action, data, speciality.speciality_id).subscribe((specialityObj: Speciality) => {
+        return this.apiService.updEntity(this.entity, data, speciality.speciality_id).subscribe((specialityObj: Speciality) => {
           this.speciality = [specialityObj, ...this.speciality];
           this.getSpeciality();
         }, err => {

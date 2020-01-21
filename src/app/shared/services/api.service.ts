@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import {Observable} from 'rxjs';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -12,21 +12,22 @@ export class ApiService {
 
   constructor(private http: HttpClient) { }
 
-  getEntity(entity, action): Observable<any> {
-    const url = `${this.apiURI}/${entity}/${action}`;
-    return this.http.get(url);
+  getEntity(entity, id?): Observable<any> {
+    if (id === undefined) {
+      return this.http.get(`${this.apiURI}/${entity}/getRecords`);
+    }
+    else {
+      // in case to get only one record from database by id
+      return this.http.get(`${this.apiURI}/${entity}/getRecords/${id}`);
+    }
   }
-  postEntity(entity, action, body): Observable<any> {
-    const url = `${this.apiURI}/${entity}/${action}`;
-    return this.http.post(url, body);
+  postEntity(entity, payload): Observable<any> {
+    return this.http.post(`${this.apiURI}/${entity}/insertData`, payload);
   }
-  delEntity(entity, action, id): Observable<any> {
-    const url = `${this.apiURI}/${entity}/${action}/${id}`;
-    return this.http.get(url);
+  delEntity(entity, id): Observable<any> {
+    return this.http.get(`${this.apiURI}/${entity}/del/${id}`);
   }
-  updEntity(entity, action, body, id): Observable<any> {
-    const url = `${this.apiURI}/${entity}/${action}/${id}`;
-    return this.http.post(url, body);
+  updEntity(entity, payload, id): Observable<any> {
+    return this.http.post(`${this.apiURI}/${entity}/update/${id}`, payload);
   }
 }
-
