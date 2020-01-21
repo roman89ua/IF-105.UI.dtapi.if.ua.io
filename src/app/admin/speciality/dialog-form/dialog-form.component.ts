@@ -5,6 +5,7 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Speciality } from '.././../entity.interface';
 
 export interface DialogData {
+  description: any;
   data: any;
   speciality_code : number,
   speciality_name : string
