@@ -5,6 +5,7 @@ import { QuestionService } from '../question.service';
 import { switchMap } from 'rxjs/operators';
 import { of } from 'rxjs';
 import { IAnswer } from '../question';
+import { ApiService } from 'src/app/shared/services/api.service';
 
 @Component({
   selector: 'app-new-question',
@@ -16,7 +17,8 @@ export class NewQuestionComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private questionService: QuestionService
+    private questionService: QuestionService,
+    private apiService: ApiService
   ) { }
 
   newQuestionForm = new FormGroup({
@@ -131,7 +133,7 @@ export class NewQuestionComponent implements OnInit {
       test_id: this.testId,
       attachment: ''
     };
-    this.questionService.addNewQuestion(questionData)
+    this.apiService.postEntity('Question',questionData)
       .pipe(switchMap((res: {question_id: number}[]): any => { // FIX
         if (this.answers.length) {
           this.questionService.addAnswerCollection(this.answers, res[0].question_id);
