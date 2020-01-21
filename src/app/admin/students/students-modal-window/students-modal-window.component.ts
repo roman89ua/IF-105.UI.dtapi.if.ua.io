@@ -60,6 +60,10 @@ export class StudentsModalWindowComponent implements OnInit {
         error => this.dialogRef.close(error)
     );
   }
+  
+  closeModalWindow() {
+    this.dialogRef.close();
+  }
 
   comparisonValidator(): ValidatorFn {
     return (group: FormGroup): ValidationErrors => {
