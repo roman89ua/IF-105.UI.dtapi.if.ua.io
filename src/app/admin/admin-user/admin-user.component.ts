@@ -102,7 +102,7 @@ export class AdminUserComponent implements OnInit {
         if (data && data.response === 'ok') {
           this.userList = this.userList.filter(existedUser => existedUser.id !== user.id);
         }
-      });  
+      }); 
     } */
   addAdminHandler() {
     const dialogRef = this.dialog.open(CreateUpdateUserComponent, {

@@ -1,14 +1,14 @@
 import { Component, OnInit, Inject } from "@angular/core";
 import { Speciality, Faculty } from "../../../shared/entity.interface";
 import { MatDialogRef, MAT_DIALOG_DATA } from "@angular/material/dialog";
-import { ModalService} from '../../../shared/services/modal.service';
+import { ModalService } from '../../../shared/services/modal.service';
 import { ApiService } from 'src/app/shared/services/api.service';
 
 export interface DialogData {
   data: any;
   description: {
-    title : string,
-    action : string
+    title: string;
+    action: string;
   }
 }
 @Component({
@@ -25,7 +25,7 @@ export class GroupAddEditDialogComponent implements OnInit {
     public dialogRef: MatDialogRef<GroupAddEditDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: DialogData,
     private modalService: ModalService
-  ) {}
+  ) { }
 
   ngOnInit() {
     this.apiService
@@ -35,11 +35,11 @@ export class GroupAddEditDialogComponent implements OnInit {
       }, () => {
         this.modalService.openErrorModal('Помилка завантаження даних');
       });
-    this.apiService.getEntity("Faculty")
+    this.apiService.getEntity('Faculty')
       .subscribe((result: Faculty[]) => {
         this.faculties = result;
-    }, () => {
-      this.modalService.openErrorModal('Помилка завантаження даних');
-    });
+      }, () => {
+        this.modalService.openErrorModal('Помилка завантаження даних');
+      });
   }
 }

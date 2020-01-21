@@ -26,7 +26,7 @@ export class GroupViewDialogComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    if (this.data.action == 'getGroupsBySpeciality' ) {
+    if (this.data.action === 'getGroupsBySpeciality' ) {
       this.apiService
       .getEntity('Speciality')
       .subscribe((result: Speciality[]) => {
@@ -35,8 +35,7 @@ export class GroupViewDialogComponent implements OnInit {
         this.modalService.openErrorModal('Помилка завантаження даних');
       });
     }
-    
-    if (this.data.action == 'getGroupsByFaculty') {
+    if (this.data.action === 'getGroupsByFaculty') {
       this.apiService.getEntity('Faculty').subscribe((result: Faculty[]) => {
         this.faculties = result;
       }, () => {

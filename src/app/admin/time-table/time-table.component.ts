@@ -80,7 +80,7 @@ export class TimeTableComponent implements OnInit {
     this.subjects = [];
     this.subjectGroup.get('subjectId').valueChanges.subscribe(value => {
       this.subjectId = value;
-      this.apiService.getEntityByAction('Timetable', 'getTimeTablesForSubject/', this.subjectId).subscribe((response: TimeTable[]) => {
+      this.apiService.getEntityByAction('timetable', 'getTimeTablesForSubject', this.subjectId).subscribe((response: TimeTable[]) => {
         if (isArray(response)) {
           table = response;
           const ids = table.map(a => Number(a.group_id));

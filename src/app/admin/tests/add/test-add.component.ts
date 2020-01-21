@@ -1,9 +1,13 @@
 import { Component, OnInit, Inject } from '@angular/core';
-import { Faculty, DialogData } from '../../../shared/entity.interface';
+import { Faculty } from '../../../shared/entity.interface';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Subject } from '../../entity.interface';
 import { ApiService } from 'src/app/shared/services/api.service';
 
+export interface DialogData {
+  data: any;
+  description: any;
+}
 @Component({
   selector: 'app-test-add',
   templateUrl: './test-add.component.html',

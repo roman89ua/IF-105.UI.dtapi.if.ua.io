@@ -26,7 +26,7 @@ export class NewQuestionComponent implements OnInit {
     level: new FormControl('1'),
     attachment: new FormControl(''),
     type: new FormControl('1'),
-  }, {validators: this.questionTaskAdded()});
+  }, { validators: this.questionTaskAdded() });
 
   attachmentTouched: boolean = false;
   questionType: number = 1;
@@ -41,10 +41,10 @@ export class NewQuestionComponent implements OnInit {
     return this.newQuestionForm.get('attachment');
   }
 
-  questionTaskAdded(): ValidatorFn  {
+  questionTaskAdded(): ValidatorFn {
     return (control: FormGroup) => {
       let invalid = control.get('question_text').value === '' && control.get('attachment').value === '';
-      return invalid ? {'noTask': true} : null;
+      return invalid ? { 'noTask': true } : null;
     };
   }
 
@@ -82,7 +82,7 @@ export class NewQuestionComponent implements OnInit {
     } else {
       let id;
       id = this.answers.reduce((maxId, val) => {
-         return (val.answer_id > maxId) ? val.answer_id  : maxId;
+        return (val.answer_id > maxId) ? val.answer_id : maxId;
       }, 0);
       this.answers.push({
         answer_id: id + 1,
@@ -133,8 +133,8 @@ export class NewQuestionComponent implements OnInit {
       test_id: this.testId,
       attachment: ''
     };
-    this.apiService.postEntity('Question',questionData)
-      .pipe(switchMap((res: {question_id: number}[]): any => { // FIX
+    this.apiService.postEntity('Question', questionData)
+      .pipe(switchMap((res: { question_id: number }[]): any => { // FIX
         if (this.answers.length) {
           this.questionService.addAnswerCollection(this.answers, res[0].question_id);
         } else {

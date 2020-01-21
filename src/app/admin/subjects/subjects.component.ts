@@ -49,6 +49,7 @@ export class SubjectsComponent implements OnInit {
     newDialogSubject.afterClosed()
       .pipe(
         mergeMap((data) => {
+          console.log(data);
           if (data) {
             return this.apiService.postEntity('Subject', data);
           }
