@@ -29,7 +29,8 @@ import {TimeTableComponent} from './time-table/time-table.component';
 import {TimeTablePipe} from './time-table/time-table.pipe';
 import {TimeTableAddDialogComponent} from './time-table/time-table-add-dialog/time-table-add-dialog.component';
 import {SubjectConfirmComponent} from './subjects/subject-confirm/subject-confirm.component';
-
+import { TestListComponent } from './tests/list/test-list.component';
+import { TestAddComponent } from './tests/add/test-add.component';
 
 const routes: Routes = [
   {
@@ -43,7 +44,8 @@ const routes: Routes = [
       { path: 'group', component: GroupComponent },
       { path: 'subjects', component: SubjectsComponent },
       { path: 'speciality', component: SpecialityListComponent },
-      { path: 'timeTable', component: TimeTableComponent }
+      { path: 'timeTable', component: TimeTableComponent },
+      { path: 'tests', component: TestListComponent },
     ]}
 ];
 @NgModule({
@@ -55,6 +57,8 @@ const routes: Routes = [
     GroupComponent,
     GroupAddEditDialogComponent,
     GroupViewDialogComponent,
+    TestListComponent,
+    TestAddComponent,
     QuestionAnswerComponent,
     QuestionComponent,
     NewQuestionComponent,
@@ -92,6 +96,7 @@ const routes: Routes = [
     CreateEditComponent,
     GroupViewDialogComponent,
     SubjectsCreateModalComponent,
+    TestAddComponent,
     TimeTableAddDialogComponent,
     SubjectConfirmComponent,
     StudentsModalWindowComponent
