@@ -7,6 +7,7 @@ import {NewQuestionComponent} from './question/new-question/new-question.compone
 import {QuestionAnswerComponent} from './question/new-question/question-answer/question-answer.component';
 import {StudentsComponent} from './students/students.component';
 import {StudentsService} from './students/services/students.service';
+import {StudentsModalWindowComponent } from './students/students-modal-window/students-modal-window.component';
 import {FacultiesComponent} from './faculties/faculties.component';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {GroupComponent} from './group/group.component';
@@ -34,23 +35,22 @@ const routes: Routes = [
   {
     path: '', component: AdminComponent,
     children: [
-      {path: 'exams/:id/questions', component: QuestionComponent},
-      {path: 'exams/:id/questions/new', component: NewQuestionComponent},
-      {path: 'Students/:id', component: StudentsComponent},
-      {path: 'admin-user', component: AdminUserComponent},
-      {path: 'faculties', component: FacultiesComponent},
-      {path: 'group', component: GroupComponent},
-      {path: 'subjects', component: SubjectsComponent},
-      {path: 'speciality', component: SpecialityListComponent},
-      {path: 'timeTable', component: TimeTableComponent}
-    ]
-  }
+      { path: 'exams/:id/questions', component: QuestionComponent },
+      { path: 'exams/:id/questions/new', component: NewQuestionComponent },
+      { path: 'Students/:id', component: StudentsComponent },
+      { path: 'admin-user', component: AdminUserComponent},
+      { path: 'faculties', component: FacultiesComponent},
+      { path: 'group', component: GroupComponent },
+      { path: 'subjects', component: SubjectsComponent },
+      { path: 'speciality', component: SpecialityListComponent },
+      { path: 'timeTable', component: TimeTableComponent }
+    ]}
 ];
-
 @NgModule({
   declarations: [
     AdminComponent,
     StudentsComponent,
+    StudentsModalWindowComponent,
     FacultiesComponent,
     GroupComponent,
     GroupAddEditDialogComponent,
@@ -94,7 +94,7 @@ const routes: Routes = [
     SubjectsCreateModalComponent,
     TimeTableAddDialogComponent,
     SubjectConfirmComponent,
+    StudentsModalWindowComponent
   ]
 })
-export class AdminModule {
-}
+export class AdminModule { }
