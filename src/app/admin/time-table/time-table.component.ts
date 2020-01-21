@@ -1,13 +1,12 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
-import {HttpService} from '../../shared/http.service';
-import {TimeTableService} from './time-table.service';
-import {Group, Subject} from '../entity.interface';
-import {FormBuilder, FormControl, FormGroup} from '@angular/forms';
-import {isArray} from 'util';
-import {TimeTable} from '../../shared/entity.interface';
-import {MatDialog, MatTable, MatTableDataSource} from '@angular/material';
-import {TimeTableAddDialogComponent} from './time-table-add-dialog/time-table-add-dialog.component';
-import {ModalService} from '../../shared/services/modal.service';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { Group, Subject } from '../entity.interface';
+import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { isArray } from 'util';
+import { TimeTable } from '../../shared/entity.interface';
+import { MatDialog, MatTable, MatTableDataSource } from '@angular/material';
+import { TimeTableAddDialogComponent } from './time-table-add-dialog/time-table-add-dialog.component';
+import { ModalService } from '../../shared/services/modal.service';
+import { ApiService } from 'src/app/shared/services/api.service';
 
 @Component({
   selector: 'app-time-table',
@@ -24,12 +23,12 @@ export class TimeTableComponent implements OnInit {
     'actions'
   ];
 
-  @ViewChild('table', {static: true}) table: MatTable<Group>;
+  @ViewChild('table', { static: true }) table: MatTable<Group>;
 
-  constructor(private httpService: HttpService,
-              private formBuilder: FormBuilder,
-              public dialog: MatDialog,
-              private modalService: ModalService) {
+  constructor(private apiService: ApiService,
+    private formBuilder: FormBuilder,
+    public dialog: MatDialog,
+    private modalService: ModalService) {
   }
 
   subjects: Subject[] = [];
@@ -40,7 +39,7 @@ export class TimeTableComponent implements OnInit {
 
   ngOnInit() {
     this.getSubjects();
-    this.subjectGroup = this.formBuilder.group({subjectId: ''});
+    this.subjectGroup = this.formBuilder.group({ subjectId: '' });
     this.getTimeTable();
   }
 
@@ -71,7 +70,7 @@ export class TimeTableComponent implements OnInit {
   }
 
   private getSubjects() {
-    this.httpService.getRecords('subject').subscribe((response: Subject[]) => {
+    this.apiService.getEntity('Subject').subscribe((response: Subject[]) => {
       this.subjects = response;
     });
   }
@@ -81,11 +80,11 @@ export class TimeTableComponent implements OnInit {
     this.subjects = [];
     this.subjectGroup.get('subjectId').valueChanges.subscribe(value => {
       this.subjectId = value;
-      this.httpService.getTimeTable('getTimeTablesForSubject/', this.subjectId).subscribe((response: TimeTable[]) => {
+      this.apiService.getEntityByAction('Timetable', 'getTimeTablesForSubject/', this.subjectId).subscribe((response: TimeTable[]) => {
         if (isArray(response)) {
           table = response;
           const ids = table.map(a => Number(a.group_id));
-          this.httpService.getByEntity('Group', ids).subscribe((value1: [{
+          this.apiService.getByEntityManager('Group', ids).subscribe((value1: [{
             group_name: string;
           }]) => {
             const groups = value1.map(a => a.group_name);
@@ -104,10 +103,10 @@ export class TimeTableComponent implements OnInit {
   }
 
   private addTimeTable(data: TimeTable) {
-    this.httpService.insertData('timeTable', data).subscribe((result: TimeTable[]) => {
+    this.apiService.postEntity('TimeTable', data).subscribe((result: TimeTable[]) => {
       if (result[0].subject_id === this.subjectId) {
         const updatedTable: TimeTable[] = result;
-        this.httpService.getRecord('group', result[0].group_id).subscribe((value: Group[]) => {
+        this.apiService.getEntity('Group', result[0].group_id).subscribe((value: Group[]) => {
           updatedTable[0].group_name = value[0].group_name;
           this.timeTable.push(updatedTable[0]);
           console.log(updatedTable);
