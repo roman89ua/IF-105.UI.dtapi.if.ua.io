@@ -6,9 +6,10 @@ import { ModalService} from '../../../shared/services/modal.service';
 
 export interface DialogData {
   data: any;
-  description: string,
-  title : string,
-  action : string
+  description: {
+    title : string,
+    action : string
+  }
 }
 @Component({
   selector: "app-group-add-edit-dialog",
