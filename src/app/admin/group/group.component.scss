@@ -1,8 +1,5 @@
 .container {
-  margin: 3%;
-}
-button {
-  margin-left: 5px;
+  margin: 1%;
 }
 table {
   width: 100%;
@@ -21,4 +18,18 @@ mat-icon {
       color: red;
     }
   }
+}
+
+.button-wrapper {
+  display: flex;
+  justify-content: space-between;
+  h3 {
+      padding: 15px;
+  }
+  button {
+    margin: 10px;
+  }
+}
+.button-search button {
+  margin: 10px;
 }
