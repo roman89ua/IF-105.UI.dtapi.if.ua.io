@@ -107,7 +107,7 @@ export class FacultiesComponent implements OnInit, AfterViewInit {
     });
   }
 
-  openComfirmDialog(faculty: Faculty) {
+  openConfirmDialog(faculty: Faculty) {
     const message = `Підтвердіть видалення факультету "${faculty.faculty_name}"?`;
     this.modalService.openConfirmModal(message, () => this.removeFaculty(faculty.faculty_id));
   }

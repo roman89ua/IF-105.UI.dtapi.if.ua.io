@@ -34,14 +34,9 @@
 
     <ng-container matColumnDef="action">
       <th mat-header-cell *matHeaderCellDef>Дії</th>
-      <td mat-cell *matCellDef="let element" class="action-link">
-        <i class="material-icons edit">
-          edit
-        </i>
-        |
-        <i class="material-icons delete">
-          delete
-        </i>
+      <td mat-cell *matCellDef="let testItem" class="action-link">
+        <mat-icon aria-hidden="false" aria-label="edit" matTooltip="Редагувати">edit</mat-icon>
+        <mat-icon aria-hidden="false" aria-label="delete" matTooltip="Видалити" (click)="openConfirmDialog(testItem)">delete</mat-icon>
       </td>
     </ng-container>
 

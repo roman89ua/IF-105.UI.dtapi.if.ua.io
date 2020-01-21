@@ -2,10 +2,11 @@ import { Component, OnInit, ViewChild, Inject } from '@angular/core';
 import { HttpService } from '../../../shared/http.service';
 import { Test } from '../../entity.interface';
 import { Subject } from '../../entity.interface';
-import { MatTableDataSource, MatTable } from '@angular/material';
+import {MatTableDataSource, MatTable, MatSnackBar} from '@angular/material';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatDialog } from '@angular/material/dialog';
-import {TestAddComponent} from '../add/test-add.component';
+import { TestAddComponent } from '../add/test-add.component';
+import { ModalService } from '../../../shared/services/modal.service';
 
 @Component({
   selector: 'app-group',
@@ -27,7 +28,12 @@ export class TestListComponent implements OnInit {
   @ViewChild('table', { static: true }) table: MatTable<Test>;
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
 
-  constructor(protected httpService: HttpService, public dialog: MatDialog) {}
+  constructor(
+    public dialog: MatDialog,
+    protected httpService: HttpService,
+    private modalService: ModalService,
+    private snackBar: MatSnackBar
+  ) {}
 
   ngOnInit() {
     this.loadSubjects();
@@ -59,12 +65,33 @@ export class TestListComponent implements OnInit {
     });
   }
 
-  addTest(test: Test) {
+  private addTest(test: Test) {
     this.httpService.insertData('test', test).subscribe((result: Test[]) => {
       this.listGroups.push(result[0]);
       this.table.renderRows();
       this.dataSource.paginator = this.paginator;
     });
+  }
+
+  public openConfirmDialog(test: Test) {
+    const message = `Підтвердіть видалення тесту ${test.test_name}?`;
+
+    this.modalService.openConfirmModal(message, () => this.removeTest(test.test_id));
+  }
+
+  private removeTest(id: number) {
+    this.httpService.del('test', id)
+      .subscribe((response) => {
+          this.snackBar.open('Тест видалено', null, {
+            duration: 2500,
+          });
+          this.dataSource.data = this.dataSource.data.filter(item => item.test_id !== id);
+        },
+        err => {
+          this.snackBar.open('Помилка видалення', null, {
+            duration: 2500,
+          });
+        });
   }
 
   public getSubjectNameById(subjectId: number): string {
