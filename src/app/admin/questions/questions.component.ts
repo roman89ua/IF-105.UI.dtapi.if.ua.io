@@ -54,11 +54,11 @@ export class QuestionComponent implements OnInit {
     })
   }
 
-  log(data) {
-    // this.pageSize = data.pageSize;
-    // this.currentPage = data.pageIndex;
-    let offset = data.pageIndex * data.pageSize;
-    console.log(offset);
+  pageChangeHandler(data) {
+    this.pageSize = data.pageSize;
+    this.currentPage = data.pageIndex;
+    const offset = this.pageSize * this.currentPage;
+    this.loadingQuestions = true;
     this.getQuestions(offset);
   }
 
@@ -93,18 +93,13 @@ export class QuestionComponent implements OnInit {
           switchMap((val: any) => { //FIX
             return val.response !== 'no records' ? this.questionService.deleteAnswerCollection(val) : of(val)
           }),
-          switchMap(() => this.questionService.deleteQuestion(id))          
+          switchMap(() => this.questionService.deleteQuestion(id)),        
         )
         .subscribe( () => { 
-            let questionIndex;
-            this.questions.forEach( (question, index) => {
-              if (question.question_id === id) {
-                questionIndex = index;
-              }
-            })
-            this.questions.splice(questionIndex, 1);
+            const offset = this.pageSize * this.currentPage;
+            this.getQuestions(offset);
+            this.getQuestionsCount();
             this.loadingQuestions = false;
-            // this.table.renderRows();
         })
     });
   }
@@ -114,10 +109,20 @@ export class QuestionComponent implements OnInit {
     .subscribe((res: IQuestion[]) => {
       const questionsWithEmptyAnswers = res.map((question) => {
         return { ...question, answers: [] }
-      }) 
+      })
+      if (!this.dataSource) {
+        this.dataSource = new MatTableDataSource(questionsWithEmptyAnswers);
+        this.dataSource.paginator = this.paginator;
+      }
       this.questions = questionsWithEmptyAnswers
-      this.dataSource = new MatTableDataSource(questionsWithEmptyAnswers);
+      this.dataSource = questionsWithEmptyAnswers;
+      this.loadingQuestions = false;
       } )
+  }
+
+  getQuestionsCount() {
+    this.questionService.getTestQuestionsCount(this.testId)
+    .subscribe( res =>  this.questionsCount = res );
   }
 
   
@@ -125,8 +130,7 @@ export class QuestionComponent implements OnInit {
     this.testId = +this.route.snapshot.paramMap.get('id');
     this.loadingQuestions = true;
     this.getQuestions();
-    this.questionService.getTestQuestionsCount(this.testId)
-        .subscribe( res =>  this.questionsCount = res );
+    this.getQuestionsCount()
   }
 
 }

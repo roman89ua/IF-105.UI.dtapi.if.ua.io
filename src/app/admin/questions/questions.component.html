@@ -135,5 +135,5 @@
     [pageSize]="pageSize"
     showFirstLastButtons
     [length]="questionsCount"
-    (page)="pageEvent = log($event)">
+    (page)="pageEvent = pageChangeHandler($event)">
 </mat-paginator>

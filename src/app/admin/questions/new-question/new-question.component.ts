@@ -1,11 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup,
-         FormControl,
-         FormBuilder,
-         Validators,
-         ValidatorFn,
-         FormArray
-       } from '@angular/forms';
+import { FormGroup, FormControl, FormBuilder, Validators, ValidatorFn, FormArray } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { QuestionService } from '../questions.service';
 import { switchMap } from 'rxjs/operators';
@@ -14,13 +8,13 @@ import { IAnswer } from '../questions';
 import { ModalService } from '../../../shared/services/modal.service';
 import { MAT_CHECKBOX_CLICK_ACTION } from '@angular/material';
 
-
 @Component({
   selector: 'app-new-question',
   templateUrl: './new-question.component.html',
   styleUrls: ['./new-question.component.scss'],
-  providers: [{ provide: MAT_CHECKBOX_CLICK_ACTION, useValue: 'noop' }]
+  providers: [{ provide: MAT_CHECKBOX_CLICK_ACTION, useValue: 'noop' }] //used for programmatical control on checkbox value 
 })
+
 export class NewQuestionComponent implements OnInit {
 
   newQuestionForm: any;
@@ -69,27 +63,21 @@ export class NewQuestionComponent implements OnInit {
     return this.newQuestionForm.get('attachment');
   }
 
+
   compareMinMax(): ValidatorFn {
     return (control: FormGroup) => {
       let invalid = false;
-      if (control.controls.answers.value.length === 2) {
+      if (control.get('answers').value.length === 2 && +this.type.value === 4) {
         
-        //.controls won't work here, throws TS error
+        //.get('answer_text') doesn't work here because only this way I managed to change formControl status
         const firstAnswer = this.questionAnswers.controls[0]['controls'].answer_text;
         const secondAnswer = this.questionAnswers.controls[1]['controls'].answer_text;
 
-        if (+this.type.value === 4 &&
-          +firstAnswer.value >= +secondAnswer.value &&
-          firstAnswer.value !== '' &&
-          secondAnswer.value !== '' 
-         ) {
+        if (+firstAnswer.value >= +secondAnswer.value && firstAnswer.value !== '' && secondAnswer.value !== '' ) {
             firstAnswer.status = 'INVALID'
             secondAnswer.status = 'INVALID'
             invalid = true
-        } else if (
-          firstAnswer.errors === null &&
-          secondAnswer.errors === null 
-        ) {
+        } else if ( firstAnswer.errors === null && secondAnswer.errors === null ) {
             firstAnswer.status = 'VALID'
             secondAnswer.status = 'VALID'
         }
@@ -99,16 +87,16 @@ export class NewQuestionComponent implements OnInit {
   }
 
   
-  checkTrueAnswersQuantity(answerIndex) {
+  checkTrueAnswers(answerIndex) {
     if (+this.type.value === 1) {
-        this.questionAnswers.value.forEach((_, index) => {
-          if (index !== answerIndex) {
-            this.questionAnswers.controls[index].get('true_answer').setValue(false); 
-          } else {
-            this.questionAnswers.controls[answerIndex].get('true_answer').setValue(true);
-          }
-        });
-      }
+      this.questionAnswers.value.forEach((_, index) => {
+          this.questionAnswers.controls[index].get('true_answer').setValue(false); 
+      });
+      this.questionAnswers.controls[answerIndex].get('true_answer').setValue(true);
+    } else if (+this.type.value === 2) {
+      const checkboxValue = this.questionAnswers.controls[answerIndex].get('true_answer').value;
+      this.questionAnswers.controls[answerIndex].get('true_answer').setValue(!checkboxValue);
+    }
   }
 
   answerByIndex(index) {
@@ -196,8 +184,6 @@ export class NewQuestionComponent implements OnInit {
       .subscribe(() => this.router.navigate([`admin/exams/${this.testId}/questions`]))
   }
 
-
-  //ATTACHMENT
   attachmentUploadHandler(e): void {
     const file = e.dataTransfer ? e.dataTransfer.files[0] : e.target.files[0];
     if (file) {
@@ -231,8 +217,6 @@ export class NewQuestionComponent implements OnInit {
     const fileUploadElement: any = document.getElementById(`file-input-${index}`); 
     fileUploadElement.value = '';
   }
-
-  
 
   ngOnInit() {
     this.testId = +this.route.snapshot.paramMap.get('id');
