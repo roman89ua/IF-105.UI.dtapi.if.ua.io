@@ -31,7 +31,7 @@ export class CreateUpdateUserComponent implements OnInit {
     ) { }
 
   ngOnInit() {
-    this.userForm.setValidators(this.comparisonValidator())
+    this.userForm.setValidators(this.comparisonValidator());
   }
   addAdminHandler() {
      this.dialogRef.close({...this.userForm.value, id: this.data ? this.data.id : null});
@@ -64,7 +64,7 @@ export class CreateUpdateUserComponent implements OnInit {
           map((result: any) => {
             return result.response ? { propertyIsNotUnique: true } : null;
           })
-        )
-    }
+        );
+    };
   }
 }
