@@ -2,8 +2,24 @@ h3 {
     text-align: center;
 }
 
-table {
+.toolbar {
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
     width: 90%;
+    padding: 1.5em 0;
+}
+
+table {
+    width: 100%
+}
+
+.mat-elevation-z8,
+.filter,
+.btn-wrapper {
+    width: 90%;
+    margin: 0 auto;
+    padding-top: 1em;
 }
 
 .mat-form-field {
@@ -13,6 +29,7 @@ table {
 .delete:hover {
     color: red;
 }
+
 .edit:hover {
     color: orange;
 }

@@ -4,8 +4,33 @@ mat-form-field {
     width: 100%;
 }
 
+h3 {
+    text-align: center;
+    margin-bottom: 1em;
+}
+
 button {
     text-align: center;
     width: 45%;
     margin: 0 .5em;
+}
+
+a {
+    text-decoration: none;
+}
+
+.assignment_turned_in:hover {
+    color: green;
+}
+
+.date_range:hover {
+    color: blue;
+}
+
+.edit:hover {
+    color: orange;
+}
+
+.delete:hover {
+    color: red;
 }
