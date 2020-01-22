@@ -27,12 +27,17 @@ export class SubjectsComponent implements OnInit {
     public dialog: MatDialog,
     private snackBar: MatSnackBar,
     private apiService: ApiService,
-  ) { }
+  ) {  }
 
   ngOnInit(): void  {
     this.showSubjects();
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
+
+    
+  }
+  applyFilter(filterValue: string) {
+    this.dataSource.filter = filterValue.trim().toLowerCase();
   }
 
   showSubjects() {
