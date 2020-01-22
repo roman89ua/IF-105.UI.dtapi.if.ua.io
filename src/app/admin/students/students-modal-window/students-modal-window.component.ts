@@ -4,6 +4,7 @@ import { StudentsService } from '../services/students.service';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { of } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { ApiService } from 'src/app/shared/services/api.service';
 
 @Component({
   selector: 'app-students-modal-window',
@@ -16,17 +17,17 @@ export class StudentsModalWindowComponent implements OnInit {
     lastname: new FormControl('', Validators.required),
     firstname: new FormControl('', Validators.required),
     fathername: new FormControl('', Validators.required),
-    gradebookID: new FormControl('', 
-    Validators.required,
-    this.uniqueValidator('gradebookID', 'checkGradebookId')),
-    login: new FormControl('', 
-    Validators.required,
-    this.uniqueValidator('login', 'checkUsername')),
+    gradebookID: new FormControl('',
+      Validators.required,
+      this.uniqueValidator('gradebookID', 'checkGradebookId')),
+    login: new FormControl('',
+      Validators.required,
+      this.uniqueValidator('login', 'checkUsername')),
     email: new FormControl('', [
-      Validators.required, 
+      Validators.required,
       Validators.email,
-    ], 
-    this.uniqueValidator('email', 'checkUserEmail')),
+    ],
+      this.uniqueValidator('email', 'checkUserEmail')),
     password: new FormControl('', [Validators.required, Validators.minLength(8)]),
     password_confirm: new FormControl(''),
   });
@@ -35,6 +36,7 @@ export class StudentsModalWindowComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public data: any,
     private studentsHttpService: StudentsService,
     public dialogRef: MatDialogRef<StudentsModalWindowComponent>,
+    private apiService: ApiService
   ) { }
 
   ngOnInit() {
@@ -43,21 +45,21 @@ export class StudentsModalWindowComponent implements OnInit {
 
   handleSubmit(value: any) {
     const studentDATA = {
-        gradebook_id: value.gradebookID,
-        student_surname: value.lastname,
-        student_name: value.firstname,
-        student_fname: value.fathername,
-        group_id: this.data.group_id,
-        password: value.password,
-        username: value.login,
-        email: value.email,
-        photo: '',
-        password_confirm: value.password_confirm,
-        plain_password: value.password
+      gradebook_id: value.gradebookID,
+      student_surname: value.lastname,
+      student_name: value.firstname,
+      student_fname: value.fathername,
+      group_id: this.data.group_id,
+      password: value.password,
+      username: value.login,
+      email: value.email,
+      photo: '',
+      password_confirm: value.password_confirm,
+      plain_password: value.password
     };
-    this.studentsHttpService.createStudent(studentDATA).subscribe(
-        (data) => this.dialogRef.close(data),
-        error => this.dialogRef.close(error)
+    this.apiService.createEntity('Student', studentDATA).subscribe(
+      (data) => this.dialogRef.close(data),
+      error => this.dialogRef.close(error)
     );
   }
 

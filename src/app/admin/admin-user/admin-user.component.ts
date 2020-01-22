@@ -1,12 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { AdminUserService } from './admin-user.service';
 import { IAdminUser, ICreateUpdateAdminUser } from './admin-user.interface';
 import { of, from } from 'rxjs';
 import { mergeMap } from 'rxjs/operators';
 import { MatDialog, MatSnackBar } from '@angular/material';
 import { CreateUpdateUserComponent } from './create-update-user/create-update-user.component';
-import { catchError } from 'rxjs/operators'; 
+import { catchError } from 'rxjs/operators';
 import { ModalService } from '../../shared/services/modal.service';
+import { ApiService } from 'src/app/shared/services/api.service';
 @Component({
   selector: 'app-admin-user',
   templateUrl: './admin-user.component.html',
@@ -17,22 +17,20 @@ export class AdminUserComponent implements OnInit {
   public displayedColumns: string[] = ['idColumn', 'userNameColumn', 'emailColumn', 'actionsColumn'];
 
   constructor(
-    private adminUserService: AdminUserService,
+    private apiService: ApiService,
     public dialog: MatDialog,
     private _snackBar: MatSnackBar,
     private modalService: ModalService) { }
 
   ngOnInit() {
-
-    this.adminUserService.getUsers()
+    this.apiService.getEntity('AdminUser')
       .subscribe((data: Array<IAdminUser>) => {
         this.userList = data;
       }
-    );
-
+      );
   }
 
-  updateHandler(user: ICreateUpdateAdminUser & { id: number}) {
+  updateHandler(user: ICreateUpdateAdminUser & { id: number }) {
     const dialogRef = this.dialog.open(CreateUpdateUserComponent, {
       width: '450px',
       disableClose: true,
@@ -43,11 +41,11 @@ export class AdminUserComponent implements OnInit {
 
     dialogRef.afterClosed()
       .pipe(
-        mergeMap((data: ICreateUpdateAdminUser & { id: number}) => {
+        mergeMap((data: ICreateUpdateAdminUser & { id: number }) => {
           if (data) {
             const { id, username, email, password, password_confirm } = data;
             newData = ({ id, username, email } as IAdminUser);
-            return this.adminUserService.updateUser(id, { username, email, password, password_confirm });
+            return this.apiService.updEntity('AdminUser', { username, email, password, password_confirm }, id);
           }
           return of(null);
         })
@@ -55,11 +53,11 @@ export class AdminUserComponent implements OnInit {
       .subscribe(() => {
         if (newData) {
           this.userList = this.userList.map(user => {
-            if(user.id === newData.id) {
+            if (user.id === newData.id) {
               return newData;
             }
             return user;
-          }) 
+          });
         }
       });
   }
@@ -75,7 +73,7 @@ export class AdminUserComponent implements OnInit {
     this.modalService.openConfirmModal(message, () => this.delUser(user));
   }
   delUser(user: IAdminUser) {
-    this.adminUserService.deleteUser(user.id).subscribe((data: { response?: string; } ) => {
+    this.apiService.delEntity('AdminUser', user.id).subscribe((data: { response?: string; }) => {
       if (data && data.response === 'ok') {
         this.userList = this.userList.filter(existedUser => existedUser.id !== user.id);
       }
@@ -83,30 +81,29 @@ export class AdminUserComponent implements OnInit {
       this.openSnackBar('Помилка видалення');
     });
   }
-/*   deleteHandler(user: IAdminUser) {
-    this.dialogService.openConfirmDialog(user)
-    .pipe(
-      mergeMap((result: any) => {
-        if (result.isCanceled) {
-          return of(result);
+  /*   deleteHandler(user: IAdminUser) {
+      this.dialogService.openConfirmDialog(user)
+      .pipe(
+        mergeMap((result: any) => {
+          if (result.isCanceled) {
+            return of(result);
+          }
+          return this.adminUserService.deleteUser(result.id);
+        }),
+        catchError((e: Error) => {
+          this.openSnackBar('Помилка видалення');
+          return of(null);
+        })
+      )
+      .subscribe((data: { response?: string; isCanceled?: boolean; } | undefined) => {
+        if (data && data.isCanceled) {
+          return;
         }
-        return this.adminUserService.deleteUser(result.id);
-      }),
-      catchError((e: Error) => {
-        this.openSnackBar('Помилка видалення');
-        return of(null);
-      })
-    )
-    .subscribe((data: { response?: string; isCanceled?: boolean; } | undefined) => {
-      if (data && data.isCanceled) {
-        return;
-      }
-      if (data && data.response === 'ok') {
-        this.userList = this.userList.filter(existedUser => existedUser.id !== user.id);
-      }
-    });
-
-  } */
+        if (data && data.response === 'ok') {
+          this.userList = this.userList.filter(existedUser => existedUser.id !== user.id);
+        }
+      }); 
+    } */
   addAdminHandler() {
     const dialogRef = this.dialog.open(CreateUpdateUserComponent, {
       width: '450px',
@@ -117,13 +114,13 @@ export class AdminUserComponent implements OnInit {
       .pipe(
         mergeMap((data: ICreateUpdateAdminUser) => {
           if (data) {
-            return this.adminUserService.insertUser(data);
+            return this.apiService.createEntity('AdminUser', data);
           }
           return of(null);
         }),
         catchError(e => {
           this.openSnackBar('Сталася помилка');
-            return of(null);
+          return of(null);
         })
       )
       .subscribe((newData: IAdminUser) => {

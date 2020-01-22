@@ -5,7 +5,7 @@ import { ConfirmComponent } from '../confirm/confirm.component';
 
 @Injectable()
 export class ModalService {
-  openConfirmModal(message:string, callBackFunction: Function): void { 
+  openConfirmModal(message: string, callBackFunction: Function): void {
     const dialogRef = this.dialog.open(ConfirmComponent, {
       width: '350px',
       data: {content: message}
