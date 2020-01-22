@@ -23,7 +23,7 @@ export class GroupComponent implements OnInit {
     'actions'
   ];
 
-  @ViewChild('table', { static: true }) table: MatTable<Group>;
+  @ViewChild('table', { static: true }) table: MatTable<Element>;
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
 
   applyFilter(filterValue: string) {
@@ -51,7 +51,7 @@ export class GroupComponent implements OnInit {
     const dialogRef = this.dialog.open(GroupAddEditDialogComponent, {
       width: '500px',
       data: {
-        data: {}, 
+        group: null, 
         description: {
           title: 'Додати нову групу', 
           action: 'Додати'
@@ -106,7 +106,7 @@ export class GroupComponent implements OnInit {
     const dialogRef = this.dialog.open(GroupAddEditDialogComponent, {
       width: '500px',
       data: { 
-        data: group, 
+        group: group, 
         description: { 
           title: 'Редагувати інформацію про групу', 
           action: 'Зберегти зміни'
@@ -116,6 +116,7 @@ export class GroupComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
+        result.group_id = group.group_id;
         this.editGroup(result);
       }
     });
@@ -130,6 +131,7 @@ export class GroupComponent implements OnInit {
         : -1;
       if (index > -1) {
         this.listGroups[index] = result[0];
+        this.dataSource.data = this.listGroups;
         this.table.renderRows();
       }
     }, (error: any) => {
@@ -143,10 +145,11 @@ export class GroupComponent implements OnInit {
   }
 
   // create modal window for view groups by speciality or faculty
-  viewGroupDialog(action: string): void {
+  viewGroupDialog(action: string, title: string): void {
+    const description = {'title': title, 'action': action};
     const dialogRef = this.dialog.open(GroupViewDialogComponent, {
       width: '500px',
-      data: {action: action}
+      data: { description }
     });
 
     dialogRef.afterClosed().subscribe((result) => {

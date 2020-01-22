@@ -1,4 +1,42 @@
-<h3 mat-dialog-title>
+<h3>Виберіть {{data.description.title}}</h3>
+<form [formGroup]="selectViewForm" (ngSubmit)="onSubmit()">
+  <mat-form-field *ngIf="data.description.action == 'getGroupsBySpeciality'" class="example-full-width">
+    <mat-label>Спеціальність</mat-label>
+    <mat-select formControlName="id" placeholder="Виберіть спеціальність">
+      <mat-option
+        *ngFor="let item of specialities"
+        [value]="item.speciality_id"
+      >
+        {{item.speciality_name}}
+      </mat-option>
+    </mat-select>
+    <mat-error>
+      Виберіть спеціальність 
+    </mat-error>
+  </mat-form-field>
+  <mat-form-field *ngIf="data.description.action == 'getGroupsByFaculty'" class="example-full-width">
+    <mat-label>Факультет/Інститут</mat-label>
+    <mat-select formControlName="id" placeholder="Виберіть факультет/інститут">
+      <mat-option
+        *ngFor="let item of faculties"
+        [value]="item.faculty_id"
+      >
+        {{item.faculty_name}}
+      </mat-option>
+    </mat-select>
+    <mat-error>
+      Виберіть факультет/інститут 
+    </mat-error>
+  </mat-form-field>
+  <button mat-raised-button type="button" cdkFocusInitial (click)="onDismiss()">Відмінити</button>
+  <button mat-raised-button color="warn" type="submit" [disabled]='selectViewForm.invalid'>
+    <mat-icon aria-hidden="false" aria-label="search">search</mat-icon>
+    Показати
+  </button>
+</form>
+
+
+<!-- <h3 mat-dialog-title>
   Виберіть
   <span *ngIf="data.action == 'getGroupsBySpeciality'"> спеціальність</span>
   <span *ngIf="data.action == 'getGroupsByFaculty'"> інститут/факультет</span>
@@ -29,9 +67,10 @@
   </div>
 </div>
 <div mat-dialog-actions>
-  <button mat-raised-button mat-dialog-close cdkFocusInitial>Відмінити</button>
+  <button mat-raised-button mat-dialog-close cdkFocusInitial >Відмінити</button>
   <button mat-raised-button [mat-dialog-close]="data" color="warn" [disabled]="choice.invalid">
     <mat-icon aria-hidden="false" aria-label="search">search</mat-icon>
     Показати
   </button>
 </div>
+ -->

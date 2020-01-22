@@ -22,3 +22,17 @@ mat-icon {
     }
   }
 }
+
+.title-box {
+  display: flex;
+  justify-content: space-between;
+  h3 {
+      padding: 15px;
+  }
+  button {
+    margin: 10px;
+  }
+}
+.search-box button {
+  margin: 10px;
+}

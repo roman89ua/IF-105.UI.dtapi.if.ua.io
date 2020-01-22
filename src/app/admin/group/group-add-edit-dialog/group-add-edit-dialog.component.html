@@ -1,4 +1,49 @@
-<h3 mat-dialog-title>{{data.description.title}}</h3>
+<h3>{{data.description.title}}</h3>
+
+  <form [formGroup]="addEditForm" (ngSubmit)="onSubmit()">
+  <mat-form-field class="example-full-width">
+    <input matInput formControlName="group_name" placeholder="Шифр групи">
+    <mat-error>
+      Не вказано шифр групи
+    </mat-error>
+  </mat-form-field>
+  <mat-form-field class="example-full-width">
+    <mat-label>Спеціальність</mat-label>
+    <mat-select formControlName="speciality_id" placeholder="Виберіть спеціальність">
+      <mat-option
+        *ngFor="let item of specialities"
+        [value]="item.speciality_id"
+      >
+        {{item.speciality_name}}
+      </mat-option>
+    </mat-select>
+    <mat-error>
+      Виберіть спеціальність 
+    </mat-error>
+  </mat-form-field>
+  <mat-form-field class="example-full-width">
+    <mat-label>Факультет/Інститут</mat-label>
+    <mat-select formControlName="faculty_id" placeholder="Виберіть факультет/інститут">
+      <mat-option
+        *ngFor="let item of faculties"
+        [value]="item.faculty_id"
+      >
+        {{item.faculty_name}}
+      </mat-option>
+    </mat-select>
+    <mat-error>
+      Виберіть факультет/інститут 
+    </mat-error>
+  </mat-form-field>
+  <button mat-raised-button type="button" cdkFocusInitial (click)="onDismiss()">Відмінити</button>
+  <button mat-raised-button color="warn" type="submit" [disabled]='addEditForm.invalid'>
+    <mat-icon aria-hidden="false" aria-label="save">save</mat-icon>
+    {{data.description.action}}
+  </button>
+  </form> 
+
+
+<!-- <h3 mat-dialog-title>{{data.description.title}}</h3>
 <div mat-dialog-content>
   <mat-form-field class="example-full-width">
     <input
@@ -47,3 +92,5 @@
     {{data.description.action}}
   </button>
 </div>
+ -->
+
