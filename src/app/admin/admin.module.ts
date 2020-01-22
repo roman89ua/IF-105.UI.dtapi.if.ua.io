@@ -31,6 +31,7 @@ import { TestListComponent } from './tests/list/test-list.component';
 import { TestAddComponent } from './tests/add/test-add.component';
 import {TimeTablePipe} from './time-table/pipes/time-table.pipe';
 
+
 const routes: Routes = [
   {
     path: '', component: AdminComponent,
@@ -84,7 +85,7 @@ const routes: Routes = [
   ],
   providers: [
     AdminUserService,
-    StudentsService
+    StudentsService,
   ],
   entryComponents: [
     NavbarComponent,

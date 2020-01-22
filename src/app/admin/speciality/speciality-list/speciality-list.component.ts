@@ -47,7 +47,7 @@ export class SpecialityListComponent implements OnInit {
   }
   addSpeciality() {
     const dialogRef = this.dialog.open(DialogFormComponent, {
-      data: {},
+      // data: {},
       width: '450px',
       disableClose: true,
     });
