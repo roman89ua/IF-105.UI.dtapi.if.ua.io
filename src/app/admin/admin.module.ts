@@ -24,13 +24,13 @@ import {CreateEditComponent} from './faculties/create-edit/create-edit.component
 import {SubjectsComponent} from './subjects/subjects.component';
 import {SubjectsCreateModalComponent} from './subjects/subjects-create-modal/subjects-create-modal.component';
 import {MatDialogModule} from '@angular/material';
-import {SubjectsService} from './subjects/subjects.service';
 import {TimeTableComponent} from './time-table/time-table.component';
 import {TimeTablePipe} from './time-table/time-table.pipe';
 import {TimeTableAddDialogComponent} from './time-table/time-table-add-dialog/time-table-add-dialog.component';
 import {SubjectConfirmComponent} from './subjects/subject-confirm/subject-confirm.component';
 import { TestListComponent } from './tests/list/test-list.component';
 import { TestAddComponent } from './tests/add/test-add.component';
+
 
 const routes: Routes = [
   {
@@ -85,8 +85,7 @@ const routes: Routes = [
   ],
   providers: [
     AdminUserService,
-    SubjectsService,
-    StudentsService
+    StudentsService,
   ],
   entryComponents: [
     NavbarComponent,

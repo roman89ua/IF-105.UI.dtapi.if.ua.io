@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { Observable } from 'rxjs';
-import { map, shareReplay, tap } from 'rxjs/operators';
+import { map, shareReplay } from 'rxjs/operators';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/shared/auth.service';
+
 
 @Component({
   selector: 'app-navbar',
@@ -11,23 +12,34 @@ import { AuthService } from 'src/app/shared/auth.service';
   styleUrls: ['./sidenav.component.scss']
 })
 export class NavbarComponent implements OnInit {
-  currentUser$: Observable<any>;
-  ngOnInit(): void {
-    this.currentUser$ = this.authService.getCurrentUser();
-  }
 
-  isHandset$: Observable<boolean> = this.breakpointObserver.observe(Breakpoints.Handset)
+  constructor(
+    private breakpointObserver: BreakpointObserver,
+    public authService: AuthService,
+    private router: Router) { }
+
+  currentUser$: Observable<any>;
+
+  isSmall$: Observable<boolean> = this.breakpointObserver.observe(Breakpoints.Small)
     .pipe(
-      tap(v => console.log(v)),
       map(result => result.matches),
       shareReplay()
     );
 
-  constructor(private breakpointObserver: BreakpointObserver, public authService: AuthService, private router: Router) {}
+  isXSmall$: Observable<boolean> = this.breakpointObserver.observe(Breakpoints.XSmall)
+    .pipe(
+      map(result => result.matches),
+      shareReplay()
+    );
+
+  ngOnInit(): void {
+    this.currentUser$ = this.authService.getCurrentUser();
+  }
+
   logoutHandler() {
     this.authService.logout()
-    .subscribe(() => {
-      this.router.navigate(['login']);
-    });
+      .subscribe(() => {
+        this.router.navigate(['login']);
+      });
   }
 }

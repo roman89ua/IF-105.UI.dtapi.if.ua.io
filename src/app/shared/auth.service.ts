@@ -23,7 +23,7 @@ export class AuthService {
 
   logout() {
     return this.http
-      .get(`login/logout`)
+      .get('login/logout')
       .pipe(
         tap(() => {
           this.currentUser = null;
@@ -38,7 +38,7 @@ export class AuthService {
         );
     }
     return this.http
-      .get(`login/isLogged`)
+      .get('login/isLogged')
       .pipe(
         tap((data: any) => {
           if (data && data.response === 'non logged') {

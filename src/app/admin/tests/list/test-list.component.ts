@@ -1,12 +1,11 @@
 import { Component, OnInit, ViewChild, Inject } from '@angular/core';
-import { HttpService } from '../../../shared/http.service';
 import { Test } from '../../entity.interface';
 import { Subject } from '../../entity.interface';
 import { MatTableDataSource, MatTable } from '@angular/material';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatDialog } from '@angular/material/dialog';
 import { TestAddComponent } from '../add/test-add.component';
-import { ModalService } from '../../../shared/services/modal.service';
+import { ApiService } from 'src/app/shared/services/api.service';
 
 @Component({
   selector: 'app-group',
@@ -30,13 +29,18 @@ export class TestListComponent implements OnInit {
 
   constructor(
     public dialog: MatDialog,
-    protected httpService: HttpService,
-    private modalService: ModalService,
+    protected apiService: ApiService,
   ) {}
 
   ngOnInit() {
     this.loadSubjects();
     this.viewAllTests();
+  }
+
+  private loadSubjects() {
+    this.apiService.getEntity('Subject').subscribe((result: Subject[]) => {
+      this.listSubjects = result;
+    });
   }
 
   public addTestDialog(): void {
@@ -58,10 +62,15 @@ export class TestListComponent implements OnInit {
     });
   }
 
+  addTest(test: Test) {
+    this.apiService.createEntity('Test', test).subscribe((result: Test[]) => {
+      this.listTests.push(result[0]);
+      this.table.renderRows();
+      this.dataSource.paginator = this.paginator;
   public openDeleteDialog(test: Test) {
     const message = `Підтвердіть видалення тесту ${test.test_name}?`;
 
-    this.modalService.openConfirmModal(message, () => this.removeTest(test.test_id));
+    this.apiService.openConfirmModal(message, () => this.removeTest(test.test_id));
   }
 
   public editTestDialog(test: Test): void {
@@ -96,7 +105,7 @@ export class TestListComponent implements OnInit {
   }
 
   private addTest(test: Test) {
-    this.httpService.insertData('test', test).subscribe((result: Test[]) => {
+    this.apiService.insertData('test', test).subscribe((result: Test[]) => {
       this.listTests.push(result[0]);
       this.table.renderRows();
       this.dataSource.paginator = this.paginator;
@@ -104,33 +113,33 @@ export class TestListComponent implements OnInit {
   }
 
   private editTest(test: Test): void {
-    this.httpService.update('test', test.test_id, test).subscribe((result: Test[]) => {
+    this.apiService.update('test', test.test_id, test).subscribe((result: Test[]) => {
       this.listTests = result;
       this.dataSource.data = this.listTests;
     }, (error: any) => {
-      this.modalService.openErrorModal('Помилка оновлення');
+      this.apiService.openErrorModal('Помилка оновлення');
     });
   }
 
   private removeTest(id: number) {
-    this.httpService.del('test', id)
+    this.apiService.del('test', id)
       .subscribe((response) => {
-          this.modalService.openInfoModal('Тест видалено');
+          this.apiService.openInfoModal('Тест видалено');
           this.viewAllTests();
         },
         err => {
-          this.modalService.openErrorModal('Помилка видалення');
+          this.apiService.openErrorModal('Помилка видалення');
         });
   }
 
   private loadSubjects() {
-    this.httpService.getRecords('subject').subscribe((result: Subject[]) => {
+    this.apiService.getRecords('subject').subscribe((result: Subject[]) => {
       this.listSubjects = result;
     });
   }
 
   private viewAllTests() {
-    this.httpService.getRecords('test').subscribe((result: Test[]) => {
+    this.apiService.getEntity('Test').subscribe((result: Test[]) => {
       this.listTests = result;
       this.dataSource.data = this.listTests;
     });

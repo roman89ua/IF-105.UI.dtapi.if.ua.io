@@ -35,3 +35,11 @@
   left: 0;
   right: 0;
 }
+mat-toolbar a {
+  display: inline-block;
+  text-decoration: none;
+
+}
+.active {
+  color: black;
+}

@@ -1,13 +1,14 @@
 <h3 mat-dialog-title>Підтведження</h3>
 <mat-dialog-content>
-  <div><mat-icon>info</mat-icon>{{ data.content }}</div>
+  <div class="icon"><mat-icon color="warn">priority_high</mat-icon></div>
+  <div class="content">{{ data.content }}</div>
 </mat-dialog-content>
 <mat-divider></mat-divider>
 <mat-dialog-actions align="center">
-  <button mat-raised-button color="primary" mat-dialog-close cdkFocusInitial>
-    Відмінити
-  </button>
-  <button mat-raised-button color="primary" mat-dialog-close="true">
+   <button  mat-stroked-button color="primary" mat-dialog-close="true">
     Підтвердити
+  </button>
+  <button  mat-stroked-button color="primary" mat-dialog-close cdkFocusInitial>
+    Відмінити
   </button>
 </mat-dialog-actions>
