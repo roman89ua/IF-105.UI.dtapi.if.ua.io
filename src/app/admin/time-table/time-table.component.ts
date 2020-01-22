@@ -3,7 +3,6 @@ import {HttpService} from '../../shared/http.service';
 import {TimeTableService} from './time-table.service';
 import {Group, Subject} from '../entity.interface';
 import {FormBuilder, FormControl, FormGroup} from '@angular/forms';
-import {isArray} from 'util';
 import {TimeTable} from '../../shared/entity.interface';
 import {MatDialog, MatTable, MatTableDataSource} from '@angular/material';
 import {TimeTableAddDialogComponent} from './time-table-add-dialog/time-table-add-dialog.component';
@@ -59,20 +58,13 @@ export class TimeTableComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
         const validDate = this.formatDate(result.start_date);
-        const validTime = result.start_time + ':00';
+        const validTime = result.start_time.length < 6 ? result.start_time + ':00' : result.start_time;
         result.start_date = validDate;
         result.end_date = validDate;
         result.start_time = validTime;
         result.end_time = validTime;
-        console.log(result);
         this.addTimeTable(result);
       }
-    });
-  }
-
-  private getSubjects() {
-    this.httpService.getRecords('subject').subscribe((response: Subject[]) => {
-      this.subjects = response;
     });
   }
 
@@ -88,18 +80,32 @@ export class TimeTableComponent implements OnInit {
       }
     });
     dialogRef.afterClosed().subscribe(result => {
-      console.log(result);
+      if (result) {
+        const validDate = this.formatDate(result.start_date);
+        const validTime = result.start_time.length < 6 ? result.start_time + ':00' : result.start_time;
+        result.start_date = validDate;
+        result.end_date = validDate;
+        result.start_time = validTime;
+        result.end_time = validTime;
+        this.editTimeTable(result);
+      }
+    });
+  }
+
+  private getSubjects() {
+    this.httpService.getRecords('subject').subscribe((response: Subject[]) => {
+      this.subjects = response;
     });
   }
 
   private getTimeTable(): void {
-    let table: TimeTable[] = [];
+    let table: TimeTable[];
     this.subjects = [];
     this.subjectGroup.get('subjectId').valueChanges.subscribe(value => {
       this.subjectId = value;
-      this.httpService.getTimeTable('getTimeTablesForSubject/', this.subjectId).subscribe((response: TimeTable[]) => {
-        if (isArray(response)) {
-          table = response;
+      this.httpService.getTimeTable('getTimeTablesForSubject/', this.subjectId).subscribe((result: any) => {
+        if (!result.response) {
+          table = result;
           const ids = table.map(a => Number(a.group_id));
           this.httpService.getByEntity('Group', ids).subscribe((value1: Group[]) => {
             table.map(a => {
@@ -127,10 +133,28 @@ export class TimeTableComponent implements OnInit {
         this.httpService.getRecord('group', result[0].group_id).subscribe((value: Group[]) => {
           updatedTable[0].group_name = value[0].group_name;
           this.timeTable.push(updatedTable[0]);
-          console.log(updatedTable);
-          console.log(this.dataSource.data);
+          this.dataSource.data.push(updatedTable[0]);
           this.table.renderRows();
         });
+      }
+    });
+  }
+
+  private editTimeTable(data: TimeTable) {
+    this.httpService.update('timeTable', data.timetable_id, data).subscribe((result: TimeTable[]) => {
+      const index: number = result
+        ? this.timeTable.findIndex(
+          tt => tt.timetable_id === result[0].timetable_id
+        )
+        : -1;
+      if (index > -1) {
+        this.timeTable[index] = result[0];
+      }
+    }, (error: any) => {
+      if (error.error.response.includes('Error when update')) {
+        this.modalService.openInfoModal('Не вдалося оновити розклад');
+      } else {
+        this.modalService.openInfoModal('Помилка оновлення');
       }
     });
   }
