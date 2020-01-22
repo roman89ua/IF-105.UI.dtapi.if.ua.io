@@ -23,7 +23,11 @@ export class FacultiesComponent implements OnInit, AfterViewInit {
   @ViewChild('table', { static: false }) table: MatTable<Element>;
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
 
-  constructor(private apiService: ApiService, private dialog: MatDialog, private snackBar: MatSnackBar, private modalService: ModalService) { }
+  constructor(
+    private apiService: ApiService,
+    private dialog: MatDialog,
+    private snackBar: MatSnackBar,
+    private modalService: ModalService) { }
 
   openSnackBar(message: string, action?: string) {
     this.snackBar.open(message, action, {
@@ -44,9 +48,9 @@ export class FacultiesComponent implements OnInit, AfterViewInit {
         this.dataSource.data = response;
         this.loading = false;
       },
-      err => {
-        this.modalService.openErrorModal('Можливі проблеми із сервером');
-      });
+        err => {
+          this.modalService.openErrorModal('Можливі проблеми із сервером');
+        });
   }
   addFaculty(faculty: Faculty) {
     this.apiService.createEntity('Faculty', faculty)
@@ -79,10 +83,9 @@ export class FacultiesComponent implements OnInit, AfterViewInit {
     const dialogRef = this.dialog.open(CreateEditComponent, {
       width: '400px'
     });
-    dialogRef.afterClosed().subscribe(dialogResult => {
-      this.result = dialogResult;
-      if (this.result) {
-        this.addFaculty(this.result);
+    dialogRef.afterClosed().subscribe((dialogResult: Faculty) => {
+      if (dialogResult) {
+        this.addFaculty(dialogResult);
       } else { return; }
     });
   }
@@ -91,10 +94,9 @@ export class FacultiesComponent implements OnInit, AfterViewInit {
       width: '400px',
       data: faculty
     });
-    dialogRef.afterClosed().subscribe(dialogResult => {
-      this.result = dialogResult;
-      if (this.result) {
-        this.updateFaculty(faculty.faculty_id, this.result);
+    dialogRef.afterClosed().subscribe((dialogResult: Faculty) => {
+      if (dialogResult) {
+        this.updateFaculty(faculty.faculty_id, dialogResult);
       } else { return; }
     });
   }
@@ -108,12 +110,12 @@ export class FacultiesComponent implements OnInit, AfterViewInit {
         this.openSnackBar('Факультет видалено');
         this.dataSource.data = this.dataSource.data.filter(item => item.faculty_id !== id);
       },
-    err => {
-      if (err.error.response.includes('Cannot delete')) {
-        this.modalService.openInfoModal('Неможливо видалити факультет. Потрібно видалити групу цього факультету');
-      } else {
-        this.modalService.openErrorModal('Помилка видалення');
-      }
-      });
+        err => {
+          if (err.error.response.includes('Cannot delete')) {
+            this.modalService.openInfoModal('Неможливо видалити факультет. Потрібно видалити групу цього факультету');
+          } else {
+            this.modalService.openErrorModal('Помилка видалення');
+          }
+        });
   }
 }
