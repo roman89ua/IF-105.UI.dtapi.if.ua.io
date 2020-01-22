@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild, Inject } from '@angular/core';
 import { Group } from '../../shared/entity.interface';
 import { MatTableDataSource, MatTable } from '@angular/material';
 import { MatPaginator } from '@angular/material/paginator';
-import { MatDialog } from '@angular/material/dialog';
+import { MatDialog, MatSnackBar } from '@angular/material';
 import { GroupAddEditDialogComponent } from './group-add-edit-dialog/group-add-edit-dialog.component';
 import { GroupViewDialogComponent } from './group-view-dialog/group-view-dialog.component';
 import { ModalService } from '../../shared/services/modal.service';
@@ -30,7 +30,12 @@ export class GroupComponent implements OnInit {
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }
 
-  constructor(private apiService: ApiService, public dialog: MatDialog, private modalService: ModalService) { }
+  constructor(
+    private apiService: ApiService, 
+    public dialog: MatDialog, 
+    private modalService: ModalService,
+    private _snackBar: MatSnackBar
+    ) { }
 
   ngOnInit() {
     this.viewAllGroups();
@@ -87,6 +92,7 @@ export class GroupComponent implements OnInit {
   delGroup(group: Group) {
     this.apiService.delEntity('Group', group.group_id).subscribe((result: any) => {
       if (result) {
+        this.openSnackBar(`Групу ${group.group_name} успішно виделено`);
         this.listGroups = this.listGroups.filter(gr => gr !== group);
         this.dataSource.data = this.listGroups;
         this.table.renderRows();
@@ -130,6 +136,7 @@ export class GroupComponent implements OnInit {
         )
         : -1;
       if (index > -1) {
+        this.openSnackBar('Дані успішно оновлено');
         this.listGroups[index] = result[0];
         this.dataSource.data = this.listGroups;
         this.table.renderRows();
@@ -171,6 +178,11 @@ export class GroupComponent implements OnInit {
       }
     }, () => {
       this.modalService.openErrorModal('Неможливо відобразити дані');
+    });
+  }
+  openSnackBar(message: string) {
+    this._snackBar.open(message, '', {
+      duration: 2000,
     });
   }
 }
