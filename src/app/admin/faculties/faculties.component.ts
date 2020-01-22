@@ -2,11 +2,10 @@ import { Component, OnInit, AfterViewInit, } from '@angular/core';
 import { ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatDialog, MatTableDataSource, MatTable, MatSnackBar } from '@angular/material';
-
-import { HttpService } from 'src/app/shared/http.service';
 import { CreateEditComponent } from './create-edit/create-edit.component';
 import { Faculty } from 'src/app/shared/entity.interface';
 import { ModalService } from '../../shared/services/modal.service';
+import { ApiService } from 'src/app/shared/services/api.service';
 
 @Component({
   selector: 'app-faculties',
@@ -19,15 +18,12 @@ export class FacultiesComponent implements OnInit, AfterViewInit {
   displayedColumns: string[] = ['id', 'name', 'desc', 'action'];
   loading = false;
 
-
   dataSource = new MatTableDataSource<Faculty>();
 
   @ViewChild('table', { static: false }) table: MatTable<Element>;
-
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
 
-
-  constructor(private dialog: MatDialog, private snackBar: MatSnackBar, private http: HttpService, private modalService: ModalService) { }
+  constructor(private apiService: ApiService, private dialog: MatDialog, private snackBar: MatSnackBar, private modalService: ModalService) { }
 
   openSnackBar(message: string, action?: string) {
     this.snackBar.open(message, action, {
@@ -43,7 +39,7 @@ export class FacultiesComponent implements OnInit, AfterViewInit {
   }
   getFaculty() {
     this.loading = true;
-    this.http.getRecords('faculty')
+    this.apiService.getEntity('Faculty')
       .subscribe(response => {
         this.dataSource.data = response;
         this.loading = false;
@@ -52,9 +48,8 @@ export class FacultiesComponent implements OnInit, AfterViewInit {
         this.modalService.openErrorModal('Можливі проблеми із сервером');
       });
   }
-
   addFaculty(faculty: Faculty) {
-    this.http.insertData('faculty', faculty)
+    this.apiService.createEntity('Faculty', faculty)
       .subscribe(response => {
         this.dataSource.data = [...this.dataSource.data, response[0]];
         this.table.renderRows();
@@ -67,9 +62,8 @@ export class FacultiesComponent implements OnInit, AfterViewInit {
         }
       );
   }
-
   updateFaculty(id: number, faculty: Faculty) {
-    this.http.update('faculty', id, faculty)
+    this.apiService.updEntity('Faculty', faculty, id)
       .subscribe(response => {
         this.openSnackBar('Факультет оновлено');
         this.getFaculty();
@@ -81,7 +75,6 @@ export class FacultiesComponent implements OnInit, AfterViewInit {
         }
       );
   }
-
   createFacultyDialog() {
     const dialogRef = this.dialog.open(CreateEditComponent, {
       width: '400px'
@@ -93,7 +86,6 @@ export class FacultiesComponent implements OnInit, AfterViewInit {
       } else { return; }
     });
   }
-
   updateFacultyDialog(faculty: Faculty) {
     const dialogRef = this.dialog.open(CreateEditComponent, {
       width: '400px',
@@ -106,14 +98,12 @@ export class FacultiesComponent implements OnInit, AfterViewInit {
       } else { return; }
     });
   }
-
   openComfirmDialog(faculty: Faculty) {
     const message = `Підтвердіть видалення факультету "${faculty.faculty_name}"?`;
     this.modalService.openConfirmModal(message, () => this.removeFaculty(faculty.faculty_id));
   }
-
   removeFaculty(id: number) {
-    this.http.del('faculty', id)
+    this.apiService.delEntity('Faculty', id)
       .subscribe((response) => {
         this.openSnackBar('Факультет видалено');
         this.dataSource.data = this.dataSource.data.filter(item => item.faculty_id !== id);
