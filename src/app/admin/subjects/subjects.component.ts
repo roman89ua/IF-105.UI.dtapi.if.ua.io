@@ -33,10 +33,7 @@ export class SubjectsComponent implements OnInit {
     this.showSubjects();
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
-
-    
   }
-  
   applyFilter(filterValue: string) {
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }
@@ -81,11 +78,10 @@ export class SubjectsComponent implements OnInit {
       );
   }
 
-  edit(row: Subject): void{
+  edit(row: Subject): void {
     const newDialogSubject = this.dialog.open(SubjectsCreateModalComponent, {
       width: '500px',
       data: row,
-      
     });
     newDialogSubject.afterClosed()
       .pipe(
@@ -104,7 +100,7 @@ export class SubjectsComponent implements OnInit {
         err => {
           this.openSnackBar('Такий предмет уже існує', 'Закрити');
         }
-      );  
+      );
   }
 
   delete(row: Subject): void {

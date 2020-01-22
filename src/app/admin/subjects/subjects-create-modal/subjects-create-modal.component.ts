@@ -9,7 +9,6 @@ import { Subject } from 'src/app/admin/entity.interface';
   styleUrls: ['./subjects-create-modal.component.scss']
 })
 export class SubjectsCreateModalComponent implements OnInit {
-  
   constructor( public newDialogSubject: MatDialogRef<SubjectsCreateModalComponent>, @Inject(MAT_DIALOG_DATA) public data: Subject) { }
   @ViewChild('addSubject', { static: false }) addsubject;
 
@@ -45,9 +44,7 @@ export class SubjectsCreateModalComponent implements OnInit {
       this.addSubject.patchValue({
         subject_name: this.data.subject_name,
         subject_description: this.data.subject_description,
-        
       });
     }
   }
-  
 }
