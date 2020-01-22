@@ -1,12 +1,12 @@
 import { Component, OnInit, Inject } from "@angular/core";
-import { Speciality, Faculty } from "../../../shared/entity.interface";
+import { Speciality, Faculty, Group } from "../../../shared/entity.interface";
 import { MatDialogRef, MAT_DIALOG_DATA } from "@angular/material/dialog";
 import { ModalService } from '../../../shared/services/modal.service';
 import { ApiService } from 'src/app/shared/services/api.service';
-import { FormGroup, FormControl, Validators, FormArray, FormBuilder } from '@angular/forms';
+import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 
-export interface DialogData {
-  group: any;
+interface DialogData {
+  group: Group | null;
   description: {
     title: string;
     action: string;
@@ -30,15 +30,19 @@ export class GroupAddEditDialogComponent implements OnInit {
     private fb: FormBuilder
   ) { 
     dialogRef.disableClose = true;
-    if (data.group != null) {
-      this.addEditForm = fb.group({
-        'group_name': [data.group.group_name, Validators.required],
-        'speciality_id': [data.group.speciality_id, Validators.required],
-        'faculty_id': [data.group.faculty_id, Validators.required]
+    this.createForm();
+  }
+
+  private createForm() {
+    if (this.data.group != null) {
+      this.addEditForm = this.fb.group({
+        'group_name': [this.data.group.group_name, Validators.required],
+        'speciality_id': [this.data.group.speciality_id, Validators.required],
+        'faculty_id': [this.data.group.faculty_id, Validators.required]
       });
     }
     else {
-      this.addEditForm = fb.group({
+      this.addEditForm = this.fb.group({
         'group_name': [null, Validators.required],
         'speciality_id': [null, Validators.required],
         'faculty_id': [null, Validators.required]
