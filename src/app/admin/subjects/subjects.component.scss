@@ -14,7 +14,7 @@ h3 {
 .filter {
     width: 100%;
     font-size: 14px;
-    padding: 0 8em;
+    padding: 0 5%;
 }
 
 table {
@@ -32,18 +32,26 @@ table {
     font-size: 14px;
 }
 
-.mat-icon {
-    margin-right: 2em;
+.delete,
+.edit,
+.date_range,
+.assignment_turned_in {
+    margin-right: 10%;
 }
 
-.delete:hover {
-    color: red;
-}
-
-.edit:hover {
-    color: orange;
-}
-
-.date_range:hover {
-    color: green;
+.delete:hover,
+.edit:hover,
+.date_range:hover,
+.assignment_turned_in:hover {
+    cursor: pointer;
+    &.delete {
+        color: red;
+    }
+    &.edit {
+        color: orange;
+    }
+    &.date_range,
+    &.assignment_turned_in {
+        color: green;
+    }
 }
