@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, Inject } from '@angular/core';
 import { FormControl, FormGroup, Validators} from '@angular/forms';
-import { MatDialogRef } from '@angular/material';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { SubjectsService } from '../subjects.service';
+import { ISubjects } from '../subjects.interface';
 
 @Component({
   selector: 'app-subjects-create-modal',
@@ -9,19 +10,45 @@ import { SubjectsService } from '../subjects.service';
   styleUrls: ['./subjects-create-modal.component.scss']
 })
 export class SubjectsCreateModalComponent implements OnInit {
+  
+  constructor(private subjectsService: SubjectsService,  public newDialogSubject: MatDialogRef<SubjectsCreateModalComponent>, @Inject(MAT_DIALOG_DATA) public data: ISubjects) { }
+  @ViewChild('addSubject', { static: false }) addsubject;
+
   public addSubject = new FormGroup({
     subject_name: new FormControl('', [Validators.required, Validators.pattern("[А-ЯІїЄ -]+[А-ЯЄІа-яіїє0-9 ':-]*")]),
     subject_description: new FormControl('', [Validators.required, Validators.pattern("[А-ЯІїЄ -]+[А-ЯЄІа-яіїє0-9 ':-]*")])
   });
-  constructor(private subjectsService: SubjectsService,  public newDialogSubject: MatDialogRef<SubjectsCreateModalComponent>) { }
 
-  ngOnInit() {
-  }
-  createSubject() {
+  onSubmit(): void {
     this.newDialogSubject.close(this.addSubject.value);
   }
 
-  cancelCreateNewSubject() {
+  onDismiss(): void  {
     this.newDialogSubject.close();
   }
+
+  get subject_name() {
+    return this.addSubject.get('subject_name') as FormControl;
+  }
+
+  get subject_description() {
+    return this.addSubject.get('subject_description') as FormControl;
+  }
+
+  getErrorMessage(field: FormControl) {
+    return field.hasError('required') ? 'Це поле є обовязкове*' :
+      field.hasError('pattern') ? 'Поле містить недопустимі символи або (Цифри, латинські букви)' :
+        '';
+  }
+
+  ngOnInit() {
+    if (this.data) {
+      this.addSubject.patchValue({
+        subject_name: this.data.subject_name,
+        subject_description: this.data.subject_description,
+        
+      });
+    }
+  }
+  
 }

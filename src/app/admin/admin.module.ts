@@ -29,7 +29,7 @@ import { TimeTablePipe } from './time-table/time-table.pipe';
 import { TimeTableAddDialogComponent } from './time-table/time-table-add-dialog/time-table-add-dialog.component';
 import {NgxMaterialTimepickerModule} from 'ngx-material-timepicker';
 import { SubjectConfirmComponent } from './subjects/subject-confirm/subject-confirm.component';
-
+import {MatSortModule} from '@angular/material/sort';
 
 const routes: Routes = [
   {
@@ -78,6 +78,7 @@ const routes: Routes = [
     RouterModule.forChild(routes),
     MatDialogModule,
     NgxMaterialTimepickerModule,
+    MatSortModule,
   ],
   providers: [
     AdminUserService,
@@ -96,4 +97,6 @@ const routes: Routes = [
     SubjectConfirmComponent,
   ]
 })
-export class AdminModule { }
+export class AdminModule {
+  
+}

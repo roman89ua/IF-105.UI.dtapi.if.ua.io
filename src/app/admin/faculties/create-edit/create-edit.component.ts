@@ -52,6 +52,7 @@ export class CreateEditComponent implements OnInit {
 
   ngOnInit() {
     if (this.data) {
+      console.log(this.data)
       this.addForm.patchValue({
         faculty_name: this.data.faculty_name,
         faculty_description: this.data.faculty_description,
