@@ -1,10 +1,10 @@
-import {Component, Inject, OnInit} from '@angular/core';
-import {Group, TimeTable} from '../../../shared/entity.interface';
-import {HttpService} from '../../../shared/http.service';
-import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material';
-import {NgModule} from '@angular/core';
-import {DateAdapter, MAT_DATE_FORMATS} from '@angular/material';
-import {AppDateAdapter, APP_DATE_FORMATS} from '../../../shared/format-datepicker/format-datepicker';
+import { Component, Inject, OnInit } from '@angular/core';
+import { Group, TimeTable } from '../../../shared/entity.interface';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
+import { NgModule } from '@angular/core';
+import { DateAdapter, MAT_DATE_FORMATS } from '@angular/material';
+import { AppDateAdapter, APP_DATE_FORMATS } from '../../../shared/format-datepicker/format-datepicker';
+import { ApiService } from 'src/app/shared/services/api.service';
 
 export interface DialogData {
   data: any;
@@ -17,8 +17,8 @@ export interface DialogData {
   templateUrl: './time-table-add-dialog.component.html',
   styleUrls: ['./time-table-add-dialog.component.scss'],
   providers: [
-    {provide: DateAdapter, useClass: AppDateAdapter},
-    {provide: MAT_DATE_FORMATS, useValue: APP_DATE_FORMATS}
+    { provide: DateAdapter, useClass: AppDateAdapter },
+    { provide: MAT_DATE_FORMATS, useValue: APP_DATE_FORMATS }
   ]
 })
 @NgModule({})
@@ -28,17 +28,17 @@ export class TimeTableAddDialogComponent implements OnInit {
   subjects: any = [];
 
   constructor(
-    private httpService: HttpService,
+    private apiService: ApiService,
     public dialogRef: MatDialogRef<TimeTableAddDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: DialogData
   ) {
   }
 
   ngOnInit() {
-    this.httpService.getRecords('group').subscribe((value: Group[]) => {
+    this.apiService.getEntity('Group').subscribe((value: Group[]) => {
       this.groups = value;
     });
-    this.httpService.getRecords('subject').subscribe(value => {
+    this.apiService.getEntity('Subject').subscribe(value => {
       this.subjects = value;
     });
   }
