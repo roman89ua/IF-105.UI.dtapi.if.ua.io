@@ -35,9 +35,9 @@
       Виберіть факультет/інститут 
     </mat-error>
   </mat-form-field>
-  <button mat-raised-button type="button" cdkFocusInitial (click)="onDismiss()">Відмінити</button>
-  <button mat-raised-button color="warn" type="submit" [disabled]='addEditForm.invalid'>
+  <button mat-stroked-button color="primary" type="submit" [disabled]='addEditForm.invalid'>
     <mat-icon aria-hidden="false" aria-label="save">save</mat-icon>
     {{data.description.action}}
   </button>
+  <button mat-stroked-button color="primary" type="button" cdkFocusInitial (click)="onDismiss()">Відмінити</button>
   </form> 
