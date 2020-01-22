@@ -85,7 +85,7 @@ export class SubjectsComponent implements OnInit {
       .pipe(
         mergeMap((data) => {
           if (data) {
-            return this.apiService.updEntity('subject', row.subject_id, data);
+            return this.apiService.updEntity('subject', data, row.subject_id);
           }
           return of(null);
         })
