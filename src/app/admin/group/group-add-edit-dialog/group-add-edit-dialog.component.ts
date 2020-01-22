@@ -3,6 +3,7 @@ import { Speciality, Faculty } from "../../../shared/entity.interface";
 import { MatDialogRef, MAT_DIALOG_DATA } from "@angular/material/dialog";
 import { ModalService } from '../../../shared/services/modal.service';
 import { ApiService } from 'src/app/shared/services/api.service';
+import { FormGroup, FormControl, Validators, FormArray, FormBuilder } from '@angular/forms';
 
 export interface DialogData {
   group: any;
@@ -25,8 +26,26 @@ export class GroupAddEditDialogComponent implements OnInit {
     private apiService: ApiService,
     public dialogRef: MatDialogRef<GroupAddEditDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: DialogData,
-    private modalService: ModalService
-  ) { }
+    private modalService: ModalService,
+    private fb: FormBuilder
+  ) { 
+    dialogRef.disableClose = true;
+    if (data.group != null) {
+      this.addEditForm = fb.group({
+        'group_name': [data.group.group_name, Validators.required],
+        'speciality_id': [data.group.speciality_id, Validators.required],
+        'faculty_id': [data.group.faculty_id, Validators.required]
+      });
+    }
+    else {
+      this.addEditForm = fb.group({
+        'group_name': [null, Validators.required],
+        'speciality_id': [null, Validators.required],
+        'faculty_id': [null, Validators.required]
+      });
+    }
+  }
+
 
   ngOnInit() {
     this.apiService

@@ -1,9 +1,9 @@
 import { Component, OnInit, Inject } from '@angular/core';
-import { HttpService } from '../../../shared/http.service';
 import { Speciality, Faculty } from '../../../shared/entity.interface';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ModalService} from '../../../shared/services/modal.service';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';  
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ApiService } from 'src/app/shared/services/api.service';  
 
 export interface DialogData {
   description: {
@@ -22,7 +22,7 @@ export class GroupViewDialogComponent implements OnInit {
   selectViewForm: FormGroup;
 
   constructor(
-    private httpService: HttpService,
+    private apiService: ApiService,
     public dialogRef: MatDialogRef<GroupViewDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: DialogData,
     private modalService: ModalService,
@@ -37,15 +37,15 @@ export class GroupViewDialogComponent implements OnInit {
   ngOnInit() {
     switch (this.data.description.action) {
       case 'getGroupsBySpeciality':
-        this.httpService
-      .getRecords('speciality')
+        this.apiService
+      .getEntity('speciality')
       .subscribe((result: Speciality[]) => {
         this.specialities = result;
       }, () => {
         this.modalService.openErrorModal('Помилка завантаження даних');
       });
       case 'getGroupsByFaculty':
-        this.httpService.getRecords('faculty').subscribe((result: Faculty[]) => {
+        this.apiService.getEntity('faculty').subscribe((result: Faculty[]) => {
           this.faculties = result;
         }, () => {
           this.modalService.openErrorModal('Помилка завантаження даних');

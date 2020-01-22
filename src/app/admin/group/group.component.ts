@@ -51,7 +51,7 @@ export class GroupComponent implements OnInit {
     const dialogRef = this.dialog.open(GroupAddEditDialogComponent, {
       width: '500px',
       data: {
-        data: {},
+        group: null,
         description: {
           title: 'Додати нову групу',
           action: 'Додати'
@@ -106,7 +106,7 @@ export class GroupComponent implements OnInit {
     const dialogRef = this.dialog.open(GroupAddEditDialogComponent, {
       width: '500px',
       data: {
-        data: group,
+        group: group,
         description: {
           title: 'Редагувати інформацію про групу',
           action: 'Зберегти зміни'
@@ -149,7 +149,7 @@ export class GroupComponent implements OnInit {
     const description = {'title': title, 'action': action};
     const dialogRef = this.dialog.open(GroupViewDialogComponent, {
       width: '500px',
-      data: { action: action }
+      data: { description }
     });
 
     dialogRef.afterClosed().subscribe((result) => {
