@@ -1,6 +1,6 @@
 <h3 mat-dialog-title>{{data.description.title}}</h3>
-<div mat-dialog-content>
-  <div>
+<div mat-dialog-content class="container">
+<!--  <div>-->
     <mat-form-field class="example-full-width">
       <mat-label>Група</mat-label>
       <mat-select [(ngModel)]="data.data.group_id" name="group_id" #group="ngModel" required>
@@ -9,8 +9,8 @@
         </mat-option>
       </mat-select>
     </mat-form-field>
-  </div>
-  <div>
+<!--  </div>-->
+<!--  <div>-->
     <mat-form-field class="example-full-width">
       <mat-label>Предмет</mat-label>
       <mat-select [(ngModel)]="data.data.subject_id" name="subject_id" #subject="ngModel" required>
@@ -19,8 +19,8 @@
         </mat-option>
       </mat-select>
     </mat-form-field>
-  </div>
-  <div>
+<!--  </div>-->
+<!--  <div>-->
     <mat-form-field>
       <input matInput [matDatepicker]="picker"
              placeholder="Виберіть дату"
@@ -32,8 +32,8 @@
       <mat-datepicker #picker disabled="false"></mat-datepicker>
       <mat-error *ngIf="dateCtrl.errors?.required && dateCtrl.touched">Виберіть дату!</mat-error>
     </mat-form-field>
-  </div>
-  <div>
+<!--  </div>-->
+<!--  <div>-->
     <mat-form-field>
       <input matInput placeholder="Виберіть годину"
              name="start_time" ngModel
@@ -41,13 +41,13 @@
              [(ngModel)]="data.data.start_time" required>
       <mat-hint>Формат часу: 09:35</mat-hint>
     </mat-form-field>
-  </div>
-  <div mat-dialog-actions>
-    <button mat-raised-button mat-dialog-close cdkFocusInitial>Відмінити</button>
-    <button mat-raised-button [mat-dialog-close]="data.data" color="warn"
+<!--  </div>-->
+<!--  <div mat-dialog-actions>-->
+    <button mat-stroked-button mat-dialog-close cdkFocusInitial (click)="onDismiss()">Відмінити</button>
+    <button mat-stroked-button [mat-dialog-close]="data.data" color="warn"
             [disabled]="group.required || subject.required || dateCtrl.errors?.required || time.invalid">
       <mat-icon aria-hidden="false" aria-label="save">save</mat-icon>
       {{data.description.action}}
     </button>
-  </div>
+<!--  </div>-->
 </div>
