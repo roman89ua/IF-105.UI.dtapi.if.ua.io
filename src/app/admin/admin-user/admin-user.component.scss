@@ -1,11 +1,8 @@
 .mat-table-wrapper {
-    table {
+     table {
         width: 100%;
     }
-}
-.addAdmin {
-    margin: 10px;
-}
+ }
 
 mat-icon {
     cursor: pointer;
@@ -21,11 +18,24 @@ mat-icon {
     
 }
 
-.button-wrapper {
+header {
     display: flex;
     justify-content: space-between;
+    align-items: center;
+    height: 60px;
+
     h3 {
-        padding: 15px;
+        margin-left: 15px;
     }
+    .addAdmin {
+        margin-right: 15px;
+        width: 200px;
+       
+    }
+
  }
 
+ .container {
+    margin: 0 auto;
+    padding: 0 1rem;
+  }

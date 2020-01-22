@@ -81,29 +81,7 @@ export class AdminUserComponent implements OnInit {
       this.openSnackBar('Помилка видалення');
     });
   }
-  /*   deleteHandler(user: IAdminUser) {
-      this.dialogService.openConfirmDialog(user)
-      .pipe(
-        mergeMap((result: any) => {
-          if (result.isCanceled) {
-            return of(result);
-          }
-          return this.adminUserService.deleteUser(result.id);
-        }),
-        catchError((e: Error) => {
-          this.openSnackBar('Помилка видалення');
-          return of(null);
-        })
-      )
-      .subscribe((data: { response?: string; isCanceled?: boolean; } | undefined) => {
-        if (data && data.isCanceled) {
-          return;
-        }
-        if (data && data.response === 'ok') {
-          this.userList = this.userList.filter(existedUser => existedUser.id !== user.id);
-        }
-      }); 
-    } */
+  
   addAdminHandler() {
     const dialogRef = this.dialog.open(CreateUpdateUserComponent, {
       width: '450px',
@@ -124,8 +102,8 @@ export class AdminUserComponent implements OnInit {
         })
       )
       .subscribe((newData: IAdminUser) => {
-        this.openSnackBar('Збережено');
         if (newData) {
+          this.openSnackBar('Збережено');
           this.userList = [newData, ...this.userList];
         }
       });
