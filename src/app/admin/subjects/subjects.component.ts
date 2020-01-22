@@ -51,7 +51,7 @@ export class SubjectsComponent implements OnInit {
         mergeMap((data) => {
           console.log(data);
           if (data) {
-            return this.apiService.postEntity('Subject', data);
+            return this.apiService.createEntity('Subject', data);
           }
           return of(null);
         })

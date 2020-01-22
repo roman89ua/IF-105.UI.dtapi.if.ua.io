@@ -21,7 +21,7 @@ export class ApiService {
       return this.http.get(`${this.apiURI}/${entity}/getRecords/${id}`);
     }
   }
-  postEntity(entity: string, payload): Observable<any> {
+  createEntity(entity: string, payload): Observable<any> {
     return this.http.post(`${this.apiURI}/${entity}/insertData`, payload);
   }
   delEntity(entity: string, id: number): Observable<any> {

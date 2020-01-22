@@ -133,7 +133,7 @@ export class NewQuestionComponent implements OnInit {
       test_id: this.testId,
       attachment: ''
     };
-    this.apiService.postEntity('Question', questionData)
+    this.apiService.createEntity('Question', questionData)
       .pipe(switchMap((res: { question_id: number }[]): any => { // FIX
         if (this.answers.length) {
           this.questionService.addAnswerCollection(this.answers, res[0].question_id);

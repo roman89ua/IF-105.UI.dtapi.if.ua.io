@@ -114,7 +114,7 @@ export class AdminUserComponent implements OnInit {
       .pipe(
         mergeMap((data: ICreateUpdateAdminUser) => {
           if (data) {
-            return this.apiService.postEntity('AdminUser', data);
+            return this.apiService.createEntity('AdminUser', data);
           }
           return of(null);
         }),

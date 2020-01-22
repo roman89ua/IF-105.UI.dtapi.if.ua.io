@@ -27,7 +27,7 @@ export class QuestionService {
       delete answer.answer_id;
       delete answer.error;
     });
-    const obsArray = answers.map((answer) => this.apiService.postEntity('Answer', { ...answer, question_id: questionId }));
+    const obsArray = answers.map((answer) => this.apiService.createEntity('Answer', { ...answer, question_id: questionId }));
     return forkJoin(obsArray);
   }
 

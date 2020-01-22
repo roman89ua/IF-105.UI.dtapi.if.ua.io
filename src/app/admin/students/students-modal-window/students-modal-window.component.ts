@@ -57,7 +57,7 @@ export class StudentsModalWindowComponent implements OnInit {
       password_confirm: value.password_confirm,
       plain_password: value.password
     };
-    this.apiService.postEntity('Student', studentDATA).subscribe(
+    this.apiService.createEntity('Student', studentDATA).subscribe(
       (data) => this.dialogRef.close(data),
       error => this.dialogRef.close(error)
     );

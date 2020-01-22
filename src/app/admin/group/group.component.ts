@@ -67,7 +67,7 @@ export class GroupComponent implements OnInit {
   }
   /** Add new group */
   addGroup(group: Group) {
-    this.apiService.postEntity('Group', group).subscribe((result: Group[]) => {
+    this.apiService.createEntity('Group', group).subscribe((result: Group[]) => {
       this.listGroups.push(result[0]);
       this.table.renderRows();
       this.dataSource.paginator = this.paginator;

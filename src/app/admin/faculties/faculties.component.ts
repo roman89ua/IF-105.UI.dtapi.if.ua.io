@@ -49,7 +49,7 @@ export class FacultiesComponent implements OnInit, AfterViewInit {
       });
   }
   addFaculty(faculty: Faculty) {
-    this.apiService.postEntity('Faculty', faculty)
+    this.apiService.createEntity('Faculty', faculty)
       .subscribe(response => {
         this.dataSource.data = [...this.dataSource.data, response[0]];
         this.table.renderRows();

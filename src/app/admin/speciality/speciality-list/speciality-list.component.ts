@@ -53,7 +53,7 @@ export class SpecialityListComponent implements OnInit {
     });
     dialogRef.afterClosed().subscribe(data => {
       if (data) {
-        return this.apiService.postEntity('Speciality', data).subscribe((obj: Speciality) => {
+        return this.apiService.createEntity('Speciality', data).subscribe((obj: Speciality) => {
           this.speciality = [obj, ...this.speciality];
           this.getSpeciality();
         }, err => {

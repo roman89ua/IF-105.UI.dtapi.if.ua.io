@@ -60,7 +60,7 @@ export class TestListComponent implements OnInit {
   }
 
   addTest(test: Test) {
-    this.apiService.postEntity('Test', test).subscribe((result: Test[]) => {
+    this.apiService.createEntity('Test', test).subscribe((result: Test[]) => {
       this.listGroups.push(result[0]);
       this.table.renderRows();
       this.dataSource.paginator = this.paginator;

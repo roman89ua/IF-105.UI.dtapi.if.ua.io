@@ -103,7 +103,7 @@ export class TimeTableComponent implements OnInit {
   }
 
   private addTimeTable(data: TimeTable) {
-    this.apiService.postEntity('TimeTable', data).subscribe((result: TimeTable[]) => {
+    this.apiService.createEntity('TimeTable', data).subscribe((result: TimeTable[]) => {
       if (result[0].subject_id === this.subjectId) {
         const updatedTable: TimeTable[] = result;
         this.apiService.getEntity('Group', result[0].group_id).subscribe((value: Group[]) => {
