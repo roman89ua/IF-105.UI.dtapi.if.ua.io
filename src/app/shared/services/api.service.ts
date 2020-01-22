@@ -16,10 +16,8 @@ export class ApiService {
     if (id === undefined) {
       return this.http.get(`${this.apiURI}/${entity}/getRecords`);
     }
-    else {
-      // in case to get only one record from database by id
-      return this.http.get(`${this.apiURI}/${entity}/getRecords/${id}`);
-    }
+
+    return this.http.get(`${this.apiURI}/${entity}/getRecords/${id}`);
   }
   createEntity(entity: string, payload): Observable<any> {
     return this.http.post(`${this.apiURI}/${entity}/insertData`, payload);

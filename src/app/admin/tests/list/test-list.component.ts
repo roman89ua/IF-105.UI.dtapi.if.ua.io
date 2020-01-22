@@ -5,7 +5,8 @@ import { MatTableDataSource, MatTable } from '@angular/material';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatDialog } from '@angular/material/dialog';
 import { TestAddComponent } from '../add/test-add.component';
-import { ApiService } from 'src/app/shared/services/api.service';
+import { ModalService } from '../../../shared/services/modal.service';
+import {ApiService} from '../../../shared/services/api.service';
 
 @Component({
   selector: 'app-group',
@@ -30,17 +31,12 @@ export class TestListComponent implements OnInit {
   constructor(
     public dialog: MatDialog,
     protected apiService: ApiService,
+    private modalService: ModalService,
   ) {}
 
   ngOnInit() {
     this.loadSubjects();
     this.viewAllTests();
-  }
-
-  private loadSubjects() {
-    this.apiService.getEntity('Subject').subscribe((result: Subject[]) => {
-      this.listSubjects = result;
-    });
   }
 
   public addTestDialog(): void {
@@ -62,15 +58,10 @@ export class TestListComponent implements OnInit {
     });
   }
 
-  addTest(test: Test) {
-    this.apiService.createEntity('Test', test).subscribe((result: Test[]) => {
-      this.listTests.push(result[0]);
-      this.table.renderRows();
-      this.dataSource.paginator = this.paginator;
   public openDeleteDialog(test: Test) {
     const message = `Підтвердіть видалення тесту ${test.test_name}?`;
 
-    this.apiService.openConfirmModal(message, () => this.removeTest(test.test_id));
+    this.modalService.openConfirmModal(message, () => this.removeTest(test.test_id));
   }
 
   public editTestDialog(test: Test): void {
@@ -105,7 +96,7 @@ export class TestListComponent implements OnInit {
   }
 
   private addTest(test: Test) {
-    this.apiService.insertData('test', test).subscribe((result: Test[]) => {
+    this.apiService.createEntity('test', test).subscribe((result: Test[]) => {
       this.listTests.push(result[0]);
       this.table.renderRows();
       this.dataSource.paginator = this.paginator;
@@ -113,33 +104,33 @@ export class TestListComponent implements OnInit {
   }
 
   private editTest(test: Test): void {
-    this.apiService.update('test', test.test_id, test).subscribe((result: Test[]) => {
+    this.apiService.updEntity('test', test, test.test_id).subscribe((result: Test[]) => {
       this.listTests = result;
       this.dataSource.data = this.listTests;
     }, (error: any) => {
-      this.apiService.openErrorModal('Помилка оновлення');
+      this.modalService.openErrorModal('Помилка оновлення');
     });
   }
 
   private removeTest(id: number) {
-    this.apiService.del('test', id)
+    this.apiService.delEntity('test', id)
       .subscribe((response) => {
-          this.apiService.openInfoModal('Тест видалено');
+          this.modalService.openInfoModal('Тест видалено');
           this.viewAllTests();
         },
         err => {
-          this.apiService.openErrorModal('Помилка видалення');
+          this.modalService.openErrorModal('Помилка видалення');
         });
   }
 
   private loadSubjects() {
-    this.apiService.getRecords('subject').subscribe((result: Subject[]) => {
+    this.apiService.getEntity('subject').subscribe((result: Subject[]) => {
       this.listSubjects = result;
     });
   }
 
   private viewAllTests() {
-    this.apiService.getEntity('Test').subscribe((result: Test[]) => {
+    this.apiService.getEntity('test').subscribe((result: Test[]) => {
       this.listTests = result;
       this.dataSource.data = this.listTests;
     });
