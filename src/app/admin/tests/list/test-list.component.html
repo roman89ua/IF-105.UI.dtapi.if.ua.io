@@ -47,16 +47,24 @@
             edit
           </mat-icon>
 
+        <mat-icon
+          aria-hidden="false"
+          aria-label="delete"
+          matTooltip="Видалити"
+          (click)="openDeleteDialog(testItem)"
+        >
+          delete
+        </mat-icon>
+        <a [routerLink]="[testItem.test_id, 'questions']" class="question-link">
           <mat-icon
-            aria-hidden="false"
-            aria-label="delete"
-            matTooltip="Видалити"
-            (click)="openDeleteDialog(testItem)"
+          aria-hidden="false"
+          matTooltip="Питання"
           >
-            delete
+          list
           </mat-icon>
-        </td>
-      </ng-container>
+        </a>
+      </td>
+    </ng-container>
 
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
       <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
