@@ -23,15 +23,20 @@ import {CreateEditComponent} from './faculties/create-edit/create-edit.component
 import {SubjectsComponent} from './subjects/subjects.component';
 import {SubjectsCreateModalComponent} from './subjects/subjects-create-modal/subjects-create-modal.component';
 import {MatDialogModule} from '@angular/material';
-import {SubjectsService} from './subjects/subjects.service';
 import {TimeTableComponent} from './time-table/time-table.component';
-import {TimeTablePipe} from './time-table/time-table.pipe';
 import {TimeTableAddDialogComponent} from './time-table/time-table-add-dialog/time-table-add-dialog.component';
 import {QuestionTypePipe} from './questions/pipes/question-type.pipe';
 import {StudentsModalWindowComponent} from './students/students-modal-window/students-modal-window.component';
 import {SubjectConfirmComponent} from './subjects/subject-confirm/subject-confirm.component';
+<<<<<<< HEAD
 import {TestListComponent} from './tests/list/test-list.component';
 import {TestAddComponent} from './tests/add/test-add.component';
+=======
+import { TestListComponent } from './tests/list/test-list.component';
+import { TestAddComponent } from './tests/add/test-add.component';
+import {TimeTablePipe} from './time-table/pipes/time-table.pipe';
+
+>>>>>>> master
 
 const routes: Routes = [
   {
@@ -88,8 +93,7 @@ const routes: Routes = [
   ],
   providers: [
     AdminUserService,
-    SubjectsService,
-    StudentsService
+    StudentsService,
   ],
   entryComponents: [
     NavbarComponent,

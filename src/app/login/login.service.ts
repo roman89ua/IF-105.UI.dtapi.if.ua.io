@@ -10,13 +10,13 @@ export class LoginService {
 
   constructor(private http: HttpClient, private sanitizer: DomSanitizer) { }
 
-  getLogo () {
+  getLogo() {
     return this.http.get<any>('welcome/logo')
     .pipe(
       map(({ logo }) => logo),
       map((base64) => {
         return this.sanitizer.bypassSecurityTrustResourceUrl(base64);
       })
-    )
+    );
   }
 }

@@ -1,14 +1,13 @@
 import { Component, OnInit, Inject } from '@angular/core';
-import { ApiService } from '../api.service';
+import { ApiService } from '../../../shared/services/api.service';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { Speciality } from '.././../entity.interface';
 
 export interface DialogData {
   description: any;
   data: any;
-  speciality_code : number,
-  speciality_name : string
+  speciality_code: number;
+  speciality_name: string;
 }
 
 @Component({
@@ -18,11 +17,11 @@ export interface DialogData {
 })
 export class DialogFormComponent implements OnInit {
   public specialityForm = new FormGroup({
-    speciality_code: new FormControl('',
+    speciality_code: new FormControl(this.data ? this.data.speciality_code : '',
       Validators.compose([Validators.required, Validators.pattern('^[0-9]*$'), Validators.minLength(1)])),
-    speciality_name: new FormControl('', [Validators.required])
+    speciality_name: new FormControl(this.data ? this.data.speciality_name : '', [Validators.required])
   });
-  constructor(private apiService: ApiService, public dialogRef: MatDialogRef<DialogFormComponent>, @Inject(MAT_DIALOG_DATA) public data: DialogData) { }
+  constructor(private apiService: ApiService, public dialogRef: MatDialogRef<DialogFormComponent>, @Inject(MAT_DIALOG_DATA) public data?: DialogData) { }
 
   ngOnInit() {
   }

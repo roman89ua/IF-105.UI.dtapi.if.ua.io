@@ -8,6 +8,7 @@ import { of } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
 import { ModalService } from '../../shared/services/modal.service';
 import { MatPaginator } from '@angular/material/paginator';
+import { ApiService } from 'src/app/shared/services/api.service';
 
 @Component({
   selector: 'app-questions',
@@ -15,13 +16,13 @@ import { MatPaginator } from '@angular/material/paginator';
   styleUrls: ['./questions.component.scss'],
   animations: [
     trigger('answersExpand', [
-      state('collapsed', style({height: '0px', minHeight: '0'})),
-      state('expanded', style({height: '*'})),
+      state('collapsed', style({ height: '0px', minHeight: '0' })),
+      state('expanded', style({ height: '*' })),
       transition('expanded <=> collapsed', animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)')),
     ]),
     trigger('rotateIcon', [
-      state('collapsed', style({transform: 'rotate(0deg)'})),
-      state('expanded', style({transform: 'rotate(180deg)'})),
+      state('collapsed', style({ transform: 'rotate(0deg)' })),
+      state('expanded', style({ transform: 'rotate(180deg)' })),
       transition('expanded <=> collapsed', animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)')),
     ])
   ],
@@ -29,7 +30,6 @@ import { MatPaginator } from '@angular/material/paginator';
 export class QuestionComponent implements OnInit {
 
   questions: IQuestion[];
-  dataSource: any;
   expandedQuestion: IQuestion;
   testId: number;
   loadingQuestionId: number;
@@ -41,7 +41,8 @@ export class QuestionComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private questionService: QuestionService,
-    private modalService: ModalService
+    private modalService: ModalService,
+    private apiService: ApiService
   ) { }
 
 
@@ -50,8 +51,8 @@ export class QuestionComponent implements OnInit {
 
   private getQuestionById(id: number): IQuestion {
     return this.questions.find((question) => {
-      return question.question_id === id
-    })
+      return question.question_id === id;
+    });
   }
 
   pageChangeHandler(data) {
@@ -66,32 +67,32 @@ export class QuestionComponent implements OnInit {
     let selectedQuestion: IQuestion;
     selectedQuestion = this.getQuestionById(id);
     if (selectedQuestion.answers.length) {
-      this.expandedQuestion = this.expandedQuestion == selectedQuestion ? null : selectedQuestion
-      return
+      this.expandedQuestion = this.expandedQuestion === selectedQuestion ? null : selectedQuestion;
+      return;
     }
     else {
       this.loadingQuestionId = id;
-      this.questionService.getQuestionAnswers(id)
-      .subscribe((res: any) => { //FIX
-        if (res.response === 'no records') {
-          selectedQuestion.answers = 'No answers';
-        } else {
-          selectedQuestion.answers = res;
-        }
-        this.expandedQuestion = this.expandedQuestion == selectedQuestion ? null : selectedQuestion
-        this.loadingQuestionId = null;
-      })
+      this.apiService.getEntityByAction('Answer', 'getAnswersByQuestion', id)
+        .subscribe((res: any) => { // FIX
+          if (res.response === 'no records') {
+            selectedQuestion.answers = 'No answers';
+          } else {
+            selectedQuestion.answers = res;
+          }
+          this.expandedQuestion = this.expandedQuestion === selectedQuestion ? null : selectedQuestion;
+          this.loadingQuestionId = null;
+        });
     }
   }
 
-  deleteQuestion(id:number): void {
+  deleteQuestion(id: number): void {
     const message = 'Питання та всі відповіді до нього будуть видалені';
-    this.modalService.openConfirmModal(message, ()=> {
+    this.modalService.openConfirmModal(message, () => {
       this.loadingQuestions = true;
-      this.questionService.getQuestionAnswers(id)
+      this.apiService.getEntityByAction('Answer', 'getAnswersByQuestion', id)
         .pipe(
-          switchMap((val: any) => { //FIX
-            return val.response !== 'no records' ? this.questionService.deleteAnswerCollection(val) : of(val)
+          switchMap((val: any) => { // FIX
+            return val.response !== 'no records' ? this.questionService.deleteAnswerCollection(val) : of(val);
           }),
           switchMap(() => this.questionService.deleteQuestion(id)),        
         )

@@ -34,15 +34,10 @@ export class QuestionAnswerComponent implements OnInit {
   });
 
   answerContentAdded(): ValidatorFn {
-    return (control: AbstractControl) => {
-      let invalid = false;
-      if (+this.questionType === 4 && this.questionAnswer.error) {
-        invalid = true
-        console.log(invalid);
-      }
+    return (control: FormGroup) => {
+      let invalid = control.get('answer_text').value === '' && control.get('attachment').value === '';
       return invalid ? {'noAnswer': true} : null;
-      
-    }
+    };
   }
 
   removeImage(): void {
@@ -50,23 +45,28 @@ export class QuestionAnswerComponent implements OnInit {
   }
 
   deleteAnswer(id: number): void {
-    this.questionAnswerDelete.emit(id)
+    this.questionAnswerDelete.emit(id);
   }
 
 
   // MUST BE REFACTORED
   changeAnswerDataHandler() {
-    console.log('emiting');
+    let error;
+    if (this.answerForm.errors) {
+      error = this.answerForm.errors.noAnswer;
+    }
+    else {
+      error = '';
+    }
     this.answerDataChange.emit({
       answer_id: this.questionAnswer.answer_id,
       ...this.answerForm.value,
-      error: this.questionAnswer.error,
-      touched: true, //FIX
-    })
+      error: error
+    });
   }
 
   private setAttachmentValue(value: string) {
-    this.answerForm.get('attachment').setValue(value)
+    this.answerForm.get('attachment').setValue(value);
     this.attachmentTouched = true;
   }
 
@@ -74,10 +74,10 @@ export class QuestionAnswerComponent implements OnInit {
     const file = e.dataTransfer ? e.dataTransfer.files[0] : e.target.files[0];
     if (file) {
       this.questionService.toBase64(file)
-        .subscribe((res:string) => { 
-          this.setAttachmentValue(res)
+        .subscribe((res: string) => {
+          this.setAttachmentValue(res);
           this.changeAnswerDataHandler();
-        })
+        });
     } else {
       this.setAttachmentValue('');
       this.changeAnswerDataHandler();
@@ -90,7 +90,7 @@ export class QuestionAnswerComponent implements OnInit {
        answer_text: this.questionAnswer.answer_text,
        true_answer: this.questionAnswer.true_answer,
        attachment: this.questionAnswer.attachment
-      })
+      });
   }
 
   ngAfterViewInit() {

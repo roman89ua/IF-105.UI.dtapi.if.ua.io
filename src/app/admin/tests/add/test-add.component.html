@@ -74,8 +74,9 @@
     mat-raised-button
     [mat-dialog-close]="data.data"
     color="warn"
-    [disabled]="test_name.invalid || time_for_test.invalid || tasks.invalid || subject_id.empty || attempts.invalid"
+    [disabled]="test_name.invalid || time_for_test.invalid || tasks.invalid || attempts.invalid"
   >
+  <!--  || subject_id.empty -->
     <mat-icon aria-hidden="false" aria-label="save">save</mat-icon>
     {{data.description.action}}
   </button>

@@ -3,13 +3,14 @@ import { HttpClient } from '@angular/common/http';
 import { IQuestion, IAnswer } from './questions';
 import { forkJoin, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { ApiService } from 'src/app/shared/services/api.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class QuestionService {
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private apiService: ApiService) { }
 
   getTestQuestions(id: number, limit: number, offset: number) {
     return this.http.get(`question/getRecordsRangeByTest/${id}/${limit}/${offset}`)
@@ -26,18 +27,14 @@ export class QuestionService {
   deleteAnswer(id: number) {
     return this.http.get('answer/del/' + id)
   }
+  
+  getTestQuestion(id: number) {
+    return this.http.get(`question/getRecordsRangeByTest/${id}/20/0`);
+  }
 
   deleteAnswerCollection(answers: IAnswer[]) {
-    const deleteAnswerObservables = answers.map(answer => this.deleteAnswer(answer.answer_id))
-    return forkJoin(deleteAnswerObservables)
-  }
-
-  addNewQuestion(data: IQuestion) {
-    return this.http.post('question/insertData', data)
-  }
-  
-  addNewAnswer(data: IAnswer) {
-    return this.http.post('answer/insertData', data)
+    const deleteAnswerObservables = answers.map(answer => this.apiService.delEntity('Answer', answer.answer_id));
+    return forkJoin(deleteAnswerObservables);
   }
 
   addAnswerCollection(answers, questionId) {
