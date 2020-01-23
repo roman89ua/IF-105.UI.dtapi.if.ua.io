@@ -70,11 +70,11 @@ const routes: Routes = [
     CreateEditComponent,
     SubjectsComponent,
     SubjectsCreateModalComponent,
+    SubjectConfirmComponent,
     TimeTableComponent,
     TimeTablePipe,
     TimeTableAddDialogComponent,
     QuestionTypePipe,
-    SubjectConfirmComponent,
   ],
   imports: [
     CommonModule,

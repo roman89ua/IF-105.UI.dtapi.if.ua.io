@@ -1,15 +1,10 @@
 <div class="main-container">
-  <mat-toolbar class="toolbar" color="primary">
-    <button
-      type="button"
-      aria-label="Toggle sidenav"
-      mat-icon-button
-      (click)="sidenav.toggle()"
-      *ngIf="(isSmall$ | async) || (isXSmall$ | async)">
+    <mat-toolbar class="toolbar" color="primary">
+        <button type="button" aria-label="Toggle sidenav" mat-icon-button (click)="sidenav.toggle()" *ngIf="(isSmall$ | async) || (isXSmall$ | async)">
       <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
     </button>
-    <span>d-tester</span>
-    <span class="fill-space"></span>
+        <span>d-tester</span>
+        <span class="fill-space"></span>
 
     <mat-nav-list *ngIf="!(isSmall$ | async) && !(isXSmall$ | async)">
       <a routerLinkActive="active" mat-button routerLink="faculties">Факультети</a>
@@ -24,8 +19,9 @@
     <button mat-button [matMenuTriggerFor]="menu">
       {{ (currentUser$ | async)?.username }}
     </button>
+
     <mat-menu #menu="matMenu">
-      <button mat-menu-item (click)="logoutHandler()">Log out</button>
+      <button mat-menu-item (click)="logoutHandler()">Вийти</button>
     </mat-menu>
   </mat-toolbar>
 

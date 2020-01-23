@@ -4,11 +4,13 @@
         <input matInput placeholder="Код спеціальності" formControlName="speciality_code">
         <mat-error *ngIf="hasError('speciality_code', 'required')">Це поле є обов'язковим</mat-error>
         <mat-error *ngIf="hasError('speciality_code', 'pattern')">Це поле може містити тільки цифри</mat-error>
+        <mat-error *ngIf="hasError('speciality_code', 'propertyIsNotUnique')">Спеціальність з таким кодом вже існує</mat-error>
     </mat-form-field>
 
     <mat-form-field class="example-full-width">
         <input matInput placeholder="Назва спеціальності" formControlName="speciality_name">
         <mat-error *ngIf="hasError('speciality_name', 'required')">Це поле є обов'язковим</mat-error>
+        <mat-error *ngIf="hasError('speciality_name', 'propertyIsNotUnique')">Спеціальність з такою назвою вже існує</mat-error>
     </mat-form-field>
 
     <button mat-stroked-button color="primary" (click)="addSpeciality()">

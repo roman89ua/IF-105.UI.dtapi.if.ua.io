@@ -4,7 +4,7 @@
     margin: 20px auto;
     height: 40px;
 }
-.form-wrapper {
+.login-form-wrapper {
     margin: 0;
     position: absolute;
     top: 50%;
@@ -46,14 +46,14 @@ img {
     margin: 0 auto;
 }
 
-::ng-deep {
+::ng-deep .login-form-wrapper {
 
     .mat-form-field-prefix {
         margin-right: 5px;
     }
 
     .mat-form-field-flex {
-        align-items: flex-end !important;
+        align-items: flex-end;
     }
 
 }
