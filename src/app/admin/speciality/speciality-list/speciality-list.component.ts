@@ -41,6 +41,7 @@ export class SpecialityListComponent implements OnInit {
     this.apiService.delEntity('Speciality', obj.speciality_id)
       .subscribe((data) => {
         this.dataSource.data = this.dataSource.data.filter(speciality => speciality.speciality_id !== obj.speciality_id);
+        this.openSnackBar("Спеціальність " +obj.speciality_name + " була успішно видалена");
       }, err => {
         this.openSnackBar(err.error.response);
       });
@@ -55,6 +56,7 @@ export class SpecialityListComponent implements OnInit {
       if (data) {
         return this.apiService.createEntity('Speciality', data).subscribe((obj: Speciality) => {
           this.speciality = [obj, ...this.speciality];
+          this.openSnackBar("Спеціальність " +data.speciality_name + " була успішно створена");
           this.getSpeciality();
         }, err => {
           this.openSnackBar(err.error.response);
@@ -68,12 +70,14 @@ export class SpecialityListComponent implements OnInit {
       data: speciality,
       width: '450px',
       disableClose: true,
+      autoFocus: false,
     });
     dialogRef.afterClosed().subscribe((data: Speciality) => {
       if (data) {
         data.speciality_id = speciality.speciality_id;
         return this.apiService.updEntity('Speciality', data, speciality.speciality_id).subscribe((specialityObj: Speciality) => {
           this.speciality = [specialityObj, ...this.speciality];
+          this.openSnackBar("Спеціальність " +speciality.speciality_name + " була успішно відредагована");
           this.getSpeciality();
         }, err => {
           this.openSnackBar(err.error.response);
