@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators} from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef } from '@angular/material';
-import { SubjectsService } from '../subjects.service';
 
 @Component({
   selector: 'app-subjects-create-modal',
@@ -13,7 +12,7 @@ export class SubjectsCreateModalComponent implements OnInit {
     subject_name: new FormControl('', [Validators.required, Validators.pattern("[А-ЯІїЄ -]+[А-ЯЄІа-яіїє0-9 ':-]*")]),
     subject_description: new FormControl('', [Validators.required, Validators.pattern("[А-ЯІїЄ -]+[А-ЯЄІа-яіїє0-9 ':-]*")])
   });
-  constructor(private subjectsService: SubjectsService,  public newDialogSubject: MatDialogRef<SubjectsCreateModalComponent>) { }
+  constructor(public newDialogSubject: MatDialogRef<SubjectsCreateModalComponent>) { }
 
   ngOnInit() {
   }

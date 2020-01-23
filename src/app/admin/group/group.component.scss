@@ -1,5 +1,6 @@
 .container {
-  margin: 3%;
+  margin: 0 auto;
+  padding: 1rem;
 }
 button {
   margin-left: 5px;
@@ -21,4 +22,18 @@ mat-icon {
       color: red;
     }
   }
+}
+
+.title-box {
+  display: flex;
+  justify-content: space-between;
+  h3 {
+      padding: 15px;
+  }
+  button {
+    margin: 10px;
+  }
+}
+.search-box button {
+  margin: 10px;
 }

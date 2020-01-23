@@ -1,19 +1,15 @@
-<h3 mat-dialog-title>{{data.description.title}}</h3>
-<div mat-dialog-content>
+<h3>{{data.description.title}}</h3>
+
+  <form [formGroup]="addEditForm" (ngSubmit)="onSubmit()">
   <mat-form-field class="example-full-width">
-    <input
-      matInput
-      [(ngModel)]="data.data.group_name"
-      placeholder="Шифр групи"
-      #name="ngModel" required
-     >
-      <mat-error *ngIf="name.invalid">
-        Вкажіть шифр групи 
-      </mat-error>
+    <input matInput formControlName="group_name" placeholder="Шифр групи">
+    <mat-error>
+      Не вказано шифр групи
+    </mat-error>
   </mat-form-field>
   <mat-form-field class="example-full-width">
     <mat-label>Спеціальність</mat-label>
-    <mat-select [(ngModel)]="data.data.speciality_id" name="speciality_id" #speciality="ngModel" required>
+    <mat-select formControlName="speciality_id" placeholder="Виберіть спеціальність">
       <mat-option
         *ngFor="let item of specialities"
         [value]="item.speciality_id"
@@ -21,13 +17,13 @@
         {{item.speciality_name}}
       </mat-option>
     </mat-select>
-    <mat-error *ngIf="speciality.invalid">
+    <mat-error>
       Виберіть спеціальність 
     </mat-error>
   </mat-form-field>
   <mat-form-field class="example-full-width">
-    <mat-label>Інститут/факультет</mat-label>
-    <mat-select [(ngModel)]="data.data.faculty_id" name="faculty_id" #faculty="ngModel" required>
+    <mat-label>Факультет/Інститут</mat-label>
+    <mat-select formControlName="faculty_id" placeholder="Виберіть факультет/інститут">
       <mat-option
         *ngFor="let item of faculties"
         [value]="item.faculty_id"
@@ -35,15 +31,13 @@
         {{item.faculty_name}}
       </mat-option>
     </mat-select>
-    <mat-error *ngIf="faculty.invalid">
-      Виберіть інститут чи факультет
+    <mat-error>
+      Виберіть факультет/інститут 
     </mat-error>
   </mat-form-field>
-</div>
-<div mat-dialog-actions>
-  <button mat-raised-button mat-dialog-close cdkFocusInitial>Відмінити</button>
-  <button mat-raised-button [mat-dialog-close]="data.data" color="warn" [disabled]="name.invalid || speciality.invalid || faculty.invalid">
+  <button mat-stroked-button color="primary" type="submit" [disabled]='addEditForm.invalid'>
     <mat-icon aria-hidden="false" aria-label="save">save</mat-icon>
     {{data.description.action}}
   </button>
-</div>
+  <button mat-stroked-button color="primary" type="button" cdkFocusInitial (click)="onDismiss()">Відмінити</button>
+  </form> 
