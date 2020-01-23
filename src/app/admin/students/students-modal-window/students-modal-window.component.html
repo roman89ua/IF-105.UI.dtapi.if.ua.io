@@ -1,3 +1,7 @@
+<div class="closeForm">
+<mat-icon aria-hidden="false" aria-label="edit" class="closeForm" (click)="closeModalWindow()">close</mat-icon>
+</div>
+
 <form [formGroup]="studentForm" (ngSubmit)="handleSubmit(studentForm.value)">
     
     <mat-form-field class="example-full-width">
@@ -87,7 +91,6 @@
         </mat-error>
     </mat-form-field>
 
-    <button mat-stroked-button color="primary" type="submit" [disabled]="!studentForm.valid">Надіслати форму</button>
-    <button mat-stroked-button color="primary" (click)="closeModalWindow()">Скасувати</button>
-  
+    <button mat-stroked-button color="primary" type="submit" [disabled]="!studentForm.valid" style="float: left;">{{ this.data.submitButtonText }}</button>
+      
 </form>

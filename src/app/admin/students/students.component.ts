@@ -1,7 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { MatDialog, MatSnackBar } from '@angular/material';
-
 import { ModalService } from '../../shared/services/modal.service';
 
 import { StudentsModalWindowComponent } from './students-modal-window/students-modal-window.component';
@@ -15,9 +14,12 @@ import { GetStudentsInterface } from './interfaces/get-students-interface';
 })
 export class StudentsComponent implements OnInit {
 
+  public isLoading: boolean = true;
+  public updateData: boolean;
+  public submitButtonText: string;
   public groupdID: number;
-  public STUDENTS_LIST: GetStudentsInterface[];
-  public displayedColumns: string[] = ['gradebookID', 'studentName', 'studentSurname', 'UpdateDelete'];
+  public STUDENTS_LIST: GetStudentsInterface[] = [];
+  public displayedColumns: string[] = ['numeration', 'gradebookID', 'studentNSF', 'UpdateDelete'];
 
   constructor(
     private studentsHttpService: StudentsService,
@@ -34,23 +36,53 @@ export class StudentsComponent implements OnInit {
   // Students showing
   showStudentsByGroup() {
     this.groupdID = this.activatedRoute.snapshot.params['id'];
-    this.studentsHttpService.getStudentsByGroup(this.groupdID).subscribe((result: Array<GetStudentsInterface>) => {
+    this.studentsHttpService.getStudentsByGroup(this.groupdID).subscribe((result: any) => {
+      if (result === 'no records'){
+        return;
+      }
       this.STUDENTS_LIST = result;
+      this.isLoading = false;
     });
   }
   ////////////////////////
 
+
   // Students Adding
   addStudent(): void {
-    this.showModalWindow().afterClosed().subscribe((response: any) => {
+    this.submitButtonText = 'Додати студента';
+    this.updateData = false;
+    this.showModalWindow(this.submitButtonText, this.updateData).afterClosed().subscribe((response) => {
       if (response) {
           if (response.response === 'ok') {
             this.showSnackBar('Студент доданий, дані збережено');
             this.showStudentsByGroup();            
+          } else if (response === 'Canceled'){
+            this.showSnackBar('Скасовано');
           } else if (response.error || response.response === 'Failed to validate array') {
             this.showSnackBar('ПОМИЛКА');
           }
       }
+    });
+  }
+  ////////////////////////
+
+
+  // Students updating
+  editStudent(student: GetStudentsInterface): void {
+    this.submitButtonText = 'Змінити дані студента';
+    this.updateData = true;
+    this.showModalWindow(this.submitButtonText, this.updateData,  student)
+        .afterClosed().subscribe((response) => {
+        if (response) {
+          if (response.response === 'ok') {
+            this.showSnackBar('Дані студента змінено та збережено');
+            this.showStudentsByGroup();            
+          } else if (response === 'Canceled'){
+            this.showSnackBar('Скасовано'); 
+          } else if (response.error || response.response === 'Failed to validate array') {
+            this.showSnackBar('ПОМИЛКА');
+          }
+        }
     });
   }
   ////////////////////////
@@ -81,15 +113,17 @@ export class StudentsComponent implements OnInit {
     });
   }
 
-  showModalWindow() {
+  showModalWindow(buttonText: string, edit?: boolean, student?: GetStudentsInterface) {
     return this.dialog.open(StudentsModalWindowComponent, {
       disableClose: true,
       width: '600px',
       height: 'calc(100vh - 50px)',
       data: {
           group_id: this.groupdID,
+          student_data: student,
+          updateStudent: edit,
+          submitButtonText: buttonText,
       }
     });
   }
-
 }

@@ -4,6 +4,8 @@ import { StudentsService } from '../services/students.service';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { of } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { ResponseInterface } from '../interfaces/response-interface';
+
 
 @Component({
   selector: 'app-students-modal-window',
@@ -12,24 +14,37 @@ import { map } from 'rxjs/operators';
 })
 export class StudentsModalWindowComponent implements OnInit {
 
+  private username: string;
+  private email: string;
+
   public studentForm = new FormGroup({
-    lastname: new FormControl('', Validators.required),
-    firstname: new FormControl('', Validators.required),
-    fathername: new FormControl('', Validators.required),
-    gradebookID: new FormControl('', 
-    Validators.required,
-    this.uniqueValidator('gradebookID', 'checkGradebookId')),
+    lastname: new FormControl(
+      this.data.student_data ? this.data.student_data.student_surname : '',
+      Validators.required),
+    firstname: new FormControl(
+      this.data.student_data ? this.data.student_data.student_name : '',
+      Validators.required),
+    fathername: new FormControl(
+      this.data.student_data ? this.data.student_data.student_fname : '',
+      Validators.required),
+    gradebookID: new FormControl(
+      this.data.student_data ? this.data.student_data.gradebook_id : '', 
+      Validators.required,
+      this.uniqueValidator('gradebookID', 'checkGradebookID')),
     login: new FormControl('', 
-    Validators.required,
-    this.uniqueValidator('login', 'checkUsername')),
-    email: new FormControl('', [
-      Validators.required, 
-      Validators.email,
-    ], 
-    this.uniqueValidator('email', 'checkUserEmail')),
+      Validators.required,
+      this.uniqueValidator('login', 'checkUsername')),
+    email: new FormControl('', 
+      [
+        Validators.required, 
+        Validators.email,
+      ], 
+      this.uniqueValidator('email', 'checkUserEmail')),
     password: new FormControl('', [Validators.required, Validators.minLength(8)]),
     password_confirm: new FormControl(''),
   });
+
+  public response: Object;
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
@@ -38,6 +53,8 @@ export class StudentsModalWindowComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.getUserData();
+    this.setUserValues();
     this.studentForm.setValidators(this.comparisonValidator());
   }
 
@@ -55,14 +72,22 @@ export class StudentsModalWindowComponent implements OnInit {
         password_confirm: value.password_confirm,
         plain_password: value.password
     };
-    this.studentsHttpService.createStudent(studentDATA).subscribe(
-        (data) => this.dialogRef.close(data),
-        error => this.dialogRef.close(error)
+    if (this.data.updateStudent == true) {
+        this.studentsHttpService.updateStudent(this.data.student_data.user_id, studentDATA).subscribe(
+          (data: ResponseInterface) => this.dialogRef.close(data),
+          error => this.dialogRef.close(error)
+      );
+      return;
+    } else {
+        this.studentsHttpService.createStudent(studentDATA).subscribe(
+          (data) => this.dialogRef.close(data),
+          error => this.dialogRef.close(error)
     );
+    }
   }
   
   closeModalWindow() {
-    this.dialogRef.close();
+    this.dialogRef.close('Canceled');
   }
 
   comparisonValidator(): ValidatorFn {
@@ -73,15 +98,29 @@ export class StudentsModalWindowComponent implements OnInit {
         control2.setErrors({ notEquivalent: true });
       } else {
         control2.setErrors(null);
-      }
+     }
       return;
     };
   }
 
   uniqueValidator(prop, method) {
     return (control: FormControl) => {
-      if (this.data && this.data[prop] === control.value) {
-        return of(null);
+      if(this.data.student_data){
+        if(prop === 'gradebookID'){
+          if ( this.data.student_data.gradebook_id === control.value) {
+            return of(null);
+          }
+        }
+        if(prop === 'login'){
+          if ( this.username === control.value) {
+            return of(null);
+          }
+        }
+        if(prop === 'email'){
+          if ( this.email === control.value) {
+            return of(null);
+          }
+        }
       }
       return this.studentsHttpService[method](control.value)
         .pipe(
@@ -90,5 +129,23 @@ export class StudentsModalWindowComponent implements OnInit {
           })
         );
     };
+  }
+
+  getUserData(){
+    if(this.data.student_data){
+      this.studentsHttpService.getUserInfo(this.data.student_data.user_id).subscribe((result: any) =>{
+        this.username = result[0].username;
+        this.email = result[0].email;
+      });
+    }
+  }
+
+  setUserValues(){
+    if(this.data.student_data){
+      this.studentsHttpService.getUserInfo(this.data.student_data.user_id).subscribe((result: any) =>{
+        this.studentForm.get('login').setValue(result[0].username, { onlySelf: true });
+        this.studentForm.get('email').setValue(result[0].email, { onlySelf: true });
+      });
+    }
   }
 }

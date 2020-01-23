@@ -12,11 +12,12 @@ export class StudentsService {
   private readStudentUrl = 'Student/getStudentsByGroup';
   private updateStudentUrl = 'Student/update';
   private deleteStudentUrl = 'Student/del';
+  private getUserInfoURL = 'AdminUser/getRecords';
 
   private checkStudentNameURL = 'AdminUser/checkUserName';
   private checkStudentEmailURL = 'AdminUser/checkEmailAddress';
 
-  private checkGradebookID = 'Student/checkGradebookID';
+  private checkGradebookIdURL = 'Student/checkGradebookID';
 
   constructor(private httpClient: HttpClient) {}
 
@@ -32,8 +33,12 @@ export class StudentsService {
     return this.httpClient.post<CreareUpdateStudentsInterface|ResponseInterface>(`${this.createStudentUrl}`, body);
   }
 
-  updateUser(body, id: number): Observable<CreareUpdateStudentsInterface|ResponseInterface> {
+  updateStudent(id: number, body): Observable<CreareUpdateStudentsInterface|ResponseInterface> {
     return this.httpClient.post<CreareUpdateStudentsInterface|ResponseInterface>(`${this.updateStudentUrl}/${id}`, body);
+  }
+
+  getUserInfo(id: string){
+    return this.httpClient.get(`${this.getUserInfoURL}/${id}`);
   }
 
   checkUsername(username: string) {
@@ -44,7 +49,7 @@ export class StudentsService {
     return this.httpClient.get(`${this.checkStudentEmailURL}/${email}`);
   }
 
-  checkGradebookId(gradebook_id: string) {
-    return this.httpClient.get(`${this.checkGradebookID}/${gradebook_id}`);
+  checkGradebookID(gradebook_id: string) {
+    return this.httpClient.get(`${this.checkGradebookIdURL}/${gradebook_id}`);
   }
 }
