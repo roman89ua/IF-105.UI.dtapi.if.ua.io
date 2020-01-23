@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-// import { AuthService } from 'src/app/services/auth.service';
 import { catchError } from 'rxjs/operators';
 import { of } from 'rxjs';
 import { Router } from '@angular/router';
@@ -38,6 +37,8 @@ export class LoginComponent implements OnInit {
       .pipe(
         catchError(({ error }) => {
           this.error = error.response;
+          this.userData.username = null;
+          this.userData.password = null;
           return of();
         }),
       )
