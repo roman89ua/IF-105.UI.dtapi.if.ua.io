@@ -1,6 +1,13 @@
-h1, div{
+h1,
+div {
     text-align: center;
 }
-button{
+
+button {
     width: 48%;
+}
+
+.toolbar {
+    border: solid 1px gray;
+    align-items: flex-end;
 }

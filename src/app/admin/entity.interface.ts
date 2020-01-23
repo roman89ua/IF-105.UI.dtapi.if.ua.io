@@ -35,9 +35,3 @@ export interface Test {
   enabled: boolean;
   attempts: number;
 }
-
-export interface Subject {
-  subject_id: number;
-  subject_name: string;
-  subject_description: string;
-}

@@ -2,17 +2,56 @@ h3 {
     text-align: center;
 }
 
-table {
+.toolbar {
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     width: 90%;
+    padding: 1em 0;
+}
+
+.filter {
+    width: 100%;
+    font-size: 14px;
+    padding: 0 5%;
+}
+
+table {
+    width: 100%;
+}
+
+.mat-elevation-z8,
+.btn-wrapper {
+    width: 90%;
+    margin: 0 auto;
+    padding-top: 1em;
 }
 
 .mat-form-field {
     font-size: 14px;
 }
 
-.delete:hover {
-    color: red;
+.delete,
+.edit,
+.date_range,
+.assignment_turned_in {
+    margin-right: 10%;
 }
-.edit:hover {
-    color: orange;
+
+.delete:hover,
+.edit:hover,
+.date_range:hover,
+.assignment_turned_in:hover {
+    cursor: pointer;
+    &.delete {
+        color: red;
+    }
+    &.edit {
+        color: orange;
+    }
+    &.date_range,
+    &.assignment_turned_in {
+        color: green;
+    }
 }
