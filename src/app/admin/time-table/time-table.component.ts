@@ -149,6 +149,7 @@ export class TimeTableComponent implements OnInit {
         this.apiService.getEntity('Group', result[0].group_id).subscribe((value: Group[]) => {
           updatedTable[0].group_name = value[0].group_name;
           this.timeTable.push(updatedTable[0]);
+          this.dataSource.data.push(updatedTable[0]);
           this.table.renderRows();
           this.dataSource.paginator = this.paginator;
         });

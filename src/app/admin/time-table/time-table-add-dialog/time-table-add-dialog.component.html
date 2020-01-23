@@ -23,7 +23,6 @@
              [value]="data.data.start_date">
       <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
       <mat-datepicker #picker disabled="false"></mat-datepicker>
-<!--      <mat-error *ngIf="dateCtrl.errors?.required && dateCtrl.touched">Виберіть дату!</mat-error>-->
     </mat-form-field>
     <mat-form-field>
       <input matInput placeholder="Виберіть годину"
@@ -31,7 +30,7 @@
              [value]="data.data.start_time">
       <mat-hint>Формат часу: 09:35</mat-hint>
     </mat-form-field>
-    <button mat-stroked-button color="primary" type="submit">
+    <button mat-stroked-button color="primary" type="submit" [disabled]="addEditForm.invalid">
       <mat-icon aria-hidden="false" aria-label="save">save</mat-icon>
       {{data.description.action}}
     </button>
