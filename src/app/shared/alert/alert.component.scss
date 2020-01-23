@@ -11,3 +11,9 @@ mat-dialog-content {
 .icon {
   padding: 0px 10px;
 }
+button {
+  width: calc(50% - 10px);
+  &:first-of-type {
+      margin-right: 10px;
+  }
+}
