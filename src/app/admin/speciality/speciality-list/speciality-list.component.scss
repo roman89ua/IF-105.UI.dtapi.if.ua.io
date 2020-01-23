@@ -13,7 +13,16 @@ body {
 a:hover {
   cursor: pointer;
 }
+.material-icons.delete:hover {
+  color: red;
+}
 
+.material-icons.edit:hover {
+  color: orange;
+}
+mat-form-field {
+  width: 100%;
+}
 table {
   width: 100%;
 }
