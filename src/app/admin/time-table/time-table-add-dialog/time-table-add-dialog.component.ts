@@ -62,7 +62,7 @@ export class TimeTableAddDialogComponent implements OnInit {
       group_id: [this.data.data.group_id, Validators.required],
       subject_id: [this.data.data.subject_id, Validators.required],
       start_date: [this.data.data.start_date, Validators.required],
-      start_time: [this.data.data.start_time, Validators.required],
+      start_time: [this.data.data.start_time, Validators.required]
     });
   }
 
