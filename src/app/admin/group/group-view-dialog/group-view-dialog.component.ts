@@ -5,7 +5,7 @@ import { ModalService} from '../../../shared/services/modal.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ApiService } from 'src/app/shared/services/api.service';  
 
-export interface DialogData {
+interface DialogData {
   description: {
     title : string,
     action : string
@@ -29,10 +29,13 @@ export class GroupViewDialogComponent implements OnInit {
     private fb: FormBuilder
   ) { 
     dialogRef.disableClose = true;
-    this.selectViewForm = fb.group({
+    this.createForm();
+  }
+   private createForm() {
+    this.selectViewForm = this.fb.group({
       'id': [null, Validators.required]
     });
-  }
+   }
 
   ngOnInit() {
     switch (this.data.description.action) {

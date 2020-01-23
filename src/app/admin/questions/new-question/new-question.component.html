@@ -1,0 +1,171 @@
+<ng-template #loadingBlock>
+  <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+</ng-template>
+<form [formGroup]="newQuestionForm" *ngIf="!questionLoading; else loadingBlock" class="admin-form" (ngSubmit)="createQuestion()">
+   <mat-form-field class="full-width">
+            <mat-label>Питання</mat-label>
+            <textarea
+              rows="6"
+              matInput
+              formControlName="question_text"
+              placeholder="Текст питання"
+              required></textarea>
+              <mat-error 
+                class="form-group"
+                *ngIf="questionText.invalid && (questionText.dirty || questionText.touched)">
+                  Поле обовязкове до заповнення
+              </mat-error>
+    </mat-form-field>     
+    <mat-form-field class="full-width">
+        <mat-label>Тип питання</mat-label>
+        <mat-select formControlName="type">
+          <mat-option value="1">Одна відповідь</mat-option>
+          <mat-option value="2">Декілька відповідей</mat-option>
+          <mat-option value="3">Введення відповіді</mat-option>
+          <mat-option value="4">Числовий діапазон</mat-option>
+        </mat-select>
+    </mat-form-field>
+    <mat-form-field class="full-width">
+        <mat-label>Рівень питання</mat-label>
+        <mat-select formControlName="level">
+          <mat-option value="1">Перший</mat-option>
+          <mat-option value="2">Другий</mat-option>
+          <mat-option value="3">Третій</mat-option>
+          <mat-option value="4">Четвертий</mat-option>
+        </mat-select>
+    </mat-form-field>
+
+    <div class="form-group">
+        Зображення
+        <button mat-raised-button type="button" (click)="attachmentInput.click()" class="button-with-spinner">
+          <span *ngIf="attachmentLoadingIndex === -1" class="spinner-wrapper">
+            <mat-spinner color="warn" [diameter]="25"></mat-spinner>
+          </span>
+          <mat-icon 
+            aria-hidden="false"
+            aria-label="expand"
+            [ngStyle]="{'visibility': attachmentLoadingIndex === -1 ? 'hidden' : 'visible'}" >
+            attach_file
+          </mat-icon>
+        </button>
+        <input 
+          hidden
+          type="file"
+          id="file-input-question"
+          (change)="attachmentUploadHandler($event)"
+          #attachmentInput>
+    </div>
+
+    <div class="form-group attachment-wrapper" *ngIf="questionAttachment.value">
+        <img 
+          [src]="questionAttachment.value" 
+          alt="imageSrc" 
+          class="attachment-preview-image">
+        <mat-icon 
+          aria-hidden="false"
+          color="warn"
+          class="remove-icon"
+          aria-label="delete"
+          (click)="removeImage()">
+          close</mat-icon>
+    </div>
+    
+    <div class="form-group">
+      <button
+        mat-raised-button color="primary"
+        type="button" 
+        (click)="addAnswer()"
+        *ngIf="!editMode"
+        [disabled]="+type.value === 4">
+        Додати відповідь
+      </button>
+    </div>
+  
+  <div class="form-group" *ngIf="oldAnswers && oldAnswers.length === 0">
+    Це питання не має відповідей
+  </div>  
+  <div formArrayName="answers">
+    <div *ngFor="let item of questionAnswers.controls; let answerIndex=index" [formGroupName]="answerIndex">
+
+      <mat-form-field class="full-width">
+        <mat-label *ngIf="+type.value === 4 && answerIndex === 0">Мінімальне</mat-label>
+        <mat-label *ngIf="+type.value === 4 && answerIndex === 1">Максимальне</mat-label>
+        <input
+            [type]="+type.value === 4 ? 'number' : 'text'"
+            matInput
+            formControlName="answer_text"
+            placeholder="Текст відповіді"
+        />
+        <mat-error 
+            class="form-group"
+            *ngIf="newQuestionForm.errors?.numberTypeInvalid">
+                Мінімальне значення не може бути більшим за максимальне
+        </mat-error>
+        <mat-error 
+            class="form-group"
+            *ngIf="item.get('answer_text').errors?.required && ( item.get('answer_text').dirty || item.get('answer_text').touched )">
+                Поле обовязкове до заповнення
+        </mat-error>
+      </mat-form-field>
+      <div *ngIf="+type.value < 3">
+          <div  class="form-group justify-between">
+              <mat-checkbox
+                  (click)="checkTrueAnswers(answerIndex)"
+                  formControlName="true_answer"
+                  [checked]="trueAnswer(answerIndex)">
+                  Відповідь правильна
+              </mat-checkbox>
+              <div>
+                  Зображення
+                  <button mat-raised-button (click)="answerAttachmentInput.click()" type="button" class="button-with-spinner">
+                    <span *ngIf="attachmentLoadingIndex === answerIndex" class="spinner-wrapper">
+                      <mat-spinner color="warn" [diameter]="25"></mat-spinner>
+                    </span>  
+                    <mat-icon 
+                      aria-hidden="false"
+                      aria-label="expand"
+                      [ngStyle]="{'visibility': attachmentLoadingIndex === answerIndex ? 'hidden' : 'visible'}" >
+                      attach_file</mat-icon>
+                  </button>
+                  <input 
+                      hidden
+                      #answerAttachmentInput
+                      type="file"
+                      [id]="'file-input-' + answerIndex"
+                      (change)="attachmentUploadHandler($event, answerIndex)">
+              </div>
+          </div>
+          <div *ngIf="newQuestionForm.value.answers[answerIndex].attachment" class="attachment-wrapper form-group">
+              <mat-icon 
+                  aria-hidden="false"
+                  color="warn"
+                  class="remove-icon"
+                  aria-label="delete"
+                  (click)="removeAnswerImage(answerIndex)">
+                  close</mat-icon>
+              <img 
+                  [src]="newQuestionForm.value.answers[answerIndex].attachment"
+                  alt="attachment"
+                  class="attachment-preview-image">
+              
+          </div>
+      </div>
+      <div class="form-group">
+          <button
+          type="button"
+          color="warn"
+          mat-raised-button
+          (click)="deleteAnswer(answerIndex)"
+          *ngIf="+type.value < 4 && !editMode">
+          Видалити відповідь</button>
+      </div>
+    </div>
+  </div>
+  <button 
+    mat-raised-button 
+    [disabled]="newQuestionForm.invalid"
+    type="submit">
+    <mat-icon aria-hidden="false" aria-label="save">save</mat-icon>
+      {{ editMode ? 'Редагувати' : 'Створити'  }}  
+  </button> 
+</form>

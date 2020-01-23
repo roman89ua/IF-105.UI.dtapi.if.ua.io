@@ -1,0 +1,62 @@
+ table {
+   width: 100%;
+ }
+
+ tr { 
+   border-bottom: 1px solid rgba(0,0,0,.12);
+}
+
+.actions {
+  mat-icon {
+    cursor: pointer;
+  
+    &:hover {
+      &[aria-label="edit"] {
+        color: orange;
+      }
+      &[aria-label="delete"] {
+        color: red;
+      }
+    }
+  }
+}  
+
+.attachmet-preview-image {
+  display: inline-block;
+  max-height: 100px;
+  max-width: 100px;
+}
+
+.add-link {
+  margin-bottom: 20px;
+}
+
+.margin-y {
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+a {
+  color: #000;
+}
+
+.container {
+  margin: 0 auto;
+  padding: 1rem;
+}
+
+.title-box {
+  display: flex;
+  justify-content: space-between;
+  h3 {
+      padding: 15px;
+  }
+  button {
+    margin: 10px;
+  }
+}
+
+.cdk-column-question_text {
+  width: 50%;
+  padding-right: 50px;
+}
