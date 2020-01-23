@@ -48,7 +48,9 @@ export class TimeTableComponent implements OnInit {
     const dialogRef = this.dialog.open(TimeTableAddDialogComponent, {
       width: '500px',
       data: {
-        data: {},
+        data: {
+          start_time: '',
+        },
         description: {
           title: 'Додати новий розклад',
           action: 'Додати'
@@ -64,6 +66,7 @@ export class TimeTableComponent implements OnInit {
         result.end_date = validDate;
         result.start_time = validTime;
         result.end_time = validTime;
+        delete result.timetable_id;
         this.addTimeTable(result);
       }
     });
@@ -88,9 +91,11 @@ export class TimeTableComponent implements OnInit {
         result.end_date = validDate;
         result.start_time = validTime;
         result.end_time = validTime;
-        const fieldData = Object.assign({}, result);
-        delete result.group_name;
-        this.editTimeTable(result, fieldData);
+        let groupName: string;
+        this.apiService.getEntity('Group', result.group_id).subscribe((group: Group[]) => {
+          groupName = group[0].group_name;
+          this.editTimeTable(result, groupName);
+        });
       }
     });
   }
@@ -151,7 +156,7 @@ export class TimeTableComponent implements OnInit {
     });
   }
 
-  private editTimeTable(data: TimeTable, fieldData: TimeTable) {
+  private editTimeTable(data: TimeTable, groupName) {
     this.apiService.updEntity('timeTable', data, data.timetable_id).subscribe((result: TimeTable[]) => {
       const index: number = result
         ? this.timeTable.findIndex(
@@ -159,7 +164,7 @@ export class TimeTableComponent implements OnInit {
         )
         : -1;
       if (index > -1) {
-        result[0].group_name = fieldData.group_name;
+        result[0].group_name = groupName;
         this.timeTable[index] = result[0];
         this.dataSource.data[index] = result[0];
         this.table.renderRows();
@@ -197,6 +202,7 @@ export class TimeTableComponent implements OnInit {
       return date;
     }
   }
+
 }
 
 

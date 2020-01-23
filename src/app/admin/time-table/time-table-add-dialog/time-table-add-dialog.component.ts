@@ -1,14 +1,20 @@
 import {Component, Inject, OnInit} from '@angular/core';
 import {Group, TimeTable} from '../../../shared/entity.interface';
+import {Subject} from '../../entity.interface';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material';
 import {NgModule} from '@angular/core';
 import {DateAdapter, MAT_DATE_FORMATS} from '@angular/material';
 import {AppDateAdapter, APP_DATE_FORMATS} from '../../../shared/format-datepicker/format-datepicker';
 import {ApiService} from 'src/app/shared/services/api.service';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {ModalService} from '../../../shared/services/modal.service';
 
 export interface DialogData {
   data: any;
-  description: any;
+  description: {
+    title: string,
+    action: string
+  };
 }
 
 
@@ -25,26 +31,46 @@ export interface DialogData {
 export class TimeTableAddDialogComponent implements OnInit {
   timeTable: TimeTable[] = [];
   groups: Group[] = [];
-  subjects: any = [];
+  subjects: Subject[] = [];
+  addEditForm: FormGroup;
 
   constructor(
     private apiService: ApiService,
     public dialogRef: MatDialogRef<TimeTableAddDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: DialogData
+    @Inject(MAT_DIALOG_DATA) public data: DialogData,
+    private fb: FormBuilder,
+    private modalService: ModalService
   ) {
+
   }
 
   ngOnInit() {
     this.apiService.getEntity('Group').subscribe((value: Group[]) => {
       this.groups = value;
+    }, () => {
+      this.modalService.openErrorModal('Помилка завантаження даних');
     });
-    this.apiService.getEntity('Subject').subscribe(value => {
+    this.apiService.getEntity('Subject').subscribe((value: Subject[]) => {
       this.subjects = value;
+    }, () => {
+      this.modalService.openErrorModal('Помилка завантаження даних');
     });
+
+    this.dialogRef.disableClose = true;
+    this.addEditForm = this.fb.group({
+      timetable_id: [this.data.data.timetable_id],
+      group_id: [this.data.data.group_id, Validators.required],
+      subject_id: [this.data.data.subject_id, Validators.required],
+      start_date: [this.data.data.start_date, Validators.required],
+      start_time: [this.data.data.start_time, Validators.required],
+    });
+  }
+
+  onSubmit() {
+    this.dialogRef.close(this.addEditForm.value);
   }
 
   onDismiss() {
     this.dialogRef.close();
   }
-
 }
