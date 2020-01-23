@@ -7,7 +7,7 @@
     Додати питання
   </a>
   <table mat-table #table
-       [dataSource]="dataSource" multiTemplateDataRows
+       [dataSource]="questions" multiTemplateDataRows
        class="mat-elevation-z8"
        *ngIf="!loadingQuestions; else loadingBlock">
 
@@ -67,6 +67,9 @@
         <td mat-cell *matCellDef="let question" class="actions"> 
             <!-- <mat-icon aria-hidden="false" aria-label="edit" (click)="editGroupDialog(group)">edit</mat-icon> -->
             <mat-icon aria-hidden="false" aria-label="delete" (click)="deleteQuestion(question.question_id)">delete</mat-icon>
+            <a [routerLink]="[question.question_id, 'edit']">
+                <mat-icon aria-hidden="false" aria-label="edit">edit</mat-icon>
+            </a>
         </td>
     </ng-container>
 
@@ -94,17 +97,20 @@
                                             *ngIf="+answer.true_answer === 1; else noValue">check_circle_outline
                                         </mat-icon>
                                     </td>
-                                    
+                                    <td>
+                                        <img 
+                                        *ngIf="answer.attachment; else noValue"
+                                        [src]="answer.attachment"
+                                        class="attachmet-preview-image" > 
+                                    </td>
                                 </ng-container >
                                 <td *ngIf="+question.type === 4 && i === 0">
-                                    Діапазон {{ question.answers[0].answer_text }} - {{ question.answers[1].answer_text }}
+                                    Мінімальне {{ answer.answer_text }} 
                                 </td>
-                                <td>
-                                    <img 
-                                    *ngIf="answer.attachment; else noValue"
-                                    [src]="answer.attachment"
-                                    class="attachmet-preview-image" > 
+                                <td *ngIf="+question.type === 4 && i === 1">
+                                    Максимальне {{ answer.answer_text }} 
                                 </td>
+                                
                                 
                         </tr>
                         <ng-template #noValue>

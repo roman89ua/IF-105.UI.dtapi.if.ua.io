@@ -3,7 +3,7 @@ import { QuestionService } from './questions.service';
 import { IQuestion } from './questions';
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { switchMap } from 'rxjs/operators';
-import { MatTable, MatTableDataSource } from '@angular/material/table';
+import { MatTable } from '@angular/material/table';
 import { of } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
 import { ModalService } from '../../shared/services/modal.service';
@@ -45,7 +45,7 @@ export class QuestionComponent implements OnInit {
   ) { }
 
 
-  @ViewChild("table", { static: true }) table: MatTable<any>;
+  @ViewChild("table", { static: true }) table: MatTable<IQuestion>;
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
 
   private getQuestionById(id: number): IQuestion {
@@ -110,14 +110,9 @@ export class QuestionComponent implements OnInit {
       const questionsWithEmptyAnswers = res.map((question) => {
         return { ...question, answers: [] }
       })
-      if (!this.dataSource) {
-        this.dataSource = new MatTableDataSource(questionsWithEmptyAnswers);
-        this.dataSource.paginator = this.paginator;
-      }
       this.questions = questionsWithEmptyAnswers
-      this.dataSource = questionsWithEmptyAnswers;
       this.loadingQuestions = false;
-      } )
+    })
   }
 
   getQuestionsCount() {

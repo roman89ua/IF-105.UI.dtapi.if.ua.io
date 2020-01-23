@@ -48,15 +48,34 @@ export class QuestionService {
     return forkJoin(obsArray)
   }
 
+  getQuestion(id) {
+    return this.http.get(`question/getRecords/${id}`)
+  }
+
+  updateQuestion(id, questionData: any) {
+    return this.http.post(`question/update/${id}`, questionData);
+  }
+
+  updateAnswer(answer: any) {
+    const id = answer.answer_id;
+    delete answer.answer_id;
+    return this.http.post(`answer/update/${id}`, answer);
+  }
+
+  updateAnswerCollection(answers, questionId) {
+    const obsArray = answers.map((answer) => {
+      answer.true_answer = answer.true_answer ? 1 : 0 
+      return this.updateAnswer({...answer, question_id: questionId})
+    });
+    return forkJoin(obsArray)
+  }
+
   toBase64(file: File) {
     return new Observable((observer) => {
-
       const reader = new FileReader();
       reader.readAsDataURL(file);
- 
       reader.onload = () => observer.next(reader.result);
       reader.onerror = err => observer.error(err);
-  
     })
   }
     
@@ -66,4 +85,5 @@ export class QuestionService {
         map( (res: { numberOfRecords: number }) => +res.numberOfRecords ) 
       )
   }
+
 }

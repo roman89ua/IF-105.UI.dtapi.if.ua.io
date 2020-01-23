@@ -2,9 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, FormBuilder, Validators, ValidatorFn, FormArray } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { QuestionService } from '../questions.service';
-import { switchMap } from 'rxjs/operators';
+import { switchMap, map, filter } from 'rxjs/operators';
 import { of } from 'rxjs';
-import { IAnswer } from '../questions';
+import { IAnswer, IQuestion } from '../questions';
 import { ModalService } from '../../../shared/services/modal.service';
 import { MAT_CHECKBOX_CLICK_ACTION } from '@angular/material';
 
@@ -17,13 +17,19 @@ import { MAT_CHECKBOX_CLICK_ACTION } from '@angular/material';
 
 export class NewQuestionComponent implements OnInit {
 
-  newQuestionForm: any;
-  attachmentTouched: boolean = false;
-  questionType: number = 1;
+  attachmentTouched = false;
+  questionType = 1;
   answers: IAnswer[] = [];
   testId: number;
-  private onlyInputTypes: number[] = [3,4];
-  private onlyChoiceTypes: number[] = [1,2];
+  attachmentLoadingIndex: number;
+  maxAttachmentSize = 16000000;
+  private onlyInputTypes = [3,4];
+  private onlyChoiceTypes = [1,2];
+  // EDIT MODE
+  editMode = false;
+  questionId: number;
+  oldQuestionData: IQuestion;
+  oldAnswers: IAnswer[];
 
   constructor(
     private route: ActivatedRoute,
@@ -31,17 +37,17 @@ export class NewQuestionComponent implements OnInit {
     private questionService: QuestionService,
     private fb: FormBuilder,
     private modalService: ModalService
-  ) {
-    this.newQuestionForm = this.fb.group({
-      question_text: ['', Validators.required],
-      level: ['1'],
-      type: ['1'],
-      attachment: [''],
-      answers: this.fb.array([])
-    }, { 
-      validators: [this.compareMinMax()]
-    });
-  }
+  ) { }
+
+  newQuestionForm = this.fb.group({
+    question_text: ['', Validators.required],
+    level: ['1'],
+    type: [{value: '1', disabled: this.editMode}],
+    attachment: [''],
+    answers: this.fb.array([])
+  }, { 
+    validators: [this.compareMinMax()]
+  });
 
   get type() {
     return this.newQuestionForm.get('type');
@@ -88,6 +94,9 @@ export class NewQuestionComponent implements OnInit {
 
   
   checkTrueAnswers(answerIndex) {
+    if (this.editMode) {
+      return; //TEMPORARY
+    }
     if (+this.type.value === 1) {
       this.questionAnswers.value.forEach((_, index) => {
           this.questionAnswers.controls[index].get('true_answer').setValue(false); 
@@ -97,10 +106,6 @@ export class NewQuestionComponent implements OnInit {
       const checkboxValue = this.questionAnswers.controls[answerIndex].get('true_answer').value;
       this.questionAnswers.controls[answerIndex].get('true_answer').setValue(!checkboxValue);
     }
-  }
-
-  answerByIndex(index) {
-    return this.questionAnswers.value[index] as FormControl;
   }
 
   trueAnswer(index) {
@@ -137,6 +142,7 @@ export class NewQuestionComponent implements OnInit {
   }
 
   changeQuestionTypeHandler(): void {
+    console.log('changeQuestionTypeHandler');
     if (+this.questionType === +this.type.value) {
       return;
     }
@@ -157,6 +163,10 @@ export class NewQuestionComponent implements OnInit {
   }
 
   createQuestion() {
+    if (this.editMode) {
+      this.updateQuestion();
+      return;
+    }
     if (!this.questionAnswers.value.length) {
       this.modalService.openAlertModal('Питання не має жодної відповіді, додайте відповіді щоб продовжити','Помилка','error');
       return;
@@ -172,6 +182,7 @@ export class NewQuestionComponent implements OnInit {
       level: this.level.value,
       attachment: this.questionAttachment.value,
     }
+
     this.questionService.addNewQuestion(questionData)
       .pipe(switchMap((res:{question_id:number}[]): any => { //FIX
         if (this.questionAnswers.value.length) {
@@ -184,25 +195,69 @@ export class NewQuestionComponent implements OnInit {
       .subscribe(() => this.router.navigate([`admin/exams/${this.testId}/questions`]))
   }
 
-  attachmentUploadHandler(e): void {
-    const file = e.dataTransfer ? e.dataTransfer.files[0] : e.target.files[0];
-    if (file) {
-      this.questionService.toBase64(file)
-        .subscribe((res:string) => { this.setAttachmentValue(res) })
+  updateQuestion() {
+    let answers = this.questionAnswers.value.map((answer, index) => {
+      return {
+        ...answer,
+        answer_id: this.oldAnswers[index].answer_id,
+      }
+    }).filter((answer, index) => {
+      return !this.isObjectsEqual(answer ,this.oldAnswers[index])
+    })
+    const questionData = {
+      type: this.type.value,
+      test_id: this.testId,
+      question_text: this.questionText.value,
+      level: this.level.value,
+      attachment: this.questionAttachment.value,
+      question_id: this.oldQuestionData.question_id
+    }
+    if (!this.isObjectsEqual(questionData, this.oldQuestionData)) {
+      this.questionService.updateQuestion(this.questionId, questionData)
+        .pipe(
+          switchMap(() => {
+            if (answers.length) {
+              return this.questionService.updateAnswerCollection( answers, this.questionId);
+            } else {
+              return of();
+            }
+          })
+        )
+        .subscribe(() => {
+          this.modalService.openAlertModal('Питання успішно оновлене', '', 'info')
+        })
+    } else if (!answers.length) {
+      this.modalService.openAlertModal('Дані не змінювались', 'Помилка', 'error')
     }
   }
 
-  aswerAttachmentUploadHandler(e, index) {
+  attachmentUploadHandler(e, index?): void {
     const file = e.dataTransfer ? e.dataTransfer.files[0] : e.target.files[0];
+    if (file.type.split('/')[0] !== 'image') {
+      this.modalService.openAlertModal('Невірний формат','Помилка','error');
+      return;
+    }
+    if (file.size > this.maxAttachmentSize) {
+      this.modalService.openAlertModal(`Максимально допустимий розмір зображення ${this.maxAttachmentSize/1000000} МБ`,'Помилка','error');
+      return;
+    }
+    const forAnswer = index === undefined
+    // -1 is value for question attachment
+    this.attachmentLoadingIndex = forAnswer ?  -1 : index;
     if (file) {
       this.questionService.toBase64(file)
-        .subscribe((res:string) => { this.questionAnswers.controls[index].get('attachment').setValue(res) })
+        .subscribe((res:string) => { 
+          if (forAnswer) {
+            this.setAttachmentValue(res)
+          } else {
+            this.questionAnswers.controls[index].get('attachment').setValue(res)
+          }
+          this.attachmentLoadingIndex = null;
+        })
     }
   }
-  
   removeImage(): void {
     this.setAttachmentValue('');
-    // REVIEW
     const fileUploadElement: any = document.getElementById('file-input-question'); 
     fileUploadElement.value = '';
   }
@@ -213,14 +268,63 @@ export class NewQuestionComponent implements OnInit {
   
   removeAnswerImage(index) {
     this.questionAnswers.controls[index].get('attachment').setValue('');
-    // REVIEW
     const fileUploadElement: any = document.getElementById(`file-input-${index}`); 
     fileUploadElement.value = '';
   }
 
+  private isObjectsEqual(obj1, obj2) {
+    let same = true;
+    for (let key in obj1) {
+      if (obj1[key] != obj2[key]) {
+        same = false;
+      }
+    }
+    return same;
+  }
+
   ngOnInit() {
+    if (this.route.snapshot.paramMap.get('mode') === 'edit') {
+      this.editMode = true;
+      this.questionId = +this.route.snapshot.paramMap.get('questionId')
+      this.questionService.getQuestion(this.questionId)
+        .pipe(
+          switchMap((res) => {
+            this.oldQuestionData = res[0];
+            return this.questionService.getQuestionAnswers(this.questionId);
+          }),
+          map((res: any) => { //FIX
+            if (res.response === 'no records') {
+              return [];
+            }
+            const answerData = res.map((answer: IAnswer)  => {
+              answer.true_answer = +answer.true_answer ? true : false
+              delete answer.question_id
+              return answer
+            })
+            return answerData;
+          })).subscribe(res => { 
+            this.questionText.setValue(this.oldQuestionData.question_text);
+            this.level.setValue(this.oldQuestionData.level);
+            this.type.setValue(this.oldQuestionData.type);
+            this.questionAttachment.setValue(this.oldQuestionData.attachment);
+            this.oldAnswers = res;
+            res.forEach((answer) => {
+              this.questionAnswers.push(this.fb.group({
+                answer_text: [answer.answer_text, [Validators.required]],
+                true_answer: [answer.true_answer],
+                attachment: [answer.attachment]
+            } 
+           ))
+          })
+        })
+    }
+    // this.editMode = +this.route.snapshot.paramMap.get('mode') ? t
     this.testId = +this.route.snapshot.paramMap.get('id');
-    this.newQuestionForm.get('type').valueChanges
-      .subscribe((value: string) => this.changeQuestionTypeHandler());
+    if (!this.editMode) {
+      this.newQuestionForm.get('type').valueChanges
+      .subscribe((res: string) => this.changeQuestionTypeHandler());
+    }
+    
   }
 }
+ 
