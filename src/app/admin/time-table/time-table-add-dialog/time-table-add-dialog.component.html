@@ -3,7 +3,7 @@
   <div>
     <mat-form-field class="example-full-width">
       <mat-label>Група</mat-label>
-      <mat-select [(ngModel)]="data.data.group_id" name="group_id" #group="ngModel">
+      <mat-select [(ngModel)]="data.data.group_id" name="group_id" #group="ngModel" required>
         <mat-option *ngFor="let group of groups" [value]="group.group_id">
           {{group.group_name}}
         </mat-option>
@@ -13,7 +13,7 @@
   <div>
     <mat-form-field class="example-full-width">
       <mat-label>Предмет</mat-label>
-      <mat-select [(ngModel)]="data.data.subject_id" name="subject_id" #subject="ngModel">
+      <mat-select [(ngModel)]="data.data.subject_id" name="subject_id" #subject="ngModel" required>
         <mat-option *ngFor="let subject of subjects" [value]="subject.subject_id">
           {{subject.subject_name}}
         </mat-option>
@@ -37,13 +37,15 @@
     <mat-form-field>
       <input matInput placeholder="Виберіть годину"
              name="start_time" ngModel
-             [(ngModel)]="data.data.start_time">
+             #time="ngModel"
+             [(ngModel)]="data.data.start_time" required>
       <mat-hint>Формат часу: 09:35</mat-hint>
     </mat-form-field>
   </div>
   <div mat-dialog-actions>
     <button mat-raised-button mat-dialog-close cdkFocusInitial>Відмінити</button>
-    <button mat-raised-button [mat-dialog-close]="data.data" color="warn">
+    <button mat-raised-button [mat-dialog-close]="data.data" color="warn"
+            [disabled]="group.required || subject.required || dateCtrl.errors?.required || time.invalid">
       <mat-icon aria-hidden="false" aria-label="save">save</mat-icon>
       {{data.description.action}}
     </button>

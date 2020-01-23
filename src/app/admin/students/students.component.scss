@@ -1,14 +1,60 @@
-.mat-table-wrapper {
-    table {
-        width: 100%;
+.administrate__students {
+    margin: 0 auto;
+    padding: 0 1rem;
+
+    .mat-table-wrapper {
+        table {
+            background-color: rgb(248, 246, 246);
+            width: 100%;
+            box-shadow: 0 0 5px rgba(0,0,0,0.5);
+        }
     }
-}
-
-mat-icon {
-    cursor: pointer;
-}
-
-.addStudent {
-    margin-top: 50px;
-    margin-bottom: 30px;
+    
+    .button-wrapper {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        height: 60px;
+    
+        h3 {
+            margin-left: 15px;
+            letter-spacing: 3px;
+            font-size: 20px;
+        }
+        .addStudent {
+            margin-right: 15px;
+            width: 200px;
+            box-shadow: 0 0 5px rgba(0,0,0,0.5);
+        }
+    }
+    
+    mat-icon {
+        cursor: pointer;
+    
+        &:hover{
+            &[aria-label="edit"] {
+                color: orange;
+            }
+            &[aria-label="delete"] {
+                color: red;
+            }
+        }
+    }
+    
+    .student_name {
+        padding-left: 50px;
+    }
+    
+    .loadingSpinner {
+        display: flex;
+        justify-content: center; 
+        align-items: center;
+    }
+    
+    .noStudents {
+        text-align: center;
+        margin-top: 100px;
+        font-size: 20px;
+        letter-spacing: 3px;
+    }
 }
