@@ -8,7 +8,7 @@
     </button>
   </div>
     
-  <div class="mat-table-wrapper" *ngIf="STUDENTS_LIST.length != undefined">
+  <div class="mat-table-wrapper" *ngIf="STUDENTS_LIST.length">
 
         <mat-card *ngIf="isLoading" class="loadingSpinner">
           <mat-progress-spinner color="primary" mode="indeterminate"></mat-progress-spinner>
@@ -46,6 +46,6 @@
 
   </div>
 
-  <div *ngIf="STUDENTS_LIST.length == undefined" class="noStudents">Студенти відсутні</div>
+  <div *ngIf="!STUDENTS_LIST.length" class="noStudents">Студенти відсутні</div>
       
 </section>

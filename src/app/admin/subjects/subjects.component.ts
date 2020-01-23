@@ -1,13 +1,13 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { MatDialog, MatSort } from '@angular/material';
+import { MatDialog, MatSort, MatSnackBar, MatPaginator } from '@angular/material';
 import { SubjectsCreateModalComponent } from './subjects-create-modal/subjects-create-modal.component';
-import { ISubjects } from './subjects.interface';
+import { Subject } from 'src/app/admin/entity.interface';
 import { mergeMap } from 'rxjs/operators';
 import { of } from 'rxjs';
 import { MatTableDataSource, MatTable } from '@angular/material/table';
 import { SubjectConfirmComponent } from './subject-confirm/subject-confirm.component';
 import { ApiService } from 'src/app/shared/services/api.service';
-
+import { Router } from "@angular/router";
 
 @Component({
   selector: 'app-subjects',
@@ -15,30 +15,43 @@ import { ApiService } from 'src/app/shared/services/api.service';
   styleUrls: ['./subjects.component.scss']
 })
 export class SubjectsComponent implements OnInit {
-  result: any;
-  public subjectTableList: Array<ISubjects> = [];
-  public displayedColumns: string[] = ['subject_number', /*'subject_id',*/ 'subject_name', 'subject_description', 'subject_menu'];
-  public dataSource = new MatTableDataSource<ISubjects>();
 
+  public displayedColumns: string[] = ['subject_number', /*'subject_id',*/ 'subject_name', 'subject_description', 'subject_menu'];
+  public dataSource = new MatTableDataSource<Subject>();
+  public loading = false;
+
+  @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
   @ViewChild(MatSort, { static: true }) sort: MatSort;
 
   constructor(
     public dialog: MatDialog,
-
+    private snackBar: MatSnackBar,
     private apiService: ApiService,
-  ) { }
+    private route: Router,
+  ) {  }
 
-  ngOnInit() {
+  ngOnInit(): void  {
     this.showSubjects();
+    this.dataSource.paginator = this.paginator;
+    this.dataSource.sort = this.sort;
   }
+  applyFilter(filterValue: string) {
+    this.dataSource.filter = filterValue.trim().toLowerCase();
+  }
+
   showSubjects() {
+    this.loading = true;
     this.apiService.getEntity('Subject')
-      .subscribe((data: Array<ISubjects>) => {
-        this.subjectTableList = data;
-        console.log(this.subjectTableList);
-        this.dataSource.sort = this.sort;
-      }
-      );
+    .subscribe(response => {
+      this.dataSource.data = response;
+      this.loading = false;
+    });
+  }
+
+  openSnackBar(message: string, action?: string) {
+    this.snackBar.open(message, action, {
+      duration: 3000,
+    });
   }
 
   createNewSubject() {
@@ -49,59 +62,79 @@ export class SubjectsComponent implements OnInit {
     newDialogSubject.afterClosed()
       .pipe(
         mergeMap((data) => {
-          console.log(data);
           if (data) {
             return this.apiService.createEntity('Subject', data);
           }
           return of(null);
         })
       )
-      .subscribe((newData: Array<ISubjects> | null) => {
+      .subscribe((newData: Subject[] | null) => {
         if (newData) {
-          this.subjectTableList = [...this.subjectTableList, ...newData];
-          this.dataSource.sort = this.sort;
+          this.dataSource.data = [...this.dataSource.data, newData[0]];
+          this.openSnackBar('Предмет було створено.', 'Закрити');
+      }},
+        err => {
+          this.openSnackBar('Такий предмет уже існує', 'Закрити');
         }
-      });
+      );
   }
-  edit(row: ISubjects): void {
+
+  edit(row: Subject): void {
     const newDialogSubject = this.dialog.open(SubjectsCreateModalComponent, {
       width: '500px',
-      disableClose: true,
+      data: row,
     });
     newDialogSubject.afterClosed()
       .pipe(
         mergeMap((data) => {
           if (data) {
-            return this.apiService.updEntity('Subject', data, row.subject_id);
+            return this.apiService.updEntity('subject', data, row.subject_id);
           }
           return of(null);
         })
       )
-      .subscribe((newData: Array<ISubjects> | null) => {
+      .subscribe((newData: Subject[] | null) => {
         if (newData) {
           this.showSubjects();
-          this.dataSource.sort = this.sort;
+          this.openSnackBar('Предмет відредаговано.', 'Закрити');
+        }},
+        err => {
+          this.openSnackBar('Такий предмет уже існує', 'Закрити');
         }
-      });
+      );
   }
 
-  delete(row: ISubjects): void {
+  delete(row: Subject): void {
     const dialogData = `Ви видаляєте ${row.subject_name}, ви впевнені?`;
     const dialogRef = this.dialog.open(SubjectConfirmComponent, {
       maxWidth: '400px',
       data: dialogData
     });
     dialogRef.afterClosed().subscribe(dialogResult => {
-      this.result = dialogResult;
-      if (this.result) {
+      const result = dialogResult;
+      if (result) {
         this.delSubject(row.subject_id);
       }
     });
   }
+
   delSubject(id: number) {
     this.apiService.delEntity('Subject', id)
       .subscribe((response) => {
-        this.subjectTableList = this.subjectTableList.filter(item => item.subject_id !== id);
-      });
+        this.dataSource.data = this.dataSource.data.filter(item => item.subject_id !== id);
+        this.openSnackBar('Предмет видалено.', 'Закрити');
+      },
+        err => {
+          this.openSnackBar('На сервері присутні дані цього предмету.', 'Закрити');
+        }
+      );
+  }
+
+  navigateToTimeTable(subject_id) {
+    this.route.navigate(['admin/timeTable'], { queryParams:{id: subject_id}});
+  }
+
+  navigateToTests(subject_id){
+    this.route.navigate(['admin/tests'], { queryParams:{id: subject_id}});
   }
 }
