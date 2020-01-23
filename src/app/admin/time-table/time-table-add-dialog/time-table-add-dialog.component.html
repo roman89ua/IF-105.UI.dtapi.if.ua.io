@@ -27,7 +27,8 @@
     <mat-form-field>
       <input matInput placeholder="Виберіть годину"
              formControlName="start_time"
-             [value]="data.data.start_time">
+             [value]="data.data.start_time"
+      ng-pattern="/^(?:(?:1[0-2]|0?[1-9]):[0-5]\d\s*">
       <mat-hint>Формат часу: 09:35</mat-hint>
     </mat-form-field>
     <button mat-stroked-button color="primary" type="submit" [disabled]="addEditForm.invalid">

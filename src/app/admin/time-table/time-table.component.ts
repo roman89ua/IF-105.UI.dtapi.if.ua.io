@@ -154,6 +154,14 @@ export class TimeTableComponent implements OnInit {
           this.dataSource.paginator = this.paginator;
         });
       }
+    }, (error: any) => {
+      if (error.error.response.includes('Wrong input')) {
+        this.modalService.openInfoModal('Не правильно введені дані');
+      } else if (error.error.response.includes('ERROR: SQLSTATE[23000]: Integrity constraint violation')) {
+        this.modalService.openInfoModal('Розклад для вибраної групи та предмету вже заданий');
+      } else {
+        this.modalService.openInfoModal('Помилка оновлення');
+      }
     });
   }
 
