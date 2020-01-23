@@ -1,18 +1,38 @@
-<form class="input-wrapper" [formGroup]="addSubject" autocomplete="off">
-    <mat-form-field class="example-full-width">
-        <input matInput placeholder="Назва предмета" formControlName="subject_name">
-        <!--  <mat-error *ngIf="subject_nameFormControl.hasError('invalid')">Це поле повинно бути заповнене</mat-error>[formControl]="subject_nameFormControl" -->
-    </mat-form-field>
+<h3>{{ !data ? "Додавання" : "Редагування" }} предмета</h3>
 
-    <mat-form-field class="example-full-width">
-        <textarea matInput placeholder="Опис предмета" formControlName="subject_description"></textarea>
-    </mat-form-field>
+<form [formGroup]="addSubject" class="form-control " #addsubject="ngForm" (ngSubmit)="onSubmit()">
+    <mat-form-field appearance="outline">
 
-    <button mat-flat-button color="primary" [disabled]="!addSubject.valid" (click)="createSubject()">
-        Додати
+        <mat-label>Предмети</mat-label>
+
+        <input matInput formControlName="subject_name" placeholder="Назва предмета" />
+
+        <button type="button" mat-button *ngIf="subject_name.value" matSuffix mat-icon-button aria-label="Clear" (click)="subject_name.reset()">
+      <mat-icon>close</mat-icon>
     </button>
 
-    <button mat-flat-button color="primary" (click)="cancelCreateNewSubject()">
-        Скасувати
-    </button>
+        <mat-error *ngIf="subject_name.invalid && (subject_name.dirty || subject_name.touched)">
+            {{ getErrorMessage(subject_name) }}
+        </mat-error>
+
+        <mat-hint></mat-hint>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+        <mat-label>Опис предмета</mat-label>
+        <textarea matInput cdkTextareaAutosize #autosize="cdkTextareaAutosize" cdkAutosizeMinRows="5" cdkAutosizeMaxRows="10" formControlName="subject_description" placeholder="Опис">
+        </textarea>
+        <button type="button" mat-button *ngIf="subject_description.value" matSuffix mat-icon-button aria-label="Clear" (click)="subject_description.reset()">
+            <mat-icon>close</mat-icon>
+        </button>
+        <mat-error *ngIf="subject_description.invalid &&(subject_description.dirty || subject_description.touched)">
+            {{ getErrorMessage(subject_description) }}
+        </mat-error>
+    </mat-form-field>
+    <button mat-raised-button color="primary" class="btn" [disabled]="!data ? addSubject.invalid : addSubject.invalid || !(subject_name.dirty || subject_description.dirty)" type="submit">
+            {{ !data ? "Додати" : "Редагувати" }}
+        </button>
+    <button cdkFocusInitial mat-flat-button color="warn" type="button" class="btn" (click)="onDismiss()">
+    Відмінити
+  </button>
 </form>
