@@ -69,10 +69,10 @@ const routes: Routes = [
     CreateEditComponent,
     SubjectsComponent,
     SubjectsCreateModalComponent,
+    SubjectConfirmComponent,
     TimeTableComponent,
     TimeTablePipe,
     TimeTableAddDialogComponent,
-    SubjectConfirmComponent,
   ],
   imports: [
     CommonModule,
