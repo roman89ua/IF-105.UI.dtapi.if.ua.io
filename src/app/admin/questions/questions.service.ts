@@ -13,19 +13,19 @@ export class QuestionService {
   constructor(private http: HttpClient, private apiService: ApiService) { }
 
   getTestQuestions(id: number, limit: number, offset: number) {
-    return this.http.get(`question/getRecordsRangeByTest/${id}/${limit}/${offset}`)
+    return this.http.get(`question/getRecordsRangeByTest/${id}/${limit}/${offset}`);
   }
 
   getQuestionAnswers(id: number) {
-    return this.http.get('answer/getAnswersByQuestion/' + id)
+    return this.http.get('answer/getAnswersByQuestion/' + id);
   }
 
   deleteQuestion(id: number) {
-    return this.http.get('question/del/' + id)
+    return this.http.get('question/del/' + id);
   }
 
   deleteAnswer(id: number) {
-    return this.http.get('answer/del/' + id)
+    return this.http.get('answer/del/' + id);
   }
 
   deleteAnswerCollection(answers: IAnswer[]) {
@@ -35,14 +35,14 @@ export class QuestionService {
 
   addAnswerCollection(answers, questionId) {
     const obsArray = answers.map((answer) => {
-      answer.true_answer = answer.true_answer ? 1 : 0 
-      const obsArray = answers.map((answer) => this.apiService.createEntity('Answer', { ...answer, question_id: questionId }));
+      answer.true_answer = answer.true_answer ? 1 : 0;
+      return this.apiService.createEntity('Answer', { ...answer, question_id: questionId });
     });
-    return forkJoin(obsArray)
+    return forkJoin(obsArray);
   }
 
   getQuestion(id) {
-    return this.http.get(`question/getRecords/${id}`)
+    return this.http.get(`question/getRecords/${id}`);
   }
 
   updateQuestion(id, questionData: any) {
@@ -57,10 +57,10 @@ export class QuestionService {
 
   updateAnswerCollection(answers, questionId) {
     const obsArray = answers.map((answer) => {
-      answer.true_answer = answer.true_answer ? 1 : 0 
-      return this.updateAnswer({...answer, question_id: questionId})
+      answer.true_answer = answer.true_answer ? 1 : 0;
+      return this.updateAnswer({...answer, question_id: questionId});
     });
-    return forkJoin(obsArray)
+    return forkJoin(obsArray);
   }
 
   toBase64(file: File) {
@@ -69,14 +69,14 @@ export class QuestionService {
       reader.readAsDataURL(file);
       reader.onload = () => observer.next(reader.result);
       reader.onerror = err => observer.error(err);
-    })
+    });
   }
-    
+
   getTestQuestionsCount(id) {
     return this.http.get(`question/countRecordsByTest/${id}`)
       .pipe(
-        map( (res: { numberOfRecords: number }) => +res.numberOfRecords ) 
-      )
+        map( (res: { numberOfRecords: number }) => +res.numberOfRecords )
+      );
   }
 
 }

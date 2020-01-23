@@ -5,7 +5,7 @@ export interface IQuestion {
     level: number;
     type: number;
     attachment: string;
-    //string for error case
+    // string for error case
     answers?: IAnswer[] | string;
 }
 export interface IAnswer {
@@ -14,5 +14,4 @@ export interface IAnswer {
     question_id?: number;
     answer_text: string;
     attachment: string;
-    error?: string | boolean; // FIX
 }

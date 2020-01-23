@@ -36,9 +36,9 @@ const routes: Routes = [
   {
     path: '', component: AdminComponent,
     children: [
-      { path: 'exams/:id/questions/:questionId/:mode', component: NewQuestionComponent },
-      { path: 'exams/:id/questions', component: QuestionsComponent },
-      { path: 'exams/:id/questions/new', component: NewQuestionComponent },
+      { path: 'tests/:id/questions/:questionId/:mode', component: NewQuestionComponent },
+      { path: 'tests/:id/questions', component: QuestionsComponent },
+      { path: 'tests/:id/questions/new', component: NewQuestionComponent },
       { path: 'Students/:id', component: StudentsComponent },
       { path: 'admin-user', component: AdminUserComponent},
       { path: 'faculties', component: FacultiesComponent},

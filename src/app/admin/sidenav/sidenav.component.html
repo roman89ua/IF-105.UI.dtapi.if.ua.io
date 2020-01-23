@@ -19,7 +19,6 @@
       <a routerLinkActive="active" mat-button routerLink="tests">Тести</a>
       <a routerLinkActive="active" mat-button routerLink="timeTable">Розклад тестів</a>
       <a routerLinkActive="active" mat-button routerLink="admin-user">Адміни</a>
-      <a routerLinkActive="active" mat-button routerLink="exams/1/questions">Питання</a>
     </mat-nav-list>
     <span class="fill-space"></span>
     <button mat-button [matMenuTriggerFor]="menu">
@@ -46,8 +45,6 @@
         <a mat-list-item (click)="sidenav.toggle()" routerLink="timeTable">Розклад тестів</a>
         <mat-divider></mat-divider>
         <a mat-list-item (click)="sidenav.toggle()" routerLink="admin-user">Адміни</a>
-        <mat-divider></mat-divider>
-        <a mat-list-item (click)="sidenav.toggle()" routerLink="exams/1/questions">Питання</a>
       </mat-nav-list>
     </mat-sidenav>
     <mat-sidenav-content>

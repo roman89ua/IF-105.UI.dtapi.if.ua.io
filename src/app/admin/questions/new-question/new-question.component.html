@@ -4,12 +4,12 @@
 <form [formGroup]="newQuestionForm" *ngIf="!questionLoading; else loadingBlock" class="admin-form" (ngSubmit)="createQuestion()">
    <mat-form-field class="full-width">
             <mat-label>Питання</mat-label>
-            <input
+            <textarea
+              rows="6"
               matInput
               formControlName="question_text"
               placeholder="Текст питання"
-              required
-            />
+              required></textarea>
               <mat-error 
                 class="form-group"
                 *ngIf="questionText.invalid && (questionText.dirty || questionText.touched)">

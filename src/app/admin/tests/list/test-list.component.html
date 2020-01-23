@@ -52,6 +52,14 @@
         >
           delete
         </mat-icon>
+        <a [routerLink]="[testItem.test_id, 'questions']" class="question-link">
+          <mat-icon
+          aria-hidden="false"
+          matTooltip="Питання"
+          >
+          list
+          </mat-icon>
+        </a>
       </td>
     </ng-container>
 

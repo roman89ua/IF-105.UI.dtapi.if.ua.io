@@ -1,9 +1,8 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { QuestionService } from './questions.service';
 import { IQuestion } from './questions';
-import { animate, state, style, transition, trigger } from '@angular/animations';
 import { switchMap } from 'rxjs/operators';
-import { MatTable } from '@angular/material/table';
+import { MatTable, MatTableDataSource } from '@angular/material/table';
 import { of } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
 import { ModalService } from '../../shared/services/modal.service';
@@ -17,12 +16,14 @@ import { ApiService } from 'src/app/shared/services/api.service';
 })
 export class QuestionsComponent implements OnInit {
 
-  questions: IQuestion[];
+  dataSource;
+  questions: any;
+  noQuestions: false;
   testId: number;
-  loadingQuestions: boolean = false;
+  loadingQuestions = false;
   questionsCount: number;
-  pageSize:number = 10;
-  currentPage: number = 1;
+  pageSize = 10;
+  currentPage: 0;
   testName: string;
 
   constructor(
@@ -33,7 +34,7 @@ export class QuestionsComponent implements OnInit {
   ) { }
 
 
-  @ViewChild("table", { static: true }) table: MatTable<IQuestion>;
+  @ViewChild('table', { static: true }) table: MatTable<IQuestion>;
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
 
   pageChangeHandler(data) {
@@ -53,41 +54,43 @@ export class QuestionsComponent implements OnInit {
           switchMap((val: any) => { // FIX
             return val.response !== 'no records' ? this.questionService.deleteAnswerCollection(val) : of(val);
           }),
-          switchMap(() => this.questionService.deleteQuestion(id)),        
+          switchMap(() => this.questionService.deleteQuestion(id)),
         )
-        .subscribe( () => { 
+        .subscribe(() => {
             const offset = this.pageSize * this.currentPage;
             this.getQuestions(offset);
             this.getQuestionsCount();
             this.loadingQuestions = false;
-        })
+        });
     });
   }
 
   getQuestions(offset = 0) {
     this.questionService.getTestQuestions(this.testId, this.pageSize, offset)
     .subscribe((res: IQuestion[]) => {
-      this.questions = res
-      this.loadingQuestions = false;
-    })
+        this.questions = res;
+        this.dataSource = new MatTableDataSource(res);
+        this.dataSource.paginator = this.paginator;
+        this.loadingQuestions = false;
+    });
   }
 
   getQuestionsCount() {
     this.questionService.getTestQuestionsCount(this.testId)
-    .subscribe( res =>  this.questionsCount = res );
+      .subscribe(res => { this.questionsCount = res; });
   }
 
   getTestName() {
     this.apiService.getEntity('test', this.testId)
-      .subscribe((res) => {this.testName = res[0].test_name})
+      .subscribe((res) => { this.testName = res[0].test_name; });
   }
-  
+
   ngOnInit() {
     this.testId = +this.route.snapshot.paramMap.get('id');
     this.getTestName();
     this.loadingQuestions = true;
+    this.getQuestionsCount();
     this.getQuestions();
-    this.getQuestionsCount()
   }
 
 }
