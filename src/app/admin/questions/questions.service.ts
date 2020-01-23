@@ -27,10 +27,6 @@ export class QuestionService {
   deleteAnswer(id: number) {
     return this.http.get('answer/del/' + id)
   }
-  
-  getTestQuestion(id: number) {
-    return this.http.get(`question/getRecordsRangeByTest/${id}/20/0`);
-  }
 
   deleteAnswerCollection(answers: IAnswer[]) {
     const deleteAnswerObservables = answers.map(answer => this.apiService.delEntity('Answer', answer.answer_id));
@@ -40,7 +36,7 @@ export class QuestionService {
   addAnswerCollection(answers, questionId) {
     const obsArray = answers.map((answer) => {
       answer.true_answer = answer.true_answer ? 1 : 0 
-      return this.addNewAnswer({...answer, question_id: questionId})
+      const obsArray = answers.map((answer) => this.apiService.createEntity('Answer', { ...answer, question_id: questionId }));
     });
     return forkJoin(obsArray)
   }

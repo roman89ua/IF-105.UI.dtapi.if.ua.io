@@ -1,4 +1,7 @@
-<form [formGroup]="newQuestionForm" class="admin-form" (ngSubmit)="createQuestion()">
+<ng-template #loadingBlock>
+  <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+</ng-template>
+<form [formGroup]="newQuestionForm" *ngIf="!questionLoading; else loadingBlock" class="admin-form" (ngSubmit)="createQuestion()">
    <mat-form-field class="full-width">
             <mat-label>Питання</mat-label>
             <input

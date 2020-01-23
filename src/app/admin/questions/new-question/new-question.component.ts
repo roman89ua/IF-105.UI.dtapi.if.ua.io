@@ -1,12 +1,13 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormControl, FormBuilder, Validators, ValidatorFn, FormArray } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators, ValidatorFn, FormArray } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { QuestionService } from '../questions.service';
-import { switchMap, map, filter } from 'rxjs/operators';
+import { switchMap, map } from 'rxjs/operators';
 import { of } from 'rxjs';
 import { IAnswer, IQuestion } from '../questions';
 import { ModalService } from '../../../shared/services/modal.service';
 import { MAT_CHECKBOX_CLICK_ACTION } from '@angular/material';
+import { ApiService } from 'src/app/shared/services/api.service';
 
 @Component({
   selector: 'app-new-question',
@@ -26,6 +27,7 @@ export class NewQuestionComponent implements OnInit {
   private onlyInputTypes = [3,4];
   private onlyChoiceTypes = [1,2];
   // EDIT MODE
+  questionLoading = false;
   editMode = false;
   questionId: number;
   oldQuestionData: IQuestion;
@@ -36,13 +38,14 @@ export class NewQuestionComponent implements OnInit {
     private router: Router,
     private questionService: QuestionService,
     private fb: FormBuilder,
-    private modalService: ModalService
+    private modalService: ModalService,
+    private apiService: ApiService
   ) { }
 
   newQuestionForm = this.fb.group({
     question_text: ['', Validators.required],
     level: ['1'],
-    type: [{value: '1', disabled: this.editMode}],
+    type: ['1'],
     attachment: [''],
     answers: this.fb.array([])
   }, { 
@@ -94,9 +97,6 @@ export class NewQuestionComponent implements OnInit {
 
   
   checkTrueAnswers(answerIndex) {
-    if (this.editMode) {
-      return; //TEMPORARY
-    }
     if (+this.type.value === 1) {
       this.questionAnswers.value.forEach((_, index) => {
           this.questionAnswers.controls[index].get('true_answer').setValue(false); 
@@ -142,7 +142,6 @@ export class NewQuestionComponent implements OnInit {
   }
 
   changeQuestionTypeHandler(): void {
-    console.log('changeQuestionTypeHandler');
     if (+this.questionType === +this.type.value) {
       return;
     }
@@ -164,6 +163,7 @@ export class NewQuestionComponent implements OnInit {
 
   createQuestion() {
     if (this.editMode) {
+      console.log('edit outside');
       this.updateQuestion();
       return;
     }
@@ -183,7 +183,7 @@ export class NewQuestionComponent implements OnInit {
       attachment: this.questionAttachment.value,
     }
 
-    this.questionService.addNewQuestion(questionData)
+    this.apiService.createEntity('Question', questionData)
       .pipe(switchMap((res:{question_id:number}[]): any => { //FIX
         if (this.questionAnswers.value.length) {
           return this.questionService.addAnswerCollection(this.questionAnswers.value, res[0].question_id)
@@ -203,7 +203,7 @@ export class NewQuestionComponent implements OnInit {
       }
     }).filter((answer, index) => {
       return !this.isObjectsEqual(answer ,this.oldAnswers[index])
-    })
+    });
     const questionData = {
       type: this.type.value,
       test_id: this.testId,
@@ -212,23 +212,34 @@ export class NewQuestionComponent implements OnInit {
       attachment: this.questionAttachment.value,
       question_id: this.oldQuestionData.question_id
     }
-    if (!this.isObjectsEqual(questionData, this.oldQuestionData)) {
+    const answersToUpdate = answers.length ? true : false;
+    const questionToUpdate = !this.isObjectsEqual(questionData, this.oldQuestionData);
+    if (!answersToUpdate && !questionToUpdate) {
+      this.modalService.openAlertModal('Дані не змінювались', 'Помилка', 'error')
+      return;
+    }
+    if (questionToUpdate) {
       this.questionService.updateQuestion(this.questionId, questionData)
-        .pipe(
-          switchMap(() => {
-            if (answers.length) {
-              return this.questionService.updateAnswerCollection( answers, this.questionId);
-            } else {
-              return of();
-            }
-          })
-        )
+      .pipe(
+        switchMap(() => {
+          if (answers.length) {
+            return this.questionService.updateAnswerCollection( answers, this.questionId);
+          } else {
+            return of(null);
+          }
+        })
+      )
+      .subscribe(() => {
+        this.modalService.openAlertModal('Питання успішно оновлене', '', 'info')
+      })
+    }
+    if (answersToUpdate && !questionToUpdate) {
+      this.questionService.updateAnswerCollection( answers, this.questionId)
         .subscribe(() => {
           this.modalService.openAlertModal('Питання успішно оновлене', '', 'info')
         })
-    } else if (!answers.length) {
-      this.modalService.openAlertModal('Дані не змінювались', 'Помилка', 'error')
     }
+      
   }
 
   attachmentUploadHandler(e, index?): void {
@@ -273,50 +284,57 @@ export class NewQuestionComponent implements OnInit {
   }
 
   private isObjectsEqual(obj1, obj2) {
-    let same = true;
+  
     for (let key in obj1) {
       if (obj1[key] != obj2[key]) {
-        same = false;
+        return false;
       }
     }
-    return same;
+    return true;
+  }
+
+  setFormValue() {
+    this.questionLoading = true;
+    this.questionService.getQuestion(this.questionId)
+    .pipe(
+      switchMap((res) => {
+        this.oldQuestionData = res[0];
+        return this.questionService.getQuestionAnswers(this.questionId);
+      }),
+      map((res: any) => { //FIX
+        if (res.response === 'no records') {
+          return [];
+        }
+        const answerData = res.map((answer: IAnswer)  => {
+          answer.true_answer = +answer.true_answer ? true : false
+          delete answer.question_id
+          return answer
+        })
+        return answerData;
+      })).subscribe(res => { 
+        this.questionText.setValue(this.oldQuestionData.question_text);
+        this.level.setValue(this.oldQuestionData.level);
+        this.type.setValue(this.oldQuestionData.type);
+        this.type.disable();
+        this.questionAttachment.setValue(this.oldQuestionData.attachment);
+        this.oldAnswers = res;
+        res.forEach((answer) => {
+          this.questionAnswers.push(this.fb.group({
+            answer_text: [answer.answer_text, [Validators.required]],
+            true_answer: [answer.true_answer],
+            attachment: [answer.attachment]
+        } 
+       ))
+      })
+      this.questionLoading = false;
+    })
   }
 
   ngOnInit() {
     if (this.route.snapshot.paramMap.get('mode') === 'edit') {
       this.editMode = true;
       this.questionId = +this.route.snapshot.paramMap.get('questionId')
-      this.questionService.getQuestion(this.questionId)
-        .pipe(
-          switchMap((res) => {
-            this.oldQuestionData = res[0];
-            return this.questionService.getQuestionAnswers(this.questionId);
-          }),
-          map((res: any) => { //FIX
-            if (res.response === 'no records') {
-              return [];
-            }
-            const answerData = res.map((answer: IAnswer)  => {
-              answer.true_answer = +answer.true_answer ? true : false
-              delete answer.question_id
-              return answer
-            })
-            return answerData;
-          })).subscribe(res => { 
-            this.questionText.setValue(this.oldQuestionData.question_text);
-            this.level.setValue(this.oldQuestionData.level);
-            this.type.setValue(this.oldQuestionData.type);
-            this.questionAttachment.setValue(this.oldQuestionData.attachment);
-            this.oldAnswers = res;
-            res.forEach((answer) => {
-              this.questionAnswers.push(this.fb.group({
-                answer_text: [answer.answer_text, [Validators.required]],
-                true_answer: [answer.true_answer],
-                attachment: [answer.attachment]
-            } 
-           ))
-          })
-        })
+      this.setFormValue()
     }
     // this.editMode = +this.route.snapshot.paramMap.get('mode') ? t
     this.testId = +this.route.snapshot.paramMap.get('id');

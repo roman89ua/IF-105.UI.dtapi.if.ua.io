@@ -1,40 +1,10 @@
-table {
-    width: 100%;
-  }
-  
-  tr.question-answers-row {
-    height: 0;
-  }
-  
-  .question-row td {
-    border-bottom-width: 0;
-  }
-  
-  .question-answers {
-    overflow: hidden;
-    display: flex;
-  }
+ table {
+   width: 100%;
+ }
 
-  .button-with-spinner {
-    position: relative;
-    display: flex;
-  }
-
-  .spinner-wrapper {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    left: 0;
-    top: 0;
-  }
-
-  .button-with-spinner-inner {
-    display: flex;
-    align-items: center;
-  }
+ tr { 
+   border-bottom: 1px solid rgba(0,0,0,.12);
+}
 
 .actions {
   mat-icon {
@@ -68,4 +38,20 @@ table {
 
 a {
   color: #000;
+}
+
+.container {
+  margin: 0 auto;
+  padding: 1rem;
+}
+
+.title-box {
+  display: flex;
+  justify-content: space-between;
+  h3 {
+      padding: 15px;
+  }
+  button {
+    margin: 10px;
+  }
 }
