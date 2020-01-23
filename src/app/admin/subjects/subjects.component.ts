@@ -7,7 +7,7 @@ import { of } from 'rxjs';
 import { MatTableDataSource, MatTable } from '@angular/material/table';
 import { SubjectConfirmComponent } from './subject-confirm/subject-confirm.component';
 import { ApiService } from 'src/app/shared/services/api.service';
-
+import { Router } from "@angular/router";
 
 @Component({
   selector: 'app-subjects',
@@ -27,6 +27,7 @@ export class SubjectsComponent implements OnInit {
     public dialog: MatDialog,
     private snackBar: MatSnackBar,
     private apiService: ApiService,
+    private route: Router,
   ) {  }
 
   ngOnInit(): void  {
@@ -127,5 +128,13 @@ export class SubjectsComponent implements OnInit {
           this.openSnackBar('На сервері присутні дані цього предмету.', 'Закрити');
         }
       );
+  }
+
+  navigateToTimeTable(subject_id) {
+    this.route.navigate(['admin/timeTable'], { queryParams:{id: subject_id}});
+  }
+
+  navigateToTests(subject_id){
+    this.route.navigate(['admin/tests'], { queryParams:{id: subject_id}});
   }
 }
