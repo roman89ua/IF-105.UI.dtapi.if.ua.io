@@ -20,11 +20,12 @@
         <button mat-button [matMenuTriggerFor]="menu">
       {{ (currentUser$ | async)?.username }}
     </button>
-        <mat-menu #menu="matMenu">
-            <button mat-menu-item (click)="logoutHandler()">Log out</button>
-        </mat-menu>
-    </mat-toolbar>
 
+    <mat-menu #menu="matMenu">
+      <button mat-menu-item (click)="logoutHandler()">Вийти</button>
+    </mat-menu>
+  </mat-toolbar>
+ 
     <mat-sidenav-container class="sidenav-container">
         <mat-sidenav #sidenav class="sidenav" mode="over" [opened]="false">
             <mat-nav-list *ngIf="(isSmall$ | async) || (isXSmall$ | async)">
