@@ -20,9 +20,9 @@ export class DialogFormComponent implements OnInit {
   public controlArr = [];
   public specialityForm = new FormGroup({
     speciality_code: new FormControl(this.data ? this.data.speciality_code : '',
-      [Validators.required, Validators.pattern('^[0-9]*$'), Validators.minLength(1), this.getUniqueValidator('speciality_code', 'getSpecialityCodeArray')]),
+      [Validators.required, Validators.pattern('^[0-9]*$'), Validators.maxLength(5), this.getUniqueValidator('speciality_code', 'getSpecialityCodeArray')]),
     speciality_name: new FormControl(this.data ? this.data.speciality_name : '',
-      [Validators.required, this.getUniqueValidator('speciality_name', 'getSpecialityNameArray')])
+      [Validators.required, this.getUniqueValidator('speciality_name', 'getSpecialityNameArray')]) 
   });
   constructor(private specialityService: SpecialityService, public dialogRef: MatDialogRef<DialogFormComponent>, @Inject(MAT_DIALOG_DATA) public data?: DialogData) { }
 
@@ -44,13 +44,15 @@ export class DialogFormComponent implements OnInit {
   }
 
   getUniqueValidator(prop, method) {
-
     return (control: FormControl) => {
-      
+
       if (this.data && this.data[prop] === control.value || !this.specialityService[method]().includes(control.value)) {
+        console.log(this.specialityService[method]() + 'fawfdwa')
         return null
       }
-      return this.specialityService[method]().includes(control.value) ? { propertyIsNotUnique: true } : null;
+      else {
+        return this.specialityService[method]().includes(control.value) ? { propertyIsNotUnique: true } : null;
+      }
     }
   }
 }
