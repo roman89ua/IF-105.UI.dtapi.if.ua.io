@@ -8,17 +8,18 @@ import { forkJoin, Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class SpecialityService {
+
   private array = [];
   constructor(private apiService: ApiService, private http: HttpClient) { }
 
   getSpecialityNameArray() {
     this.apiService.getEntity('Speciality').subscribe(
-      (data: Speciality[]) => { this.array = data.map(obj => { return obj.speciality_name });  });
-      return this.array;
+      (data: Speciality[]) => { this.array = data.map(obj => { return obj.speciality_name; }); });
+    return this.array;
   }
   getSpecialityCodeArray() {
     this.apiService.getEntity('Speciality').subscribe(
-      (data: Speciality[]) => { this.array = data.map(obj => { return obj.speciality_code });  });
-      return this.array;
+      (data: Speciality[]) => { this.array = data.map(obj => { return obj.speciality_code; }); });
+    return this.array;
   }
 }

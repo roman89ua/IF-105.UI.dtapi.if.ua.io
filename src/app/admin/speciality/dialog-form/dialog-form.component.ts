@@ -47,7 +47,7 @@ export class DialogFormComponent implements OnInit {
     return (control: FormControl) => {
 
       if (this.data && this.data[prop] === control.value || !this.specialityService[method]().includes(control.value)) {
-        console.log(this.specialityService[method]() + 'fawfdwa')
+      
         return null
       }
       else {
