@@ -23,7 +23,7 @@ export class QuestionsComponent implements OnInit {
   loadingQuestions = false;
   questionsCount: number;
   pageSize = 10;
-  currentPage: 0;
+  currentPage = 0;
   testName: string;
 
   constructor(
