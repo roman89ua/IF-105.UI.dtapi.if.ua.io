@@ -12,8 +12,8 @@ import { ModalService } from '../../../shared/services/modal.service';
 
 export class SpecialityListComponent implements OnInit {
 
-  public result: any;
-  public speciality: Speciality[] = [];
+  // public result: any;
+  // public speciality: Speciality[] = [];
   public displayedColumns: string[] = ['code', 'name', 'buttons'];
   public dataSource = new MatTableDataSource<Speciality>();
 
@@ -29,7 +29,6 @@ export class SpecialityListComponent implements OnInit {
     this.dataSource.paginator = this.paginator;
   }
   getSpeciality(): any {
-    const action = 'getRecords';
     this.apiService.getEntity('Speciality').subscribe((data: Speciality[]) => this.dataSource.data = data);
   }
 
@@ -41,22 +40,20 @@ export class SpecialityListComponent implements OnInit {
     this.apiService.delEntity('Speciality', obj.speciality_id)
       .subscribe((data) => {
         this.dataSource.data = this.dataSource.data.filter(speciality => speciality.speciality_id !== obj.speciality_id);
-        this.openSnackBar("Спеціальність " +obj.speciality_name + " була успішно видалена");
+        this.openSnackBar('Спеціальність ' + obj.speciality_name + ' була успішно видалена');
       }, err => {
         this.openSnackBar(err.error.response);
       });
   }
   addSpeciality() {
     const dialogRef = this.dialog.open(DialogFormComponent, {
-      // data: {},
       width: '450px',
       disableClose: true,
     });
     dialogRef.afterClosed().subscribe(data => {
       if (data) {
         return this.apiService.createEntity('Speciality', data).subscribe((obj: Speciality) => {
-          this.speciality = [obj, ...this.speciality];
-          this.openSnackBar("Спеціальність " +data.speciality_name + " була успішно створена");
+          this.openSnackBar('Спеціальність ' + data.speciality_name + ' була успішно створена');
           this.getSpeciality();
         }, err => {
           this.openSnackBar(err.error.response);
@@ -76,8 +73,7 @@ export class SpecialityListComponent implements OnInit {
       if (data) {
         data.speciality_id = speciality.speciality_id;
         return this.apiService.updEntity('Speciality', data, speciality.speciality_id).subscribe((specialityObj: Speciality) => {
-          this.speciality = [specialityObj, ...this.speciality];
-          this.openSnackBar("Спеціальність " +speciality.speciality_name + " була успішно відредагована");
+          this.openSnackBar('Спеціальність ' + speciality.speciality_name + ' була успішно відредагована');
           this.getSpeciality();
         }, err => {
           this.openSnackBar(err.error.response);
