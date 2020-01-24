@@ -12,8 +12,8 @@ import { ModalService } from '../../../shared/services/modal.service';
 
 export class SpecialityListComponent implements OnInit {
 
-  public result: any;
-  public speciality: Speciality[] = [];
+  // public result: any;
+  // public speciality: Speciality[] = [];
   public displayedColumns: string[] = ['code', 'name', 'buttons'];
   public dataSource = new MatTableDataSource<Speciality>();
 
@@ -53,7 +53,6 @@ export class SpecialityListComponent implements OnInit {
     dialogRef.afterClosed().subscribe(data => {
       if (data) {
         return this.apiService.createEntity('Speciality', data).subscribe((obj: Speciality) => {
-          this.speciality = [obj, ...this.speciality];
           this.openSnackBar('Спеціальність ' + data.speciality_name + ' була успішно створена');
           this.getSpeciality();
         }, err => {
@@ -74,7 +73,6 @@ export class SpecialityListComponent implements OnInit {
       if (data) {
         data.speciality_id = speciality.speciality_id;
         return this.apiService.updEntity('Speciality', data, speciality.speciality_id).subscribe((specialityObj: Speciality) => {
-          this.speciality = [specialityObj, ...this.speciality];
           this.openSnackBar('Спеціальність ' + speciality.speciality_name + ' була успішно відредагована');
           this.getSpeciality();
         }, err => {
