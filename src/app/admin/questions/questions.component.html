@@ -1,10 +1,8 @@
-<ng-template #loadingBlock *ngIf="loadingQuestions">
-    <mat-progress-bar mode="indeterminate"></mat-progress-bar>
-</ng-template>
+<mat-progress-bar mode="indeterminate" *ngIf="loadingQuestions"></mat-progress-bar>
 
 <div class="container">
       <div class="title-box">
-        <h3>Відповіді до тесту {{testName}}</h3>
+        <h3>Питання до тесту {{testName}}</h3>
         <a mat-raised-button class="add-link" color="prime" routerLink="new">
             <mat-icon aria-hidden="false" aria-label="add">add</mat-icon>
             Додати питання
@@ -18,9 +16,16 @@
       
       <ng-container *ngIf="!loadingQuestions && questionsCount !== 0">
         <table mat-table #table
-            [dataSource]="dataSource" multiTemplateDataRows
+            [dataSource]="dataSource"
             class="mat-elevation-z8">
               
+            <ng-container matColumnDef="number">
+                <th mat-header-cell *matHeaderCellDef> № </th>
+                <td mat-cell *matCellDef="let question; let rIndex = index" >
+                    {{ currentPage * pageSize + rIndex + 1 }}
+                </td>
+            </ng-container>
+
             <ng-container matColumnDef="question_text">
                 <th mat-header-cell *matHeaderCellDef> Текст </th>
                 <td mat-cell *matCellDef="let question"> {{ question.question_text }} </td>
@@ -35,18 +40,7 @@
                 <th mat-header-cell *matHeaderCellDef> Рівень </th>
                 <td mat-cell *matCellDef="let question"> {{ question.level }} </td>
             </ng-container>
-        
-            <ng-container matColumnDef="attachment">
-                <th mat-header-cell *matHeaderCellDef> Зображення </th>
-                <td mat-cell *matCellDef="let question"> 
-                    <img 
-                        [src]="question.attachment"
-                        class="attachmet-preview-image margin-y"
-                        *ngIf="question.attachment"
-                        alt="Зображення">
-                </td>
-            </ng-container>
-        
+
             <ng-container matColumnDef='delete'>
                 <th mat-header-cell *matHeaderCellDef></th>
                 <td mat-cell *matCellDef="let question" class="actions"> 
@@ -58,8 +52,8 @@
                 </td>
             </ng-container>
         
-            <tr mat-header-row *matHeaderRowDef="['question_text', 'type', 'level',  'attachment', 'delete']"></tr>
-            <tr mat-row *matRowDef="let question; columns: ['question_text', 'type', 'level',  'attachment', 'delete'];"
+            <tr mat-header-row *matHeaderRowDef="['number', 'question_text', 'type', 'level', 'delete']"></tr>
+            <tr mat-row *matRowDef="let question; columns: ['number', 'question_text', 'type', 'level', 'delete'];"
                 class="question-row"> 
             </tr>
         </table>
