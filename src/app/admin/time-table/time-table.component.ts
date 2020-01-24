@@ -117,7 +117,6 @@ export class TimeTableComponent implements OnInit {
   private getTimeTable(): void {
     let table: TimeTable[];
     this.subjects = [];
-    console.log(this.subjectId);
     this.subjectGroup.get('subjectId').valueChanges.subscribe(value => {
       this.subjectId = value;
       this.apiService.getEntityByAction('timeTable', 'getTimeTablesForSubject', this.subjectId).subscribe((result: any) => {
