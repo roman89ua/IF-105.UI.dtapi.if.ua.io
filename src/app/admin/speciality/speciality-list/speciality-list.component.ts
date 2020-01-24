@@ -29,7 +29,6 @@ export class SpecialityListComponent implements OnInit {
     this.dataSource.paginator = this.paginator;
   }
   getSpeciality(): any {
-    const action = 'getRecords';
     this.apiService.getEntity('Speciality').subscribe((data: Speciality[]) => this.dataSource.data = data);
   }
 
@@ -48,7 +47,6 @@ export class SpecialityListComponent implements OnInit {
   }
   addSpeciality() {
     const dialogRef = this.dialog.open(DialogFormComponent, {
-      // data: {},
       width: '450px',
       disableClose: true,
     });
