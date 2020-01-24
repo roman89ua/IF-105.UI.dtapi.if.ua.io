@@ -13,7 +13,7 @@ export class QuestionService {
   constructor(private http: HttpClient, private apiService: ApiService) { }
 
   getTestQuestions(id: number, limit: number, offset: number) {
-    return this.http.get(`question/getRecordsRangeByTest/${id}/${limit}/${offset}`);
+    return this.http.get(`question/getRecordsRangeByTest/${id}/${limit}/${offset}/wi`);
   }
 
   getQuestionAnswers(id: number) {
