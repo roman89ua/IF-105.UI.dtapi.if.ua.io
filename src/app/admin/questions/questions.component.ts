@@ -26,10 +26,6 @@ export class QuestionsComponent implements OnInit {
   currentPage = 0;
   testName: string;
 
-  log(a) {
-    console.log(a);
-  }
-
   constructor(
     private route: ActivatedRoute,
     private questionService: QuestionService,
