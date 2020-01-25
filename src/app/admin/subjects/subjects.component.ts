@@ -8,6 +8,8 @@ import { MatTableDataSource, MatTable } from '@angular/material/table';
 import { SubjectConfirmComponent } from './subject-confirm/subject-confirm.component';
 import { ApiService } from 'src/app/shared/services/api.service';
 import { Router } from "@angular/router";
+import { throwError } from 'rxjs';
+import { retry, catchError } from 'rxjs/operators';
 
 @Component({
   selector: 'app-subjects',
@@ -54,16 +56,24 @@ export class SubjectsComponent implements OnInit {
     });
   }
 
+  handleError(error) {
+    return throwError(error);
+  }
+
   createNewSubject() {
     const newDialogSubject = this.dialog.open(SubjectsCreateModalComponent, {
       width: '500px',
-      disableClose: true,
+      // disableClose: true,
     });
     newDialogSubject.afterClosed()
       .pipe(
         mergeMap((data) => {
           if (data) {
-            return this.apiService.createEntity('Subject', data);
+            return this.apiService.createEntity('Subject', data)
+              .pipe(
+                retry(1),
+                catchError(this.handleError)
+              );
           }
           return of(null);
         })
@@ -82,13 +92,18 @@ export class SubjectsComponent implements OnInit {
   edit(row: Subject): void {
     const newDialogSubject = this.dialog.open(SubjectsCreateModalComponent, {
       width: '500px',
+      // disableClose: true,
       data: row,
     });
     newDialogSubject.afterClosed()
       .pipe(
         mergeMap((data) => {
           if (data) {
-            return this.apiService.updEntity('subject', data, row.subject_id);
+            return this.apiService.updEntity('subject', data, row.subject_id)
+              .pipe(
+                retry(1),
+                catchError(this.handleError)
+              )
           }
           return of(null);
         })
@@ -98,9 +113,9 @@ export class SubjectsComponent implements OnInit {
           this.showSubjects();
           this.openSnackBar('Предмет відредаговано.', 'Закрити');
         }},
-        err => {
-          this.openSnackBar('Такий предмет уже існує', 'Закрити');
-        }
+        // err => {
+        //  this.openSnackBar('Такий предмет уже існує', 'Закрити');
+        // }
       );
   }
 
@@ -120,6 +135,10 @@ export class SubjectsComponent implements OnInit {
 
   delSubject(id: number) {
     this.apiService.delEntity('Subject', id)
+      .pipe(
+        retry(1),
+        catchError(this.handleError)
+      )
       .subscribe((response) => {
         this.dataSource.data = this.dataSource.data.filter(item => item.subject_id !== id);
         this.openSnackBar('Предмет видалено.', 'Закрити');
