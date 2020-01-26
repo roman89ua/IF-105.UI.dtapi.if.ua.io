@@ -6,7 +6,6 @@ import { Observable } from 'rxjs';
 export class ApiHttpInterceptor implements HttpInterceptor {
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     const apiReq = request.clone({ url: `http://dtapi.if.ua/api/${request.url}` });
-
     return next.handle(apiReq);
   }
 }
