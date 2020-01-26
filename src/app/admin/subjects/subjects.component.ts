@@ -10,6 +10,7 @@ import { ApiService } from 'src/app/shared/services/api.service';
 import { Router } from "@angular/router";
 import { throwError } from 'rxjs';
 import { retry, catchError } from 'rxjs/operators';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-subjects',
@@ -56,7 +57,14 @@ export class SubjectsComponent implements OnInit {
     });
   }
 
-  handleError(error) {
+  handleError = (error: HttpErrorResponse) => {
+    if (error.status === 400) {
+      this.openSnackBar('Не коректний запит на сервер', 'Х');
+    } else if (error.status === 0) {
+      this.openSnackBar('Відсутнє підсключення до інтернету', 'Х'); 
+    } else if (error.status === 500) {
+      this.openSnackBar('Помилка сервера', 'Х'); 
+    }
     return throwError(error);
   }
 
@@ -83,9 +91,6 @@ export class SubjectsComponent implements OnInit {
           this.dataSource.data = [...this.dataSource.data, newData[0]];
           this.openSnackBar('Предмет було створено.', 'Закрити');
       }},
-        err => {
-          this.openSnackBar('Такий предмет уже існує', 'Закрити');
-        }
       );
   }
 
@@ -100,10 +105,10 @@ export class SubjectsComponent implements OnInit {
         mergeMap((data) => {
           if (data) {
             return this.apiService.updEntity('subject', data, row.subject_id)
-              .pipe(
-                retry(1),
-                catchError(this.handleError)
-              )
+            .pipe(
+              retry(1),
+              catchError(this.handleError)
+            );
           }
           return of(null);
         })
@@ -113,9 +118,6 @@ export class SubjectsComponent implements OnInit {
           this.showSubjects();
           this.openSnackBar('Предмет відредаговано.', 'Закрити');
         }},
-        // err => {
-        //  this.openSnackBar('Такий предмет уже існує', 'Закрити');
-        // }
       );
   }
 
@@ -135,18 +137,14 @@ export class SubjectsComponent implements OnInit {
 
   delSubject(id: number) {
     this.apiService.delEntity('Subject', id)
-      .pipe(
-        retry(1),
-        catchError(this.handleError)
-      )
+    .pipe(
+      retry(1),
+      catchError(this.handleError)
+    )
       .subscribe((response) => {
         this.dataSource.data = this.dataSource.data.filter(item => item.subject_id !== id);
         this.openSnackBar('Предмет видалено.', 'Закрити');
-      },
-        err => {
-          this.openSnackBar('На сервері присутні дані цього предмету.', 'Закрити');
-        }
-      );
+      },);
   }
 
   navigateToTimeTable(subject_id) {
