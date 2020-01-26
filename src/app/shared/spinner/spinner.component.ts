@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { SpinnerService } from '../services/spinner.service';
 import { Subject } from 'rxjs';
+import { delay } from 'rxjs/operators';
 
 @Component({
   selector: 'app-spinner',
@@ -8,10 +9,15 @@ import { Subject } from 'rxjs';
   styleUrls: ['./spinner.component.scss']
 })
 export class SpinnerComponent implements OnInit {
+  loading$;
 
-  loading$: Subject<boolean> = this.spinnerService.isLoading$;
   constructor(private spinnerService: SpinnerService) { }
 
-ngOnInit() {}
+  ngOnInit() {
+    this.loading$ = this.spinnerService.isLoading$
+    .pipe(
+     delay(0)
+    );
+  }
 
 }
