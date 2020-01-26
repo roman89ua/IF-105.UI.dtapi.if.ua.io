@@ -1,39 +1,37 @@
-<ng-template #loadingBlock>
-    <mat-progress-bar mode="indeterminate"></mat-progress-bar>
-</ng-template>
 <section class="container">
-    <div class="mat-elevation-z8">
-        <table mat-table [dataSource]="dataSource" #table class="table">
-
-            <ng-container matColumnDef="code">
-                <th mat-header-cell *matHeaderCellDef>Speciality Code</th>
-                <td mat-cell *matCellDef="let element">{{ element.speciality_code }}</td>
-            </ng-container>
-
-            <ng-container matColumnDef="name">
-                <th mat-header-cell *matHeaderCellDef>Speciality</th>
-                <td mat-cell *matCellDef="let element">{{ element.speciality_name }}</td>
-            </ng-container>
-
-            <ng-container matColumnDef="buttons">
-                <th mat-header-cell *matHeaderCellDef></th>
-                <td mat-cell *matCellDef="let element" class="action-link">
-                    <a (click)="updSpeciality(element)"><i class="material-icons edit">
-                            edit
-                        </i></a>
-                    <a (click)="openConfirmDialog(element)"><i class="material-icons delete">
-                            delete
-                        </i></a>
-                </td>
-            </ng-container>
-
-            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-            <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
-        </table>
-        <mat-paginator [pageSizeOptions]="[5, 10, 25, 50]" showFirstLastButtons></mat-paginator>
+    <div class="button-wrapper">
+        <h3>Спеціальності</h3>
+        <button class="addButton" mat-stroked-button (click)="addSpeciality()">
+            <mat-icon aria-hidden="false" aria-label="add">add</mat-icon>
+            <span>Додати нову спеціальність</span>
+        </button>
     </div>
-    <button mat-stroked-button (click)="addSpeciality()">
-        <mat-icon aria-hidden="false" aria-label="add">add</mat-icon>
-        Create new Speciality
-    </button>
+    <table mat-table [dataSource]="dataSource" #table class="table">
+
+        <ng-container matColumnDef="code">
+            <th mat-header-cell *matHeaderCellDef>Код спеціальності</th>
+            <td mat-cell *matCellDef="let element">{{ element.speciality_code }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="name">
+            <th mat-header-cell *matHeaderCellDef>Спеціальність</th>
+            <td mat-cell *matCellDef="let element">{{ element.speciality_name }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="buttons">
+            <th mat-header-cell *matHeaderCellDef></th>
+            <td mat-cell *matCellDef="let element" class="action-link">
+                <a (click)="updSpeciality(element)"><i class="material-icons edit">
+                        edit
+                    </i></a>
+                <a (click)="openConfirmDialog(element)"><i class="material-icons delete">
+                        delete
+                    </i></a>
+            </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+    </table>
+    <mat-paginator [pageSizeOptions]="[5, 10, 25, 50]" showFirstLastButtons></mat-paginator>
 </section>

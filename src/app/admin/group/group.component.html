@@ -1,22 +1,42 @@
 <div class="container">
+<<<<<<< HEAD
   <div class="button-wrapper">
     <h3>Групи і студенти</h3>
     <button mat-stroked-button (click)="addGroupDialog()">
+=======
+  <div class="title-box">
+    <h3>Групи і студенти</h3>
+    <button mat-stroked-button color="prime" (click)="addGroupDialog()">
+>>>>>>> 7652a74582fc254c8de27826738c2f7c0882eb5e
       <mat-icon aria-hidden="false" aria-label="add">add</mat-icon>
       Додати нову групу
     </button>
   </div>
+<<<<<<< HEAD
   <div class="button-search">
     <button
       mat-raised-button
       (click)="viewGroupDialog('getGroupsBySpeciality')"
+=======
+  <div class="search-box">
+    <button
+      mat-stroked-button
+      color="prime"
+      (click)="viewGroupDialog('getGroupsBySpeciality', 'спеціальність')"
+>>>>>>> 7652a74582fc254c8de27826738c2f7c0882eb5e
     >
       <mat-icon aria-hidden="false" aria-label="search">search</mat-icon>
       Перегляд груп за спеціальністю
     </button>
     <button
+<<<<<<< HEAD
       mat-raised-button
       (click)="viewGroupDialog('getGroupsByFaculty')"
+=======
+      mat-stroked-button
+      color="prime"
+      (click)="viewGroupDialog('getGroupsByFaculty', 'факультет/інститут')"
+>>>>>>> 7652a74582fc254c8de27826738c2f7c0882eb5e
     >
       <mat-icon aria-hidden="false" aria-label="search">search</mat-icon>
       Перегляд груп по інституту
@@ -33,7 +53,7 @@
     <ng-container matColumnDef="id">
       <th mat-header-cell *matHeaderCellDef>№</th>
       <td mat-cell *matCellDef="let group; let rIndex = index">
-        {{ rIndex + 1 }}({{ group.group_id }})
+        {{ rIndex + 1 }}
       </td>
     </ng-container>
     <ng-container matColumnDef="name">
@@ -44,7 +64,7 @@
       <th mat-header-cell *matHeaderCellDef></th>
       <td mat-cell *matCellDef="let group">
         <button
-          mat-raised-button
+          mat-stroked-button
           color="primary"
           [routerLink]="['../Students', group.group_id]"
         >
@@ -58,12 +78,14 @@
         <mat-icon
           aria-hidden="false"
           aria-label="edit"
+          matTooltip="Редагувати групу"
           (click)="editGroupDialog(group)"
           >edit</mat-icon
         >
         <mat-icon
           aria-hidden="false"
           aria-label="delete"
+          matTooltip="Видалити групу"
           (click)="openConfirmDialog(group)"
           >delete</mat-icon
         >

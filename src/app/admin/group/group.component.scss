@@ -1,5 +1,13 @@
 .container {
+<<<<<<< HEAD
   margin: 1%;
+=======
+  margin: 0 auto;
+  padding: 1rem;
+}
+button {
+  margin-left: 5px;
+>>>>>>> 7652a74582fc254c8de27826738c2f7c0882eb5e
 }
 table {
   width: 100%;
@@ -20,7 +28,11 @@ mat-icon {
   }
 }
 
+<<<<<<< HEAD
 .button-wrapper {
+=======
+.title-box {
+>>>>>>> 7652a74582fc254c8de27826738c2f7c0882eb5e
   display: flex;
   justify-content: space-between;
   h3 {
@@ -30,6 +42,12 @@ mat-icon {
     margin: 10px;
   }
 }
+<<<<<<< HEAD
 .button-search button {
   margin: 10px;
 }
+=======
+.search-box button {
+  margin: 10px;
+}
+>>>>>>> 7652a74582fc254c8de27826738c2f7c0882eb5e

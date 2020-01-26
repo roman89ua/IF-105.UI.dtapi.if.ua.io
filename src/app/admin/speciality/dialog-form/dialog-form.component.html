@@ -1,22 +1,24 @@
+<h3>{{data ? 'Редагувати' : 'Додати нову спеціальність'}}</h3>
 <form class="input-wrapper" [formGroup]="specialityForm">
     <mat-form-field class="example-full-width">
-        <input matInput placeholder="Speciality Code" [(ngModel)]="data.speciality_code"
-            formControlName="speciality_code">
-        <mat-error *ngIf="hasError('speciality_code', 'required')">This field is required</mat-error>
-        <mat-error *ngIf="hasError('speciality_code', 'pattern')">This field must contain only numbers</mat-error>
+        <input matInput placeholder="Код спеціальності" formControlName="speciality_code">
+        <mat-error *ngIf="hasError('speciality_code', 'required')">Це поле є обов'язковим</mat-error>
+        <mat-error *ngIf="hasError('speciality_code', 'pattern')">Це поле може містити тільки цифри</mat-error>
+        <mat-error *ngIf="hasError('speciality_code', 'maxlength')">Це поле може містити тільки до 5 символів</mat-error>
+        <mat-error *ngIf="hasError('speciality_code', 'propertyIsNotUnique')">Спеціальність з таким кодом вже існує</mat-error>
     </mat-form-field>
 
     <mat-form-field class="example-full-width">
-        <input matInput placeholder="Speciality Name" [(ngModel)]="data.speciality_name"
-            formControlName="speciality_name">
-        <mat-error *ngIf="hasError('speciality_name', 'required')">This field is required</mat-error>
+        <input matInput placeholder="Назва спеціальності" formControlName="speciality_name">
+        <mat-error *ngIf="hasError('speciality_name', 'required')">Це поле є обов'язковим</mat-error>
+        <mat-error *ngIf="hasError('speciality_name', 'propertyIsNotUnique')">Спеціальність з такою назвою вже існує</mat-error>
     </mat-form-field>
 
-    <button mat-flat-button class="button-margin" color="primary" (click)="addSpeciality()">
-        Submit
+    <button mat-stroked-button color="primary" (click)="addSpeciality()">
+        Підтвердити
     </button>
 
-    <button mat-flat-button class="button-margin" color="primary" (click)="closeSpecialityFormDialog()">
-        Cancel
+    <button mat-stroked-button color="primary" (click)="closeSpecialityFormDialog()">
+        Скасувати
     </button>
 </form>

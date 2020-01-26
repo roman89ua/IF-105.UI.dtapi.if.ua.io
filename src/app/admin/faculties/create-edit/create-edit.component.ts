@@ -24,7 +24,7 @@ export class CreateEditComponent implements OnInit {
     faculty_description: new FormControl('',
       [
         Validators.required,
-        Validators.pattern('[а-яА-ЯіІїЄє ]*')
+        Validators.pattern('[а-яА-ЯіІїЄє,. ]*')
       ])
   });
   onSubmit(): void {

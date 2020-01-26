@@ -15,13 +15,13 @@ mat-icon {
   }
 }
 .container {
-  max-width: 1000px;
   margin: 0 auto;
   padding: 1rem;
 }
 
 .btn {
   width: 200px;
+  margin: 10px 0;
 }
 
 a:hover {
@@ -42,6 +42,12 @@ table {
 
 .mat-snack-bar-container {
   text-align: center;
+}
+.header {
+  display: flex;
+  justify-content: space-between;
+  margin: 10px 20px;
+  align-items: center;
 }
 
 .mat-dialog-actions {

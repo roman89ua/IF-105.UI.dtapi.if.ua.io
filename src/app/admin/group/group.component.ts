@@ -1,12 +1,12 @@
 import { Component, OnInit, ViewChild, Inject } from '@angular/core';
-import { HttpService } from '../../shared/http.service';
 import { Group } from '../../shared/entity.interface';
 import { MatTableDataSource, MatTable } from '@angular/material';
 import { MatPaginator } from '@angular/material/paginator';
-import { MatDialog } from '@angular/material/dialog';
+import { MatDialog, MatSnackBar } from '@angular/material';
 import { GroupAddEditDialogComponent } from './group-add-edit-dialog/group-add-edit-dialog.component';
 import { GroupViewDialogComponent } from './group-view-dialog/group-view-dialog.component';
-import { ModalService} from '../../shared/services/modal.service';
+import { ModalService } from '../../shared/services/modal.service';
+import { ApiService } from 'src/app/shared/services/api.service';
 
 @Component({
   selector: 'app-group',
@@ -23,21 +23,26 @@ export class GroupComponent implements OnInit {
     'actions'
   ];
 
-  @ViewChild('table', { static: true }) table: MatTable<Group>;
+  @ViewChild('table', { static: true }) table: MatTable<Element>;
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
 
   applyFilter(filterValue: string) {
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }
 
-  constructor(protected httpService: HttpService, public dialog: MatDialog, private modalService: ModalService) {}
+  constructor(
+    private apiService: ApiService, 
+    public dialog: MatDialog, 
+    private modalService: ModalService,
+    private _snackBar: MatSnackBar
+    ) { }
 
   ngOnInit() {
     this.viewAllGroups();
   }
 
   viewAllGroups() {
-    this.httpService.getRecords('group').subscribe((result: Group[]) => {
+    this.apiService.getEntity('Group').subscribe((result: Group[]) => {
       this.listGroups = result;
       this.dataSource.data = this.listGroups;
     }, () => {
@@ -51,9 +56,9 @@ export class GroupComponent implements OnInit {
     const dialogRef = this.dialog.open(GroupAddEditDialogComponent, {
       width: '500px',
       data: {
-        data: {}, 
+        group: null,
         description: {
-          title: 'Додати нову групу', 
+          title: 'Додати нову групу',
           action: 'Додати'
         }
       }
@@ -67,7 +72,8 @@ export class GroupComponent implements OnInit {
   }
   /** Add new group */
   addGroup(group: Group) {
-    this.httpService.insertData('group', group).subscribe((result: Group[]) => {
+    this.apiService.createEntity('Group', group).subscribe((result: Group[]) => {
+      this.openSnackBar(`Групу ${group.group_name} успішно додано`);
       this.listGroups.push(result[0]);
       this.table.renderRows();
       this.dataSource.paginator = this.paginator;
@@ -80,13 +86,14 @@ export class GroupComponent implements OnInit {
   /** open modal window for confirm delete */
   openConfirmDialog(group: Group) {
     const message = `Підтвердіть видалення групи "${group.group_name}"`;
-    this.modalService.openConfirmModal(message, ()=> {this.delGroup(group)});
+    this.modalService.openConfirmModal(message, () => { this.delGroup(group); });
   }
 
   /** Delete group */
   delGroup(group: Group) {
-    this.httpService.del('group', group.group_id).subscribe((result: any) => {
+    this.apiService.delEntity('Group', group.group_id).subscribe((result: any) => {
       if (result) {
+        this.openSnackBar(`Групу ${group.group_name} успішно виделено`);
         this.listGroups = this.listGroups.filter(gr => gr !== group);
         this.dataSource.data = this.listGroups;
         this.table.renderRows();
@@ -105,10 +112,10 @@ export class GroupComponent implements OnInit {
   editGroupDialog(group: Group): void {
     const dialogRef = this.dialog.open(GroupAddEditDialogComponent, {
       width: '500px',
-      data: { 
-        data: group, 
-        description: { 
-          title: 'Редагувати інформацію про групу', 
+      data: {
+        group: group,
+        description: {
+          title: 'Редагувати інформацію про групу',
           action: 'Зберегти зміни'
         }
       }
@@ -116,20 +123,23 @@ export class GroupComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
+        result.group_id = group.group_id;
         this.editGroup(result);
       }
     });
   }
   /** Edit group */
   editGroup(group: Group): void {
-    this.httpService.update('group', group.group_id, group).subscribe((result: Group[]) => {
+    this.apiService.updEntity('group', group, group.group_id).subscribe((result: Group[]) => {
       const index: number = result
         ? this.listGroups.findIndex(
-            gr => gr.group_id === result[0].group_id
-          )
+          gr => gr.group_id === result[0].group_id
+        )
         : -1;
       if (index > -1) {
+        this.openSnackBar('Дані успішно оновлено');
         this.listGroups[index] = result[0];
+        this.dataSource.data = this.listGroups;
         this.table.renderRows();
       }
     }, (error: any) => {
@@ -143,10 +153,11 @@ export class GroupComponent implements OnInit {
   }
 
   // create modal window for view groups by speciality or faculty
-  viewGroupDialog(action: string): void {
+  viewGroupDialog(action: string, title: string): void {
+    const description = {'title': title, 'action': action};
     const dialogRef = this.dialog.open(GroupViewDialogComponent, {
       width: '500px',
-      data: {action: action}
+      data: { description }
     });
 
     dialogRef.afterClosed().subscribe((result) => {
@@ -157,7 +168,7 @@ export class GroupComponent implements OnInit {
   }
   /** View groups by speciality or faculty */
   viewGroups(action: string, id: number): void {
-    this.httpService.getGroups(action, id).subscribe((result: any) => {
+    this.apiService.getEntityByAction('Group', action, id).subscribe((result: any) => {
       if (result.response) {
         this.dataSource.data = [];
         this.modalService.openInfoModal('Групи відсутні');
@@ -168,6 +179,11 @@ export class GroupComponent implements OnInit {
       }
     }, () => {
       this.modalService.openErrorModal('Неможливо відобразити дані');
+    });
+  }
+  openSnackBar(message: string) {
+    this._snackBar.open(message, '', {
+      duration: 2000,
     });
   }
 }

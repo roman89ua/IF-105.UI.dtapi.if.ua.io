@@ -2,12 +2,10 @@ import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {AdminComponent} from './admin.component';
 import {Routes, RouterModule} from '@angular/router';
-import {QuestionComponent} from './question/question.component';
-import {NewQuestionComponent} from './question/new-question/new-question.component';
-import {QuestionAnswerComponent} from './question/new-question/question-answer/question-answer.component';
+import {QuestionsComponent} from './questions/questions.component';
+import {NewQuestionComponent} from './questions/new-question/new-question.component';
 import {StudentsComponent} from './students/students.component';
 import {StudentsService} from './students/services/students.service';
-import {StudentsModalWindowComponent } from './students/students-modal-window/students-modal-window.component';
 import {FacultiesComponent} from './faculties/faculties.component';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {GroupComponent} from './group/group.component';
@@ -24,26 +22,31 @@ import {CreateEditComponent} from './faculties/create-edit/create-edit.component
 import {SubjectsComponent} from './subjects/subjects.component';
 import {SubjectsCreateModalComponent} from './subjects/subjects-create-modal/subjects-create-modal.component';
 import {MatDialogModule} from '@angular/material';
-import {SubjectsService} from './subjects/subjects.service';
 import {TimeTableComponent} from './time-table/time-table.component';
-import {TimeTablePipe} from './time-table/time-table.pipe';
 import {TimeTableAddDialogComponent} from './time-table/time-table-add-dialog/time-table-add-dialog.component';
+import {QuestionTypePipe} from './questions/pipes/question-type.pipe';
+import {StudentsModalWindowComponent} from './students/students-modal-window/students-modal-window.component';
 import {SubjectConfirmComponent} from './subjects/subject-confirm/subject-confirm.component';
+import { TestListComponent } from './tests/list/test-list.component';
+import { TestAddComponent } from './tests/add/test-add.component';
+import {TimeTablePipe} from './time-table/pipes/time-table.pipe';
 
 
 const routes: Routes = [
   {
     path: '', component: AdminComponent,
     children: [
-      { path: 'exams/:id/questions', component: QuestionComponent },
-      { path: 'exams/:id/questions/new', component: NewQuestionComponent },
+      { path: 'tests/:id/questions/:questionId/:mode', component: NewQuestionComponent },
+      { path: 'tests/:id/questions', component: QuestionsComponent },
+      { path: 'tests/:id/questions/new', component: NewQuestionComponent },
       { path: 'Students/:id', component: StudentsComponent },
       { path: 'admin-user', component: AdminUserComponent},
       { path: 'faculties', component: FacultiesComponent},
       { path: 'group', component: GroupComponent },
       { path: 'subjects', component: SubjectsComponent },
       { path: 'speciality', component: SpecialityListComponent },
-      { path: 'timeTable', component: TimeTableComponent }
+      { path: 'timeTable', component: TimeTableComponent },
+      { path: 'tests', component: TestListComponent },
     ]}
 ];
 @NgModule({
@@ -55,8 +58,9 @@ const routes: Routes = [
     GroupComponent,
     GroupAddEditDialogComponent,
     GroupViewDialogComponent,
-    QuestionAnswerComponent,
-    QuestionComponent,
+    TestListComponent,
+    TestAddComponent,
+    QuestionsComponent,
     NewQuestionComponent,
     AdminUserComponent,
     CreateUpdateUserComponent,
@@ -66,10 +70,11 @@ const routes: Routes = [
     CreateEditComponent,
     SubjectsComponent,
     SubjectsCreateModalComponent,
+    SubjectConfirmComponent,
     TimeTableComponent,
     TimeTablePipe,
     TimeTableAddDialogComponent,
-    SubjectConfirmComponent,
+    QuestionTypePipe,
   ],
   imports: [
     CommonModule,
@@ -81,8 +86,7 @@ const routes: Routes = [
   ],
   providers: [
     AdminUserService,
-    SubjectsService,
-    StudentsService
+    StudentsService,
   ],
   entryComponents: [
     NavbarComponent,
@@ -92,6 +96,7 @@ const routes: Routes = [
     CreateEditComponent,
     GroupViewDialogComponent,
     SubjectsCreateModalComponent,
+    TestAddComponent,
     TimeTableAddDialogComponent,
     SubjectConfirmComponent,
     StudentsModalWindowComponent

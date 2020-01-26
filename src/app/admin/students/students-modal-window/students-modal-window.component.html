@@ -1,3 +1,7 @@
+<div class="closeForm">
+<mat-icon aria-hidden="false" aria-label="edit" class="closeForm" (click)="closeModalWindow()">close</mat-icon>
+</div>
+
 <form [formGroup]="studentForm" (ngSubmit)="handleSubmit(studentForm.value)">
     
     <mat-form-field class="example-full-width">
@@ -43,7 +47,7 @@
 
     <mat-form-field class="example-full-width">
         <label>
-            Унікальне ім'я юзера в системі:
+            Унікальне ім'я користувача в системі:
             <input class="studentInput" matInput type="text" formControlName="login">
         </label>
         <mat-error *ngIf="studentForm.get('login').invalid && (studentForm.get('login').dirty || studentForm.get('login').touched)">
@@ -87,6 +91,6 @@
         </mat-error>
     </mat-form-field>
 
-    <button mat-stroked-button color="primary" type="submit" [disabled]="!studentForm.valid">Надіслати форму</button>
-  
+    <button mat-stroked-button color="primary" type="submit" [disabled]="!studentForm.valid" style="float: left;">{{ this.data.submitButtonText }}</button>
+      
 </form>

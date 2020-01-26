@@ -1,0 +1,12 @@
+h3 {
+  text-align: center;
+}
+mat-form-field {
+  width: 100%;
+}
+button {
+  width: calc(50% - 10px);
+  &:first-of-type {
+    margin-right: 20px;
+  }
+}
