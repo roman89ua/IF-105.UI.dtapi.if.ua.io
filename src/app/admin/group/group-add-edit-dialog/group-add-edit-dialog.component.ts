@@ -4,14 +4,8 @@ import { MatDialogRef, MAT_DIALOG_DATA } from "@angular/material/dialog";
 import { ModalService } from '../../../shared/services/modal.service';
 import { ApiService } from 'src/app/shared/services/api.service';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
+import { DialogData } from '../../group/group-modal.interface';
 
-interface DialogData {
-  group: Group | null;
-  description: {
-    title: string;
-    action: string;
-  }
-}
 @Component({
   selector: 'app-group-add-edit-dialog',
   templateUrl: './group-add-edit-dialog.component.html',
