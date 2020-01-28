@@ -1,24 +1,21 @@
 import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
-import { Group, Speciality, Faculty } from '../../shared/entity.interface';
+import { Group } from '../../shared/entity.interface';
 import { MatTableDataSource, MatTable } from '@angular/material';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatDialog, MatSnackBar } from '@angular/material';
-import { GroupAddEditDialogComponent } from './group-add-edit-dialog/group-add-edit-dialog.component';
-import { GroupViewDialogComponent } from './group-view-dialog/group-view-dialog.component';
 import { ModalService } from '../../shared/services/modal.service';
 import { ApiService } from 'src/app/shared/services/api.service';
 import { GroupModalService } from '../group/group-modal.service';
 import { DialogData } from './group-modal.interface';
+import { GroupService } from './group.service';
 
 @Component({
   selector: 'app-group',
   templateUrl: './group.component.html',
-  styleUrls: ['./group.component.scss'],
+  styleUrls: ['./group.component.scss']
 })
 export class GroupComponent implements OnInit, AfterViewInit {
   listGroups: Group[] = [];
-  listSpeciality: Speciality[] = [];
-  listFaculty: Faculty[] = [];
   dataSource = new MatTableDataSource<Group>();
   displayedColumns: string[] = [
     'id',
@@ -49,14 +46,15 @@ export class GroupComponent implements OnInit, AfterViewInit {
     public dialog: MatDialog, 
     private modalService: ModalService,
     private _snackBar: MatSnackBar,
-    private groupModalService: GroupModalService
+    private groupModalService: GroupModalService,
+    private groupService: GroupService
     ) { }
 
   ngOnInit() {
     this.getCountRecords('group');
     this.getListGroups();
-    this.getListSpeciality();
-    this.getListFaculty();
+    this.groupService.getListSpeciality();
+    this.groupService.getListFaculty();
   }
 
   ngAfterViewInit() {
@@ -87,37 +85,6 @@ export class GroupComponent implements OnInit, AfterViewInit {
     });
   }
 
-  getListSpeciality() {
-    this.apiService
-      .getEntity('Speciality')
-      .subscribe((result: Speciality[]) => {
-        this.listSpeciality = result;
-      }, () => {
-        this.modalService.openErrorModal('Помилка завантаження даних');
-      });
-  }
-  getNameSpeciality(speciality_id: number): string {
-    for (let item of this.listSpeciality) {
-      if (item.speciality_id == speciality_id) {
-        return item.speciality_name;
-      }
-    }
-  }
-  getListFaculty() {
-    this.apiService.getEntity('Faculty')
-      .subscribe((result: Faculty[]) => {
-        this.listFaculty = result;
-      }, () => {
-        this.modalService.openErrorModal('Помилка завантаження даних');
-      });
-  }
-  getNameFaculty(faculty_id: number): string {
-    for (let item of this.listFaculty) {
-      if (item.faculty_id == faculty_id) {
-        return item.faculty_name;
-      }
-    }
-  }
   /** Open modal window for add new group */
   openAddGroupDialog(): void {
     let dialogData = new DialogData();
@@ -134,7 +101,8 @@ export class GroupComponent implements OnInit, AfterViewInit {
     this.apiService.createEntity('Group', group).subscribe((result: Group[]) => {
       this.openSnackBar(`Групу ${group.group_name} успішно додано`);
       this.getCountRecords('group');
-      this.getListGroups();
+      let numberOfPages = this.paginator.getNumberOfPages();
+      this.getListGroups( numberOfPages * this.pageSize);
     }, (error: any) => {
       if (error.error.response.includes('Duplicate')) {
         this.modalService.openErrorModal(`Група "${group.group_name}" вже існує`);
@@ -152,9 +120,8 @@ export class GroupComponent implements OnInit, AfterViewInit {
     this.apiService.delEntity('Group', group.group_id).subscribe((result: any) => {
       if (result) {
         this.openSnackBar(`Групу ${group.group_name} успішно виделено`);
-        this.listGroups = this.listGroups.filter(gr => gr !== group);
-        this.dataSource.data = this.listGroups;
-        this.table.renderRows();
+        this.getCountRecords('group');
+        this.getListGroups(this.pageSize * this.currentPage);
       }
     }, (error: any) => {
       if (error.error.response.includes('Cannot delete')) {
@@ -166,7 +133,7 @@ export class GroupComponent implements OnInit, AfterViewInit {
     });
   }
 
-  /** Open modal window for add new group */
+  /** Open modal window for edit group */
   openEditGroupDialog(group: Group): void {
     let dialogData = new DialogData();
     dialogData.group = group;
@@ -232,7 +199,7 @@ export class GroupComponent implements OnInit, AfterViewInit {
       });
   }
 
-  /** View groups by speciality or faculty */
+  /** Get list groups by speciality or faculty */
   getListGroupsByFeature(action: string, id: number): void {
     this.apiService.getEntityByAction('Group', action, id).subscribe((result: any) => {
       if (result.response) {
@@ -241,13 +208,21 @@ export class GroupComponent implements OnInit, AfterViewInit {
       } else {
         this.dataSource.data = result;
       }
+      this.currentPage = 0;
     }, () => {
       this.modalService.openErrorModal('Неможливо відобразити дані');
     });
   }
+
   openSnackBar(message: string) {
     this._snackBar.open(message, '', {
       duration: 2000,
     });
+  }
+
+  backToListGroup() {
+    this.currentPage = 0;
+    this.getCountRecords('group');
+    this.getListGroups();
   }
 }
