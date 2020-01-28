@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
-import { Group } from '../../shared/entity.interface';
+import { Group, Speciality, Faculty } from '../../shared/entity.interface';
 import { MatTableDataSource, MatTable } from '@angular/material';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatDialog, MatSnackBar } from '@angular/material';
@@ -17,10 +17,14 @@ import { DialogData } from './group-modal.interface';
 })
 export class GroupComponent implements OnInit, AfterViewInit {
   listGroups: Group[] = [];
+  listSpeciality: Speciality[] = [];
+  listFaculty: Faculty[] = [];
   dataSource = new MatTableDataSource<Group>();
   displayedColumns: string[] = [
     'id',
     'name',
+    'speciality',
+    'faculty',
     'students',
     'actions'
   ];
@@ -51,6 +55,8 @@ export class GroupComponent implements OnInit, AfterViewInit {
   ngOnInit() {
     this.getCountRecords('group');
     this.getListGroups();
+    this.getListSpeciality();
+    this.getListFaculty();
   }
 
   ngAfterViewInit() {
@@ -79,6 +85,38 @@ export class GroupComponent implements OnInit, AfterViewInit {
     this.apiService.getCountRecords(entity).subscribe(result => {
       this.itemsCount = result.numberOfRecords;
     });
+  }
+
+  getListSpeciality() {
+    this.apiService
+      .getEntity('Speciality')
+      .subscribe((result: Speciality[]) => {
+        this.listSpeciality = result;
+      }, () => {
+        this.modalService.openErrorModal('Помилка завантаження даних');
+      });
+  }
+  getNameSpeciality(speciality_id: number): string {
+    for (let item of this.listSpeciality) {
+      if (item.speciality_id == speciality_id) {
+        return item.speciality_name;
+      }
+    }
+  }
+  getListFaculty() {
+    this.apiService.getEntity('Faculty')
+      .subscribe((result: Faculty[]) => {
+        this.listFaculty = result;
+      }, () => {
+        this.modalService.openErrorModal('Помилка завантаження даних');
+      });
+  }
+  getNameFaculty(faculty_id: number): string {
+    for (let item of this.listFaculty) {
+      if (item.faculty_id == faculty_id) {
+        return item.faculty_name;
+      }
+    }
   }
   /** Open modal window for add new group */
   openAddGroupDialog(): void {
