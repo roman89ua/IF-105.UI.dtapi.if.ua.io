@@ -52,9 +52,9 @@ export class GroupComponent implements OnInit, AfterViewInit {
 
   ngOnInit() {
     this.getCountRecords('group');
-    this.getListGroups();
     this.groupService.getListSpeciality();
     this.groupService.getListFaculty();
+    this.getListGroups();
   }
 
   ngAfterViewInit() {

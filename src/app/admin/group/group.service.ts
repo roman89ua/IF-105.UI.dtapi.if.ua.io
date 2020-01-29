@@ -22,12 +22,9 @@ export class GroupService {
       });
   }
 
-  getNameSpeciality(speciality_id: number): string {
-    for (let item of this.listSpeciality) {
-      if (item.speciality_id == speciality_id) {
-        return item.speciality_name;
-      }
-    }
+  getNameSpeciality(id: number): string {
+    let speciality = this.listSpeciality.find(({speciality_id}) => id === speciality_id);
+    return speciality.speciality_name;
   }
   
   getListFaculty() {
@@ -39,11 +36,8 @@ export class GroupService {
       });
   }
 
-  getNameFaculty(faculty_id: number): string {
-    for (let item of this.listFaculty) {
-      if (item.faculty_id == faculty_id) {
-        return item.faculty_name;
-      }
-    }
+  getNameFaculty(id: number): string {
+    let faculty = this.listFaculty.find(({faculty_id}) => id === faculty_id);
+    return faculty.faculty_name;
   }
 }
