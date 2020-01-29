@@ -57,16 +57,16 @@ export class SubjectsComponent implements OnInit {
     });
   }
 
-  handleError = (error: HttpErrorResponse) => {
-    if (error.status === 400) {
-      this.openSnackBar('Не коректний запит на сервер', 'Х');
-    } else if (error.status === 0) {
-      this.openSnackBar('Відсутнє підсключення до інтернету', 'Х'); 
-    } else if (error.status === 500) {
-      this.openSnackBar('Помилка сервера', 'Х'); 
-    }
-    return throwError(error);
-  }
+  // handleError = (error: HttpErrorResponse) => {
+  //   if (error.status === 400) {
+  //     this.openSnackBar('Не коректний запит на сервер', 'Х');
+  //   } else if (error.status === 0) {
+  //     this.openSnackBar('Відсутнє підсключення до інтернету', 'Х'); 
+  //   } else if (error.status === 500) {
+  //     this.openSnackBar('Помилка сервера', 'Х'); 
+  //   }
+  //   return throwError(error);
+  // }
 
   createNewSubject() {
     const newDialogSubject = this.dialog.open(SubjectsCreateModalComponent, {
@@ -78,10 +78,11 @@ export class SubjectsComponent implements OnInit {
         mergeMap((data) => {
           if (data) {
             return this.apiService.createEntity('Subject', data)
-              .pipe(
-                retry(1),
-                catchError(this.handleError)
-              );
+              // .pipe(
+              //   retry(1),
+              //   catchError(this.handleError)
+              // )
+              ;
           }
           return of(null);
         })
@@ -89,7 +90,7 @@ export class SubjectsComponent implements OnInit {
       .subscribe((newData: Subject[] | null) => {
         if (newData) {
           this.dataSource.data = [...this.dataSource.data, newData[0]];
-          this.openSnackBar('Предмет було створено.', 'Закрити');
+          // this.openSnackBar('Предмет було створено.', 'Закрити');
       }},
       );
   }
@@ -105,10 +106,11 @@ export class SubjectsComponent implements OnInit {
         mergeMap((data) => {
           if (data) {
             return this.apiService.updEntity('subject', data, row.subject_id)
-            .pipe(
-              retry(1),
-              catchError(this.handleError)
-            );
+            // .pipe(
+            //   retry(1),
+            //   catchError(this.handleError)
+            // )
+            ;
           }
           return of(null);
         })
@@ -116,7 +118,7 @@ export class SubjectsComponent implements OnInit {
       .subscribe((newData: Subject[] | null) => {
         if (newData) {
           this.showSubjects();
-          this.openSnackBar('Предмет відредаговано.', 'Закрити');
+          // this.openSnackBar('Предмет відредаговано.', 'Закрити');
         }},
       );
   }
@@ -137,13 +139,13 @@ export class SubjectsComponent implements OnInit {
 
   delSubject(id: number) {
     this.apiService.delEntity('Subject', id)
-    .pipe(
-      retry(1),
-      catchError(this.handleError)
-    )
+    // .pipe(
+    //   retry(1),
+    //   catchError(this.handleError)
+    // )
       .subscribe((response) => {
         this.dataSource.data = this.dataSource.data.filter(item => item.subject_id !== id);
-        this.openSnackBar('Предмет видалено.', 'Закрити');
+        // this.openSnackBar('Предмет видалено.', 'Закрити');
       },);
   }
 
