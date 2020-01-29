@@ -1,5 +1,5 @@
 <section class="header">
-  <h3>Розклад тестів</h3>
+  <h3>Розклад тестів для предмету: <i>{{this.subject?.subject_name}}</i></h3>
   <span class="fill-space"></span>
   <button mat-stroked-button color="prime" (click)="addTimeTableDialog()">
     <mat-icon aria-hidden="false" aria-label="add">add</mat-icon>
@@ -8,18 +8,6 @@
 </section>
 
 <section class="container">
-
-  <div class="subject-input">
-    <mat-form-field [formGroup]="subjectGroup" class="container-choose">
-      <mat-label>Виберіть предмет зі списку:</mat-label>
-      <mat-select formControlName="subjectId" id="choose-subject">
-        <mat-option *ngFor="let subject of subjects" [value]="subject.subject_id">
-          {{subject.subject_name}}
-        </mat-option>
-      </mat-select>
-    </mat-form-field>
-  </div>
-
   <table mat-table #table [dataSource]="dataSource">
     <ng-container matColumnDef="id">
       <th mat-header-cell *matHeaderCellDef>№</th>
@@ -56,7 +44,8 @@
     <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
   </table>
 
-  <div *ngIf="dataSource.data.length === 0 && subjectId != null" class="no-time">Немає розкладу для заданого предмету.</div>
+  <div *ngIf="dataSource.data.length === 0 && subjectId != null" class="no-time">Немає розкладу для заданого предмету.
+  </div>
   <mat-paginator
     [pageSizeOptions]="[5, 10, 20]"
     showFirstLastButtons
