@@ -48,7 +48,7 @@ export class TimeTableComponent implements OnInit {
 
   addTimeTableDialog(): void {
     const dialogRef = this.dialog.open(TimeTableAddDialogComponent, {
-      width: '500px',
+      width: '600px',
       data: {
         data: {
           start_time: '',
@@ -63,14 +63,6 @@ export class TimeTableComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-/*
-        const validDate = this.formatDate(result.start_date);
-        const validTime = result.start_time.length < 6 ? result.start_time + ':00' : result.start_time;
-        result.start_date = validDate;
-        result.end_date = validDate;
-        result.start_time = validTime;
-        result.end_time = validTime;
-*/
         result.start_date = this.formatDate(result.start_date);
         result.end_date = this.formatDate(result.end_date);
         result.start_time = result.start_time.length < 6 ? result.start_time + ':00' : result.start_time;
@@ -83,7 +75,7 @@ export class TimeTableComponent implements OnInit {
 
   editTimeTableDialog(tableEl: TimeTable): void {
     const dialogRef = this.dialog.open(TimeTableAddDialogComponent, {
-      width: '500px',
+      width: '600px',
       data: {
         data: tableEl,
         description: {
@@ -156,7 +148,7 @@ export class TimeTableComponent implements OnInit {
         const updatedTable: TimeTable[] = result;
         this.apiService.getEntity('Group', result[0].group_id).subscribe((value: Group[]) => {
           updatedTable[0].group_name = value[0].group_name;
-          this.timeTable.push(updatedTable[0]);
+          this.dataSource.data.push(updatedTable[0]);
           this.table.renderRows();
           this.dataSource.paginator = this.paginator;
         });
