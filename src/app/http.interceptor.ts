@@ -24,11 +24,11 @@ export class ApiHttpInterceptor implements HttpInterceptor {
       .pipe(
         tap((event: any):void => {
           if (event instanceof HttpResponse) {
-            if(event.url.includes('insertData') === true && event.status == 200){
+            if(event.url.includes('insertData') === true && event.status === 200){
               this.openSnackBar('Створено','X')
-            }else if(event.url.includes('update') === true && event.status == 200){
+            }else if(event.url.includes('update') === true && event.status === 200){
               this.openSnackBar('Відредаговано','X')
-            }else if(event.url.includes('del') === true && event.status == 200){
+            }else if(event.url.includes('del') === true && event.status === 200){
               this.openSnackBar('Видалено','X')
             }
           }
