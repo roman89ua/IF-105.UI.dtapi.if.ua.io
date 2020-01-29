@@ -3,6 +3,7 @@ import { HttpInterceptor, HttpRequest, HttpHandler, HttpEvent } from '@angular/c
 import { Observable } from 'rxjs';
 import { SpinnerService } from './spinner.service';
 import { finalize, tap } from 'rxjs/operators';
+import { apiEndpoints } from '../constants';
 
 @Injectable()
 export class SpinnerInterceptor implements HttpInterceptor {
@@ -11,7 +12,9 @@ export class SpinnerInterceptor implements HttpInterceptor {
 
     intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
         this.requestCount++;
-        this.spinnerService.show();
+        if (!this.checkURL(request)) {
+            this.spinnerService.show();
+        }
         return next.handle(request)
             .pipe(
                 finalize(() => {
@@ -21,5 +24,10 @@ export class SpinnerInterceptor implements HttpInterceptor {
                     }
                 })
             );
+    }
+    checkURL(req: HttpRequest<any>): boolean {
+        if (req.url.includes(apiEndpoints[0]) || req.url.includes(apiEndpoints[1]) || req.url.includes(apiEndpoints[2])) {
+           return true;
+        }
     }
 }
