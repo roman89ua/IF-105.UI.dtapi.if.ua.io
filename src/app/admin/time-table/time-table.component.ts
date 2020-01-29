@@ -20,6 +20,8 @@ export class TimeTableComponent implements OnInit {
     'group',
     'start_date',
     'start_time',
+    'end_date',
+    'end_time',
     'actions'
   ];
 
@@ -50,6 +52,7 @@ export class TimeTableComponent implements OnInit {
       data: {
         data: {
           start_time: '',
+          end_time: '',
         },
         description: {
           title: 'Додати новий розклад',
@@ -60,12 +63,18 @@ export class TimeTableComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
+/*
         const validDate = this.formatDate(result.start_date);
         const validTime = result.start_time.length < 6 ? result.start_time + ':00' : result.start_time;
         result.start_date = validDate;
         result.end_date = validDate;
         result.start_time = validTime;
         result.end_time = validTime;
+*/
+        result.start_date = this.formatDate(result.start_date);
+        result.end_date = this.formatDate(result.end_date);
+        result.start_time = result.start_time.length < 6 ? result.start_time + ':00' : result.start_time;
+        result.end_time = result.end_time.length < 6 ? result.end_time + ':00' : result.end_time;
         delete result.timetable_id;
         this.addTimeTable(result);
       }
@@ -85,12 +94,10 @@ export class TimeTableComponent implements OnInit {
     });
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        const validDate = this.formatDate(result.start_date);
-        const validTime = result.start_time.length < 6 ? result.start_time + ':00' : result.start_time;
-        result.start_date = validDate;
-        result.end_date = validDate;
-        result.start_time = validTime;
-        result.end_time = validTime;
+        result.start_date = this.formatDate(result.start_date);
+        result.end_date = this.formatDate(result.end_date);
+        result.start_time = result.start_time.length < 6 ? result.start_time + ':00' : result.start_time;
+        result.end_time = result.end_time.length < 6 ? result.end_time + ':00' : result.end_time;
         let groupName: string;
         this.apiService.getEntity('Group', result.group_id).subscribe((group: Group[]) => {
           groupName = group[0].group_name;
