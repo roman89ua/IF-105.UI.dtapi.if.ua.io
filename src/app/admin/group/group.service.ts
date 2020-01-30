@@ -2,6 +2,8 @@ import { Injectable } from '@angular/core';
 import { Group, Speciality, Faculty } from '../../shared/entity.interface';
 import { ApiService } from 'src/app/shared/services/api.service';
 import { ModalService } from '../../shared/services/modal.service';
+import { tap } from 'rxjs/operators';
+import { Observable, of } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -10,16 +12,14 @@ export class GroupService {
   listGroups: Group[] = [];
   listSpeciality: Speciality[] = [];
   listFaculty: Faculty[] = [];
+  isListSpesialityLoaded = false;
+  isListFacultyLoaded = false;
+
   constructor(private apiService: ApiService, private modalService: ModalService) { }
 
-  getListSpeciality() {
-    this.apiService
-      .getEntity('Speciality')
-      .subscribe((result: Speciality[]) => {
-        this.listSpeciality = result;
-      }, () => {
-        this.modalService.openErrorModal('Помилка завантаження даних');
-      });
+  getListSpeciality(): Observable<any> {
+    return this.isListSpesialityLoaded ? of(this.listSpeciality) : this.apiService.getEntity('speciality')
+      .pipe(tap(() => {this.isListSpesialityLoaded = true}));
   }
 
   getNameSpeciality(id: number): string {
@@ -28,12 +28,9 @@ export class GroupService {
   }
   
   getListFaculty() {
-    this.apiService.getEntity('Faculty')
-      .subscribe((result: Faculty[]) => {
-        this.listFaculty = result;
-      }, () => {
-        this.modalService.openErrorModal('Помилка завантаження даних');
-      });
+    return this.isListFacultyLoaded ? of(this.listFaculty) : this.apiService.getEntity('faculty')
+      .pipe(tap(() => {this.isListFacultyLoaded = true}));
+
   }
 
   getNameFaculty(id: number): string {

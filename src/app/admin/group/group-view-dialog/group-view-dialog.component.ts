@@ -28,14 +28,14 @@ export class GroupViewDialogComponent implements OnInit {
    }
 
   ngOnInit() {
-    switch (this.data.description.action) {
+/*     switch (this.data.description.action) {
       case 'getGroupsBySpeciality':
         this.groupService.getListSpeciality();
         break;
       case 'getGroupsByFaculty':
         this.groupService.getListFaculty();
         break;
-    }
+    } */
   }
 
   onSubmit() {

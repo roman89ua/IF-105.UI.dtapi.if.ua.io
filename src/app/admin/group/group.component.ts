@@ -55,8 +55,16 @@ export class GroupComponent implements OnInit, AfterViewInit {
 
   ngOnInit() {
     this.getCountRecords('group');
-    this.groupService.getListSpeciality();
-    this.groupService.getListFaculty();
+    this.groupService.getListSpeciality().subscribe(result => {
+      this.groupService.listSpeciality = result;
+    }, () => {
+        this.modalService.openErrorModal('Помилка завантаження даних');
+      });
+    this.groupService.getListFaculty().subscribe(result => { 
+      this.groupService.listFaculty = result;
+    },  () => {
+      this.modalService.openErrorModal('Помилка завантаження даних');
+    });
     this.getListGroups();
   }
 
@@ -70,7 +78,7 @@ export class GroupComponent implements OnInit, AfterViewInit {
     const offset = this.pageSize * this.currentPage;
     this.getListGroups(offset);
   }
-
+  /** Get part (size page) list of groups */
   getListGroups(offset: number = 0) {
     this.apiService.getRecordsRange('group', this.pageSize, offset).subscribe((result: Group[]) => {
       this.isCheckFaculty = false;
@@ -81,7 +89,7 @@ export class GroupComponent implements OnInit, AfterViewInit {
       this.modalService.openErrorModal('Помилка завантаження списку груп');
     });
   }
-
+  /** Get length all list of groups */
   getCountRecords(entity: string) {
     this.apiService.getCountRecords(entity).subscribe(result => {
       this.itemsCount = result.numberOfRecords;

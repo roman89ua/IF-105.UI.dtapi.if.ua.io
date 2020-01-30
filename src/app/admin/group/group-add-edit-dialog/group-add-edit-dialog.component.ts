@@ -1,8 +1,5 @@
 import { Component, OnInit, Inject } from "@angular/core";
-import { Speciality, Faculty, Group } from "../../../shared/entity.interface";
 import { MatDialogRef, MAT_DIALOG_DATA } from "@angular/material/dialog";
-import { ModalService } from '../../../shared/services/modal.service';
-import { ApiService } from 'src/app/shared/services/api.service';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { DialogData } from '../../group/group-modal.interface';
 import { GroupService } from '../group.service';
@@ -13,8 +10,6 @@ import { GroupService } from '../group.service';
   styleUrls: ['./group-add-edit-dialog.component.scss']
 })
 export class GroupAddEditDialogComponent implements OnInit {
-/*   specialities: Speciality[] = [];
-  faculties: Faculty[] = []; */
   addEditForm: FormGroup;
 
   constructor(
@@ -45,10 +40,7 @@ export class GroupAddEditDialogComponent implements OnInit {
   }
 
 
-  ngOnInit() {
-    this.groupService.getListSpeciality();
-    this.groupService.getListFaculty();
-  }
+  ngOnInit() {}
 
   onSubmit() {
     this.dialogRef.close(this.addEditForm.value);
