@@ -57,7 +57,6 @@ export class SubjectsComponent implements OnInit {
   createNewSubject() {
     const newDialogSubject = this.dialog.open(SubjectsCreateModalComponent, {
       width: '500px',
-      disableClose: true,
     });
     newDialogSubject.afterClosed()
       .pipe(
