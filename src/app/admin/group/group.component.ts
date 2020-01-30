@@ -8,6 +8,9 @@ import { ApiService } from 'src/app/shared/services/api.service';
 import { GroupModalService } from '../group/group-modal.service';
 import { DialogData } from './group-modal.interface';
 import { GroupService } from './group.service';
+import { GroupAddEditDialogComponent } from './group-add-edit-dialog/group-add-edit-dialog.component';
+import { GroupViewDialogComponent } from './group-view-dialog/group-view-dialog.component';
+
 
 @Component({
   selector: 'app-group',
@@ -93,7 +96,7 @@ export class GroupComponent implements OnInit, AfterViewInit {
       title: 'Додати нову групу',
       action: 'Додати'
     };
-    this.groupModalService.addGroupDialog(dialogData, (group) => this.addGroup(group));
+    this.groupModalService.groupDialog(GroupAddEditDialogComponent, dialogData, (group: Group) => this.addGroup(group));
   }
 
   /** Add new group */
@@ -141,7 +144,7 @@ export class GroupComponent implements OnInit, AfterViewInit {
       title: 'Редагувати інформацію про групу',
       action: 'Зберегти зміни'
     };
-      this.groupModalService.editGroupDialog(dialogData, (group) => this.editGroup(group));
+      this.groupModalService.groupDialog(GroupAddEditDialogComponent, dialogData, (group: Group) => this.editGroup(group));
   }
 
   /** Method for edit group */
@@ -174,7 +177,7 @@ export class GroupComponent implements OnInit, AfterViewInit {
       title: 'Виберіть спеціальність',
       action: 'getGroupsBySpeciality'
     };
-    this.groupModalService.viewGroupFeatureDialog(dialogData, 
+    this.groupModalService.groupDialog(GroupViewDialogComponent, dialogData, 
       (result) => {
         this.getListGroupsByFeature(dialogData.description.action, result.id[0]);
         this.isCheckFaculty = false;
@@ -190,7 +193,7 @@ export class GroupComponent implements OnInit, AfterViewInit {
       title: 'Виберіть факультет/інститут',
       action: 'getGroupsByFaculty'
     };
-    this.groupModalService.viewGroupFeatureDialog(dialogData, 
+    this.groupModalService.groupDialog(GroupViewDialogComponent, dialogData, 
       (result) => {
         this.getListGroupsByFeature(dialogData.description.action, result.id[0]);
         this.isCheckFaculty = true;
