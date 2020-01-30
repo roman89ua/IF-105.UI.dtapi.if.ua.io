@@ -4,10 +4,10 @@ import { SubjectsCreateModalComponent } from './subjects-create-modal/subjects-c
 import { Subject } from 'src/app/admin/entity.interface';
 import { mergeMap } from 'rxjs/operators';
 import { of } from 'rxjs';
-import { MatTableDataSource, MatTable } from '@angular/material/table';
-import { SubjectConfirmComponent } from './subject-confirm/subject-confirm.component';
+import { MatTableDataSource } from '@angular/material/table';
 import { ApiService } from 'src/app/shared/services/api.service';
-import { Router } from "@angular/router";
+import { Router } from '@angular/router';
+import { ModalService } from 'src/app/shared/services/modal.service';
 
 @Component({
   selector: 'app-subjects',
@@ -28,6 +28,7 @@ export class SubjectsComponent implements OnInit {
     private snackBar: MatSnackBar,
     private apiService: ApiService,
     private route: Router,
+    private modalService: ModalService,
   ) {  }
 
   ngOnInit(): void  {
@@ -103,19 +104,9 @@ export class SubjectsComponent implements OnInit {
         }
       );
   }
-
-  delete(row: Subject): void {
-    const dialogData = `Ви видаляєте ${row.subject_name}, ви впевнені?`;
-    const dialogRef = this.dialog.open(SubjectConfirmComponent, {
-      maxWidth: '400px',
-      data: dialogData
-    });
-    dialogRef.afterClosed().subscribe(dialogResult => {
-      const result = dialogResult;
-      if (result) {
-        this.delSubject(row.subject_id);
-      }
-    });
+  openDialog(subject: Subject) {
+    const message = `Ви видаляєте предмет "${subject.subject_name}"?`;
+    this.modalService.openConfirmModal(message, () => this.delSubject(subject.subject_id));
   }
 
   delSubject(id: number) {
