@@ -24,11 +24,11 @@ export class ApiHttpInterceptor implements HttpInterceptor {
       .pipe(
         catchError((error: HttpErrorResponse) => {
           const mappedError = errorMapping.find(({status}) => error.status === status);
-          this.openSnackBar(mappedError && mappedError.message || defaultMessage,'X');
-          if (error.status === 401 || error.status === 403){
+          this.openSnackBar(mappedError && mappedError.message || defaultMessage, 'X');
+          if (error.status === 401 || error.status === 403) {
             this.router.navigate(['login']);
           }
-            return throwError(error);
+          return throwError(error);
         })
     );
   }
