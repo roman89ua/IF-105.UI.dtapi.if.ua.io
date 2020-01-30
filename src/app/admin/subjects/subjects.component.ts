@@ -7,7 +7,7 @@ import { of } from 'rxjs';
 import { MatTableDataSource, MatTable } from '@angular/material/table';
 import { SubjectConfirmComponent } from './subject-confirm/subject-confirm.component';
 import { ApiService } from 'src/app/shared/services/api.service';
-import { Router } from "@angular/router";
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-subjects',
@@ -130,10 +130,10 @@ export class SubjectsComponent implements OnInit {
   }
 
   navigateToTimeTable(subject_id) {
-    this.route.navigate(['admin/timeTable'], { queryParams:{id: subject_id}});
+    this.route.navigate(['admin/timeTable'], { queryParams: {id: subject_id}});
   }
 
-  navigateToTests(subject_id){
-    this.route.navigate(['admin/tests'], { queryParams:{id: subject_id}});
+  navigateToTests(subject_id) {
+    this.route.navigate(['admin/tests'], { queryParams: {id: subject_id}});
   }
 }
