@@ -2,7 +2,6 @@ import { Component, OnInit, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { DialogData } from '../group-modal.interface';
-import { GroupService } from '../group.service';
 
 @Component({
   selector: 'app-group-view-dialog',
@@ -16,7 +15,6 @@ export class GroupViewDialogComponent implements OnInit {
     public dialogRef: MatDialogRef<GroupViewDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: DialogData,
     private fb: FormBuilder,
-    private groupService: GroupService
   ) { 
     dialogRef.disableClose = true;
     this.createForm();
@@ -27,16 +25,7 @@ export class GroupViewDialogComponent implements OnInit {
     });
    }
 
-  ngOnInit() {
-/*     switch (this.data.description.action) {
-      case 'getGroupsBySpeciality':
-        this.groupService.getListSpeciality();
-        break;
-      case 'getGroupsByFaculty':
-        this.groupService.getListFaculty();
-        break;
-    } */
-  }
+  ngOnInit() {}
 
   onSubmit() {
     const result = this.selectViewForm.value;

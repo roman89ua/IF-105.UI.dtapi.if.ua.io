@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
-import { Group } from '../../shared/entity.interface';
+import { Group, Speciality, Faculty } from '../../shared/entity.interface';
 import { MatTableDataSource, MatTable } from '@angular/material';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatDialog, MatSnackBar } from '@angular/material';
@@ -19,6 +19,8 @@ import { GroupViewDialogComponent } from './group-view-dialog/group-view-dialog.
 })
 export class GroupComponent implements OnInit, AfterViewInit {
   listGroups: Group[] = [];
+  listSpeciality: Speciality[] = [];
+  listFaculty: Faculty[] = [];
   dataSource = new MatTableDataSource<Group>();
   displayedColumns: string[] = [
     'id',
@@ -56,12 +58,12 @@ export class GroupComponent implements OnInit, AfterViewInit {
   ngOnInit() {
     this.getCountRecords('group');
     this.groupService.getListSpeciality().subscribe(result => {
-      this.groupService.listSpeciality = result;
+      this.listSpeciality = result;
     }, () => {
         this.modalService.openErrorModal('Помилка завантаження даних');
       });
     this.groupService.getListFaculty().subscribe(result => { 
-      this.groupService.listFaculty = result;
+      this.listFaculty = result;
     },  () => {
       this.modalService.openErrorModal('Помилка завантаження даних');
     });
@@ -99,7 +101,8 @@ export class GroupComponent implements OnInit, AfterViewInit {
   /** Open modal window for add new group */
   openAddGroupDialog(): void {
     let dialogData = new DialogData();
-    dialogData.group = null;
+    dialogData.listSpeciality = this.listSpeciality;
+    dialogData.listFaculty = this.listFaculty;
     dialogData.description = {
       title: 'Додати нову групу',
       action: 'Додати'
@@ -148,6 +151,8 @@ export class GroupComponent implements OnInit, AfterViewInit {
   openEditGroupDialog(group: Group): void {
     let dialogData = new DialogData();
     dialogData.group = group;
+    dialogData.listSpeciality = this.listSpeciality;
+    dialogData.listFaculty = this.listFaculty;
     dialogData.description = {
       title: 'Редагувати інформацію про групу',
       action: 'Зберегти зміни'
@@ -181,6 +186,7 @@ export class GroupComponent implements OnInit, AfterViewInit {
   /** Open modal window for check speciality */ 
   openCheckSpecialityDialog() {
     let dialogData = new DialogData();
+    dialogData.listSpeciality = this.listSpeciality;
     dialogData.description = {
       title: 'Виберіть спеціальність',
       action: 'getGroupsBySpeciality'
@@ -197,6 +203,7 @@ export class GroupComponent implements OnInit, AfterViewInit {
   /** open modal window for check faculty */
   openCheckFacultyDialog() {
     let dialogData = new DialogData();
+    dialogData.listFaculty = this.listFaculty;
     dialogData.description = {
       title: 'Виберіть факультет/інститут',
       action: 'getGroupsByFaculty'

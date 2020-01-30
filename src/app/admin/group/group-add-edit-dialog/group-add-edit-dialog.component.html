@@ -11,7 +11,7 @@
     <mat-label>Спеціальність</mat-label>
     <mat-select formControlName="speciality_id" placeholder="Виберіть спеціальність">
       <mat-option
-        *ngFor="let item of groupService.listSpeciality"
+        *ngFor="let item of data.listSpeciality"
         [value]="item.speciality_id"
       >
         {{item.speciality_name}}
@@ -25,7 +25,7 @@
     <mat-label>Факультет/Інститут</mat-label>
     <mat-select formControlName="faculty_id" placeholder="Виберіть факультет/інститут">
       <mat-option
-        *ngFor="let item of groupService.listFaculty"
+        *ngFor="let item of data.listFaculty"
         [value]="item.faculty_id"
       >
         {{item.faculty_name}}
