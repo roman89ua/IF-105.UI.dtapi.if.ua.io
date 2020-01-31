@@ -90,7 +90,7 @@ const routes: Routes = [
     AdminUserService,
     StudentsService,
     GroupModalService,
-    GroupModalService
+    GroupService
   ],
   entryComponents: [
     NavbarComponent,
