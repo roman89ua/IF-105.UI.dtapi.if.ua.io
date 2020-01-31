@@ -1,0 +1,41 @@
+<div class="container">
+    <div class="title-box">
+        <h3>Результати тестувань</h3>
+    </div>
+    <div class="search-box">
+        <form [formGroup]="searchForm" (ngSubmit)="onSubmit()">
+            <mat-form-field class="example-full-width">
+                <mat-label>Група</mat-label>
+                <mat-select formControlName="group_id" placeholder="Виберіть групу">
+                  <mat-option
+                    *ngFor="let item of listGroups"
+                    [value]="item.group_id"
+                  >
+                    {{item.group_name}}
+                  </mat-option>
+                </mat-select>
+                <mat-error>
+                  Виберіть групу 
+                </mat-error>
+              </mat-form-field>
+              <mat-form-field class="example-full-width">
+                <mat-label>Тест</mat-label>
+                <mat-select formControlName="test_id" placeholder="Виберіть тест">
+                  <mat-option
+                    *ngFor="let item of listTests"
+                    [value]="item.test_id"
+                  >
+                    {{item.test_name}}
+                  </mat-option>
+                </mat-select>
+                <mat-error>
+                  Виберіть тест
+                </mat-error>
+              </mat-form-field>
+              <button mat-stroked-button color="primary" type="submit" [disabled]='searchForm.invalid'>
+                <mat-icon aria-hidden="false" aria-label="search">search</mat-icon>
+                Показати результати
+              </button>
+        </form>
+    </div>
+</div>
