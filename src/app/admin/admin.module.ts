@@ -32,6 +32,8 @@ import { TestAddComponent } from './tests/add/test-add.component';
 import {TimeTablePipe} from './time-table/pipes/time-table.pipe';
 import { ResultsComponent } from './results/results.component';
 import { ResultsService } from './results/results.service';
+import { GroupModalService } from './group/group-modal.service';
+import { GroupService } from './group/group.service';
 
 
 const routes: Routes = [
@@ -92,6 +94,8 @@ const routes: Routes = [
     AdminUserService,
     StudentsService,
     ResultsService,
+    GroupModalService,
+    GroupService
   ],
   entryComponents: [
     NavbarComponent,
