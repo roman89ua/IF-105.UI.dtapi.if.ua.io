@@ -1,29 +1,45 @@
-import { Component, OnInit, ViewChild, Inject } from '@angular/core';
-import { Group } from '../../shared/entity.interface';
+import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
+import { Group, Speciality, Faculty } from '../../shared/entity.interface';
 import { MatTableDataSource, MatTable } from '@angular/material';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatDialog, MatSnackBar } from '@angular/material';
-import { GroupAddEditDialogComponent } from './group-add-edit-dialog/group-add-edit-dialog.component';
-import { GroupViewDialogComponent } from './group-view-dialog/group-view-dialog.component';
 import { ModalService } from '../../shared/services/modal.service';
 import { ApiService } from 'src/app/shared/services/api.service';
+import { GroupModalService } from '../group/group-modal.service';
+import { DialogData } from './group-modal.interface';
+import { GroupService } from './group.service';
+import { GroupAddEditDialogComponent } from './group-add-edit-dialog/group-add-edit-dialog.component';
+import { GroupViewDialogComponent } from './group-view-dialog/group-view-dialog.component';
+
 
 @Component({
   selector: 'app-group',
   templateUrl: './group.component.html',
-  styleUrls: ['./group.component.scss'],
+  styleUrls: ['./group.component.scss']
 })
-export class GroupComponent implements OnInit {
+export class GroupComponent implements OnInit, AfterViewInit {
   listGroups: Group[] = [];
+  listSpeciality: Speciality[] = [];
+  listFaculty: Faculty[] = [];
   dataSource = new MatTableDataSource<Group>();
   displayedColumns: string[] = [
     'id',
     'name',
+    'speciality',
+    'faculty',
     'students',
     'actions'
   ];
+  /** properties for pagination */
+  itemsCount: number;
+  pageSize: number = 10;
+  currentPage: number = 0;
+  /** properties for get group for features */
+  isCheckSpeciality: boolean = false;
+  isCheckFaculty: boolean = false;
+  feature: string;
 
-  @ViewChild('table', { static: true }) table: MatTable<Element>;
+  @ViewChild('table', { static: true }) table: MatTable<Group>;
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
 
   applyFilter(filterValue: string) {
@@ -34,49 +50,73 @@ export class GroupComponent implements OnInit {
     private apiService: ApiService, 
     public dialog: MatDialog, 
     private modalService: ModalService,
-    private _snackBar: MatSnackBar
+    private _snackBar: MatSnackBar,
+    private groupModalService: GroupModalService,
+    public groupService: GroupService
     ) { }
 
   ngOnInit() {
-    this.viewAllGroups();
+    this.getCountRecords('group');
+    this.groupService.getListSpeciality().subscribe(result => {
+      this.listSpeciality = result;
+    }, () => {
+        this.modalService.openErrorModal('Помилка завантаження даних');
+      });
+    this.groupService.getListFaculty().subscribe(result => { 
+      this.listFaculty = result;
+    },  () => {
+      this.modalService.openErrorModal('Помилка завантаження даних');
+    });
+    this.getListGroups();
   }
 
-  viewAllGroups() {
-    this.apiService.getEntity('Group').subscribe((result: Group[]) => {
+  ngAfterViewInit() {
+    this.dataSource.paginator = this.paginator;
+  }
+ /** Handler for pagination */
+  onPaginateChange(data: MatPaginator) {
+    this.pageSize = data.pageSize;
+    this.currentPage = data.pageIndex;
+    const offset = this.pageSize * this.currentPage;
+    this.getListGroups(offset);
+  }
+  /** Get part (size page) list of groups */
+  getListGroups(offset: number = 0) {
+    this.apiService.getRecordsRange('group', this.pageSize, offset).subscribe((result: Group[]) => {
+      this.isCheckFaculty = false;
+      this.isCheckSpeciality = false;
       this.listGroups = result;
       this.dataSource.data = this.listGroups;
     }, () => {
       this.modalService.openErrorModal('Помилка завантаження списку груп');
     });
-    this.dataSource.paginator = this.paginator;
   }
-
-  // create modal window for add new group
-  addGroupDialog(): void {
-    const dialogRef = this.dialog.open(GroupAddEditDialogComponent, {
-      width: '500px',
-      data: {
-        group: null,
-        description: {
-          title: 'Додати нову групу',
-          action: 'Додати'
-        }
-      }
-    });
-
-    dialogRef.afterClosed().subscribe(result => {
-      if (result) {
-        this.addGroup(result);
-      }
+  /** Get length all list of groups */
+  getCountRecords(entity: string) {
+    this.apiService.getCountRecords(entity).subscribe(result => {
+      this.itemsCount = result.numberOfRecords;
     });
   }
+
+  /** Open modal window for add new group */
+  openAddGroupDialog(): void {
+    let dialogData = new DialogData();
+    dialogData.listSpeciality = this.listSpeciality;
+    dialogData.listFaculty = this.listFaculty;
+    dialogData.description = {
+      title: 'Додати нову групу',
+      action: 'Додати'
+    };
+    this.groupModalService.groupDialog(GroupAddEditDialogComponent, dialogData, (group: Group) => this.addGroup(group));
+  }
+
   /** Add new group */
   addGroup(group: Group) {
     this.apiService.createEntity('Group', group).subscribe((result: Group[]) => {
       this.openSnackBar(`Групу ${group.group_name} успішно додано`);
-      this.listGroups.push(result[0]);
-      this.table.renderRows();
-      this.dataSource.paginator = this.paginator;
+      this.getCountRecords('group');
+      let numberOfPages = this.paginator.getNumberOfPages();
+      this.getListGroups( numberOfPages * this.pageSize);
     }, (error: any) => {
       if (error.error.response.includes('Duplicate')) {
         this.modalService.openErrorModal(`Група "${group.group_name}" вже існує`);
@@ -86,7 +126,7 @@ export class GroupComponent implements OnInit {
   /** open modal window for confirm delete */
   openConfirmDialog(group: Group) {
     const message = `Підтвердіть видалення групи "${group.group_name}"`;
-    this.modalService.openConfirmModal(message, () => { this.delGroup(group); });
+    this.modalService.openConfirmModal(message, () => this.delGroup(group));
   }
 
   /** Delete group */
@@ -94,10 +134,8 @@ export class GroupComponent implements OnInit {
     this.apiService.delEntity('Group', group.group_id).subscribe((result: any) => {
       if (result) {
         this.openSnackBar(`Групу ${group.group_name} успішно виделено`);
-        this.listGroups = this.listGroups.filter(gr => gr !== group);
-        this.dataSource.data = this.listGroups;
-        this.table.renderRows();
-        this.dataSource.paginator = this.paginator;
+        this.getCountRecords('group');
+        this.getListGroups(this.pageSize * this.currentPage);
       }
     }, (error: any) => {
       if (error.error.response.includes('Cannot delete')) {
@@ -108,27 +146,21 @@ export class GroupComponent implements OnInit {
       }
     });
   }
-  // create modal window for edit group
-  editGroupDialog(group: Group): void {
-    const dialogRef = this.dialog.open(GroupAddEditDialogComponent, {
-      width: '500px',
-      data: {
-        group: group,
-        description: {
-          title: 'Редагувати інформацію про групу',
-          action: 'Зберегти зміни'
-        }
-      }
-    });
 
-    dialogRef.afterClosed().subscribe(result => {
-      if (result) {
-        result.group_id = group.group_id;
-        this.editGroup(result);
-      }
-    });
+  /** Open modal window for edit group */
+  openEditGroupDialog(group: Group): void {
+    let dialogData = new DialogData();
+    dialogData.group = group;
+    dialogData.listSpeciality = this.listSpeciality;
+    dialogData.listFaculty = this.listFaculty;
+    dialogData.description = {
+      title: 'Редагувати інформацію про групу',
+      action: 'Зберегти зміни'
+    };
+      this.groupModalService.groupDialog(GroupAddEditDialogComponent, dialogData, (group: Group) => this.editGroup(group));
   }
-  /** Edit group */
+
+  /** Method for edit group */
   editGroup(group: Group): void {
     this.apiService.updEntity('group', group, group.group_id).subscribe((result: Group[]) => {
       const index: number = result
@@ -140,7 +172,6 @@ export class GroupComponent implements OnInit {
         this.openSnackBar('Дані успішно оновлено');
         this.listGroups[index] = result[0];
         this.dataSource.data = this.listGroups;
-        this.table.renderRows();
       }
     }, (error: any) => {
       if (error.error.response.includes('Error when update')) {
@@ -152,38 +183,64 @@ export class GroupComponent implements OnInit {
     });
   }
 
-  // create modal window for view groups by speciality or faculty
-  viewGroupDialog(action: string, title: string): void {
-    const description = {'title': title, 'action': action};
-    const dialogRef = this.dialog.open(GroupViewDialogComponent, {
-      width: '500px',
-      data: { description }
-    });
-
-    dialogRef.afterClosed().subscribe((result) => {
-      if (result) {
-        this.viewGroups(result.action, result.id);
-      }
-    });
+  /** Open modal window for check speciality */ 
+  openCheckSpecialityDialog() {
+    let dialogData = new DialogData();
+    dialogData.listSpeciality = this.listSpeciality;
+    dialogData.description = {
+      title: 'Виберіть спеціальність',
+      action: 'getGroupsBySpeciality'
+    };
+    this.groupModalService.groupDialog(GroupViewDialogComponent, dialogData, 
+      (result) => {
+        this.getListGroupsByFeature(dialogData.description.action, result.id[0]);
+        this.isCheckFaculty = false;
+        this.isCheckSpeciality = true;
+        this.feature = result.id[1];
+      });
   }
-  /** View groups by speciality or faculty */
-  viewGroups(action: string, id: number): void {
+
+  /** open modal window for check faculty */
+  openCheckFacultyDialog() {
+    let dialogData = new DialogData();
+    dialogData.listFaculty = this.listFaculty;
+    dialogData.description = {
+      title: 'Виберіть факультет/інститут',
+      action: 'getGroupsByFaculty'
+    };
+    this.groupModalService.groupDialog(GroupViewDialogComponent, dialogData, 
+      (result) => {
+        this.getListGroupsByFeature(dialogData.description.action, result.id[0]);
+        this.isCheckFaculty = true;
+        this.isCheckSpeciality = false;
+        this.feature = result.id[1];
+      });
+  }
+
+  /** Get list groups by speciality or faculty */
+  getListGroupsByFeature(action: string, id: number): void {
     this.apiService.getEntityByAction('Group', action, id).subscribe((result: any) => {
       if (result.response) {
         this.dataSource.data = [];
         this.modalService.openInfoModal('Групи відсутні');
       } else {
         this.dataSource.data = result;
-        this.table.renderRows();
-        this.dataSource.paginator = this.paginator;
       }
+      this.currentPage = 0;
     }, () => {
       this.modalService.openErrorModal('Неможливо відобразити дані');
     });
   }
+
   openSnackBar(message: string) {
     this._snackBar.open(message, '', {
       duration: 2000,
     });
+  }
+
+  backToListGroup() {
+    this.currentPage = 0;
+    this.getCountRecords('group');
+    this.getListGroups();
   }
 }

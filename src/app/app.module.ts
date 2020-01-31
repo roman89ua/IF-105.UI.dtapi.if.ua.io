@@ -8,6 +8,7 @@ import { SharedModule } from './shared/shared.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatFormFieldModule, MatInputModule } from '@angular/material';
 import { NotFoundComponent } from './not-found/not-found.component';
+import { SpinnerInterceptor } from './shared/services/spinner.interceptor';
 @NgModule({
   declarations: [
     AppComponent,
@@ -25,6 +26,11 @@ import { NotFoundComponent } from './not-found/not-found.component';
   providers: [{
     provide: HTTP_INTERCEPTORS,
     useClass: ApiHttpInterceptor,
+    multi: true,
+  },
+  {
+    provide: HTTP_INTERCEPTORS,
+    useClass: SpinnerInterceptor,
     multi: true,
   }],
   bootstrap: [AppComponent]
