@@ -7,6 +7,7 @@ import { Faculty } from 'src/app/shared/entity.interface';
 import { ModalService } from '../../shared/services/modal.service';
 import { ApiService } from 'src/app/shared/services/api.service';
 import { FacultiesService } from './faculties.service';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-faculties',
@@ -15,7 +16,7 @@ import { FacultiesService } from './faculties.service';
 })
 export class FacultiesComponent implements OnInit, AfterViewInit {
   result: any;
-  faculties: Faculty[] = [];
+  faculties$: Observable<Faculty[]>;
   displayedColumns: string[] = ['id', 'name', 'desc', 'action'];
   loading = false;
 
@@ -38,27 +39,12 @@ export class FacultiesComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit(): void {
-    // this.getFaculty();
-
-    this.facultyService.findAllFaculties();
-    this.dataSource.data = this.facultyService.getFaculties();
-
+    this.facultyService.findAllFaculties()
+      .subscribe(data => this.dataSource.data = data);
   }
+
   ngAfterViewInit(): void {
     this.dataSource.paginator = this.paginator;
-  }
-
-
-  getFaculty() {
-    this.loading = true;
-    this.apiService.getEntity('Faculty')
-      .subscribe(response => {
-        this.dataSource.data = response;
-        this.loading = false;
-      },
-        err => {
-          this.modalService.openErrorModal('Можливі проблеми із сервером');
-        });
   }
 
 
@@ -89,7 +75,7 @@ export class FacultiesComponent implements OnInit, AfterViewInit {
     this.apiService.updEntity('Faculty', faculty, id)
       .subscribe(response => {
         this.openSnackBar('Факультет оновлено');
-        this.getFaculty();
+        this.facultyService.findAllFaculties();
       },
         err => {
           if (err.error.response.includes('Error when update')) {

@@ -21,11 +21,14 @@ export class FacultiesService {
 
   findAllFaculties() {
     if (this.isListFacultyLoaded) {
+      console.log('true');
       return of(this.faculties);
     } else {
+      console.log('false');
       return this.apiService.getEntity('faculty')
-        .pipe(tap(() => {
+        .pipe(tap((response) => {
           this.isListFacultyLoaded = true;
+          this.faculties = response;
         }));
     }
     // return this.isListFacultyLoaded ? of(this.faculties) : this.apiService.getEntity('faculty')
