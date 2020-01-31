@@ -52,7 +52,7 @@ export class GroupComponent implements OnInit, AfterViewInit {
     private modalService: ModalService,
     private _snackBar: MatSnackBar,
     private groupModalService: GroupModalService,
-    private groupService: GroupService
+    public groupService: GroupService
     ) { }
 
   ngOnInit() {
