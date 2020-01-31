@@ -45,8 +45,12 @@ export class ApiService {
     if (fieldName) {
       url = `${entity}/getRecordsRange/${limit}/${offset}/${fieldName}/${direction}`;
     } else {
-      url = `${entity}/getRecordsRange/${limit}/${offset}}`;
+      url = `${entity}/getRecordsRange/${limit}/${offset}`;
     }
     return this.http.get(url);
+  }
+  /** GET count records */
+  getCountRecords(entity: string): Observable<any> {
+    return this.http.get(`${entity}/countRecords`);
   }
 }
