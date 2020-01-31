@@ -31,6 +31,8 @@ import { TestListComponent } from './tests/list/test-list.component';
 import { TestAddComponent } from './tests/add/test-add.component';
 import {TimeTablePipe} from './time-table/pipes/time-table.pipe';
 import { FacultiesService } from './faculties/faculties.service';
+import { GroupModalService } from './group/group-modal.service';
+import { GroupService } from './group/group.service';
 
 
 const routes: Routes = [
@@ -88,7 +90,9 @@ const routes: Routes = [
   providers: [
     AdminUserService,
     StudentsService,
-    FacultiesService
+    FacultiesService,
+    GroupModalService,
+    GroupService
   ],
   entryComponents: [
     NavbarComponent,

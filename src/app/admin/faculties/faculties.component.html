@@ -1,8 +1,4 @@
 
-<ng-template #loadingBlock>
-  <mat-progress-bar mode="indeterminate"></mat-progress-bar>
-</ng-template>
-
 <section class="header" >
   <h3>Факультети</h3>
   <span class="fill-space"></span>
@@ -21,7 +17,7 @@
       mat-table
       [dataSource]="dataSource"
       #table
-      class="my-table" *ngIf="!loading; else loadingBlock">
+      class="my-table">
       <ng-container matColumnDef="id">
         <th mat-header-cell *matHeaderCellDef>ID</th>
         <td mat-cell *matCellDef="let element">{{ element.faculty_id }}</td>

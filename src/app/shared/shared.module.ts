@@ -46,6 +46,8 @@ import { LayoutModule } from '@angular/cdk/layout';
 import { ConfirmComponent } from './confirm/confirm.component';
 import { AlertComponent } from './alert/alert.component';
 import { ModalService } from '../shared/services/modal.service';
+import { SpinnerService } from './services/spinner.service';
+import { SpinnerComponent } from './spinner/spinner.component';
 
 
 
@@ -53,6 +55,7 @@ import { ModalService } from '../shared/services/modal.service';
   declarations: [
     ConfirmComponent,
     AlertComponent,
+    SpinnerComponent
   ],
   imports: [
     CommonModule,
@@ -60,14 +63,18 @@ import { ModalService } from '../shared/services/modal.service';
     MatButtonModule,
     MatDividerModule,
     MatIconModule,
+    MatProgressSpinnerModule,
+    MatProgressBarModule
+
   ],
   providers: [
     AuthService,
-    ModalService,
+    ModalService
   ],
   entryComponents: [
     ConfirmComponent,
     AlertComponent,
+
   ],
   exports: [
     A11yModule,
@@ -112,7 +119,8 @@ import { ModalService } from '../shared/services/modal.service';
     MatTreeModule,
     PortalModule,
     ScrollingModule,
-    LayoutModule
+    LayoutModule,
+    SpinnerComponent
   ]
 })
 export class SharedModule { }

@@ -18,7 +18,6 @@ export class FacultiesComponent implements OnInit, AfterViewInit {
   result: any;
   faculties$: Observable<Faculty[]>;
   displayedColumns: string[] = ['id', 'name', 'desc', 'action'];
-  loading = false;
 
   dataSource = new MatTableDataSource<Faculty>();
 
