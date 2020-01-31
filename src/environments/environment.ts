@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  APIEndpoint: 'http://dtapi.if.ua/api/'
+  apiUrl: 'http://dtapi.if.ua/api/'
 };
 
 /*
