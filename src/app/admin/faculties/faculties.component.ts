@@ -6,6 +6,7 @@ import { CreateEditComponent } from './create-edit/create-edit.component';
 import { Faculty } from 'src/app/shared/entity.interface';
 import { ModalService } from '../../shared/services/modal.service';
 import { ApiService } from 'src/app/shared/services/api.service';
+import { FacultiesService } from './faculties.service';
 
 @Component({
   selector: 'app-faculties',
@@ -27,7 +28,8 @@ export class FacultiesComponent implements OnInit, AfterViewInit {
     private apiService: ApiService,
     private dialog: MatDialog,
     private snackBar: MatSnackBar,
-    private modalService: ModalService) { }
+    private modalService: ModalService,
+    private facultyService: FacultiesService) { }
 
   openSnackBar(message: string, action?: string) {
     this.snackBar.open(message, action, {
@@ -36,11 +38,17 @@ export class FacultiesComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit(): void {
-    this.getFaculty();
+    // this.getFaculty();
+
+    this.facultyService.findAllFaculties();
+    this.dataSource.data = this.facultyService.getFaculties();
+
   }
   ngAfterViewInit(): void {
     this.dataSource.paginator = this.paginator;
   }
+
+
   getFaculty() {
     this.loading = true;
     this.apiService.getEntity('Faculty')
@@ -52,6 +60,8 @@ export class FacultiesComponent implements OnInit, AfterViewInit {
           this.modalService.openErrorModal('Можливі проблеми із сервером');
         });
   }
+
+
   addFaculty(faculty: Faculty) {
     this.apiService.createEntity('Faculty', faculty)
       .subscribe(response => {
@@ -66,6 +76,15 @@ export class FacultiesComponent implements OnInit, AfterViewInit {
         }
       );
   }
+
+  facultyModal(facultyObj?: Faculty) {
+    if (!facultyObj) {
+      this.facultyService.FacultyDialog((faculty: Faculty) => this.addFaculty(faculty));
+    } else {
+      this.facultyService.FacultyDialog((faculty: Faculty) => { this.updateFaculty(facultyObj.faculty_id, faculty); }, facultyObj);
+    }
+  }
+
   updateFaculty(id: number, faculty: Faculty) {
     this.apiService.updEntity('Faculty', faculty, id)
       .subscribe(response => {
@@ -79,27 +98,7 @@ export class FacultiesComponent implements OnInit, AfterViewInit {
         }
       );
   }
-  createFacultyDialog() {
-    const dialogRef = this.dialog.open(CreateEditComponent, {
-      width: '400px'
-    });
-    dialogRef.afterClosed().subscribe((dialogResult: Faculty) => {
-      if (dialogResult) {
-        this.addFaculty(dialogResult);
-      } else { return; }
-    });
-  }
-  updateFacultyDialog(faculty: Faculty) {
-    const dialogRef = this.dialog.open(CreateEditComponent, {
-      width: '400px',
-      data: faculty
-    });
-    dialogRef.afterClosed().subscribe((dialogResult: Faculty) => {
-      if (dialogResult) {
-        this.updateFaculty(faculty.faculty_id, dialogResult);
-      } else { return; }
-    });
-  }
+
   openConfirmDialog(faculty: Faculty) {
     const message = `Підтвердіть видалення факультету "${faculty.faculty_name}"?`;
     this.modalService.openConfirmModal(message, () => this.removeFaculty(faculty.faculty_id));
