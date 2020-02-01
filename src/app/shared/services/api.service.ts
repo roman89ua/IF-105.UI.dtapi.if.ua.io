@@ -59,7 +59,13 @@ export class ApiService {
   }
   /** GET with student's results by test_id, group_id (optional) and date (optional) */
   getRecordsByTestGroupDate(test_id: number, group_id: number = null, tdate: string = null ): Observable<any> {
-    return this.http.get(`${this.apiURI}/Result/getRecordsByTestGroupDate/${test_id}/${group_id}/${tdate}`)
+    let url: string;
+    if (tdate) {
+      url = `Result/getRecordsByTestGroupDate/${test_id}/${group_id}/${tdate}`;
+    } else {
+      url = `Result/getRecordsByTestGroupDate/${test_id}/${group_id}`;
+    }
+    return this.http.get(url);
   }
   /** GET all test_ids which were passed by students of some group  */
   getResultTestIdsByGroup(group_id: number): Observable<any> {

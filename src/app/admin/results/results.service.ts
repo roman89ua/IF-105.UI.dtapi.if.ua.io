@@ -20,4 +20,8 @@ export class ResultsService {
   getResultTestIdsByGroup(id_group: number): Observable<any> {
     return this.apiService.getResultTestIdsByGroup(id_group);
   }
+
+  getRecordsByTestGroupDate(test_id: number, group_id: number): Observable<any> {
+    return this.apiService.getRecordsByTestGroupDate(test_id, group_id);
+  }
 }
