@@ -1,7 +1,7 @@
 import {Component, Inject, OnInit} from '@angular/core';
 import {Group, TimeTable} from '../../../shared/entity.interface';
 import {Subject} from '../../entity.interface';
-import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material';
+import {MAT_DIALOG_DATA, MatDialogRef, ErrorStateMatcher, ShowOnDirtyErrorStateMatcher} from '@angular/material';
 import {NgModule} from '@angular/core';
 import {DateAdapter, MAT_DATE_FORMATS} from '@angular/material';
 import {AppDateAdapter, APP_DATE_FORMATS} from '../../../shared/format-datepicker/format-datepicker';
@@ -24,7 +24,8 @@ export interface DialogData {
   styleUrls: ['./time-table-add-dialog.component.scss'],
   providers: [
     {provide: DateAdapter, useClass: AppDateAdapter},
-    {provide: MAT_DATE_FORMATS, useValue: APP_DATE_FORMATS}
+    {provide: MAT_DATE_FORMATS, useValue: APP_DATE_FORMATS},
+    {provide: ErrorStateMatcher, useClass: ShowOnDirtyErrorStateMatcher}
   ]
 })
 @NgModule({})
@@ -62,7 +63,9 @@ export class TimeTableAddDialogComponent implements OnInit {
       group_id: [this.data.data.group_id, Validators.required],
       subject_id: [this.data.data.subject_id, Validators.required],
       start_date: [this.data.data.start_date, Validators.required],
-      start_time: [this.data.data.start_time, Validators.required]
+      start_time: [this.data.data.start_time, Validators.required],
+      end_date: [this.data.data.end_date, Validators.required],
+      end_time: [this.data.data.end_time, Validators.required]
     });
   }
 
