@@ -2,12 +2,12 @@ import { Component, OnInit, AfterViewInit, } from '@angular/core';
 import { ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatDialog, MatTableDataSource, MatTable, MatSnackBar } from '@angular/material';
-import { CreateEditComponent } from './create-edit/create-edit.component';
 import { Faculty } from 'src/app/shared/entity.interface';
 import { ModalService } from '../../shared/services/modal.service';
 import { ApiService } from 'src/app/shared/services/api.service';
 import { FacultiesService } from './faculties.service';
 import { Observable } from 'rxjs';
+import { PaginatorService } from 'src/app/shared/paginator/paginator.service';
 
 @Component({
   selector: 'app-faculties',
@@ -15,21 +15,22 @@ import { Observable } from 'rxjs';
   styleUrls: ['./faculties.component.scss']
 })
 export class FacultiesComponent implements OnInit, AfterViewInit {
+  length;
   result: any;
-  faculties$: Observable<Faculty[]>;
+
   displayedColumns: string[] = ['id', 'name', 'desc', 'action'];
 
   dataSource = new MatTableDataSource<Faculty>();
 
   @ViewChild('table', { static: false }) table: MatTable<Element>;
-  @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
 
   constructor(
     private apiService: ApiService,
     private dialog: MatDialog,
     private snackBar: MatSnackBar,
     private modalService: ModalService,
-    private facultyService: FacultiesService) { }
+    private facultyService: FacultiesService,
+    private paginatorService: PaginatorService) { }
 
   openSnackBar(message: string, action?: string) {
     this.snackBar.open(message, action, {
@@ -37,20 +38,24 @@ export class FacultiesComponent implements OnInit, AfterViewInit {
     });
   }
 
-  ngOnInit(): void {
-    this.facultyService.findAllFaculties()
-      .subscribe(data => this.dataSource.data = data);
-  }
+  ngOnInit(): void {}
 
-  ngAfterViewInit(): void {
-    this.dataSource.paginator = this.paginator;
-  }
+  ngAfterViewInit(): void {}
+
+  // getPaginator(paginator: MatPaginator) {
+  //   this.dataSource.paginator = paginator;
+  // }
+
+  getFaculties() {
+    this.facultyService.findAllFaculties()
+    .subscribe(data => this.dataSource.data = data);
+}
 
 
   addFaculty(faculty: Faculty) {
     this.apiService.createEntity('Faculty', faculty)
       .subscribe(response => {
-        this.dataSource.data = [...this.dataSource.data, response[0]];
+        // this.dataSource.data = [...this.dataSource.data, response[0]];
         this.table.renderRows();
         this.openSnackBar('Факультет додано');
       },
@@ -74,7 +79,7 @@ export class FacultiesComponent implements OnInit, AfterViewInit {
     this.apiService.updEntity('Faculty', faculty, id)
       .subscribe(response => {
         this.openSnackBar('Факультет оновлено');
-        this.facultyService.findAllFaculties();
+        this.getFaculties();
       },
         err => {
           if (err.error.response.includes('Error when update')) {
@@ -93,6 +98,7 @@ export class FacultiesComponent implements OnInit, AfterViewInit {
       .subscribe((response) => {
         this.openSnackBar('Факультет видалено');
         this.dataSource.data = this.dataSource.data.filter(item => item.faculty_id !== id);
+       // this.paginatorService.getCountRecords('Faculty');
       },
         err => {
           if (err.error.response.includes('Cannot delete')) {
