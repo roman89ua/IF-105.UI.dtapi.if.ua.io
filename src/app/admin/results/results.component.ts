@@ -54,7 +54,6 @@ export class ResultsComponent implements OnInit {
 
   private getTestsByGroup(group_id: number) {
     this.resultsService.getResultTestIdsByGroup(group_id).subscribe(result => {
-      console.log(result);
       if (result.response) {
         this.listTestsFiltered = [];
       } else {
@@ -76,7 +75,6 @@ export class ResultsComponent implements OnInit {
   }
 
   onSubmit() {
-    console.log(this.searchForm.value);
     //let [ group_id, test_id ] = this.searchForm.value;
     let group_id = this.searchForm.value.group_id;
     let test_id = this.searchForm.value.test_id;
