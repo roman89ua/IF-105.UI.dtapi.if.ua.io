@@ -16,7 +16,6 @@ export class FacultiesComponent implements OnInit, AfterViewInit {
   result: any;
   faculties: Faculty[] = [];
   displayedColumns: string[] = ['id', 'name', 'desc', 'action'];
-  loading = false;
 
   dataSource = new MatTableDataSource<Faculty>();
 
@@ -42,11 +41,9 @@ export class FacultiesComponent implements OnInit, AfterViewInit {
     this.dataSource.paginator = this.paginator;
   }
   getFaculty() {
-    this.loading = true;
     this.apiService.getEntity('Faculty')
       .subscribe(response => {
         this.dataSource.data = response;
-        this.loading = false;
       },
         err => {
           this.modalService.openErrorModal('Можливі проблеми із сервером');

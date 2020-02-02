@@ -1,12 +1,13 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {Group, Subject} from '../entity.interface';
-import {FormBuilder, FormGroup} from '@angular/forms';
+import {FormBuilder} from '@angular/forms';
 import {TimeTable} from '../../shared/entity.interface';
 import {MatDialog, MatPaginator, MatTable, MatTableDataSource} from '@angular/material';
 import {TimeTableAddDialogComponent} from './time-table-add-dialog/time-table-add-dialog.component';
 import {ModalService} from '../../shared/services/modal.service';
 import {ApiService} from 'src/app/shared/services/api.service';
 import {isString} from 'util';
+import {ActivatedRoute} from '@angular/router';
 
 @Component({
   selector: 'app-time-table',
@@ -20,6 +21,8 @@ export class TimeTableComponent implements OnInit {
     'group',
     'start_date',
     'start_time',
+    'end_date',
+    'end_time',
     'actions'
   ];
 
@@ -29,27 +32,31 @@ export class TimeTableComponent implements OnInit {
   constructor(private apiService: ApiService,
               private formBuilder: FormBuilder,
               public dialog: MatDialog,
-              private modalService: ModalService) {
+              private modalService: ModalService,
+              private route: ActivatedRoute) {
   }
 
-  subjects: Subject[] = [];
+  subject: Subject;
   subjectId: any;
+  id: any;
   timeTable: TimeTable[] = [];
 
-  subjectGroup: FormGroup;
-
   ngOnInit() {
+    this.route.queryParamMap.subscribe((params: any) => {
+      this.subjectId = params.params.id;
+      this.getTimeTable(this.subjectId);
+    });
     this.getSubjects();
-    this.subjectGroup = this.formBuilder.group({subjectId: ''});
-    this.getTimeTable();
   }
 
   addTimeTableDialog(): void {
     const dialogRef = this.dialog.open(TimeTableAddDialogComponent, {
-      width: '500px',
+      width: '600px',
       data: {
         data: {
+          subject_id: this.subjectId,
           start_time: '',
+          end_time: '',
         },
         description: {
           title: 'Додати новий розклад',
@@ -60,12 +67,10 @@ export class TimeTableComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        const validDate = this.formatDate(result.start_date);
-        const validTime = result.start_time.length < 6 ? result.start_time + ':00' : result.start_time;
-        result.start_date = validDate;
-        result.end_date = validDate;
-        result.start_time = validTime;
-        result.end_time = validTime;
+        result.start_date = this.formatDate(result.start_date);
+        result.end_date = this.formatDate(result.end_date);
+        result.start_time = result.start_time.length < 6 ? result.start_time + ':00' : result.start_time;
+        result.end_time = result.end_time.length < 6 ? result.end_time + ':00' : result.end_time;
         delete result.timetable_id;
         this.addTimeTable(result);
       }
@@ -74,7 +79,7 @@ export class TimeTableComponent implements OnInit {
 
   editTimeTableDialog(tableEl: TimeTable): void {
     const dialogRef = this.dialog.open(TimeTableAddDialogComponent, {
-      width: '500px',
+      width: '600px',
       data: {
         data: tableEl,
         description: {
@@ -85,12 +90,10 @@ export class TimeTableComponent implements OnInit {
     });
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        const validDate = this.formatDate(result.start_date);
-        const validTime = result.start_time.length < 6 ? result.start_time + ':00' : result.start_time;
-        result.start_date = validDate;
-        result.end_date = validDate;
-        result.start_time = validTime;
-        result.end_time = validTime;
+        result.start_date = this.formatDate(result.start_date);
+        result.end_date = this.formatDate(result.end_date);
+        result.start_time = result.start_time.length < 6 ? result.start_time + ':00' : result.start_time;
+        result.end_time = result.end_time.length < 6 ? result.end_time + ':00' : result.end_time;
         let groupName: string;
         this.apiService.getEntity('Group', result.group_id).subscribe((group: Group[]) => {
           groupName = group[0].group_name;
@@ -109,18 +112,15 @@ export class TimeTableComponent implements OnInit {
 
   private getSubjects() {
     this.apiService.getEntity('Subject').subscribe((response: Subject[]) => {
-      this.subjects = response;
+      const filteredSubject = response.filter(value => value.subject_id === this.subjectId);
+      this.subject = filteredSubject[0];
     });
   }
 
-
-  private getTimeTable(): void {
+  private getTimeTable(subjectId) {
     let table: TimeTable[];
-    this.subjects = [];
-    console.log(this.subjectId);
-    this.subjectGroup.get('subjectId').valueChanges.subscribe(value => {
-      this.subjectId = value;
-      this.apiService.getEntityByAction('timeTable', 'getTimeTablesForSubject', this.subjectId).subscribe((result: any) => {
+    this.apiService.getEntityByAction('timeTable', 'getTimeTablesForSubject', subjectId)
+      .subscribe((result: any) => {
         if (!result.response) {
           table = result;
           const ids = table.map(a => Number(a.group_id));
@@ -141,7 +141,6 @@ export class TimeTableComponent implements OnInit {
           this.dataSource.data = [];
         }
       });
-    });
   }
 
   private addTimeTable(data: TimeTable) {
@@ -150,7 +149,7 @@ export class TimeTableComponent implements OnInit {
         const updatedTable: TimeTable[] = result;
         this.apiService.getEntity('Group', result[0].group_id).subscribe((value: Group[]) => {
           updatedTable[0].group_name = value[0].group_name;
-          this.timeTable.push(updatedTable[0]);
+          this.dataSource.data.push(updatedTable[0]);
           this.table.renderRows();
           this.dataSource.paginator = this.paginator;
         });
@@ -212,6 +211,7 @@ export class TimeTableComponent implements OnInit {
       return date;
     }
   }
+
 
 }
 

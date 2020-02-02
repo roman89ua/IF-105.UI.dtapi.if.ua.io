@@ -4,6 +4,7 @@
         <input matInput placeholder="Код спеціальності" formControlName="speciality_code">
         <mat-error *ngIf="hasError('speciality_code', 'required')">Це поле є обов'язковим</mat-error>
         <mat-error *ngIf="hasError('speciality_code', 'pattern')">Це поле може містити тільки цифри</mat-error>
+        <mat-error *ngIf="hasError('speciality_code', 'maxlength')">Це поле може містити тільки до 5 символів</mat-error>
         <mat-error *ngIf="hasError('speciality_code', 'propertyIsNotUnique')">Спеціальність з таким кодом вже існує</mat-error>
     </mat-form-field>
 
