@@ -9,6 +9,7 @@ import { ApiService } from 'src/app/shared/services/api.service';
 import { Router } from '@angular/router';
 import { ModalService } from 'src/app/shared/services/modal.service';
 
+
 @Component({
   selector: 'app-subjects',
   templateUrl: './subjects.component.html',
@@ -57,7 +58,6 @@ export class SubjectsComponent implements OnInit {
   createNewSubject() {
     const newDialogSubject = this.dialog.open(SubjectsCreateModalComponent, {
       width: '500px',
-      disableClose: true,
     });
     newDialogSubject.afterClosed()
       .pipe(
@@ -71,12 +71,9 @@ export class SubjectsComponent implements OnInit {
       .subscribe((newData: Subject[] | null) => {
         if (newData) {
           this.dataSource.data = [...this.dataSource.data, newData[0]];
-          this.openSnackBar('Предмет було створено.', 'Закрити');
-      }},
-        err => {
-          this.openSnackBar('Такий предмет уже існує', 'Закрити');
+          this.openSnackBar('Предмет було створено.', 'X');
         }
-      );
+      });
   }
 
   edit(row: Subject): void {
@@ -96,12 +93,8 @@ export class SubjectsComponent implements OnInit {
       .subscribe((newData: Subject[] | null) => {
         if (newData) {
           this.showSubjects();
-          this.openSnackBar('Предмет відредаговано.', 'Закрити');
-        }},
-        err => {
-          this.openSnackBar('Такий предмет уже існує', 'Закрити');
-        }
-      );
+          this.openSnackBar('Предмет відредаговано.', 'X');
+        }});
   }
   openDialog(subject: Subject) {
     const message = `Ви видаляєте предмет "${subject.subject_name}"?`;
@@ -112,12 +105,8 @@ export class SubjectsComponent implements OnInit {
     this.apiService.delEntity('Subject', id)
       .subscribe((response) => {
         this.dataSource.data = this.dataSource.data.filter(item => item.subject_id !== id);
-        this.openSnackBar('Предмет видалено.', 'Закрити');
-      },
-        err => {
-          this.openSnackBar('На сервері присутні дані цього предмету.', 'Закрити');
-        }
-      );
+        this.openSnackBar('Предмет видалено.', 'X');
+      });
   }
 
   navigateToTimeTable(subjectId) {
