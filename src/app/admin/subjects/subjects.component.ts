@@ -28,14 +28,15 @@ export class SubjectsComponent implements OnInit {
     private apiService: ApiService,
     private route: Router,
     private modalService: ModalService,
-  ) {  }
+  ) { }
 
   ngOnInit(): void  {
     this.showSubjects();
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
-    console.log(this.dataSource.sort);
+    console.log(this.dataSource);
   }
+
   applyFilter(filterValue: string) {
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }
@@ -119,11 +120,11 @@ export class SubjectsComponent implements OnInit {
       );
   }
 
-  navigateToTimeTable(subject_id) {
-    this.route.navigate(['admin/timeTable'], { queryParams:{id: subject_id}});
+  navigateToTimeTable(subjectId) {
+    this.route.navigate(['admin/timeTable'], { queryParams: {id: subjectId}});
   }
 
-  navigateToTests(subject_id){
-    this.route.navigate(['admin/tests'], { queryParams:{id: subject_id}});
+  navigateToTests(subjectId) {
+    this.route.navigate(['admin/tests'], { queryParams: {id: subjectId}});
   }
 }

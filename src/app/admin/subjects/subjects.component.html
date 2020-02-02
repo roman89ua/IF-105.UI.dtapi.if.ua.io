@@ -15,10 +15,10 @@
 </mat-form-field>
 <div class="mat-elevation-z9">
 
-    <table mat-table [dataSource]="dataSource" class="mat-elevation-z8" matSort>
+    <table mat-table [dataSource]="dataSource" #table class="mat-elevation-z8" matSort>
         <ng-container matColumnDef="subject_number">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header>№</th>
-            <td mat-cell *matCellDef="let row; let No = index">{{No+1}}</td>
+            <th mat-header-cell *matHeaderCellDef>№</th>
+            <td mat-cell *matCellDef="let row; let i = index">{{ paginator.pageSize * paginator.pageIndex + i + 1 }}</td>
         </ng-container>
 
         <ng-container matColumnDef="subject_id">
