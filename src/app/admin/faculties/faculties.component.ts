@@ -38,14 +38,17 @@ export class FacultiesComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit(): void {
-    this.facultyService.findAllFaculties()
-      .subscribe(data => this.dataSource.data = data);
+   this.getFaculties();
   }
 
   ngAfterViewInit(): void {
     this.dataSource.paginator = this.paginator;
   }
 
+  getFaculties() {
+    this.facultyService.getFaculties()
+    .subscribe((response: Faculty[]) => this.dataSource.data = response);
+  }
 
   addFaculty(faculty: Faculty) {
     this.apiService.createEntity('Faculty', faculty)
@@ -74,7 +77,7 @@ export class FacultiesComponent implements OnInit, AfterViewInit {
     this.apiService.updEntity('Faculty', faculty, id)
       .subscribe(response => {
         this.openSnackBar('Факультет оновлено');
-        this.facultyService.findAllFaculties();
+        this.getFaculties();
       },
         err => {
           if (err.error.response.includes('Error when update')) {
