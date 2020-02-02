@@ -47,7 +47,7 @@
       </ng-container>
       <ng-container matColumnDef="student">
         <th mat-header-cell *matHeaderCellDef>ПІБ студента</th>
-        <td mat-cell *matCellDef="let result">{{getFullNameStudent(result.student_id, listStudents)}}</td>
+        <td mat-cell *matCellDef="let result">{{resultsService.getFullNameStudent(result.student_id, listStudents)}}</td>
       </ng-container>
       <ng-container matColumnDef="result">
         <th mat-header-cell *matHeaderCellDef>Результат</th>
@@ -63,7 +63,7 @@
       </ng-container>
       <ng-container matColumnDef="duration">
         <th mat-header-cell *matHeaderCellDef>Тривалість</th>
-        <td mat-cell *matCellDef="let result"></td>
+        <td mat-cell *matCellDef="let result">{{resultsService.getDurationTest(result.session_date, result.start_time, result.end_time)}}</td>
       </ng-container>
       <ng-container matColumnDef="details">
         <th mat-header-cell *matHeaderCellDef>Статистика</th>

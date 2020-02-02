@@ -122,13 +122,5 @@ export class ResultsComponent implements OnInit {
     this.getStudentsByGroup(group_id);
     this.getResultByTestIdAndGroupId(test_id, group_id);
   }
-  getFullNameStudent(user_id: number, list: GetStudentsInterface[]): string {
-    let currentUser: GetStudentsInterface = null;
-    for (let item of list) {
-      if (+item.user_id == user_id) {
-        currentUser = item;
-      }
-    }
-    return `${currentUser.student_surname} ${currentUser.student_name} ${currentUser.student_fname}`;
-  }
+
 }
