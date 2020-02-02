@@ -18,7 +18,6 @@ export class SubjectsComponent implements OnInit {
 
   public displayedColumns: string[] = ['subject_number', /*'subject_id',*/ 'subject_name', 'subject_description', 'subject_menu'];
   public dataSource = new MatTableDataSource<Subject>();
-  public loading = false;
 
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
   @ViewChild(MatSort, { static: true }) sort: MatSort;
@@ -35,17 +34,16 @@ export class SubjectsComponent implements OnInit {
     this.showSubjects();
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
+    console.log(this.dataSource.sort);
   }
   applyFilter(filterValue: string) {
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }
 
   showSubjects() {
-    this.loading = true;
     this.apiService.getEntity('Subject')
     .subscribe(response => {
       this.dataSource.data = response;
-      this.loading = false;
     });
   }
 
