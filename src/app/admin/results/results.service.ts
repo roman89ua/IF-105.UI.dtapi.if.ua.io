@@ -24,4 +24,8 @@ export class ResultsService {
   getRecordsByTestGroupDate(test_id: number, group_id: number): Observable<any> {
     return this.apiService.getRecordsByTestGroupDate(test_id, group_id);
   }
+
+  getListStudentsBuGroup(group_id: number): Observable<any>{
+    return this.apiService.getEntityByAction('Student', 'getStudentsByGroup', group_id);
+  }
 }
