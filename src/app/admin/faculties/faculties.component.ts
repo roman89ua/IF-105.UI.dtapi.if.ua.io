@@ -1,8 +1,7 @@
 import { Component, OnInit, AfterViewInit, } from '@angular/core';
 import { ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
-import { MatDialog, MatTableDataSource, MatTable, MatSnackBar } from '@angular/material';
-import { CreateEditComponent } from './create-edit/create-edit.component';
+import { MatTableDataSource, MatTable, MatSnackBar } from '@angular/material';
 import { Faculty } from 'src/app/shared/entity.interface';
 import { ModalService } from '../../shared/services/modal.service';
 import { ApiService } from 'src/app/shared/services/api.service';
@@ -26,7 +25,6 @@ export class FacultiesComponent implements OnInit, AfterViewInit {
 
   constructor(
     private apiService: ApiService,
-    private dialog: MatDialog,
     private snackBar: MatSnackBar,
     private modalService: ModalService,
     private facultyService: FacultiesService) { }
