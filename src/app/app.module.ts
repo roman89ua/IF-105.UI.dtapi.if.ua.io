@@ -6,9 +6,10 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { ApiHttpInterceptor } from './http.interceptor';
 import { SharedModule } from './shared/shared.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MatFormFieldModule, MatInputModule } from '@angular/material';
+import { MatFormFieldModule, MatInputModule, MatPaginatorIntl } from '@angular/material';
 import { NotFoundComponent } from './not-found/not-found.component';
 import { SpinnerInterceptor } from './shared/services/spinner.interceptor';
+import { getMatPaginatorUkr } from './shared/paginator/mat-pagination-intl';
 @NgModule({
   declarations: [
     AppComponent,
@@ -32,7 +33,8 @@ import { SpinnerInterceptor } from './shared/services/spinner.interceptor';
     provide: HTTP_INTERCEPTORS,
     useClass: SpinnerInterceptor,
     multi: true,
-  }],
+  },
+  { provide: MatPaginatorIntl, useValue: getMatPaginatorUkr() }],
   bootstrap: [AppComponent]
 })
 export class AppModule {
