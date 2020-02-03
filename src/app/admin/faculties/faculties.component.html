@@ -10,9 +10,6 @@
 </section>
 
 <section class="container">
-
-
-    <div>
     <table
       mat-table
       [dataSource]="dataSource"
@@ -46,7 +43,7 @@
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
       <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
     </table>
-    <mat-paginator  [pageSizeOptions]="[5, 10, 20]"   showFirstLastButtons></mat-paginator>
-    </div>
+   
+<app-paginator  [countRecords]="length" (changed)="onPaginationChanged($event)"></app-paginator>
 </section>
 
