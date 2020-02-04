@@ -26,7 +26,6 @@ import {TimeTableComponent} from './time-table/time-table.component';
 import {TimeTableAddDialogComponent} from './time-table/time-table-add-dialog/time-table-add-dialog.component';
 import {QuestionTypePipe} from './questions/pipes/question-type.pipe';
 import {StudentsModalWindowComponent} from './students/students-modal-window/students-modal-window.component';
-import {SubjectConfirmComponent} from './subjects/subject-confirm/subject-confirm.component';
 import { TestListComponent } from './tests/list/test-list.component';
 import { TestAddComponent } from './tests/add/test-add.component';
 import {TimeTablePipe} from './time-table/pipes/time-table.pipe';
@@ -75,7 +74,6 @@ const routes: Routes = [
     CreateEditComponent,
     SubjectsComponent,
     SubjectsCreateModalComponent,
-    SubjectConfirmComponent,
     TimeTableComponent,
     TimeTablePipe,
     TimeTableAddDialogComponent,
@@ -107,7 +105,6 @@ const routes: Routes = [
     SubjectsCreateModalComponent,
     TestAddComponent,
     TimeTableAddDialogComponent,
-    SubjectConfirmComponent,
     StudentsModalWindowComponent
   ]
 })

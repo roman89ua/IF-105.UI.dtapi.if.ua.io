@@ -36,7 +36,7 @@ export class SubjectsCreateModalComponent implements OnInit {
   getErrorMessage(field: FormControl) {
     return field.hasError('required') ? 'Це поле є обовязкове*' :
       field.hasError('pattern') ? 'Поле містить недопустимі символи або (Цифри, латинські букви)' :
-        '';
+        'Мінімум: 2 символи, максимуму: 100 ';
   }
 
   ngOnInit() {
