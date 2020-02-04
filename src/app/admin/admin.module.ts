@@ -32,12 +32,15 @@ import { TestAddComponent } from './tests/add/test-add.component';
 import {TimeTablePipe} from './time-table/pipes/time-table.pipe';
 import { GroupModalService } from './group/group-modal.service';
 import { GroupService } from './group/group.service';
+import { DashboardComponent } from './dashboard/dashboard.component';
 
 
 const routes: Routes = [
   {
     path: '', component: AdminComponent,
     children: [
+      { path: '', redirectTo: '/admin/dashboard', pathMatch: 'full'},
+      { path: 'dashboard', component: DashboardComponent},
       { path: 'tests/:id/questions/:questionId/:mode', component: NewQuestionComponent },
       { path: 'tests/:id/questions', component: QuestionsComponent },
       { path: 'tests/:id/questions/new', component: NewQuestionComponent },
@@ -77,6 +80,7 @@ const routes: Routes = [
     TimeTablePipe,
     TimeTableAddDialogComponent,
     QuestionTypePipe,
+    DashboardComponent,
   ],
   imports: [
     CommonModule,

@@ -1,0 +1,21 @@
+<section class="header" >
+    <h3>Головна</h3>
+</section>
+<section class="container">
+    <mat-card class="dashboard-card" *ngFor="let item of countRecord" >
+        <mat-card-header>
+          <mat-card-title>
+            {{item.name}}
+          </mat-card-title>
+        </mat-card-header>
+        <mat-card-content class="dashboard-card-content">
+          <section class="dashboard-counts">
+            <section class="wrap" >
+            <mat-icon>{{item.icon}}</mat-icon>
+            <strong>{{item.name}}</strong>
+            <p>{{item.numberOfRecords}}</p>
+            </section>
+        </section>
+        </mat-card-content>
+      </mat-card>
+</section>

@@ -1,0 +1,35 @@
+.header {
+    display: flex;
+    justify-content: space-between;
+    margin: 20px 20px;
+    align-items: center;
+  }
+.container {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    
+    padding: 1rem;
+    
+  }
+  .dashboard-card {
+    max-width: 350px;
+    min-height: 200px;
+    margin: 0px 30px;
+  }
+  
+  .dashboard-counts {
+    display: flex;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+    max-width: 190px;
+  }
+  
+  .wrap {
+    font-size: 18px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 13px;
+   
+  }
