@@ -30,6 +30,8 @@ import {SubjectConfirmComponent} from './subjects/subject-confirm/subject-confir
 import { TestListComponent } from './tests/list/test-list.component';
 import { TestAddComponent } from './tests/add/test-add.component';
 import {TimeTablePipe} from './time-table/pipes/time-table.pipe';
+import { ResultsComponent } from './results/results.component';
+import { ResultsService } from './results/results.service';
 import { GroupModalService } from './group/group-modal.service';
 import { GroupService } from './group/group.service';
 
@@ -49,6 +51,7 @@ const routes: Routes = [
       { path: 'speciality', component: SpecialityListComponent },
       { path: 'timeTable', component: TimeTableComponent },
       { path: 'tests', component: TestListComponent },
+      { path: 'results', component: ResultsComponent },
     ]}
 ];
 @NgModule({
@@ -77,6 +80,7 @@ const routes: Routes = [
     TimeTablePipe,
     TimeTableAddDialogComponent,
     QuestionTypePipe,
+    ResultsComponent,
   ],
   imports: [
     CommonModule,
@@ -89,6 +93,7 @@ const routes: Routes = [
   providers: [
     AdminUserService,
     StudentsService,
+    ResultsService,
     GroupModalService,
     GroupService
   ],
