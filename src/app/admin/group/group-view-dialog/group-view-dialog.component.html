@@ -4,8 +4,8 @@
     <mat-label>Спеціальність</mat-label>
     <mat-select formControlName="id" placeholder="Виберіть спеціальність">
       <mat-option
-        *ngFor="let item of specialities"
-        [value]="item.speciality_id"
+        *ngFor="let item of data.listSpeciality"
+        [value]="[item.speciality_id, item.speciality_name]"
       >
         {{item.speciality_name}}
       </mat-option>
@@ -18,8 +18,8 @@
     <mat-label>Факультет/Інститут</mat-label>
     <mat-select formControlName="id" placeholder="Виберіть факультет/інститут">
       <mat-option
-        *ngFor="let item of faculties"
-        [value]="item.faculty_id"
+        *ngFor="let item of data.listFaculty"
+        [value]="[item.faculty_id, item.faculty_name]"
       >
         {{item.faculty_name}}
       </mat-option>

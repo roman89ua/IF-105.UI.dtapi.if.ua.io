@@ -1,34 +1,21 @@
-import { Component, OnInit, Inject } from "@angular/core";
-import { Speciality, Faculty, Group } from "../../../shared/entity.interface";
+import { Component, OnInit, Inject, Input } from "@angular/core";
 import { MatDialogRef, MAT_DIALOG_DATA } from "@angular/material/dialog";
-import { ModalService } from '../../../shared/services/modal.service';
-import { ApiService } from 'src/app/shared/services/api.service';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
+import { DialogData } from '../../group/group-modal.interface';
 
-interface DialogData {
-  group: Group | null;
-  description: {
-    title: string;
-    action: string;
-  }
-}
 @Component({
   selector: 'app-group-add-edit-dialog',
   templateUrl: './group-add-edit-dialog.component.html',
   styleUrls: ['./group-add-edit-dialog.component.scss']
 })
 export class GroupAddEditDialogComponent implements OnInit {
-  specialities: Speciality[] = [];
-  faculties: Faculty[] = [];
   addEditForm: FormGroup;
 
   constructor(
-    private apiService: ApiService,
     public dialogRef: MatDialogRef<GroupAddEditDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: DialogData,
-    private modalService: ModalService,
-    private fb: FormBuilder
-  ) { 
+    private fb: FormBuilder,
+   ) { 
     dialogRef.disableClose = true;
     this.createForm();
   }
@@ -51,21 +38,7 @@ export class GroupAddEditDialogComponent implements OnInit {
   }
 
 
-  ngOnInit() {
-    this.apiService
-      .getEntity('Speciality')
-      .subscribe((result: Speciality[]) => {
-        this.specialities = result;
-      }, () => {
-        this.modalService.openErrorModal('Помилка завантаження даних');
-      });
-    this.apiService.getEntity('Faculty')
-      .subscribe((result: Faculty[]) => {
-        this.faculties = result;
-      }, () => {
-        this.modalService.openErrorModal('Помилка завантаження даних');
-      });
-  }
+  ngOnInit() {}
 
   onSubmit() {
     this.dialogRef.close(this.addEditForm.value);
