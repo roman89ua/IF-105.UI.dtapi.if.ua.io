@@ -32,6 +32,7 @@ import { TestAddComponent } from './tests/add/test-add.component';
 import {TimeTablePipe} from './time-table/pipes/time-table.pipe';
 import { GroupModalService } from './group/group-modal.service';
 import { GroupService } from './group/group.service';
+import { TransferStudentModalWindowComponent } from './students/transfer-student-modal-window/transfer-student-modal-window.component';
 
 
 const routes: Routes = [
@@ -77,6 +78,7 @@ const routes: Routes = [
     TimeTablePipe,
     TimeTableAddDialogComponent,
     QuestionTypePipe,
+    TransferStudentModalWindowComponent,
   ],
   imports: [
     CommonModule,
@@ -103,7 +105,8 @@ const routes: Routes = [
     TestAddComponent,
     TimeTableAddDialogComponent,
     SubjectConfirmComponent,
-    StudentsModalWindowComponent
+    StudentsModalWindowComponent,
+    TransferStudentModalWindowComponent
   ]
 })
 export class AdminModule { }
