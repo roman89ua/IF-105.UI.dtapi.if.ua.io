@@ -35,7 +35,7 @@ export class FacultiesComponent implements OnInit, AfterViewInit {
     private paginatorService: PaginatorService) { }
 
 
-/*            For Paganator component        */
+/*            For Paginator component        */
   public onPaginationChanged(paginatorModel: PaginationModel): void {
     this.paginator = paginatorModel;
     this.getRange(paginatorModel);
