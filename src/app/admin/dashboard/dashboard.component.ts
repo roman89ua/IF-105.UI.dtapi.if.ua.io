@@ -11,7 +11,7 @@ import { of, forkJoin } from 'rxjs';
 export class DashboardComponent implements OnInit {
 
   countRecord = [
-    { name: 'Фалькутети', icon: 'school', route: '/faculties', numberOfRecords: null },
+    { name: 'Факультети', icon: 'school', route: '/faculties', numberOfRecords: null },
     { name: 'Групи', icon: 'group', route: 'group', numberOfRecords: null },
     { name: 'Адміни', icon: 'person', route: 'admin-user', numberOfRecords: null },
     { name: 'Предмети', icon: 'local_library', route: 'subjects', numberOfRecords: null },
