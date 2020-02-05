@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { ApiService } from 'src/app/shared/services/api.service';
 import { Observable } from 'rxjs';
 import { GetStudentsInterface } from '../students/interfaces/get-students-interface';
+import { Test, Results,TrueAnswers, Questions } from './../entity.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -52,5 +53,58 @@ export class ResultsService {
     let minutes = Math.floor((duration / (1000 * 60)) % 60);
     let hours = Math.floor((duration / (1000 * 60 * 60)) % 24); 
     return `${(hours < 10) ? "0" + hours : hours}:${(minutes < 10) ? "0" + minutes : minutes}:${(seconds < 10) ? "0" + seconds : seconds}`;
+  }
+
+  /** GET max result each students by group */
+  getMaxResultStudents(list: Results[]): Results[] {
+    let filtered: Results[] = [];
+    for (let item of list) {
+      let index = filtered.findIndex(elem => elem.student_id === item.student_id);
+      if (index < 0) {
+        filtered.push(item);
+      }
+      else {
+        if (+filtered[index].result < +item.result) {
+          filtered[index] = item;
+        }
+      }
+    }
+    return filtered;
+  }
+  /** GET min result each students by group */
+  getMinResultStudents(list: Results[]): Results[] {
+    let filtered: Results[] = [];
+    for (let item of list) {
+      let index = filtered.findIndex(elem => elem.student_id === item.student_id);
+      if (index < 0) {
+        filtered.push(item);
+      }
+      else {
+        if (+item.result < +filtered[index].result) {
+          filtered[index] = item;
+        }
+      }
+    }
+    return filtered;
+  }
+  /** Calculate rating question by group */
+  calculateRatingQuestion(listResult: Results[]) {
+    /** key: question_id, value: count true answers */
+    let answers = new Map();
+    //console.log(listResult);
+    for (let result of listResult) {
+      let true_answers = JSON.parse(result.true_answers);
+      console.log(typeof( true_answers));
+      for (let question of true_answers) {
+        if (answers.has(question.question_id)) {
+          let counterTrueAnswer = answers.get(question.question_id)[1] + (+question.true);
+          let counterQuestion = answers.get(question.question_id)[1] + 1 
+          answers.set(question.question_id, [counterQuestion, counterTrueAnswer]);
+        } else {
+          answers.set(question.question_id, [1, +question.true] );
+        }
+      }
+    }
+    console.log(answers);
   }
 }

@@ -21,7 +21,7 @@ export class ResultsComponent implements OnInit {
   listStudents: GetStudentsInterface[] = [];
   searchForm: FormGroup;
   groupId: FormControl;
-  dataSource = new MatTableDataSource<Element>();
+  dataSource = new MatTableDataSource<Results>();
   displayedColumns: string[] = [
     'id',
     'student',
@@ -32,10 +32,10 @@ export class ResultsComponent implements OnInit {
     'details',
   ];
 
-  @ViewChild('table', { static: true }) table: MatTable<Element>;
+  @ViewChild('table', { static: true }) table: MatTable<Results>;
 
   constructor(private fb: FormBuilder,
-    private resultsService: ResultsService,
+    public resultsService: ResultsService,
     private modalService: ModalService) {}
 
   ngOnInit() {
@@ -121,6 +121,10 @@ export class ResultsComponent implements OnInit {
     let test_id = this.searchForm.value.test_id;
     this.getStudentsByGroup(group_id);
     this.getResultByTestIdAndGroupId(test_id, group_id);
+  }
+
+  getMax(list: Results[]) {
+    this.dataSource.data = this.resultsService.getMaxResultStudents(list);
   }
 
 }
