@@ -14,8 +14,8 @@ export class TransferStudentModalWindowComponent implements OnInit {
   private username: string;
   private email: string;
   public response: object;
-  private FACULTIES_LIST: Faculty[] = [];
-  private GROUPS_LIST: Group[] = [];
+  public FACULTIES_LIST: Faculty[] = [];
+  public GROUPS_LIST: Group[] = [];
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
