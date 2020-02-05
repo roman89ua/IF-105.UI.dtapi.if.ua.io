@@ -9,15 +9,16 @@ import { of, forkJoin } from 'rxjs';
   styleUrls: ['./dashboard.component.scss']
 })
 export class DashboardComponent implements OnInit {
+
   countRecord = [
-    { name: 'Фалькутети', icon: 'school', numberOfRecords: null },
-    { name: 'Групи', icon: 'group', numberOfRecords: null },
-    { name: 'Адміни', icon: 'person', numberOfRecords: null },
-    { name: 'Предмети', icon: 'local_library', numberOfRecords: null },
-    { name: 'Питання', icon: 'question_answer', numberOfRecords: null },
-    { name: 'Тести', icon: 'spellcheck', numberOfRecords: null },
-    { name: 'Студенти', icon: 'assignment_ind', numberOfRecords: null },
-    { name: 'Спеціальності', icon: 'library_books', numberOfRecords: null },
+    { name: 'Фалькутети', icon: 'school', route: '/faculties', numberOfRecords: null },
+    { name: 'Групи', icon: 'group', route: 'group', numberOfRecords: null },
+    { name: 'Адміни', icon: 'person', route: 'admin-user', numberOfRecords: null },
+    { name: 'Предмети', icon: 'local_library', route: 'subjects', numberOfRecords: null },
+    { name: 'Питання', icon: 'question_answer', route: 'tests', numberOfRecords: null },
+    { name: 'Тести', icon: 'spellcheck', route: 'tests', numberOfRecords: null },
+    { name: 'Студенти', icon: 'assignment_ind', route: 'group', numberOfRecords: null },
+    { name: 'Спеціальності', icon: 'library_books', route: 'speciality', numberOfRecords: null },
   ];
   constructor(private apiService: ApiService) { }
 

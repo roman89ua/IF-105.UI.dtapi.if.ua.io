@@ -7,6 +7,7 @@
         <span class="fill-space"></span>
 
     <mat-nav-list *ngIf="!(isSmall$ | async) && !(isXSmall$ | async)">
+      <a routerLinkActive="mat-raised-button" mat-button routerLink="dashboard">Головна</a>
       <a routerLinkActive="mat-raised-button" mat-button routerLink="faculties">Факультети</a>
       <a routerLinkActive="mat-raised-button" mat-button routerLink="group">Групи</a>
       <a routerLinkActive="mat-raised-button" mat-button routerLink="speciality">Спеціальності</a>
@@ -28,6 +29,8 @@
   <mat-sidenav-container class="sidenav-container">
     <mat-sidenav #sidenav class="sidenav" mode="over" [opened]="false">
       <mat-nav-list *ngIf="(isSmall$ | async) || (isXSmall$ | async)">
+        <a mat-list-item (click)="sidenav.toggle()" routerLink="dashboard">Головна</a>
+        <mat-divider></mat-divider>
         <a mat-list-item (click)="sidenav.toggle()" routerLink="faculties">Факультети</a>
         <mat-divider></mat-divider>
         <a mat-list-item (click)="sidenav.toggle()" routerLink="group">Групи</a>
