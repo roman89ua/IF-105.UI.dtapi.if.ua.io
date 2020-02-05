@@ -37,11 +37,12 @@ export class StudentsComponent implements OnInit {
   showStudentsByGroup() {
     this.groupdID = this.activatedRoute.snapshot.params['id'];
     this.apiService.getEntityByAction('Student', 'getStudentsByGroup', this.groupdID).subscribe((result: any) => {
-      if (result === 'no records') {
-        return;
+      if (result.response === 'no records') {
+        return this.STUDENTS_LIST = undefined;
+      } else {
+        this.STUDENTS_LIST = result;
+        this.isLoading = false;
       }
-      this.STUDENTS_LIST = result;
-      this.isLoading = false;
     });
   }
 
