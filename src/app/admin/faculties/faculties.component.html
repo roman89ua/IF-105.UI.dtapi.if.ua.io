@@ -44,6 +44,6 @@
       <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
     </table>
    
-<app-paginator  [countRecords]="length" (changed)="onPaginationChanged($event)"></app-paginator>
+<app-paginator  [countRecords]="length" (changed)="onPaginationChanged($event)" (paginator)="getMatPagination($event)"></app-paginator>
 </section>
 

@@ -1,7 +1,7 @@
 import { Component, OnInit, Input, ViewChild, Output, EventEmitter } from '@angular/core';
 import { PaginatorService } from './paginator.service';
 import { PageEvent, MatPaginator } from '@angular/material';
-import { Pagination } from './PaginationInterface';
+import { PaginationModel } from './PaganationModel';
 
 @Component({
   selector: 'app-paginator',
@@ -10,33 +10,26 @@ import { Pagination } from './PaginationInterface';
 })
 export class PaginatorComponent implements OnInit {
   @Input() countRecords;
-  @Output() changed: EventEmitter<Pagination> = new EventEmitter<Pagination>();
+  @Output() changed: EventEmitter<PaginationModel> = new EventEmitter<PaginationModel>();
   @ViewChild('matPaginator', { static: true }) matPaginator: MatPaginator;
   @Output() paginator: EventEmitter<MatPaginator> = new EventEmitter<MatPaginator>();
 
-  pageSize;
-  pageSizeOptions;
+  pageSize = 10;
+  pageSizeOptions = [5, 10, 20, 50];
 
 
 
  public onPaginationChange(paginationEvent: PageEvent): void {
-  this.changed.emit(this.parsePagination(paginationEvent));
+   const page = new PaginationModel(paginationEvent.pageSize, paginationEvent.pageIndex);
+   this.changed.emit(page);
 }
 
-private parsePagination(value: PageEvent): Pagination {
-  return {
-    length: value.length,
-    pageIndex: value.pageIndex,
-    pageSize: value.pageSize,
-    offset: value.pageIndex * value.pageSize
-  };
-}
   constructor(private paginatorService: PaginatorService) { }
 
 
   ngOnInit() {
-    this.pageSize = this.paginatorService.pageCount;
-    this.pageSizeOptions = this.paginatorService.selectItemsPerPage;
+    const page = new PaginationModel(this.pageSize, 0);
+    this.changed.emit(page);
     this.paginator.emit(this.matPaginator);
   }
 

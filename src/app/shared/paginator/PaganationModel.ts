@@ -1,7 +1,18 @@
 export class PaginationModel {
-    selectItemsPerPage: number[] = [5, 10, 25, 100];
-    pageSize = this.selectItemsPerPage[0];
-    pageIndex = 0;
-    allItemsLength = 0;
-    offset = 0;
+    private _pageSize: number;
+    private _pageIndex: number;
+
+    get pageIndex(): number {
+        return this._pageIndex;
+    }
+    get pageSize(): number {
+        return this._pageSize;
+    }
+    set pageIndex(val: number) {
+        this._pageIndex = val;
+    }
+    constructor(pageSize: number, pageIndex: number) {
+        this._pageSize = pageSize;
+        this._pageIndex = pageIndex;
+    }
 }
