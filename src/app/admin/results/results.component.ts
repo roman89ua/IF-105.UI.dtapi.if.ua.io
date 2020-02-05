@@ -1,7 +1,8 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormGroup, Validators, FormBuilder, FormControl } from '@angular/forms';
 import { Group } from 'src/app/shared/entity.interface';
-import { Test, Results, Student } from './../entity.interface';
+import { Test, Results } from './../entity.interface';
+import { Student } from 'src/app/shared/entity.interface';
 import { ResultsService } from './results.service';
 import { ModalService } from '../../shared/services/modal.service';
 import { MatTable, MatTableDataSource } from '@angular/material';
