@@ -17,7 +17,7 @@ export class ResultsComponent implements OnInit {
   listTests: Test[] = [];
   listTestsByGroup: Test[] = [];
   listResults: Results[];
-  listStudents: GetStudentsInterface[] = [];
+  listStudents: Student[] = [];
   searchForm: FormGroup;
   groupId: FormControl;
   dataSource = new MatTableDataSource<Element>();
