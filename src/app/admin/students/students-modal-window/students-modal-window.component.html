@@ -2,6 +2,10 @@
 <mat-icon aria-hidden="false" aria-label="edit" class="closeForm" (click)="closeModalWindow()">close</mat-icon>
 </div>
 
+<header class="header">
+    <h3>{{data.updateStudent ? 'Редагувати дані студента' : 'Додати нового студента'}}</h3>
+</header>
+
 <form [formGroup]="studentForm" (ngSubmit)="handleSubmit(studentForm.value)">
     
     <mat-form-field class="example-full-width">

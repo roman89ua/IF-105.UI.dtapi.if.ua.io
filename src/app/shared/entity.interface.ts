@@ -30,5 +30,19 @@ export interface TimeTable {
   start_time: number;
   end_date: number;
   end_time: number;
+}
 
+export interface ResponseInterface {
+  response: string;
+}
+
+export interface Student {
+  user_id: string;
+  gradebook_id: string;
+  student_surname: string;
+  student_name: string;
+  student_fname: string;
+  group_id: string;
+  plain_password: string;
+  photo: string;
 }

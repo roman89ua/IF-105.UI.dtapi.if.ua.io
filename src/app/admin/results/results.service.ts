@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { ApiService } from 'src/app/shared/services/api.service';
 import { Observable } from 'rxjs';
-import { GetStudentsInterface } from '../students/interfaces/get-students-interface';
 import { Test, Results,TrueAnswers, Questions } from './../entity.interface';
+import { Student } from 'src/app/shared/entity.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -31,8 +31,8 @@ export class ResultsService {
     return this.apiService.getEntityByAction('Student', 'getStudentsByGroup', group_id);
   }
   /** GET fullname student by user_id */
-  getFullNameStudent(user_id: number, list: GetStudentsInterface[]): string {
-    let currentUser: GetStudentsInterface = null;
+  getFullNameStudent(user_id: number, list: Student[]): string {
+    let currentUser: Student = null;
     for (let item of list) {
       if (+item.user_id == user_id) {
         currentUser = item;
