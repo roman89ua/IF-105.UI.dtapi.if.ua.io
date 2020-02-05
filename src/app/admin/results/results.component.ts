@@ -2,10 +2,10 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormGroup, Validators, FormBuilder, FormControl } from '@angular/forms';
 import { Group } from 'src/app/shared/entity.interface';
 import { Test, Results } from './../entity.interface';
+import { Student } from 'src/app/shared/entity.interface';
 import { ResultsService } from './results.service';
 import { ModalService } from '../../shared/services/modal.service';
 import { MatTable, MatTableDataSource } from '@angular/material';
-import { GetStudentsInterface } from '../students/interfaces/get-students-interface';
 
 @Component({
   selector: 'app-results',
@@ -18,7 +18,7 @@ export class ResultsComponent implements OnInit {
   listTests: Test[] = [];
   listTestsByGroup: Test[] = [];
   listResults: Results[];
-  listStudents: GetStudentsInterface[] = [];
+  listStudents: Student[] = [];
   searchForm: FormGroup;
   groupId: FormControl;
   dataSource = new MatTableDataSource<Element>();

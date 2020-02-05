@@ -38,6 +38,12 @@
             &[aria-label="delete"] {
                 color: red;
             }
+            &[aria-label="view"] {
+                color: blue;
+            }
+            &[aria-label="transfer"] {
+                color: gray;
+            }
         }
     }
     

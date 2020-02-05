@@ -33,6 +33,7 @@ import { ResultsComponent } from './results/results.component';
 import { ResultsService } from './results/results.service';
 import { GroupModalService } from './group/group-modal.service';
 import { GroupService } from './group/group.service';
+import { TransferStudentModalWindowComponent } from './students/transfer-student-modal-window/transfer-student-modal-window.component';
 
 
 const routes: Routes = [
@@ -79,6 +80,7 @@ const routes: Routes = [
     TimeTableAddDialogComponent,
     QuestionTypePipe,
     ResultsComponent,
+    TransferStudentModalWindowComponent,
   ],
   imports: [
     CommonModule,
@@ -105,7 +107,8 @@ const routes: Routes = [
     SubjectsCreateModalComponent,
     TestAddComponent,
     TimeTableAddDialogComponent,
-    StudentsModalWindowComponent
+    TransferStudentModalWindowComponent,
+    StudentsModalWindowComponent,
   ]
 })
 export class AdminModule { }
