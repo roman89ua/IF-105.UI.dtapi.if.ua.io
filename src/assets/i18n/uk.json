@@ -1,5 +1,11 @@
 {
     "footer": {
         "label": "Мова"
+    },
+    "loginform": {
+        "header": "Авторизація",
+        "enter": "Увійти",
+        "username": "Логін",
+        "userpassword": "Пароль"
     }
 }

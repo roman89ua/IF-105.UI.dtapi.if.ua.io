@@ -2,13 +2,13 @@
 <router-outlet></router-outlet>
 <mat-toolbar class="footer">
     <mat-toolbar-row>
-        <span><label>{{'footer.label'| translate}}     
-        <button (click) = "switchLanguage('en')" >
+        <span class="langBtn"><!--<label>{{'footer.label'| translate}}-->
+        <button mat-stroked-button color="primary" (click) = "switchLanguage('en')" >
           Eng
         </button>
-        <button (click) = "switchLanguage('uk')" >
+        <button mat-stroked-button color="primary" (click) = "switchLanguage('uk')" >
           Укр
-        </button >
-    </label></span>
+        </button>
+    <!-- </label> --></span>
     </mat-toolbar-row>
 </mat-toolbar>

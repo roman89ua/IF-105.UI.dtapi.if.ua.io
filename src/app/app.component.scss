@@ -1,0 +1,9 @@
+.mat-toolbar {
+    z-index: 1000;
+    position: absolute;
+    bottom: 0;
+    .langBtn {
+        flex: 1 1 auto;
+        text-align: center;
+    }
+}

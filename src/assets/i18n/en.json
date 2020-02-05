@@ -1,5 +1,11 @@
 {
     "footer": {
         "label": "Language"
+    },
+    "loginform": {
+        "header": "Authorization",
+        "enter": "Login",
+        "username": "Login",
+        "userpassword": "Password"
     }
 }
