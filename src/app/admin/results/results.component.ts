@@ -4,8 +4,9 @@ import { Group } from 'src/app/shared/entity.interface';
 import { Test, Results } from './../entity.interface';
 import { ResultsService } from './results.service';
 import { ModalService } from '../../shared/services/modal.service';
-import { MatTable, MatTableDataSource } from '@angular/material';
+import { MatTable, MatTableDataSource, MatDialog } from '@angular/material';
 import { GetStudentsInterface } from '../students/interfaces/get-students-interface';
+import { BarChartComponent } from '../results/bar-chart/bar-chart.component';
 
 @Component({
   selector: 'app-results',
@@ -36,7 +37,8 @@ export class ResultsComponent implements OnInit {
 
   constructor(private fb: FormBuilder,
     public resultsService: ResultsService,
-    private modalService: ModalService) {}
+    private modalService: ModalService,
+    public dialog: MatDialog) {}
 
   ngOnInit() {
     this.getAllGroups();
@@ -127,4 +129,10 @@ export class ResultsComponent implements OnInit {
     this.dataSource.data = this.resultsService.getMaxResultStudents(list);
   }
 
+  createChart(): void {
+    const dialogRef = this.dialog.open(BarChartComponent, {
+      width: '1000px',
+      data: {data: this.dataSource.data}
+    });
+  }
 }

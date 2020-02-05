@@ -88,23 +88,22 @@ export class ResultsService {
     return filtered;
   }
   /** Calculate rating question by group */
-  calculateRatingQuestion(listResult: Results[]) {
+  calculateRatingQuestion(listResult: Results[]): Map<string, [number, number]> {
     /** key: question_id, value: count true answers */
     let answers = new Map();
-    //console.log(listResult);
     for (let result of listResult) {
       let true_answers = JSON.parse(result.true_answers);
       console.log(typeof( true_answers));
       for (let question of true_answers) {
-        if (answers.has(question.question_id)) {
-          let counterTrueAnswer = answers.get(question.question_id)[1] + (+question.true);
-          let counterQuestion = answers.get(question.question_id)[1] + 1 
-          answers.set(question.question_id, [counterQuestion, counterTrueAnswer]);
+        if (answers.has(+question.question_id)) {
+          let counterTrueAnswer = answers.get(+question.question_id)[1] + (+question.true);
+          let counterQuestion = answers.get(+question.question_id)[1] + 1 
+          answers.set(+question.question_id, [counterQuestion, counterTrueAnswer]);
         } else {
-          answers.set(question.question_id, [1, +question.true] );
+          answers.set(+question.question_id, [1, +question.true] );
         }
       }
     }
-    console.log(answers);
+    return answers;
   }
 }

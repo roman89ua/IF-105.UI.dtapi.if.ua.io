@@ -40,7 +40,7 @@
   <ng-container *ngIf="dataSource.data.length">
     <div>
       <button (click)="getMax(dataSource.data)">Максимальний результат</button>
-      <button (click)="resultsService.calculateRatingQuestion(dataSource.data)">Статистика тесту</button>
+      <button (click)="createChart()">Статистика тесту</button>
     </div>
     <table mat-table #table [dataSource]="dataSource">
       <ng-container matColumnDef="id">

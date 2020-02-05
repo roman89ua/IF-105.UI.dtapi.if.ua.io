@@ -34,6 +34,8 @@ import { ResultsComponent } from './results/results.component';
 import { ResultsService } from './results/results.service';
 import { GroupModalService } from './group/group-modal.service';
 import { GroupService } from './group/group.service';
+import { BarChartComponent } from './results/bar-chart/bar-chart.component';
+import { ChartsModule } from 'ng2-charts';
 
 
 const routes: Routes = [
@@ -81,6 +83,7 @@ const routes: Routes = [
     TimeTableAddDialogComponent,
     QuestionTypePipe,
     ResultsComponent,
+    BarChartComponent,
   ],
   imports: [
     CommonModule,
@@ -89,6 +92,7 @@ const routes: Routes = [
     ReactiveFormsModule,
     RouterModule.forChild(routes),
     MatDialogModule,
+    ChartsModule
   ],
   providers: [
     AdminUserService,
@@ -108,7 +112,8 @@ const routes: Routes = [
     TestAddComponent,
     TimeTableAddDialogComponent,
     SubjectConfirmComponent,
-    StudentsModalWindowComponent
+    StudentsModalWindowComponent,
+    BarChartComponent
   ]
 })
 export class AdminModule { }
