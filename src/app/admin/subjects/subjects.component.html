@@ -13,26 +13,26 @@
 <mat-form-field class="filter">
     <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Пошук">
 </mat-form-field>
-<div class="mat-elevation-z8">
+<div class="mat-elevation-z9">
 
-    <table mat-table [dataSource]="dataSource" #table *ngIf="!loading">
+    <table mat-table [dataSource]="dataSource" #table class="mat-elevation-z8" matSort>
         <ng-container matColumnDef="subject_number">
             <th mat-header-cell *matHeaderCellDef>№</th>
-            <td mat-cell *matCellDef="let row; let No = index">{{No+1}}</td>
+            <td mat-cell *matCellDef="let row; let i = index">{{ paginator.pageSize * paginator.pageIndex + i + 1 }}</td>
         </ng-container>
 
         <ng-container matColumnDef="subject_id">
-            <th mat-header-cell *matHeaderCellDef>Ідентифікатор</th>
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Ідентифікатор</th>
             <td mat-cell *matCellDef="let row"> {{row.subject_id}} </td>
         </ng-container>
 
         <ng-container matColumnDef="subject_name">
-            <th mat-header-cell *matHeaderCellDef>Назва</th>
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Назва</th>
             <td mat-cell *matCellDef="let row"> {{row.subject_name}} </td>
         </ng-container>
 
         <ng-container matColumnDef="subject_description">
-            <th mat-header-cell *matHeaderCellDef>Опис</th>
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Опис</th>
             <td mat-cell *matCellDef="let row"> {{row.subject_description}} </td>
         </ng-container>
 
@@ -42,7 +42,7 @@
                 <mat-icon aria-hidden="false" matTooltip="Перейти до тестів предмета" class="assignment_turned_in" aria-label="assignment_turned_in" (click)="navigateToTests(row.subject_id)">assignment_turned_in</mat-icon>
                 <mat-icon aria-hidden="false" matTooltip="Розклад тестування" class="date_range" aria-label="date_range" (click)="navigateToTimeTable(row.subject_id)">date_range</mat-icon>
                 <mat-icon aria-hidden="false" matTooltip="Редагувати предмет" class="edit" aria-label="edit" (click)="edit(row)">edit</mat-icon>
-                <mat-icon aria-hidden="false" matTooltip="Видалити предмет" class="delete" aria-label="delete" (click)="delete(row)">delete</mat-icon>
+                <mat-icon aria-hidden="false" matTooltip="Видалити предмет" class="delete" aria-label="delete" (click)="openDialog(row)">delete</mat-icon>
             </td>
         </ng-container>
 

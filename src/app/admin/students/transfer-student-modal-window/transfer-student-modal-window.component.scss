@@ -1,0 +1,20 @@
+mat-icon {
+    cursor: pointer;
+}
+
+.closeForm {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.header {
+    text-align: center;
+}
+
+.container {
+    margin-top: 20px;
+
+    .selector {
+        margin: 30px;
+    }
+}
