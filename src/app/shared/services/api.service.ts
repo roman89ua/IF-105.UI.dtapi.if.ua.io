@@ -49,6 +49,29 @@ export class ApiService {
     }
     return this.http.get(url);
   }
+  /** Get student's results for student_id */
+  getRecordsbyStudent(student_id: number): Observable<any> {
+    return this.http.get(`${this.apiURI}/Result/getRecordsbyStudent/${student_id}`);
+  }
+  /** Result/countTestPassesByStudent/<student_id>/<test_id> */
+  getCountTestPassesByStudent(student_id: number, test_id: number): Observable<any> {
+    return this.http.get(`${this.apiURI}/Result/countTestPassesByStudent/${student_id}/${test_id}`);
+  }
+  /** GET with student's results by test_id, group_id (optional) and date (optional) */
+  getRecordsByTestGroupDate(test_id: number, group_id: number = null, tdate: string = null ): Observable<any> {
+    let url: string;
+    if (tdate) {
+      url = `Result/getRecordsByTestGroupDate/${test_id}/${group_id}/${tdate}`;
+    } else {
+      url = `Result/getRecordsByTestGroupDate/${test_id}/${group_id}`;
+    }
+    return this.http.get(url);
+  }
+  /** GET all test_ids which were passed by students of some group  */
+  getResultTestIdsByGroup(group_id: number): Observable<any> {
+    return this.http.get(`${this.apiURI}/Result/getResultTestIdsByGroup/${group_id}`)
+  }
+
   /** GET count records */
   getCountRecords(entity: string): Observable<any> {
     return this.http.get(`${entity}/countRecords`);

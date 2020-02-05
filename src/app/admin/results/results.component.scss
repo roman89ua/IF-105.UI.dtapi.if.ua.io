@@ -1,0 +1,41 @@
+.container {
+    margin: 0 auto;
+    padding: 1rem;
+  }
+  button {
+    margin-left: 5px;
+  }
+  table {
+    width: 100%;
+  }
+  mat-form-field {
+    display: inline-block;
+    padding-right: 1rem;
+  }
+  mat-icon {
+    cursor: pointer;
+  
+    &:hover {
+      &[aria-label="edit"] {
+        color: orange;
+      }
+      &[aria-label="delete"] {
+        color: red;
+      }
+    }
+  }
+  
+  .title-box {
+    display: flex;
+    justify-content: space-between;
+    h3 {
+        padding: 15px;
+    }
+    button {
+      margin: 10px;
+    }
+  }
+  .search-box button {
+    margin: 10px;
+  }
+  

@@ -4,10 +4,11 @@ import { SubjectsCreateModalComponent } from './subjects-create-modal/subjects-c
 import { Subject } from 'src/app/admin/entity.interface';
 import { mergeMap } from 'rxjs/operators';
 import { of } from 'rxjs';
-import { MatTableDataSource, MatTable } from '@angular/material/table';
-import { SubjectConfirmComponent } from './subject-confirm/subject-confirm.component';
+import { MatTableDataSource } from '@angular/material/table';
 import { ApiService } from 'src/app/shared/services/api.service';
 import { Router } from '@angular/router';
+import { ModalService } from 'src/app/shared/services/modal.service';
+
 
 @Component({
   selector: 'app-subjects',
@@ -18,7 +19,6 @@ export class SubjectsComponent implements OnInit {
 
   public displayedColumns: string[] = ['subject_number', /*'subject_id',*/ 'subject_name', 'subject_description', 'subject_menu'];
   public dataSource = new MatTableDataSource<Subject>();
-  public loading = false;
 
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
   @ViewChild(MatSort, { static: true }) sort: MatSort;
@@ -28,23 +28,24 @@ export class SubjectsComponent implements OnInit {
     private snackBar: MatSnackBar,
     private apiService: ApiService,
     private route: Router,
-  ) {  }
+    private modalService: ModalService,
+  ) { }
 
   ngOnInit(): void  {
     this.showSubjects();
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
+    console.log(this.dataSource);
   }
+
   applyFilter(filterValue: string) {
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }
 
   showSubjects() {
-    this.loading = true;
     this.apiService.getEntity('Subject')
     .subscribe(response => {
       this.dataSource.data = response;
-      this.loading = false;
     });
   }
 
@@ -95,19 +96,9 @@ export class SubjectsComponent implements OnInit {
           this.openSnackBar('Предмет відредаговано.', 'X');
         }});
   }
-
-  delete(row: Subject): void {
-    const dialogData = `Ви видаляєте ${row.subject_name}, ви впевнені?`;
-    const dialogRef = this.dialog.open(SubjectConfirmComponent, {
-      maxWidth: '400px',
-      data: dialogData
-    });
-    dialogRef.afterClosed().subscribe(dialogResult => {
-      const result = dialogResult;
-      if (result) {
-        this.delSubject(row.subject_id);
-      }
-    });
+  openDialog(subject: Subject) {
+    const message = `Ви видаляєте предмет "${subject.subject_name}"?`;
+    this.modalService.openConfirmModal(message, () => this.delSubject(subject.subject_id));
   }
 
   delSubject(id: number) {
@@ -118,11 +109,11 @@ export class SubjectsComponent implements OnInit {
       });
   }
 
-  navigateToTimeTable(subject_id) {
-    this.route.navigate(['admin/timeTable'], { queryParams: {id: subject_id}});
+  navigateToTimeTable(subjectId) {
+    this.route.navigate(['admin/timeTable'], { queryParams: {id: subjectId}});
   }
 
-  navigateToTests(subject_id) {
-    this.route.navigate(['admin/tests'], { queryParams: {id: subject_id}});
+  navigateToTests(subjectId) {
+    this.route.navigate(['admin/tests'], { queryParams: {id: subjectId}});
   }
 }
