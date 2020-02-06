@@ -33,6 +33,7 @@ import { ResultsComponent } from './results/results.component';
 import { ResultsService } from './results/results.service';
 import { GroupModalService } from './group/group-modal.service';
 import { GroupService } from './group/group.service';
+import { DashboardComponent } from './dashboard/dashboard.component';
 import { TransferStudentModalWindowComponent } from './students/transfer-student-modal-window/transfer-student-modal-window.component';
 
 
@@ -40,6 +41,8 @@ const routes: Routes = [
   {
     path: '', component: AdminComponent,
     children: [
+      { path: '', redirectTo: '/admin/dashboard', pathMatch: 'full'},
+      { path: 'dashboard', component: DashboardComponent},
       { path: 'tests/:id/questions/:questionId/:mode', component: NewQuestionComponent },
       { path: 'tests/:id/questions', component: QuestionsComponent },
       { path: 'tests/:id/questions/new', component: NewQuestionComponent },
@@ -79,6 +82,7 @@ const routes: Routes = [
     TimeTablePipe,
     TimeTableAddDialogComponent,
     QuestionTypePipe,
+    DashboardComponent,
     ResultsComponent,
     TransferStudentModalWindowComponent,
   ],

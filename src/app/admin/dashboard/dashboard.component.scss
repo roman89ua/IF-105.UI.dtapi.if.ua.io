@@ -1,0 +1,55 @@
+.header {
+  display: flex;
+  justify-content: space-between;
+  margin: 20px 20px;
+  align-items: center;
+}
+.container {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+
+  padding: 1rem;
+}
+.dashboard-card {
+  max-width: 350px;
+  min-height: 200px;
+  margin: 20px 30px;
+}
+
+.dashboard-counts {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  min-width: 240px;
+  min-height: 180px;
+}
+
+.wrap {
+  font-size: 24px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.wrap p {
+  margin: 67px 0px 0px 0px;
+}
+.mat-icon {
+  font-size: 80px;
+  height: 40px;
+  width: 82px;
+  margin: 10px;
+  cursor: pointer;
+}
+.mat-icon:hover {
+  color: #3f51b5;
+  outline: none;
+}
+.mat-icon:focus,
+.mat-icon:active {
+  outline: none;
+}
+.mat-card-actions {
+  display: flex;
+  justify-content: flex-end;
+}
