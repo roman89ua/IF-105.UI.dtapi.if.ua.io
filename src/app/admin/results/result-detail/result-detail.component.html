@@ -11,7 +11,7 @@
       <ng-container matColumnDef="question">
         <th mat-header-cell *matHeaderCellDef>Текст запитання</th>
         <td mat-cell *matCellDef="let result">
-          {{ resultsService.getTextQuestion(listQuetionsByTest, result.question_id) }}
+          {{ resultsService.getTextQuestion(listQuestionsByTest, result.question_id) }}
         </td>
       </ng-container>
       <ng-container matColumnDef="answer">

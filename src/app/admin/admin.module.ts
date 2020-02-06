@@ -33,10 +33,10 @@ import { ResultsComponent } from './results/results.component';
 import { ResultsService } from './results/results.service';
 import { GroupModalService } from './group/group-modal.service';
 import { GroupService } from './group/group.service';
-import { BarChartComponent } from './results/bar-chart/bar-chart.component';
+import { ResultRaitingQuestionComponent } from './results/result-raiting-question/result-raiting-question.component';
 import { ChartsModule } from 'ng2-charts';
 import { TransferStudentModalWindowComponent } from './students/transfer-student-modal-window/transfer-student-modal-window.component';
-import { DetailResultComponent } from './results/detail-result/detail-result.component';
+import { ResultDetailComponent } from './results/result-detail/result-detail.component';
 
 
 const routes: Routes = [
@@ -83,9 +83,9 @@ const routes: Routes = [
     TimeTableAddDialogComponent,
     QuestionTypePipe,
     ResultsComponent,
-    BarChartComponent,
+    ResultRaitingQuestionComponent,
     TransferStudentModalWindowComponent,
-    DetailResultComponent,
+    ResultDetailComponent,
   ],
   imports: [
     CommonModule,
@@ -114,10 +114,10 @@ const routes: Routes = [
     TestAddComponent,
     TimeTableAddDialogComponent,
     StudentsModalWindowComponent,
-    BarChartComponent,
+    ResultRaitingQuestionComponent,
     TransferStudentModalWindowComponent,
     StudentsModalWindowComponent,
-    DetailResultComponent,
+    ResultDetailComponent,
   ]
 })
 export class AdminModule { }

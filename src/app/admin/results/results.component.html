@@ -51,11 +51,19 @@
       </ng-container>
       <ng-container matColumnDef="student">
         <th mat-header-cell *matHeaderCellDef>ПІБ студента</th>
-        <td mat-cell *matCellDef="let result">{{resultsService.getFullNameStudent(result.student_id, listStudents)}}</td>
+        <td mat-cell *matCellDef="let result">
+          {{resultsService.getFullNameStudent(result.student_id, listStudents)}}
+        </td>
       </ng-container>
-      <ng-container matColumnDef="result">
-        <th mat-header-cell *matHeaderCellDef>Результат</th>
+      <ng-container matColumnDef="rating">
+        <th mat-header-cell *matHeaderCellDef>Бал</th>
         <td mat-cell *matCellDef="let result">{{ result.result }}</td>
+      </ng-container>
+      <ng-container matColumnDef="score">
+        <th mat-header-cell *matHeaderCellDef>Оцінка</th>
+        <td mat-cell *matCellDef="let result">
+          {{ (result.result / result.answers * 100).toFixed() }}
+        </td>
       </ng-container>
       <ng-container matColumnDef="date">
         <th mat-header-cell *matHeaderCellDef>Дата</th>
