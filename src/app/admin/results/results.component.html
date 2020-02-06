@@ -1,0 +1,79 @@
+<div class="container">
+  <div class="title-box">
+    <h3>Результати тестувань</h3>
+  </div>
+  <div class="search-box">
+    <form [formGroup]="searchForm" (ngSubmit)="onSubmit()">
+      <mat-form-field class="example-full-width">
+        <mat-label>Група</mat-label>
+        <mat-select [formControl]="groupId" placeholder="Виберіть групу">
+          <mat-option *ngFor="let item of listGroups" [value]="item.group_id">
+            {{ item.group_name }}
+          </mat-option>
+        </mat-select>
+        <mat-error>
+          Виберіть групу
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field class="example-full-width">
+        <mat-label>Тест</mat-label>
+        <mat-select formControlName="test_id" placeholder="Виберіть тест">
+          <mat-option *ngFor="let item of listTestsByGroup" [value]="item.test_id">
+            {{ item.test_name }}
+          </mat-option>
+        </mat-select>
+        <mat-error>
+          Виберіть тест
+        </mat-error>
+      </mat-form-field>
+      <button
+        mat-stroked-button
+        color="primary"
+        type="submit"
+        [disabled]="searchForm.invalid"
+      >
+        <mat-icon aria-hidden="false" aria-label="search">search</mat-icon>
+        Показати результати
+      </button>
+    </form>
+  </div>
+  <ng-container *ngIf="dataSource.data.length">
+    <table mat-table #table [dataSource]="dataSource">
+      <ng-container matColumnDef="id">
+        <th mat-header-cell *matHeaderCellDef>№</th>
+        <td mat-cell *matCellDef="let result; let rIndex = index">
+          {{ rIndex + 1 }}
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="student">
+        <th mat-header-cell *matHeaderCellDef>ПІБ студента</th>
+        <td mat-cell *matCellDef="let result">{{resultsService.getFullNameStudent(result.student_id, listStudents)}}</td>
+      </ng-container>
+      <ng-container matColumnDef="result">
+        <th mat-header-cell *matHeaderCellDef>Результат</th>
+        <td mat-cell *matCellDef="let result">{{ result.result }}</td>
+      </ng-container>
+      <ng-container matColumnDef="date">
+        <th mat-header-cell *matHeaderCellDef>Дата</th>
+        <td mat-cell *matCellDef="let result">{{ result.session_date }}</td>
+      </ng-container>
+      <ng-container matColumnDef="start_time">
+        <th mat-header-cell *matHeaderCellDef>Початок</th>
+        <td mat-cell *matCellDef="let result">{{ result.start_time }}</td>
+      </ng-container>
+      <ng-container matColumnDef="duration">
+        <th mat-header-cell *matHeaderCellDef>Тривалість</th>
+        <td mat-cell *matCellDef="let result">{{resultsService.getDurationTest(result.session_date, result.start_time, result.end_time)}}</td>
+      </ng-container>
+      <ng-container matColumnDef="details">
+        <th mat-header-cell *matHeaderCellDef>Статистика</th>
+        <td mat-cell *matCellDef="let result">
+          <button>Детально</button>
+          <button>Статистика</button>
+        </td>
+      </ng-container>
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+    </table>
+  </ng-container>
+</div>

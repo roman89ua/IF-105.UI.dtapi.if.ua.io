@@ -5,7 +5,7 @@
 
         <mat-label>Предмети</mat-label>
 
-        <input matInput formControlName="subject_name" placeholder="Назва предмета" />
+        <input matInput formControlName="subject_name" minlength="2" maxlength="100" placeholder="Назва предмета" />
 
         <button type="button" mat-button *ngIf="subject_name.value" matSuffix mat-icon-button aria-label="Clear" (click)="subject_name.reset()">
       <mat-icon>close</mat-icon>
@@ -20,7 +20,7 @@
 
     <mat-form-field appearance="outline">
         <mat-label>Опис предмета</mat-label>
-        <textarea matInput cdkTextareaAutosize #autosize="cdkTextareaAutosize" cdkAutosizeMinRows="5" cdkAutosizeMaxRows="10" formControlName="subject_description" placeholder="Опис">
+        <textarea matInput cdkTextareaAutosize #autosize="cdkTextareaAutosize" minlength="2" maxlength="100" formControlName="subject_description" placeholder="Опис">
         </textarea>
         <button type="button" mat-button *ngIf="subject_description.value" matSuffix mat-icon-button aria-label="Clear" (click)="subject_description.reset()">
             <mat-icon>close</mat-icon>
