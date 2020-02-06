@@ -7,6 +7,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { TestAddComponent } from '../add/test-add.component';
 import { ModalService } from '../../../shared/services/modal.service';
 import { ApiService } from '../../../shared/services/api.service';
+import {ActivatedRoute, Router} from '@angular/router';
 
 @Component({
   selector: 'app-group',
@@ -14,6 +15,7 @@ import { ApiService } from '../../../shared/services/api.service';
   styleUrls: ['./test-list.component.scss'],
 })
 export class TestListComponent implements OnInit {
+  currentSubjectId: number;
   listTests: Test[] = [];
   listSubjects: Subject[] = [];
   dataSource = new MatTableDataSource<Test>();
@@ -32,10 +34,21 @@ export class TestListComponent implements OnInit {
     public dialog: MatDialog,
     protected apiService: ApiService,
     private modalService: ModalService,
+    private route: ActivatedRoute,
+    private router: Router,
   ) {}
 
   ngOnInit() {
     this.loadSubjects();
+    this.route.queryParamMap.subscribe((params: any) => {
+      this.currentSubjectId = params.params.subject_id;
+    });
+    this.viewAllTests();
+  }
+
+  onChange(newSubjectId: number) {
+    this.currentSubjectId = newSubjectId;
+    this.router.navigate([], { queryParams: {subject_id: this.currentSubjectId} });
     this.viewAllTests();
   }
 
@@ -43,7 +56,7 @@ export class TestListComponent implements OnInit {
     const dialogRef = this.dialog.open(TestAddComponent, {
       width: '500px',
       data: {
-        data: {},
+        data: this.currentSubjectId ? {subject_id: this.currentSubjectId} : {},
         description: {
           title: 'Додати новий тест',
           action: 'Додати'
@@ -53,9 +66,15 @@ export class TestListComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        this.addTest(result);
+        this.addTest(this.prepareTestData(result));
       }
     });
+  }
+
+  private prepareTestData(data): Test {
+    data.enabled = Number(data.enabled);
+
+    return data;
   }
 
   public openDeleteDialog(test: Test) {
@@ -78,7 +97,7 @@ export class TestListComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        this.editTest(result);
+        this.editTest(this.prepareTestData(result));
       }
     });
   }
@@ -104,8 +123,7 @@ export class TestListComponent implements OnInit {
   }
 
   private editTest(test: Test): void {
-    this.apiService.updEntity('test', test, test.test_id).subscribe((result: Test[]) => {
-      this.listTests = result;
+    this.apiService.updEntity('test', test, test.test_id).subscribe(() => {
       this.dataSource.data = this.listTests;
     }, (error: any) => {
       this.modalService.openErrorModal('Помилка оновлення');
@@ -131,7 +149,13 @@ export class TestListComponent implements OnInit {
 
   private viewAllTests() {
     this.apiService.getEntity('test').subscribe((result: Test[]) => {
-      this.listTests = result;
+      this.listTests = result.filter((testItem: Test) => {
+        if (this.currentSubjectId) {
+          return testItem.subject_id === this.currentSubjectId;
+        }
+
+        return testItem;
+      });
       this.dataSource.data = this.listTests;
     });
     this.dataSource.paginator = this.paginator;

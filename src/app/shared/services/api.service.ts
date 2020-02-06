@@ -14,22 +14,22 @@ export class ApiService {
 
   getEntity(entity: string, id?: number): Observable<any> {
     if (id === undefined) {
-      return this.http.get(`${this.apiURI}/${entity}/getRecords`);
+      return this.http.get(`${this.apiURI}${entity}/getRecords`);
     }
 
-    return this.http.get(`${this.apiURI}/${entity}/getRecords/${id}`);
+    return this.http.get(`${this.apiURI}${entity}/getRecords/${id}`);
   }
   createEntity(entity: string, payload): Observable<any> {
-    return this.http.post(`${this.apiURI}/${entity}/insertData`, payload);
+    return this.http.post(`${this.apiURI}${entity}/insertData`, payload);
   }
   delEntity(entity: string, id: number): Observable<any> {
-    return this.http.get(`${this.apiURI}/${entity}/del/${id}`);
+    return this.http.get(`${this.apiURI}${entity}/del/${id}`);
   }
   updEntity(entity: string, payload, id: number): Observable<any> {
-    return this.http.post(`${this.apiURI}/${entity}/update/${id}`, payload);
+    return this.http.post(`${this.apiURI}${entity}/update/${id}`, payload);
   }
   getEntityByAction(entity: string, action: string, id: number): Observable<any> {
-    return this.http.get(`${this.apiURI}/${entity}/${action}/${id}`);
+    return this.http.get(`${this.apiURI}${entity}/${action}/${id}`);
   }
   /** Returns JSON with entities that have provided id */
   getByEntityManager(entity: string, idsList: Array<number>) {
@@ -37,7 +37,7 @@ export class ApiService {
       entity: entity,
       ids: idsList
     };
-    return this.http.post(`${this.apiURI}/EntityManager/getEntityValues`, data);
+    return this.http.post(`${this.apiURI}EntityManager/getEntityValues`, data);
   }
   /** GET range records with optional parameters: fieldName and direction (1 or -1) using for sorting data */
   getRecordsRange(entity: string, limit: number, offset: number, fieldName: string = null, direction: number = 1): Observable<any> {
@@ -51,20 +51,20 @@ export class ApiService {
   }
   /** Get student's results for student_id */
   getRecordsbyStudent(student_id: number): Observable<any> {
-    return this.http.get(`${this.apiURI}/Result/getRecordsbyStudent/${student_id}`);
+    return this.http.get(`${this.apiURI}Result/getRecordsbyStudent/${student_id}`);
   }
   /** Result/countTestPassesByStudent/<student_id>/<test_id> */
   getCountTestPassesByStudent(student_id: number, test_id: number): Observable<any> {
-    return this.http.get(`${this.apiURI}/Result/countTestPassesByStudent/${student_id}/${test_id}`);
+    return this.http.get(`${this.apiURI}Result/countTestPassesByStudent/${student_id}/${test_id}`);
   }
   /** GET with student's results by test_id, group_id (optional) and date (optional) */
   getRecordsByTestGroupDate(test_id: number, group_id: number = null, tdate: string = null ): Observable<any> {
-    let url: string;
+    let url = `Result/getRecordsByTestGroupDate/${test_id}/${group_id}`;
+
     if (tdate) {
-      url = `Result/getRecordsByTestGroupDate/${test_id}/${group_id}/${tdate}`;
-    } else {
-      url = `Result/getRecordsByTestGroupDate/${test_id}/${group_id}`;
+      url += `/${tdate}`;
     }
+
     return this.http.get(url);
   }
   /** GET all test_ids which were passed by students of some group  */
