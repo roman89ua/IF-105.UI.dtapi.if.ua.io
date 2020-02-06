@@ -15,39 +15,38 @@ export class BarChartComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public data: any
     ) { 
       dialogRef.disableClose = true;
-    }
-  
+  }
+
   listResults: Results[];
-  public barChartLabels = ['2006', '2007', '2008', '2009', '2010', '2011', '2012'];
+  public barChartLabels: string[];
   public barChartType  = 'bar';
   public barChartLegend = true;
-  //public barChartData;
+  public barChartData;
 
   public barChartOptions = {
-    scaleShowVerticalLines: false,
-    responsive: true
+    scaleShowVerticalLines: true,
+    responsive: true,
+    scales: {
+      yAxes: [{
+        ticks: {
+          min: 0,
+          max: 100,
+        },
+      }]
+    }
   };
-  //public barChartLabels = ['2006', '2007', '2008', '2009', '2010', '2011', '2012'];
-  //public barChartType = 'bar';
-  //public barChartLegend = true;
-  public barChartData = [
-    {data: [65, 59, 80, 81, 56, 55, 40], label: 'sucsses'},
-  ];
-  //private getData() {
-  //  let data = this.resultsService();
-  //}
 
   ngOnInit() {
     console.log(this.data.data);
     let dataChart = this.resultsService.calculateRatingQuestion(this.data.data);
     this.barChartLabels = [...dataChart.keys()];
     let values = [...dataChart.values()];
-    let data: number[] = values.map(item => item[1]/item[0]);
+    let data: number[] = values.map(item => item[1] / item[0] * 100);
     this.barChartData = [{
       data,
-      label: 'Якість'
+      label: 'Якість',
+      minBarLength: 0
     }]
-
   }
 
 }

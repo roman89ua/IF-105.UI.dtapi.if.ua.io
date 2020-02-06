@@ -72,7 +72,7 @@
       <ng-container matColumnDef="details">
         <th mat-header-cell *matHeaderCellDef>Статистика</th>
         <td mat-cell *matCellDef="let result">
-          <button>Детально</button>
+          <button (click)="openDetailResult(result.true_answers)">Детально</button>
           <button>Статистика</button>
         </td>
       </ng-container>

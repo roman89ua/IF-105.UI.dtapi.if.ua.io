@@ -36,6 +36,7 @@ import { GroupService } from './group/group.service';
 import { BarChartComponent } from './results/bar-chart/bar-chart.component';
 import { ChartsModule } from 'ng2-charts';
 import { TransferStudentModalWindowComponent } from './students/transfer-student-modal-window/transfer-student-modal-window.component';
+import { DetailResultComponent } from './results/detail-result/detail-result.component';
 
 
 const routes: Routes = [
@@ -84,6 +85,7 @@ const routes: Routes = [
     ResultsComponent,
     BarChartComponent,
     TransferStudentModalWindowComponent,
+    DetailResultComponent,
   ],
   imports: [
     CommonModule,
@@ -115,6 +117,7 @@ const routes: Routes = [
     BarChartComponent,
     TransferStudentModalWindowComponent,
     StudentsModalWindowComponent,
+    DetailResultComponent,
   ]
 })
 export class AdminModule { }

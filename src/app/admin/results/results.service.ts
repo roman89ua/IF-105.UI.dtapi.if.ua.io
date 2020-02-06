@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
 import { ApiService } from 'src/app/shared/services/api.service';
 import { Observable } from 'rxjs';
-import { Test, Results,TrueAnswers, Questions } from './../entity.interface';
+import { Test, Results,TrueAnswers, QuestionsByTest } from './../entity.interface';
 import { Student } from 'src/app/shared/entity.interface';
+import { IQuestion } from '../questions/questions';
 
 @Injectable({
   providedIn: 'root'
@@ -89,7 +90,7 @@ export class ResultsService {
   }
   /** Calculate rating question by group */
   calculateRatingQuestion(listResult: Results[]): Map<string, [number, number]> {
-    /** key: question_id, value: count true answers */
+    /** key: question_id, value: [ count question, count true answers] */
     let answers = new Map();
     for (let result of listResult) {
       let true_answers = JSON.parse(result.true_answers);
@@ -105,5 +106,19 @@ export class ResultsService {
       }
     }
     return answers;
+  }
+  /**  */
+  getDetailResult(detail: string): any {
+    console.log(detail);
+    let true_answers: TrueAnswers[] = JSON.parse(detail);
+    return true_answers;
+  }
+
+  getQuestions(list: number[]): Observable<any> {
+    return this.apiService.getByEntityManager('Question', list);
+  }
+
+  getTextQuestion(listQuestion: IQuestion[], question_id: number): string {
+    return listQuestion.find(item => item.question_id === question_id).question_text;
   }
 }

@@ -1,11 +1,12 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormGroup, Validators, FormBuilder, FormControl } from '@angular/forms';
 import { Group, Student } from 'src/app/shared/entity.interface';
-import { Test, Results } from './../entity.interface';
+import { Test, Results, TrueAnswers } from './../entity.interface';
 import { ResultsService } from './results.service';
 import { ModalService } from '../../shared/services/modal.service';
 import { MatTable, MatTableDataSource, MatDialog } from '@angular/material';
 import { BarChartComponent } from '../results/bar-chart/bar-chart.component';
+import { DetailResultComponent } from './detail-result/detail-result.component';
 
 @Component({
   selector: 'app-results',
@@ -132,6 +133,16 @@ export class ResultsComponent implements OnInit {
     const dialogRef = this.dialog.open(BarChartComponent, {
       width: '1000px',
       data: {data: this.dataSource.data}
+    });
+  }
+
+  openDetailResult(detail: string): void {
+    console.log(detail);
+    const dialogRef = this.dialog.open(DetailResultComponent, {
+      width: '1000px',
+      data: {
+        detail,
+      }
     });
   }
 }

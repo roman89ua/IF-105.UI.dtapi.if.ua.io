@@ -46,12 +46,12 @@ export interface Results {
   start_time: string;
   end_time: string;
   result: number;
-  questions: Questions[];
+  questions: string;
   true_answers: string;
   answers: number;
 }
 
-export interface Questions {
+export interface QuestionsByTest {
   question_id: number;
   answers_id: number[]
 }
