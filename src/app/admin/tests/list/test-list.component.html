@@ -8,9 +8,9 @@
     </button>
   </div>
   <div class="search-box">
-    <select [ngModel]="currentSubjectId" (ngModelChange)="onChange($event)" name="current_subject">
-      <option [value]="subject.subject_id" *ngFor="let subject of listSubjects">{{ subject.subject_name }}</option>
-    </select>
+    <mat-select [ngModel]="currentSubjectId" (ngModelChange)="onChange($event)" name="current_subject">
+      <mat-option [value]="subject.subject_id" *ngFor="let subject of listSubjects">{{ subject.subject_name }}</mat-option>
+    </mat-select>
   </div>
   <div class="mat-elevationg-z8" >
     <table
