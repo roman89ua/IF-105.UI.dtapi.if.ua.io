@@ -1,0 +1,43 @@
+<div class="quesansWrapper">
+    <div class="questionWrapper">
+        <h3>
+            {{ choosenQuestion?.question_text}}
+        </h3>
+    </div>
+    <div class="answerWrapper">
+        <ul *ngIf="choosenQuestion?.answers && choosenQuestion?.type=='1'">
+           <li *ngFor="let answer of choosenQuestion?.answers">
+               <input 
+                    type="radio"
+                    name="type1"
+                    [checked]="isSimpleChoiceChecked(answer.answer_id)"
+                    (click)="getRadioAnswer(answer.answer_id)">
+                    {{answer.answer_text}}
+            </li>
+        </ul>
+    </div>
+
+    <div class="answerWrapper">
+        <ul *ngIf="choosenQuestion?.answers && choosenQuestion?.type=='2'">
+            <li *ngFor="let answer of choosenQuestion?.answers">
+                <input
+                    type="checkbox"
+                    (click)="getCheckboxAnswer(answer.answer_id)"
+                    [checked]="isMultiChoiceChecked(answer.answer_id)">
+                    {{answer.answer_text}}
+             </li>
+         </ul>
+    </div>
+
+    <div class="answerWrapper" *ngIf="choosenQuestion?.answers && choosenQuestion?.type=='3'">
+        <mat-form-field class="text-input-wrapper">
+        <input type="text"  matInput placeholder="введіть відповідь" (keyup)="getInputAnswer($event)" [value]="choosenAnswer?.answer" />
+        </mat-form-field>
+    </div>
+
+    <div class="answerWrapper" *ngIf="choosenQuestion?.answers && choosenQuestion?.type=='4'">
+        <input type="number" placeholder="введіть відповідь" (keyup)="getInputNumberAnswer($event)" [value]="choosenAnswer?.answer" />
+    </div>
+
+    <button class="mark-answer" (click)="markQuestion(choosenQuestion?.question_id)">Позначити питання</button>
+</div>

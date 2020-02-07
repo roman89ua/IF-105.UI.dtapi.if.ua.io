@@ -48,6 +48,8 @@ import { AlertComponent } from './alert/alert.component';
 import { ModalService } from '../shared/services/modal.service';
 import { SpinnerService } from './services/spinner.service';
 import { SpinnerComponent } from './spinner/spinner.component';
+import { PaginatorComponent } from './paginator/paginator.component';
+import { PaginatorService } from './paginator/paginator.service';
 
 
 
@@ -55,7 +57,8 @@ import { SpinnerComponent } from './spinner/spinner.component';
   declarations: [
     ConfirmComponent,
     AlertComponent,
-    SpinnerComponent
+    SpinnerComponent,
+    PaginatorComponent
   ],
   imports: [
     CommonModule,
@@ -64,12 +67,14 @@ import { SpinnerComponent } from './spinner/spinner.component';
     MatDividerModule,
     MatIconModule,
     MatProgressSpinnerModule,
-    MatProgressBarModule
+    MatProgressBarModule,
+    MatPaginatorModule
 
   ],
   providers: [
     AuthService,
-    ModalService
+    ModalService,
+    PaginatorService
   ],
   entryComponents: [
     ConfirmComponent,
@@ -120,7 +125,8 @@ import { SpinnerComponent } from './spinner/spinner.component';
     PortalModule,
     ScrollingModule,
     LayoutModule,
-    SpinnerComponent
+    SpinnerComponent,
+    PaginatorComponent
   ]
 })
 export class SharedModule { }
