@@ -8,14 +8,15 @@ import { QuestionMenuItemComponent } from './question-menu-item/question-menu-it
 import { QuestionAnswerComponent } from './question-answer/question-answer.component';
 import { TestPlayerService } from './test-player.service';
 import {MatButtonModule, MatIconModule, MatTableModule, MatTabsModule} from '@angular/material';
-import { TestComponentComponent } from './test-component/test-component.component';
+import { StudentInfoComponent } from './student-info/student-info.component';
 
 const routes: Routes = [
   {
     path: '', component: StudentComponent,
     children: [
+      { path: '', redirectTo: 'home', pathMatch: 'full'},
+      { path: 'home', component: StudentInfoComponent },
       { path: 'test-player', component: TestPlayerComponent },
-      { path: 'test', component: TestComponentComponent},
     ],
   }
 ];
@@ -26,7 +27,7 @@ const routes: Routes = [
     TestPlayerComponent,
     QuestionMenuItemComponent,
     QuestionAnswerComponent,
-    TestComponentComponent,
+    StudentInfoComponent,
   ],
   imports: [
     CommonModule,
