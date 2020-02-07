@@ -1,7 +1,17 @@
 <div class="nav-bar">
-  <button mat-stroked-button color="prime" (click)="logoutHandler()">
-    <mat-icon aria-hidden="false" aria-label="log out">exit_to_app</mat-icon>
-    Вийти
-  </button>
+  <mat-toolbar class="toolbar" color="primary">
+    <p>d-tester</p>
+    <div class="button-container">
+      <button mat-button [matMenuTriggerFor]="menu">
+        {{currentUser}}
+      </button>
+      <mat-menu #menu="matMenu">
+        <button mat-menu-item (click)="logoutHandler()">
+          <mat-icon aria-hidden="false" aria-label="log out">exit_to_app</mat-icon>
+          Вийти
+        </button>
+      </mat-menu>
+    </div>
+  </mat-toolbar>
 </div>
 <router-outlet></router-outlet>

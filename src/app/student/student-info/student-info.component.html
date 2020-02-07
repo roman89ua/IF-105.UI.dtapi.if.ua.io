@@ -1,5 +1,6 @@
 <div class="main-container">
   <section class="student-info">
+    <h3 class="header">Особиста Інформація Студента</h3>
     <img alt="Фото Студента" [src]="studentInfo?.photo">
     <p>{{studentInfo?.student_surname}} {{studentInfo?.student_name}} {{studentInfo?.student_fname}}</p>
     <p>Факультет: {{studentInfo?.faculty_name}}</p>
@@ -8,6 +9,7 @@
     <p>Номер залікової книжки: {{studentInfo?.gradebook_id}}</p>
   </section>
   <section class="test-details">
+    <h3 class="header">Розклад Тестування</h3>
     <table mat-table #table [dataSource]="dataSource">
       <ng-container matColumnDef="subject">
         <th mat-header-cell *matHeaderCellDef>Предмет</th>

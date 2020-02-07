@@ -1,6 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {AuthService} from '../shared/auth.service';
 import {Router} from '@angular/router';
+import {Observable} from 'rxjs';
+import {User} from '../shared/entity.interface';
 
 @Component({
   selector: 'app-student',
@@ -14,7 +16,12 @@ export class StudentComponent implements OnInit {
   ) {
   }
 
+  currentUser: string;
+
   ngOnInit() {
+    this.authService.getCurrentUser().subscribe((data: User) => {
+      this.currentUser = data.username;
+    });
   }
 
   private logoutHandler() {
