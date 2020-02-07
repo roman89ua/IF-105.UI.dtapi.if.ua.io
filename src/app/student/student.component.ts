@@ -38,7 +38,6 @@ export class StudentComponent implements OnInit {
 
   studentId;
   studentInfo: StudentInfo;
-  // timeTable: TimeTable[];
   testInfo: TestsForStudent[];
 
   ngOnInit() {
@@ -49,6 +48,7 @@ export class StudentComponent implements OnInit {
   }
 
   private getStudentInfo(id) {
+    // GET Student Info
     this.apiService.getEntity('student', id).subscribe((data: StudentInfo[]) => {
       this.studentInfo = data[0];
       this.apiService.getEntity('group', this.studentInfo.group_id).subscribe((groupData: Group[]) => {
@@ -60,6 +60,7 @@ export class StudentComponent implements OnInit {
           this.apiService.getEntity('speciality', this.studentInfo.speciality_id).subscribe((specialityData: Speciality[]) => {
             this.studentInfo.speciality_code = specialityData[0].speciality_code;
             this.studentInfo.speciality_name = specialityData[0].speciality_name;
+            // GET Time Table & Test Details
             this.apiService.getEntityByAction('timeTable', 'getTimeTablesForGroup', this.studentInfo.group_id)
               .subscribe((result: TimeTable[]) => {
                 let timeTable: any = [];
@@ -76,6 +77,7 @@ export class StudentComponent implements OnInit {
                       }
                     });
                   });
+                  // GET Test Info & make data in correct format for Data Source
                   this.apiService.getEntity('test').subscribe((testData: Test[]) => {
                     const filteredTests: any = timeTable.map(tt => testData.filter(test => test.subject_id === tt.subject_id));
                     const merged: Test[] = [].concat.apply([], filteredTests);
@@ -103,7 +105,7 @@ export class StudentComponent implements OnInit {
     this.dataSource.data = data;
   }
 
-  private goToTest(testId, enabled) {
+  public goToTest(testId, enabled) {
     console.log(enabled);
     if (enabled === '1') {
       this.router.navigate(['student/testPlayer'], {
@@ -117,7 +119,7 @@ export class StudentComponent implements OnInit {
     }
   }
 
-  private logoutHandler() {
+  public logoutHandler() {
     this.authService.logout()
       .subscribe(() => {
         this.router.navigate(['login']);
