@@ -108,10 +108,9 @@ export class StudentComponent implements OnInit {
   public goToTest(testId, enabled) {
     console.log(enabled);
     if (enabled === '1') {
-      this.router.navigate(['student/testPlayer'], {
+      this.router.navigate(['student/test-player'], {
         queryParams: {
-          student_id: this.studentId,
-          subject_id: testId
+          test_id: testId,
         }
       });
     } else {
@@ -119,7 +118,11 @@ export class StudentComponent implements OnInit {
     }
   }
 
-  public logoutHandler() {
+  private goTest() {
+    this.router.navigate(['student/test']);
+  }
+
+  private logoutHandler() {
     this.authService.logout()
       .subscribe(() => {
         this.router.navigate(['login']);
