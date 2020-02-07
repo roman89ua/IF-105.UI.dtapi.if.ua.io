@@ -33,8 +33,11 @@ import { ResultsComponent } from './results/results.component';
 import { ResultsService } from './results/results.service';
 import { GroupModalService } from './group/group-modal.service';
 import { GroupService } from './group/group.service';
+import { ResultRaitingQuestionComponent } from './results/result-raiting-question/result-raiting-question.component';
+import { ChartsModule } from 'ng2-charts';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { TransferStudentModalWindowComponent } from './students/transfer-student-modal-window/transfer-student-modal-window.component';
+import { ResultDetailComponent } from './results/result-detail/result-detail.component';
 
 
 const routes: Routes = [
@@ -84,7 +87,9 @@ const routes: Routes = [
     QuestionTypePipe,
     DashboardComponent,
     ResultsComponent,
+    ResultRaitingQuestionComponent,
     TransferStudentModalWindowComponent,
+    ResultDetailComponent,
   ],
   imports: [
     CommonModule,
@@ -93,6 +98,7 @@ const routes: Routes = [
     ReactiveFormsModule,
     RouterModule.forChild(routes),
     MatDialogModule,
+    ChartsModule
   ],
   providers: [
     AdminUserService,
@@ -111,8 +117,11 @@ const routes: Routes = [
     SubjectsCreateModalComponent,
     TestAddComponent,
     TimeTableAddDialogComponent,
+    StudentsModalWindowComponent,
+    ResultRaitingQuestionComponent,
     TransferStudentModalWindowComponent,
     StudentsModalWindowComponent,
+    ResultDetailComponent,
   ]
 })
 export class AdminModule { }

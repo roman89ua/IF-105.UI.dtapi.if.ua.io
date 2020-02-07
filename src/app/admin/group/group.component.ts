@@ -5,7 +5,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatDialog, MatSnackBar } from '@angular/material';
 import { ModalService } from '../../shared/services/modal.service';
 import { ApiService } from 'src/app/shared/services/api.service';
-import { GroupModalService } from '../group/group-modal.service';
+import { GroupModalService } from './group-modal.service';
 import { DialogData } from './group-modal.interface';
 import { GroupService } from './group.service';
 import { GroupAddEditDialogComponent } from './group-add-edit-dialog/group-add-edit-dialog.component';
@@ -32,11 +32,11 @@ export class GroupComponent implements OnInit, AfterViewInit {
   ];
   /** properties for pagination */
   itemsCount: number;
-  pageSize: number = 10;
-  currentPage: number = 0;
+  pageSize = 10;
+  currentPage = 0;
   /** properties for get group for features */
-  isCheckSpeciality: boolean = false;
-  isCheckFaculty: boolean = false;
+  isCheckSpeciality = false;
+  isCheckFaculty = false;
   feature: string;
 
   @ViewChild('table', { static: true }) table: MatTable<Group>;
@@ -47,10 +47,10 @@ export class GroupComponent implements OnInit, AfterViewInit {
   }
 
   constructor(
-    private apiService: ApiService, 
-    public dialog: MatDialog, 
+    private apiService: ApiService,
+    public dialog: MatDialog,
     private modalService: ModalService,
-    private _snackBar: MatSnackBar,
+    private snackBar: MatSnackBar,
     private groupModalService: GroupModalService,
     public groupService: GroupService
     ) { }
@@ -62,7 +62,7 @@ export class GroupComponent implements OnInit, AfterViewInit {
     }, () => {
         this.modalService.openErrorModal('Помилка завантаження даних');
       });
-    this.groupService.getListFaculty().subscribe(result => { 
+    this.groupService.getListFaculty().subscribe(result => {
       this.listFaculty = result;
     },  () => {
       this.modalService.openErrorModal('Помилка завантаження даних');
@@ -100,7 +100,7 @@ export class GroupComponent implements OnInit, AfterViewInit {
 
   /** Open modal window for add new group */
   openAddGroupDialog(): void {
-    let dialogData = new DialogData();
+    const dialogData = new DialogData();
     dialogData.listSpeciality = this.listSpeciality;
     dialogData.listFaculty = this.listFaculty;
     dialogData.description = {
@@ -115,7 +115,7 @@ export class GroupComponent implements OnInit, AfterViewInit {
     this.apiService.createEntity('Group', group).subscribe((result: Group[]) => {
       this.openSnackBar(`Групу ${group.group_name} успішно додано`);
       this.getCountRecords('group');
-      let numberOfPages = this.paginator.getNumberOfPages();
+      const numberOfPages = this.paginator.getNumberOfPages();
       this.getListGroups( numberOfPages * this.pageSize);
     }, (error: any) => {
       if (error.error.response.includes('Duplicate')) {
@@ -140,8 +140,7 @@ export class GroupComponent implements OnInit, AfterViewInit {
     }, (error: any) => {
       if (error.error.response.includes('Cannot delete')) {
         this.modalService.openInfoModal('Неможливо видалити групу із студентами. Видаліть спочатку студентів даної групи');
-      }
-      else {
+      } else {
         this.modalService.openErrorModal('Помилка видалення');
       }
     });
@@ -149,7 +148,7 @@ export class GroupComponent implements OnInit, AfterViewInit {
 
   /** Open modal window for edit group */
   openEditGroupDialog(group: Group): void {
-    let dialogData = new DialogData();
+    const dialogData = new DialogData();
     dialogData.group = group;
     dialogData.listSpeciality = this.listSpeciality;
     dialogData.listFaculty = this.listFaculty;
@@ -157,7 +156,8 @@ export class GroupComponent implements OnInit, AfterViewInit {
       title: 'Редагувати інформацію про групу',
       action: 'Зберегти зміни'
     };
-      this.groupModalService.groupDialog(GroupAddEditDialogComponent, dialogData, (group: Group) => this.editGroup(group));
+    this.groupModalService.groupDialog(GroupAddEditDialogComponent, dialogData, (elem: Group) =>
+      this.editGroup(elem));
   }
 
   /** Method for edit group */
@@ -176,22 +176,21 @@ export class GroupComponent implements OnInit, AfterViewInit {
     }, (error: any) => {
       if (error.error.response.includes('Error when update')) {
         this.modalService.openInfoModal('Інформація про групу не змінювалися');
-      }
-      else {
+      } else {
         this.modalService.openErrorModal('Помилка оновлення');
       }
     });
   }
 
-  /** Open modal window for check speciality */ 
+  /** Open modal window for check speciality */
   openCheckSpecialityDialog() {
-    let dialogData = new DialogData();
+    const dialogData = new DialogData();
     dialogData.listSpeciality = this.listSpeciality;
     dialogData.description = {
       title: 'Виберіть спеціальність',
       action: 'getGroupsBySpeciality'
     };
-    this.groupModalService.groupDialog(GroupViewDialogComponent, dialogData, 
+    this.groupModalService.groupDialog(GroupViewDialogComponent, dialogData,
       (result) => {
         this.getListGroupsByFeature(dialogData.description.action, result.id[0]);
         this.isCheckFaculty = false;
@@ -202,13 +201,13 @@ export class GroupComponent implements OnInit, AfterViewInit {
 
   /** open modal window for check faculty */
   openCheckFacultyDialog() {
-    let dialogData = new DialogData();
+    const dialogData = new DialogData();
     dialogData.listFaculty = this.listFaculty;
     dialogData.description = {
       title: 'Виберіть факультет/інститут',
       action: 'getGroupsByFaculty'
     };
-    this.groupModalService.groupDialog(GroupViewDialogComponent, dialogData, 
+    this.groupModalService.groupDialog(GroupViewDialogComponent, dialogData,
       (result) => {
         this.getListGroupsByFeature(dialogData.description.action, result.id[0]);
         this.isCheckFaculty = true;
@@ -233,7 +232,7 @@ export class GroupComponent implements OnInit, AfterViewInit {
   }
 
   openSnackBar(message: string) {
-    this._snackBar.open(message, '', {
+    this.snackBar.open(message, '', {
       duration: 2000,
     });
   }

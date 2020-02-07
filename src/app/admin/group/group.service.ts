@@ -16,16 +16,16 @@ export class GroupService {
   }
 
   getNameSpeciality(id: number, list: Speciality[]): string {
-    let speciality = list.find(({speciality_id}) => id === speciality_id);
+    const speciality = list.find(({speciality_id}) => id === speciality_id);
     return speciality.speciality_name;
   }
-  
+
   getListFaculty() {
     return this.apiService.getEntity('faculty');
   }
 
   getNameFaculty(id: number, list: Faculty[]): string {
-    let faculty = list.find(({faculty_id}) => id === faculty_id);
+    const faculty = list.find(({faculty_id}) => id === faculty_id);
     return faculty.faculty_name;
   }
 }
