@@ -1,1 +1,77 @@
-<p>student works!</p>
+<div class="nav-bar">
+  <button mat-stroked-button color="prime" (click)="logoutHandler()">
+    <mat-icon aria-hidden="false" aria-label="log out">exit_to_app</mat-icon>
+    Вийти
+  </button>
+</div>
+<div class="main-container">
+<section class="student-info">
+  <img alt="Фото Студента" [src]="studentInfo?.photo">
+  <p>{{studentInfo?.student_surname}} {{studentInfo?.student_name}} {{studentInfo?.student_fname}}</p>
+  <p>Факультет: {{studentInfo?.faculty_name}}</p>
+  <p>Спеціальність: {{studentInfo?.speciality_code}} {{studentInfo?.speciality_name}}</p>
+  <p>Група: {{studentInfo?.group_name}}</p>
+  <p>Номер залікової книжки: {{studentInfo?.gradebook_id}}</p>
+</section>
+<section class="test-details">
+  <table mat-table #table [dataSource]="dataSource">
+    <ng-container matColumnDef="subject">
+      <th mat-header-cell *matHeaderCellDef>Предмет</th>
+      <td mat-cell *matCellDef="let tableEl">
+        {{tableEl.subject_name}}
+      </td>
+    </ng-container>
+    <ng-container matColumnDef="test">
+      <th mat-header-cell *matHeaderCellDef>Тест</th>
+      <td mat-cell *matCellDef="let tableEl">
+        {{tableEl.test_name}}
+      </td>
+    </ng-container>
+    <ng-container matColumnDef="start">
+      <th mat-header-cell *matHeaderCellDef>Початок</th>
+      <td mat-cell *matCellDef="let tableEl">
+        <p>{{tableEl.start_date | date: 'dd.MM.yyyy'}}</p>
+        <p>{{tableEl.start_time}}</p>
+      </td>
+    </ng-container>
+    <ng-container matColumnDef="end">
+      <th mat-header-cell *matHeaderCellDef>Кінець</th>
+      <td mat-cell *matCellDef="let tableEl">
+        <p>{{tableEl.end_date | date: 'dd.MM.yyyy'}}</p>
+        <p>{{tableEl.end_time}}</p>
+      </td>
+    </ng-container>
+    <ng-container matColumnDef="tasks">
+      <th mat-header-cell *matHeaderCellDef>Кількість Завдань</th>
+      <td mat-cell *matCellDef="let tableEl">
+        {{tableEl.tasks}}
+      </td>
+    </ng-container>
+    <ng-container matColumnDef="duration">
+      <th mat-header-cell *matHeaderCellDef>Тривалість тесту</th>
+      <td mat-cell *matCellDef="let tableEl">
+        {{tableEl.time_for_test}}
+      </td>
+    </ng-container>
+    <ng-container matColumnDef="attempts">
+      <th mat-header-cell *matHeaderCellDef>Кількість спроб</th>
+      <td mat-cell *matCellDef="let tableEl">
+        {{tableEl.attempts}}
+      </td>
+    </ng-container>
+    <ng-container matColumnDef="actions">
+      <th mat-header-cell *matHeaderCellDef>Почати тестування</th>
+      <td mat-cell *matCellDef="let tableEl">
+        <mat-icon *ngIf="tableEl.enabled === '1'" aria-hidden="false" aria-label="start" (click)="goToTest(tableEl.test_id, tableEl.enabled)">
+          play_circle_outline
+        </mat-icon>
+        <mat-icon *ngIf="tableEl.enabled === '0'" aria-hidden="false" aria-label="start" (click)="goToTest(tableEl.test_id, tableEl.enabled)">
+          cancel_schedule_send
+        </mat-icon>
+      </td>
+    </ng-container>
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  </table>
+</section>
+</div>
