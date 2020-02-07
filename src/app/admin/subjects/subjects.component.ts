@@ -114,6 +114,6 @@ export class SubjectsComponent implements OnInit {
   }
 
   navigateToTests(subjectId) {
-    this.route.navigate(['admin/tests'], { queryParams: {id: subjectId}});
+    this.route.navigate(['admin/tests'], { queryParams: { subject_id: subjectId}});
   }
 }

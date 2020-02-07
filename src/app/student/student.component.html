@@ -62,10 +62,10 @@
     <ng-container matColumnDef="actions">
       <th mat-header-cell *matHeaderCellDef>Почати тестування</th>
       <td mat-cell *matCellDef="let tableEl">
-        <mat-icon *ngIf="tableEl.enabled === '1'" aria-hidden="false" aria-label="start" (click)="goToTest(tableEl.test_id, tableEl.enabled)">
+        <mat-icon *ngIf="tableEl.enabled === '1'" aria-hidden="false" aria-label="start" (click)="goTest()">
           play_circle_outline
         </mat-icon>
-        <mat-icon *ngIf="tableEl.enabled === '0'" aria-hidden="false" aria-label="start" (click)="goToTest(tableEl.test_id, tableEl.enabled)">
+        <mat-icon aria-hidden="false" aria-label="start" (click)="goToTest(tableEl.test_id, tableEl.enabled)">
           cancel_schedule_send
         </mat-icon>
       </td>
@@ -75,3 +75,4 @@
   </table>
 </section>
 </div>
+<router-outlet></router-outlet>
