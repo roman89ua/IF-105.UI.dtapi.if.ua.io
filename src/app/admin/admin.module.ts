@@ -38,6 +38,7 @@ import { ChartsModule } from 'ng2-charts';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { TransferStudentModalWindowComponent } from './students/transfer-student-modal-window/transfer-student-modal-window.component';
 import { ResultDetailComponent } from './results/result-detail/result-detail.component';
+import { ScoreAnswerPipe } from './results/pipes/score-answer.pipe';
 
 
 const routes: Routes = [
@@ -90,6 +91,7 @@ const routes: Routes = [
     ResultRaitingQuestionComponent,
     TransferStudentModalWindowComponent,
     ResultDetailComponent,
+    ScoreAnswerPipe,
   ],
   imports: [
     CommonModule,
