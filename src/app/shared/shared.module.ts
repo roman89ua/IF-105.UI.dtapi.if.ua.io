@@ -48,7 +48,9 @@ import { AlertComponent } from './alert/alert.component';
 import { ModalService } from '../shared/services/modal.service';
 import { SpinnerService } from './services/spinner.service';
 import { SpinnerComponent } from './spinner/spinner.component';
-
+import { HttpClient} from '@angular/common/http';
+import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
+import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 
 
 @NgModule({
@@ -64,7 +66,14 @@ import { SpinnerComponent } from './spinner/spinner.component';
     MatDividerModule,
     MatIconModule,
     MatProgressSpinnerModule,
-    MatProgressBarModule
+    MatProgressBarModule,
+    TranslateModule.forChild({
+      loader: {
+        provide: TranslateLoader,
+        useFactory: HttpLoaderFactory,
+        deps: [HttpClient]
+      }
+    })
 
   ],
   providers: [
@@ -124,3 +133,7 @@ import { SpinnerComponent } from './spinner/spinner.component';
   ]
 })
 export class SharedModule { }
+
+export function HttpLoaderFactory(http: HttpClient) {
+  return new TranslateHttpLoader(http);
+}

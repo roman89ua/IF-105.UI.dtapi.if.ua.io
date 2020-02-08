@@ -32,7 +32,9 @@ import { TestAddComponent } from './tests/add/test-add.component';
 import {TimeTablePipe} from './time-table/pipes/time-table.pipe';
 import { GroupModalService } from './group/group-modal.service';
 import { GroupService } from './group/group.service';
-
+import { HttpClient} from '@angular/common/http';
+import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
+import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 
 const routes: Routes = [
   {
@@ -85,6 +87,13 @@ const routes: Routes = [
     ReactiveFormsModule,
     RouterModule.forChild(routes),
     MatDialogModule,
+    TranslateModule.forChild({
+      loader: {
+        provide: TranslateLoader,
+        useFactory: HttpLoaderFactory,
+        deps: [HttpClient]
+      }
+    })
   ],
   providers: [
     AdminUserService,
@@ -107,3 +116,7 @@ const routes: Routes = [
   ]
 })
 export class AdminModule { }
+
+export function HttpLoaderFactory(http: HttpClient) {
+  return new TranslateHttpLoader(http);
+}

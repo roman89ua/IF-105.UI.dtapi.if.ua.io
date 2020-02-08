@@ -7,12 +7,12 @@
         <span class="fill-space"></span>
 
     <mat-nav-list *ngIf="!(isSmall$ | async) && !(isXSmall$ | async)">
-      <a routerLinkActive="active" mat-button routerLink="faculties">Факультети</a>
-      <a routerLinkActive="active" mat-button routerLink="group">Групи</a>
-      <a routerLinkActive="active" mat-button routerLink="speciality">Спеціальності</a>
-      <a routerLinkActive="active" mat-button routerLink="subjects">Предмети</a>
-      <a routerLinkActive="active" mat-button routerLink="tests">Тести</a>
-      <a routerLinkActive="active" mat-button routerLink="admin-user">Адміни</a>
+      <a routerLinkActive="active" mat-button routerLink="faculties">{{'sidenav.faculties'|translate}}</a>
+      <a routerLinkActive="active" mat-button routerLink="group">{{'sidenav.group'|translate}}</a>
+      <a routerLinkActive="active" mat-button routerLink="speciality">{{'sidenav.speciality'|translate}}</a>
+      <a routerLinkActive="active" mat-button routerLink="subjects">{{'sidenav.subjects'|translate}}</a>
+      <a routerLinkActive="active" mat-button routerLink="tests">{{'sidenav.tests'|translate}}</a>
+      <a routerLinkActive="active" mat-button routerLink="admin-user">{{'sidenav.admin-user'|translate}}</a>
     </mat-nav-list>
     <span class="fill-space"></span>
     <button mat-button [matMenuTriggerFor]="menu">
@@ -20,24 +20,24 @@
     </button>
 
     <mat-menu #menu="matMenu">
-      <button mat-menu-item (click)="logoutHandler()">Вийти</button>
+      <button mat-menu-item (click)="logoutHandler()">{{'sidenav.exit'|translate}}</button>
     </mat-menu>
   </mat-toolbar>
 
   <mat-sidenav-container class="sidenav-container">
     <mat-sidenav #sidenav class="sidenav" mode="over" [opened]="false">
       <mat-nav-list *ngIf="(isSmall$ | async) || (isXSmall$ | async)">
-        <a mat-list-item (click)="sidenav.toggle()" routerLink="faculties">Факультети</a>
+        <a mat-list-item (click)="sidenav.toggle()" routerLink="faculties">{{'sidenav.faculties'|translate}}</a>
         <mat-divider></mat-divider>
-        <a mat-list-item (click)="sidenav.toggle()" routerLink="group">Групи</a>
+        <a mat-list-item (click)="sidenav.toggle()" routerLink="group">{{'sidenav.group'|translate}}</a>
         <mat-divider></mat-divider>
-        <a mat-list-item (click)="sidenav.toggle()" routerLink="speciality">Спеціальності</a>
+        <a mat-list-item (click)="sidenav.toggle()" routerLink="speciality">{{'sidenav.speciality'|translate}}</a>
         <mat-divider></mat-divider>
-        <a mat-list-item (click)="sidenav.toggle()" routerLink="subjects">Предмети</a>
+        <a mat-list-item (click)="sidenav.toggle()" routerLink="subjects">{{'sidenav.subjects'|translate}}</a>
         <mat-divider></mat-divider>
-        <a mat-list-item (click)="sidenav.toggle()" routerLink="tests">Тести</a>
+        <a mat-list-item (click)="sidenav.toggle()" routerLink="tests">{{'sidenav.tests'|translate}}</a>
         <mat-divider></mat-divider>
-        <a mat-list-item (click)="sidenav.toggle()" routerLink="admin-user">Адміни</a>
+        <a mat-list-item (click)="sidenav.toggle()" routerLink="admin-user">{{'sidenav.admin-user'|translate}}</a>
       </mat-nav-list>
     </mat-sidenav>
     <mat-sidenav-content>
