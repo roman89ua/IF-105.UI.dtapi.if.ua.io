@@ -7,12 +7,16 @@ import { TestPlayerComponent } from './test-player/test-player.component';
 import { QuestionMenuItemComponent } from './question-menu-item/question-menu-item.component';
 import { QuestionAnswerComponent } from './question-answer/question-answer.component';
 import { TestPlayerService } from './test-player.service';
+import {MatButtonModule, MatIconModule, MatTableModule, MatTabsModule} from '@angular/material';
+import { StudentInfoComponent } from './student-info/student-info.component';
 
 const routes: Routes = [
   {
     path: '', component: StudentComponent,
     children: [
-      { path: 'test-player/:id', component: TestPlayerComponent },
+      { path: '', redirectTo: 'home', pathMatch: 'full'},
+      { path: 'home', component: StudentInfoComponent },
+      { path: 'test-player', component: TestPlayerComponent },
     ],
   }
 ];
@@ -23,10 +27,15 @@ const routes: Routes = [
     TestPlayerComponent,
     QuestionMenuItemComponent,
     QuestionAnswerComponent,
+    StudentInfoComponent,
   ],
   imports: [
     CommonModule,
     RouterModule.forChild(routes),
+    MatTableModule,
+    MatIconModule,
+    MatTabsModule,
+    MatButtonModule,
     SharedModule,
   ],
   providers: [
