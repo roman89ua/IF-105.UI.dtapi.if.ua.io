@@ -12,7 +12,11 @@
       <a routerLinkActive="active" mat-button routerLink="speciality">{{'sidenav.speciality'|translate}}</a>
       <a routerLinkActive="active" mat-button routerLink="subjects">{{'sidenav.subjects'|translate}}</a>
       <a routerLinkActive="active" mat-button routerLink="tests">{{'sidenav.tests'|translate}}</a>
+      <a routerLinkActive="mat-raised-button" mat-button routerLink="results">Результати</a>
       <a routerLinkActive="active" mat-button routerLink="admin-user">{{'sidenav.admin-user'|translate}}</a>
+      
+
+
     </mat-nav-list>
     <span class="fill-space"></span>
     <button mat-button [matMenuTriggerFor]="menu">
@@ -27,6 +31,8 @@
   <mat-sidenav-container class="sidenav-container">
     <mat-sidenav #sidenav class="sidenav" mode="over" [opened]="false">
       <mat-nav-list *ngIf="(isSmall$ | async) || (isXSmall$ | async)">
+        <a mat-list-item (click)="sidenav.toggle()" routerLink="dashboard">Головна</a>
+        <mat-divider></mat-divider>
         <a mat-list-item (click)="sidenav.toggle()" routerLink="faculties">{{'sidenav.faculties'|translate}}</a>
         <mat-divider></mat-divider>
         <a mat-list-item (click)="sidenav.toggle()" routerLink="group">{{'sidenav.group'|translate}}</a>
@@ -35,7 +41,7 @@
         <mat-divider></mat-divider>
         <a mat-list-item (click)="sidenav.toggle()" routerLink="subjects">{{'sidenav.subjects'|translate}}</a>
         <mat-divider></mat-divider>
-        <a mat-list-item (click)="sidenav.toggle()" routerLink="tests">{{'sidenav.tests'|translate}}</a>
+        <a mat-list-item (click)="sidenav.toggle()" routerLink="results">Результати</a>
         <mat-divider></mat-divider>
         <a mat-list-item (click)="sidenav.toggle()" routerLink="admin-user">{{'sidenav.admin-user'|translate}}</a>
       </mat-nav-list>

@@ -6,11 +6,13 @@ import { HttpClientModule, HTTP_INTERCEPTORS, HttpClient } from '@angular/common
 import { ApiHttpInterceptor } from './http.interceptor';
 import { SharedModule } from './shared/shared.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MatFormFieldModule, MatInputModule } from '@angular/material';
+import { MatFormFieldModule, MatInputModule, MatPaginatorIntl } from '@angular/material';
 import { NotFoundComponent } from './not-found/not-found.component';
 import { SpinnerInterceptor } from './shared/services/spinner.interceptor';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import { getMatPaginatorUkr } from './shared/mat-paginator-config/mat-pagination-intl';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -32,16 +34,11 @@ import { TranslateHttpLoader } from '@ngx-translate/http-loader';
     MatFormFieldModule,
     MatInputModule,
   ],
-  providers: [{
-    provide: HTTP_INTERCEPTORS,
-    useClass: ApiHttpInterceptor,
-    multi: true,
-  },
-  {
-    provide: HTTP_INTERCEPTORS,
-    useClass: SpinnerInterceptor,
-    multi: true,
-  }],
+  providers: [
+    {provide: HTTP_INTERCEPTORS, useClass: ApiHttpInterceptor, multi: true },
+    {provide: HTTP_INTERCEPTORS, useClass: SpinnerInterceptor, multi: true },
+    {provide: MatPaginatorIntl, useValue: getMatPaginatorUkr() }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule {

@@ -13,21 +13,21 @@
 <mat-form-field class="filter">
     <input matInput (keyup)="applyFilter($event.target.value)" placeholder="{{'subjects.filterPlaceholder'| translate}}">
 </mat-form-field>
-<div class="mat-elevation-z8">
+<div class="mat-elevation-z9">
 
-    <table mat-table [dataSource]="dataSource" #table *ngIf="!loading">
+    <table mat-table [dataSource]="dataSource" #table class="mat-elevation-z8" matSort>
         <ng-container matColumnDef="subject_number">
             <th mat-header-cell *matHeaderCellDef>{{'subjects.tableNum'| translate}}</th>
-            <td mat-cell *matCellDef="let row; let No = index">{{No+1}}</td>
+            <td mat-cell *matCellDef="let row; let i = index">{{ paginator.pageSize * paginator.pageIndex + i + 1 }}</td>
         </ng-container>
 
         <ng-container matColumnDef="subject_id">
-            <th mat-header-cell *matHeaderCellDef>{{'subjects.tableId'| translate}}</th>
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>{{'subjects.tableId'| translate}}</th>
             <td mat-cell *matCellDef="let row"> {{row.subject_id}} </td>
         </ng-container>
 
         <ng-container matColumnDef="subject_name">
-            <th mat-header-cell *matHeaderCellDef>{{'subjects.tableName'| translate}}</th>
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>{{'subjects.tableName'| translate}}</th>
             <td mat-cell *matCellDef="let row"> {{row.subject_name}} </td>
         </ng-container>
 

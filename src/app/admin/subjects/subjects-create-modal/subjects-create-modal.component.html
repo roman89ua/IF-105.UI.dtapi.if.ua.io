@@ -5,6 +5,7 @@
 
         <mat-label>{{'subjects.formInputLabel' | translate}}</mat-label>
 
+
         <input matInput formControlName="subject_name" placeholder="{{'subjects.formInputPlaceholder' | translate}}"/>
 
         <button type="button" mat-button *ngIf="subject_name.value" matSuffix mat-icon-button aria-label="Clear" (click)="subject_name.reset()">

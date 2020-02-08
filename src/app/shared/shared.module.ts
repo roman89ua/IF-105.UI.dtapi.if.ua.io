@@ -51,13 +51,16 @@ import { SpinnerComponent } from './spinner/spinner.component';
 import { HttpClient} from '@angular/common/http';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import { PaginatorComponent } from './paginator/paginator.component';
+import { PaginatorService } from './paginator/paginator.service';
 
 
 @NgModule({
   declarations: [
     ConfirmComponent,
     AlertComponent,
-    SpinnerComponent
+    SpinnerComponent,
+    PaginatorComponent
   ],
   imports: [
     CommonModule,
@@ -73,12 +76,13 @@ import { TranslateHttpLoader } from '@ngx-translate/http-loader';
         useFactory: HttpLoaderFactory,
         deps: [HttpClient]
       }
-    })
-
+    }),
+    MatPaginatorModule
   ],
   providers: [
     AuthService,
-    ModalService
+    ModalService,
+    PaginatorService
   ],
   entryComponents: [
     ConfirmComponent,
@@ -129,7 +133,8 @@ import { TranslateHttpLoader } from '@ngx-translate/http-loader';
     PortalModule,
     ScrollingModule,
     LayoutModule,
-    SpinnerComponent
+    SpinnerComponent,
+    PaginatorComponent
   ]
 })
 export class SharedModule { }

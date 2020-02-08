@@ -1,3 +1,5 @@
+import { QuestionService } from './questions/questions.service';
+
 export interface Group {
   group_id: number;
   group_name: string;
@@ -34,4 +36,27 @@ export interface Test {
   time_for_test: number;
   enabled: boolean;
   attempts: number;
+}
+
+export interface Results {
+  session_id: number;
+  student_id: number;
+  test_id: number;
+  session_date: string;
+  start_time: string;
+  end_time: string;
+  result: number;
+  questions: string;
+  true_answers: string;
+  answers: number;
+}
+
+export interface QuestionsByTest {
+  question_id: number;
+  answers_id: number[]
+}
+
+export interface TrueAnswers {
+  question_id: number;
+  true: number;
 }

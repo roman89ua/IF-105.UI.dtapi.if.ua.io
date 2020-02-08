@@ -26,20 +26,29 @@ import {TimeTableComponent} from './time-table/time-table.component';
 import {TimeTableAddDialogComponent} from './time-table/time-table-add-dialog/time-table-add-dialog.component';
 import {QuestionTypePipe} from './questions/pipes/question-type.pipe';
 import {StudentsModalWindowComponent} from './students/students-modal-window/students-modal-window.component';
-import {SubjectConfirmComponent} from './subjects/subject-confirm/subject-confirm.component';
 import { TestListComponent } from './tests/list/test-list.component';
 import { TestAddComponent } from './tests/add/test-add.component';
-import {TimeTablePipe} from './time-table/pipes/time-table.pipe';
+import { FacultiesService } from './faculties/faculties.service';
+import {TimeTablePipe} from '../shared/pipes/time-table.pipe';
+import { ResultsComponent } from './results/results.component';
+import { ResultsService } from './results/results.service';
 import { GroupModalService } from './group/group-modal.service';
 import { GroupService } from './group/group.service';
 import { HttpClient} from '@angular/common/http';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import { ResultRaitingQuestionComponent } from './results/result-raiting-question/result-raiting-question.component';
+import { ChartsModule } from 'ng2-charts';
+import { DashboardComponent } from './dashboard/dashboard.component';
+import { TransferStudentModalWindowComponent } from './students/transfer-student-modal-window/transfer-student-modal-window.component';
+import { ResultDetailComponent } from './results/result-detail/result-detail.component';
 
 const routes: Routes = [
   {
     path: '', component: AdminComponent,
     children: [
+      { path: '', redirectTo: '/admin/dashboard', pathMatch: 'full'},
+      { path: 'dashboard', component: DashboardComponent},
       { path: 'tests/:id/questions/:questionId/:mode', component: NewQuestionComponent },
       { path: 'tests/:id/questions', component: QuestionsComponent },
       { path: 'tests/:id/questions/new', component: NewQuestionComponent },
@@ -51,6 +60,7 @@ const routes: Routes = [
       { path: 'speciality', component: SpecialityListComponent },
       { path: 'timeTable', component: TimeTableComponent },
       { path: 'tests', component: TestListComponent },
+      { path: 'results', component: ResultsComponent },
     ]}
 ];
 @NgModule({
@@ -74,11 +84,15 @@ const routes: Routes = [
     CreateEditComponent,
     SubjectsComponent,
     SubjectsCreateModalComponent,
-    SubjectConfirmComponent,
     TimeTableComponent,
     TimeTablePipe,
     TimeTableAddDialogComponent,
     QuestionTypePipe,
+    DashboardComponent,
+    ResultsComponent,
+    ResultRaitingQuestionComponent,
+    TransferStudentModalWindowComponent,
+    ResultDetailComponent,
   ],
   imports: [
     CommonModule,
@@ -93,13 +107,19 @@ const routes: Routes = [
         useFactory: HttpLoaderFactory,
         deps: [HttpClient]
       }
-    })
+    }),
+    ChartsModule
   ],
   providers: [
     AdminUserService,
     StudentsService,
+    FacultiesService,
+    ResultsService,
     GroupModalService,
     GroupService
+  ],
+  exports: [
+    TimeTablePipe
   ],
   entryComponents: [
     NavbarComponent,
@@ -111,8 +131,11 @@ const routes: Routes = [
     SubjectsCreateModalComponent,
     TestAddComponent,
     TimeTableAddDialogComponent,
-    SubjectConfirmComponent,
-    StudentsModalWindowComponent
+    StudentsModalWindowComponent,
+    ResultRaitingQuestionComponent,
+    TransferStudentModalWindowComponent,
+    StudentsModalWindowComponent,
+    ResultDetailComponent,
   ]
 })
 export class AdminModule { }

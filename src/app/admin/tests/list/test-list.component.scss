@@ -20,7 +20,7 @@ table {
 }
 mat-form-field {
     width: 100%;
-  }
+}
 
 .question-link {
     color: #000;
@@ -36,6 +36,11 @@ mat-icon {
       color: red;
     }
   }
+}
+
+.search-box {
+  width: 200px;
+  margin: 20px;
 }
 
 
