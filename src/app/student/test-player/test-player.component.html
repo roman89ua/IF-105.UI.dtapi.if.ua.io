@@ -1,17 +1,12 @@
-<mat-toolbar>
-    <span>D-TESTER</span>
-</mat-toolbar>
+<!-- <mat-toolbar> Тестування почато! Дайте відповіді на питання</mat-toolbar> -->
 <ng-container *ngIf="!isTestDone">
-    <div class="numbersWrapper">
-        <app-question-menu-item
-            *ngFor="let question of questions let i = index"
-            [index]="i + 1"
-            [question]="question"
-            [addedQuestionAnswer]="addedQuestionAnswer"
-            [markedQuestions]="markedQuestions"
-            (viewQuestionOutput)="viewQuestionParent($event)"
-         >
-        </app-question-menu-item>
+    <div class="container-numbers">
+        <div class="numbersWrapper">
+            <app-question-menu-item *ngFor="let question of questions let i = index" [index]="i + 1" [question]="question"
+                [addedQuestionAnswer]="addedQuestionAnswer" [markedQuestions]="markedQuestions"
+                (viewQuestionOutput)="viewQuestionParent($event)">
+            </app-question-menu-item>
+        </div>
     </div>
 
     <app-question-answer
@@ -22,7 +17,7 @@
      >
     </app-question-answer>
 
-    <button class="finishTest" (click)="sendAnswersForCheck($event)">Завершити тест</button>
+    <button class="finishTest" (click)="sendAnswersForCheck()">Завершити тест</button>
 </ng-container>
 <ng-container *ngIf="isTestDone">
     <p>

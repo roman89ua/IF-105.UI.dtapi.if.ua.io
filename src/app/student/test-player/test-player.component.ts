@@ -14,7 +14,7 @@ export class TestPlayerComponent implements OnInit {
   public addedQuestionAnswer: any = [];
   public markedQuestions: any = [];
   public isTestDone = false;
-  public testResults: Object;
+  public testResults: any;
   constructor( private testPlayerService: TestPlayerService, private route: ActivatedRoute) {
     this.questions = [];
   }
@@ -83,7 +83,5 @@ export class TestPlayerComponent implements OnInit {
         this.testResults = results;
         this.isTestDone = true;
       })
-  }
+    }
 }
-
-
