@@ -60,3 +60,10 @@ export interface TestsForStudent {
   end_time: number;
   test: [];
 }
+
+export interface User {
+  roles: string [];
+  id: number;
+  username: string;
+  response: string;
+}
