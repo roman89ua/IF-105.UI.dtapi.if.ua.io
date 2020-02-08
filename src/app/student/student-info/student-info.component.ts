@@ -119,9 +119,4 @@ export class StudentInfoComponent implements OnInit {
     }
   }
 
-  private goTest() {
-    this.router.navigate(['student/test']);
-  }
-
-
 }

@@ -24,7 +24,7 @@ export class StudentComponent implements OnInit {
     });
   }
 
-  private logoutHandler() {
+  public logoutHandler() {
     this.authService.logout()
       .subscribe(() => {
         this.router.navigate(['login']);
