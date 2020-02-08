@@ -18,7 +18,7 @@ export class NavbarComponent implements OnInit {
     public authService: AuthService,
     private router: Router) { }
 
-  currentUser$: Observable<any>;
+
 
   isSmall$: Observable<boolean> = this.breakpointObserver.observe(Breakpoints.Small)
     .pipe(
@@ -31,15 +31,5 @@ export class NavbarComponent implements OnInit {
       map(result => result.matches),
       shareReplay()
     );
-
-  ngOnInit(): void {
-    this.currentUser$ = this.authService.getCurrentUser();
-  }
-
-  logoutHandler() {
-    this.authService.logout()
-      .subscribe(() => {
-        this.router.navigate(['login']);
-      });
-  }
+      ngOnInit() {}
 }

@@ -1,0 +1,47 @@
+<mat-toolbar class="toolbar" color="primary">
+  <button
+    type="button"
+    aria-label="Toggle sidenav"
+    mat-icon-button
+    (click)="sidenav.toggle()"
+    *ngIf="user?.roles.includes('admin') && ((isSmall$ | async) || (isXSmall$ | async))"
+  >
+    <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
+  </button>
+  <span>d-tester</span>
+  <span class="fill-space"></span>
+
+  <mat-nav-list *ngIf="!(isSmall$ | async) && !(isXSmall$ | async) && user?.roles.includes('admin')  ">
+    <a routerLinkActive="mat-raised-button" mat-button routerLink="dashboard"
+      >Головна</a
+    >
+    <a routerLinkActive="mat-raised-button" mat-button routerLink="faculties"
+      >Факультети</a
+    >
+    <a routerLinkActive="mat-raised-button" mat-button routerLink="group"
+      >Групи</a
+    >
+    <a routerLinkActive="mat-raised-button" mat-button routerLink="speciality"
+      >Спеціальності</a
+    >
+    <a routerLinkActive="mat-raised-button" mat-button routerLink="subjects"
+      >Предмети</a
+    >
+    <a routerLinkActive="mat-raised-button" mat-button routerLink="results"
+      >Результати</a
+    >
+    <a routerLinkActive="mat-raised-button" mat-button routerLink="admin-user"
+      >Адміни</a
+    >
+  </mat-nav-list>
+  <span class="fill-space"></span>
+  <button mat-button [matMenuTriggerFor]="menu">
+    {{ user?.username }}
+  </button>
+
+  <mat-menu #menu="matMenu">
+    <button mat-menu-item (click)="logoutHandler()">Вийти</button>
+  </mat-menu>
+
+</mat-toolbar>
+
