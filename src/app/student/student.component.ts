@@ -1,5 +1,8 @@
-import { Component, OnInit } from '@angular/core';
-import { AuthService } from '../shared/auth.service';
+import {Component, OnInit} from '@angular/core';
+import {AuthService} from '../shared/auth.service';
+import {Router} from '@angular/router';
+import {Observable} from 'rxjs';
+import {User} from '../shared/entity.interface';
 
 @Component({
   selector: 'app-student',
@@ -7,11 +10,24 @@ import { AuthService } from '../shared/auth.service';
   styleUrls: ['./student.component.scss']
 })
 export class StudentComponent implements OnInit {
-
-  constructor(private authService: AuthService) { }
-
-  ngOnInit() {
-    const currentUser = this.authService.getCurrentUser();
+  constructor(
+    public authService: AuthService,
+    private router: Router,
+  ) {
   }
 
+  currentUser: string;
+
+  ngOnInit() {
+    this.authService.getCurrentUser().subscribe((data: User) => {
+      this.currentUser = data.username;
+    });
+  }
+
+  public logoutHandler() {
+    this.authService.logout()
+      .subscribe(() => {
+        this.router.navigate(['login']);
+      });
+  }
 }

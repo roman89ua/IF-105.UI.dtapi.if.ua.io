@@ -32,24 +32,31 @@ export class TestPlayerComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.route.paramMap
+    /*this.route.paramMap
       .pipe(
         switchMap(paramMap => {
-          const testId = paramMap.get('id');
+          const testId = paramMap.get('test_id');
           return this.testPlayerService.getQuestionList(+testId);
         })
-      )      
+      )
       .subscribe(questions => {
         this.questions = questions;
-      })
-      
+      });*/
+    this.route.queryParamMap.subscribe((params: any) => {
+      const testId = params.params.test_id;
+      return this.testPlayerService.getQuestionList(+testId)
+        .subscribe(questions => {
+          this.questions = questions;
+        });
+    });
+
   }
   viewQuestionParent(id: string) {
     this.choosenQuestionId = id;
   }
-  addQuestionAnswer(res: any) { 
+  addQuestionAnswer(res: any) {
     this.addedQuestionAnswer = [...this.addedQuestionAnswer.filter((item: any) => {
-      return item.question !== res.question}), res]   
+      return item.question !== res.question}), res]
   }
 
   addMarkedQuestion(id: number) {

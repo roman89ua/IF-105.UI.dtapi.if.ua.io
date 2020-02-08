@@ -28,7 +28,7 @@ import {QuestionTypePipe} from './questions/pipes/question-type.pipe';
 import {StudentsModalWindowComponent} from './students/students-modal-window/students-modal-window.component';
 import { TestListComponent } from './tests/list/test-list.component';
 import { TestAddComponent } from './tests/add/test-add.component';
-import {TimeTablePipe} from './time-table/pipes/time-table.pipe';
+import {TimeTablePipe} from '../shared/pipes/time-table.pipe';
 import { ResultsComponent } from './results/results.component';
 import { ResultsService } from './results/results.service';
 import { GroupModalService } from './group/group-modal.service';
@@ -106,6 +106,9 @@ const routes: Routes = [
     ResultsService,
     GroupModalService,
     GroupService
+  ],
+  exports: [
+    TimeTablePipe
   ],
   entryComponents: [
     NavbarComponent,
