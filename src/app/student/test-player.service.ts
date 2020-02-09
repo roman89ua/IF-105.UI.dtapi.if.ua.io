@@ -22,7 +22,6 @@ export class TestPlayerService {
     return this.http.get(`question/getQuestionIdsByLevelRand/${test_id}/${level}/${tasks}`);
   }
   getLog(testId: number) {
-    // return of(null);
     return this.authservice.getCurrentUser()
       .pipe(
         switchMap(user =>
@@ -49,7 +48,6 @@ export class TestPlayerService {
         return throwError(error);
       }),
       switchMap((id) => {
-        console.log(id);
         return this.getTestDetails(testId)
       }),
       switchMap((questionDetails: any) => {
