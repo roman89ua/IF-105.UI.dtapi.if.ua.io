@@ -1,13 +1,20 @@
 <header class="button-wrapper">
   <h3>Адміни</h3>
-  <button class="addAdmin" mat-stroked-button (click)="addAdminHandler()">
+  <button class="addAdmin mat-elevation-z8" mat-stroked-button (click)="addAdminHandler()" >
     <mat-icon aria-hidden="false" aria-label="add">add</mat-icon>
     Додати адміна
   </button>
 </header>
+<mat-form-field class="filter-from-field">
+  <mat-icon matPrefix>search</mat-icon>
+  <input matInput type="search" (keyup)="filterHandler($event)" placeholder="пошук" class="search-input">
+</mat-form-field>
+<h1>
+
+</h1>
 <section class="container">
   <div class="mat-table-wrapper mat-elevation-z8">
-    <table mat-table [dataSource]="userList">
+    <table mat-table [dataSource]="filteredList">
 
       <ng-container matColumnDef="userNameColumn">
         <th mat-header-cell *matHeaderCellDef> Ім'я </th>

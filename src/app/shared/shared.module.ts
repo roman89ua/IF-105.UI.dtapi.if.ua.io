@@ -24,7 +24,7 @@ import {MatExpansionModule} from '@angular/material/expansion';
 import {MatGridListModule} from '@angular/material/grid-list';
 import {MatIconModule} from '@angular/material/icon';
 import {MatInputModule} from '@angular/material/input';
-import {MatListModule} from '@angular/material/list';
+import {MatListModule, MatNavList} from '@angular/material/list';
 import {MatMenuModule} from '@angular/material/menu';
 import {MatNativeDateModule, MatRippleModule} from '@angular/material/core';
 import {MatPaginatorModule} from '@angular/material/paginator';
@@ -48,6 +48,10 @@ import { AlertComponent } from './alert/alert.component';
 import { ModalService } from '../shared/services/modal.service';
 import { SpinnerService } from './services/spinner.service';
 import { SpinnerComponent } from './spinner/spinner.component';
+import { PaginatorComponent } from './paginator/paginator.component';
+import { PaginatorService } from './paginator/paginator.service';
+import { ToolbarComponent } from './toolbar/toolbar.component';
+import { RouterModule } from '@angular/router';
 
 
 
@@ -55,7 +59,9 @@ import { SpinnerComponent } from './spinner/spinner.component';
   declarations: [
     ConfirmComponent,
     AlertComponent,
-    SpinnerComponent
+    SpinnerComponent,
+    PaginatorComponent,
+    ToolbarComponent
   ],
   imports: [
     CommonModule,
@@ -64,12 +70,18 @@ import { SpinnerComponent } from './spinner/spinner.component';
     MatDividerModule,
     MatIconModule,
     MatProgressSpinnerModule,
-    MatProgressBarModule
+    MatProgressBarModule,
+    MatPaginatorModule,
+    MatToolbarModule,
+    MatMenuModule,
+    MatListModule,
+    RouterModule
 
   ],
   providers: [
     AuthService,
-    ModalService
+    ModalService,
+    PaginatorService
   ],
   entryComponents: [
     ConfirmComponent,
@@ -120,7 +132,9 @@ import { SpinnerComponent } from './spinner/spinner.component';
     PortalModule,
     ScrollingModule,
     LayoutModule,
-    SpinnerComponent
+    SpinnerComponent,
+    PaginatorComponent,
+    ToolbarComponent
   ]
 })
 export class SharedModule { }

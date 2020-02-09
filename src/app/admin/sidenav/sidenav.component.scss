@@ -10,22 +10,11 @@
   background: inherit;
 }
 
-.mat-toolbar.mat-primary {
-  position: sticky;
-  top: 0;
-  z-index: 2;
 
-}
 .mat-sidenav-fixed {
   position: absolute;
 }
-.toolbar {
-  position: fixed;
-}
 
-.fill-space {
-  flex:1 1 auto;
-}
 .main-container {
   display: flex;
   flex-direction: column;
@@ -35,11 +24,7 @@
   left: 0;
   right: 0;
 }
-mat-toolbar a {
-  display: inline-block;
-  text-decoration: none;
 
-}
 .active {
   color: black;
 }

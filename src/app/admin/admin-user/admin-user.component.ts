@@ -14,7 +14,9 @@ import { ApiService } from 'src/app/shared/services/api.service';
 })
 export class AdminUserComponent implements OnInit {
   public userList: Array<IAdminUser> = [];
+  public filteredList: Array<IAdminUser> = [];
   public displayedColumns: string[] = ['idColumn', 'userNameColumn', 'emailColumn', 'actionsColumn'];
+  public searchValue = "";
 
   constructor(
     private apiService: ApiService,
@@ -25,6 +27,7 @@ export class AdminUserComponent implements OnInit {
   ngOnInit() {
     this.apiService.getEntity('AdminUser')
       .subscribe((data: Array<IAdminUser>) => {
+        this.filteredList = data;
         this.userList = data;
       }
       );
@@ -107,5 +110,13 @@ export class AdminUserComponent implements OnInit {
           this.userList = [newData, ...this.userList];
         }
       });
+  }
+  
+  filterHandler(event) {
+    this.searchValue = event.target.value;
+    this.filteredList = this.userList.filter(user => {
+      return user.username.includes(this.searchValue);
+     
+    });
   }
 }

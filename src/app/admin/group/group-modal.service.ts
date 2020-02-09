@@ -1,6 +1,6 @@
-import { Injectable, Component } from '@angular/core';
+import { Injectable} from '@angular/core';
 import { MatDialog } from '@angular/material';
-import { DialogData } from './../group/group-modal.interface';
+import { DialogData } from './group-modal.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -8,12 +8,11 @@ import { DialogData } from './../group/group-modal.interface';
 export class GroupModalService {
 
   constructor(public dialog: MatDialog) { }
-
-  //create modal window for add new group or edit group or checked feature
-  groupDialog(modalWindow, data: DialogData, callBackFunction: Function): void {
+  // create modal window for add new group or edit group or checked feature
+  groupDialog(modalWindow, data: DialogData, callBackFunction: Function ): void {
     const dialogRef = this.dialog.open(modalWindow, {
       width: '500px',
-      data: data
+      data
     });
 
     dialogRef.afterClosed().subscribe(result => {

@@ -30,12 +30,17 @@ header {
     .addAdmin {
         margin-right: 15px;
         width: 200px;
-       
-    }
+     }
 
- }
+}
 
  .container {
-    margin: 0 auto;
     padding: 0 1rem;
   }
+  
+.filter-from-field {
+    width: calc(100% - 2rem);
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
+}

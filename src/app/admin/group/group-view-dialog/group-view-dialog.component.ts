@@ -15,13 +15,13 @@ export class GroupViewDialogComponent implements OnInit {
     public dialogRef: MatDialogRef<GroupViewDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: DialogData,
     private fb: FormBuilder,
-  ) { 
+  ) {
     dialogRef.disableClose = true;
     this.createForm();
   }
    private createForm() {
     this.selectViewForm = this.fb.group({
-      'id': [null, Validators.required]
+      id: [null, Validators.required]
     });
    }
 

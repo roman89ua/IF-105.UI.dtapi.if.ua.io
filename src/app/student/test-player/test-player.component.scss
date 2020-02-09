@@ -1,0 +1,31 @@
+.numbersWrapper {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    margin-left: 20px;
+    margin-right: 20px;
+    margin-top: 20px;
+    
+}
+
+.finishTest {
+    margin-top: 40px;
+    margin-left: 20px;
+    width: 200px;
+    height: 30px;
+    border: 1px solid blue;
+    background-color:#6383e9;
+    box-shadow: 0 0 20px rgba(20, 20, 14, 0.5);
+}
+.container-numbers {
+    background-color: #dbd9f1;
+    margin-top: 20px;
+}
+.wrapperResults {
+    border: 1px solid black;
+}
+.wrapper-exit {
+    width: 200px;
+    height: 30px;
+    margin-top: 20px;
+}

@@ -1,3 +1,4 @@
+
 export interface Group {
   group_id: number;
   group_name: string;
@@ -18,8 +19,8 @@ export interface Faculty {
 }
 
 export interface DialogData {
-    data: any;
-  }
+  data: any;
+}
 
 export interface TimeTable {
   timetable_id: number;
@@ -30,5 +31,39 @@ export interface TimeTable {
   start_time: number;
   end_date: number;
   end_time: number;
+}
 
+export interface ResponseInterface {
+  response: string;
+}
+
+export interface Student {
+  user_id: string;
+  gradebook_id: string;
+  student_surname: string;
+  student_name: string;
+  student_fname: string;
+  group_id: number;
+  plain_password: string;
+  photo: string;
+}
+
+export interface StudentInfo extends Student, Group, Speciality, Faculty {
+}
+
+export interface TestsForStudent {
+  subject_id: number;
+  subject_name: string;
+  start_date: number;
+  start_time: number;
+  end_date: number;
+  end_time: number;
+  test: [];
+}
+
+export interface User {
+  roles: string [];
+  id: number;
+  username: string;
+  response: string;
 }

@@ -5,7 +5,7 @@ import { ApiService } from 'src/app/shared/services/api.service';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { of } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { ResponseInterface } from '../interfaces/response-interface';
+import { ResponseInterface } from 'src/app/shared/entity.interface';
 
 
 @Component({
