@@ -73,4 +73,8 @@ export class TestPlayerService {
   checkTest(testData: any) {
     return this.http.post('SAnswer/checkAnswers', testData)
   }
+
+  resetSession() {
+    return this.http.get('TestPlayer/resetSessionData');
+  }
 }
