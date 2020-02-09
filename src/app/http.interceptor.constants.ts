@@ -1,9 +1,9 @@
 export const errorMapping = [
-    {status: 0, message: `Відсутнє з'єднання з інтернету`},
-    {status: 400, message: 'Не коректний запит'},
-    {status: 401, message: 'Несанкціонований доступ.'},
-    {status: 403, message: 'Сервер відмовляється відповідати.'},
-    {status: 404, message: 'Ресурс не знайдено.'},
-    {status: 500, message: 'Внутрішня помилка серверу'}
+    {status: 0, message: 'interceptor.status0message'},
+    {status: 400, message: 'interceptor.status400message'},
+    {status: 401, message: 'interceptor.status401message'},
+    {status: 403, message: 'interceptor.status403message'},
+    {status: 404, message: 'interceptor.status404message'},
+    {status: 500, message: 'interceptor.status500message'}
   ];
-export const defaultMessage = 'Ой, щось пішло не так...';
+export const defaultMessage = 'interceptor.defaultMessage';

@@ -8,12 +8,14 @@ import { MatTableDataSource } from '@angular/material/table';
 import { ApiService } from 'src/app/shared/services/api.service';
 import { Router } from '@angular/router';
 import { ModalService } from 'src/app/shared/services/modal.service';
-
-
+import { TranslatePipe } from '@ngx-translate/core';
+// import { MatPaginatorIntl } from '@angular/material';
+// import { TranslateService } from '@ngx-translate/core';
 @Component({
   selector: 'app-subjects',
   templateUrl: './subjects.component.html',
-  styleUrls: ['./subjects.component.scss']
+  styleUrls: ['./subjects.component.scss'],
+  providers: [TranslatePipe],
 })
 export class SubjectsComponent implements OnInit {
 
@@ -29,15 +31,21 @@ export class SubjectsComponent implements OnInit {
     private apiService: ApiService,
     private route: Router,
     private modalService: ModalService,
+    private translatePipe: TranslatePipe,
+    // private readonly translate: TranslateService
   ) { }
 
   ngOnInit(): void  {
     this.showSubjects();
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
-    console.log(this.dataSource);
+    // this.getPaginatorIntl();
   }
-
+//   getPaginatorIntl(): MatPaginatorIntl {
+//     const paginatorIntl = new MatPaginatorIntl();
+//     paginatorIntl.itemsPerPageLabel = this.translate.instant('subjects.tablePaginatorItemsPerPageLabel');
+//     return paginatorIntl;
+// }
   applyFilter(filterValue: string) {
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }
@@ -55,9 +63,13 @@ export class SubjectsComponent implements OnInit {
     });
   }
 
+  translateSnackBar(json: string, action?: string) {
+    this.openSnackBar(this.translatePipe.transform(json), 'X');
+  }
+
   createNewSubject() {
     const newDialogSubject = this.dialog.open(SubjectsCreateModalComponent, {
-      width: '500px',
+      width: '530px',
     });
     newDialogSubject.afterClosed()
       .pipe(
@@ -71,14 +83,14 @@ export class SubjectsComponent implements OnInit {
       .subscribe((newData: Subject[] | null) => {
         if (newData) {
           this.dataSource.data = [...this.dataSource.data, newData[0]];
-          this.openSnackBar('Предмет було створено.', 'X');
+          this.translateSnackBar('subjects.snackbarMessageCreate', 'X');
         }
       });
   }
 
   edit(row: Subject): void {
     const newDialogSubject = this.dialog.open(SubjectsCreateModalComponent, {
-      width: '500px',
+      width: '530px',
       data: row,
     });
     newDialogSubject.afterClosed()
@@ -93,11 +105,13 @@ export class SubjectsComponent implements OnInit {
       .subscribe((newData: Subject[] | null) => {
         if (newData) {
           this.showSubjects();
-          this.openSnackBar('Предмет відредаговано.', 'X');
+          this.translateSnackBar('subjects.snackbarMessageEdit', 'X');
         }});
   }
+
   openDialog(subject: Subject) {
-    const message = `Ви видаляєте предмет "${subject.subject_name}"?`;
+    const firstPart = this.translatePipe.transform('subjects.deleteMessagesConfirmation');
+    const message = firstPart + subject.subject_name + '?';
     this.modalService.openConfirmModal(message, () => this.delSubject(subject.subject_id));
   }
 
@@ -105,7 +119,7 @@ export class SubjectsComponent implements OnInit {
     this.apiService.delEntity('Subject', id)
       .subscribe((response) => {
         this.dataSource.data = this.dataSource.data.filter(item => item.subject_id !== id);
-        this.openSnackBar('Предмет видалено.', 'X');
+        this.translateSnackBar('subjects.snackbarMessageEdit', 'X');
       });
   }
 

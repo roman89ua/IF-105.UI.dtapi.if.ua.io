@@ -7,11 +7,12 @@ import { TranslateService } from '@ngx-translate/core';
 })
 export class AppComponent {
   constructor(public translate: TranslateService) {
-    translate.setDefaultLang('uk');
-    translate.use('uk');
+    const lang = localStorage.getItem('lang') || 'uk';
+    translate.setDefaultLang(lang);
+    translate.use(lang);
   }
   switchLanguage(language: string) {
     this.translate.use(language);
-    console.log(this.translate.use(language));
+    localStorage.setItem('lang', language);
   }
 }

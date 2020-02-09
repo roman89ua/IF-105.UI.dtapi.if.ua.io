@@ -13,25 +13,25 @@
 
   <mat-nav-list *ngIf="!(isSmall$ | async) && !(isXSmall$ | async) && user?.roles.includes('admin')  ">
     <a routerLinkActive="mat-raised-button" mat-button routerLink="dashboard"
-      >Головна</a
+      >{{'sidenav.dashboard'|translate}}</a
     >
     <a routerLinkActive="mat-raised-button" mat-button routerLink="faculties"
-      >Факультети</a
+      >{{'sidenav.faculties'|translate}}</a
     >
     <a routerLinkActive="mat-raised-button" mat-button routerLink="group"
-      >Групи</a
+      >{{'sidenav.group'|translate}}</a
     >
     <a routerLinkActive="mat-raised-button" mat-button routerLink="speciality"
-      >Спеціальності</a
+      >{{'sidenav.speciality'|translate}}</a
     >
     <a routerLinkActive="mat-raised-button" mat-button routerLink="subjects"
-      >Предмети</a
+      >{{'sidenav.subjects'|translate}}</a
     >
     <a routerLinkActive="mat-raised-button" mat-button routerLink="results"
-      >Результати</a
+      >{{'sidenav.results'|translate}}</a
     >
     <a routerLinkActive="mat-raised-button" mat-button routerLink="admin-user"
-      >Адміни</a
+      >{{'sidenav.admin-user'|translate}}</a
     >
   </mat-nav-list>
   <span class="fill-space"></span>
@@ -40,7 +40,7 @@
   </button>
 
   <mat-menu #menu="matMenu">
-    <button mat-menu-item (click)="logoutHandler()">Вийти</button>
+    <button mat-menu-item (click)="logoutHandler()">{{'sidenav.exit'|translate}}</button>
   </mat-menu>
 
 </mat-toolbar>
