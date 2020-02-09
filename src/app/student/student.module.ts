@@ -41,7 +41,7 @@ const routes: Routes = [
         useFactory: HttpLoaderFactory,
         deps: [HttpClient]
       }
-    })
+    }),
     MatTableModule,
     MatIconModule,
     MatTabsModule,

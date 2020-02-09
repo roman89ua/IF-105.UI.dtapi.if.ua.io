@@ -42,7 +42,7 @@
                 <mat-icon aria-hidden="false" matTooltip="{{'subjects.tableActionGoToTest'| translate}}" class="assignment_turned_in" aria-label="assignment_turned_in" (click)="navigateToTests(row.subject_id)">assignment_turned_in</mat-icon>
                 <mat-icon aria-hidden="false" matTooltip="{{'subjects.tableActionGoToTimeTable'| translate}}" class="date_range" aria-label="date_range" (click)="navigateToTimeTable(row.subject_id)">date_range</mat-icon>
                 <mat-icon aria-hidden="false" matTooltip="{{'subjects.tableActionEdit'| translate}}" class="edit" aria-label="edit" (click)="edit(row)">edit</mat-icon>
-                <mat-icon aria-hidden="false" matTooltip="{{'subjects.tableActionDelete'| translate}}" class="delete" aria-label="delete" (click)="delete(row)">delete</mat-icon>
+                <mat-icon aria-hidden="false" matTooltip="{{'subjects.tableActionDelete'| translate}}" class="delete" aria-label="delete" (click)="openDialog(row)">delete</mat-icon>
             </td>
         </ng-container>
 
