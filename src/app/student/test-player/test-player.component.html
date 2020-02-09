@@ -19,12 +19,13 @@
 
     <button class="finishTest" (click)="sendAnswersForCheck()">Завершити тест</button>
 </ng-container>
+
 <ng-container *ngIf="isTestDone">
     <p>
-        Всього запитань: {{testResults.full_mark}}
+        Ваша оцінка: {{testResults.full_mark}}
     </p>
     <p>
-        Правильних відповідей: {{testResults.number_of_true_answers}}
+        Всього правильних відповідей: {{testResults.number_of_true_answers}}
     </p>
-    <button routerLink="/student/home">Вийти</button>
+    <button class="wrapper-exit" routerLink="/student/home">Вийти</button>
 </ng-container>
