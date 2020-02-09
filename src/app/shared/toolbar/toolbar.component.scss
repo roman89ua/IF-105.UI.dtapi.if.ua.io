@@ -1,0 +1,19 @@
+.toolbar {
+  position: absolute;
+}
+mat-toolbar a {
+  display: inline-block;
+  text-decoration: none;
+
+}
+.fill-space {
+  flex: 1 1 auto;
+}
+.mat-toolbar.mat-primary {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+}
+.mat-raised-button {
+  color: black;
+}
