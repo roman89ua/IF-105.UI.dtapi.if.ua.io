@@ -11,6 +11,6 @@ export class SpinnerService {
         this.isLoading$.next(true);
     }
     hide() {
-        this.isLoading$.next(false);
+        setTimeout(() => this.isLoading$.next(false), 500);
     }
 }
