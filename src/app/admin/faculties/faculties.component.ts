@@ -63,10 +63,17 @@ export class FacultiesComponent implements OnInit, AfterViewInit {
   openFacultyModal(facultyObj?: Faculty) {
     if (!facultyObj) {
       this.facultyService.openAddFacultyDialog()
-        .subscribe((dialogResult: Faculty) => this.createFaculty(dialogResult));
+        .subscribe((dialogResult: Faculty) => {
+          if (dialogResult) {
+          this.createFaculty(dialogResult);
+          }});
     } else {
       this.facultyService.openAddFacultyDialog(facultyObj)
-        .subscribe((dialogResult: Faculty) => this.updateFaculty(facultyObj.faculty_id, dialogResult));
+        .subscribe((dialogResult: Faculty) => {
+          if (dialogResult) {
+            this.updateFaculty(facultyObj.faculty_id, dialogResult);
+          }
+        });
     }
   }
 
