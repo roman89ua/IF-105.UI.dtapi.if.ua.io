@@ -11,23 +11,12 @@ import {User} from '../shared/entity.interface';
 })
 export class StudentComponent implements OnInit {
   constructor(
-    public authService: AuthService,
-    private router: Router,
-  ) {
-  }
+    private auth: AuthService
+  ) {}
 
-  currentUser: string;
 
   ngOnInit() {
-    this.authService.getCurrentUser().subscribe((data: User) => {
-      this.currentUser = data.username;
-    });
+    console.log(this.auth.currentUser);
   }
 
-  public logoutHandler() {
-    this.authService.logout()
-      .subscribe(() => {
-        this.router.navigate(['login']);
-      });
-  }
 }

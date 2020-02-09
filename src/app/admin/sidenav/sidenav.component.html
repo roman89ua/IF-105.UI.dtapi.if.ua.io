@@ -1,30 +1,5 @@
 <div class="main-container">
-    <mat-toolbar class="toolbar" color="primary">
-        <button type="button" aria-label="Toggle sidenav" mat-icon-button (click)="sidenav.toggle()" *ngIf="(isSmall$ | async) || (isXSmall$ | async)">
-      <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
-    </button>
-        <span>d-tester</span>
-        <span class="fill-space"></span>
-
-    <mat-nav-list *ngIf="!(isSmall$ | async) && !(isXSmall$ | async)">
-      <a routerLinkActive="mat-raised-button" mat-button routerLink="dashboard">Головна</a>
-      <a routerLinkActive="mat-raised-button" mat-button routerLink="faculties">Факультети</a>
-      <a routerLinkActive="mat-raised-button" mat-button routerLink="group">Групи</a>
-      <a routerLinkActive="mat-raised-button" mat-button routerLink="speciality">Спеціальності</a>
-      <a routerLinkActive="mat-raised-button" mat-button routerLink="subjects">Предмети</a>
-      <a routerLinkActive="mat-raised-button" mat-button routerLink="results">Результати</a>
-      <a routerLinkActive="mat-raised-button" mat-button routerLink="admin-user">Адміни</a>
-    </mat-nav-list>
-    <span class="fill-space"></span>
-    <button mat-button [matMenuTriggerFor]="menu">
-      {{ (currentUser$ | async)?.username }}
-    </button>
-
-    <mat-menu #menu="matMenu">
-      <button mat-menu-item (click)="logoutHandler()">Вийти</button>
-    </mat-menu>
-  </mat-toolbar>
-
+  <app-toolbar [sidenav]='sidenav' ></app-toolbar>
   <mat-sidenav-container class="sidenav-container">
     <mat-sidenav #sidenav class="sidenav" mode="over" [opened]="false">
       <mat-nav-list *ngIf="(isSmall$ | async) || (isXSmall$ | async)">
@@ -44,7 +19,6 @@
       </mat-nav-list>
     </mat-sidenav>
     <mat-sidenav-content>
-      <app-spinner></app-spinner>
       <router-outlet></router-outlet>
     </mat-sidenav-content>
   </mat-sidenav-container>
