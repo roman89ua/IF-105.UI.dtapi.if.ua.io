@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { switchMap, map } from 'rxjs/operators';
-import { forkJoin, of } from 'rxjs';
+import { switchMap, map, catchError } from 'rxjs/operators';
+import { forkJoin, of, throwError } from 'rxjs';
 import { AuthService } from '../shared/auth.service';
 
 @Injectable({
@@ -36,10 +36,20 @@ export class TestPlayerService {
   getAnswer(questionId: any) {
     return this.http.get(`SAnswer/getAnswersByQuestion/${questionId}`);
   }
+  getCurrnetTestId() {
+    return this.http.get('testPlayer/getData');
+  }
   getQuestionList(testId: number) {
     return this.getLog(testId)
     .pipe(
-      switchMap(() => {
+      catchError(({error}) => {
+        if (error.response === 'User is making test at current moment') {
+          return this.getCurrnetTestId();
+        }
+        return throwError(error);
+      }),
+      switchMap((id) => {
+        console.log(id);
         return this.getTestDetails(testId)
       }),
       switchMap((questionDetails: any) => {
