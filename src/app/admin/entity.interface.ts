@@ -38,6 +38,14 @@ export interface Test {
   attempts: number;
 }
 
+export interface TestDetail {
+  id: number;
+  test_id: number;
+  level: number;
+  tasks: number;
+  rate: number;
+}
+
 export interface Results {
   session_id: number;
   student_id: number;

@@ -7,7 +7,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { TestAddComponent } from '../add/test-add.component';
 import { ModalService } from '../../../shared/services/modal.service';
 import { ApiService } from '../../../shared/services/api.service';
-import {ActivatedRoute, Router} from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-group',

@@ -35,7 +35,7 @@ export class ResultsComponent implements OnInit {
   @ViewChild('table', { static: true }) table: MatTable<Element>;
 
   constructor(private fb: FormBuilder,
-    private resultsService: ResultsService,
+    public resultsService: ResultsService,
     private modalService: ModalService) {}
 
   ngOnInit() {
@@ -46,7 +46,7 @@ export class ResultsComponent implements OnInit {
   }
   /** Get all groups */
   private getAllGroups() {
-    this.resultsService.getListGroup().subscribe(result => { 
+    this.resultsService.getListGroup().subscribe(result => {
       this.listGroups = result;
     },  () => {
       this.modalService.openErrorModal('Помилка завантаження даних');
@@ -54,7 +54,7 @@ export class ResultsComponent implements OnInit {
   }
   /** Get all test */
   private getAllTests() {
-    this.resultsService.getListTest().subscribe(result => { 
+    this.resultsService.getListTest().subscribe(result => {
       this.listTests = result;
       this.listTestsByGroup = this.listTests;
     },  () => {
@@ -73,7 +73,7 @@ export class ResultsComponent implements OnInit {
       if (result.response) {
         this.listTestsByGroup = [];
       } else {
-        this.listTestsByGroup = this.listTests.filter(item1 => 
+        this.listTestsByGroup = this.listTests.filter(item1 =>
           result.some(item2 => item2.test_id === item1.test_id )
         );
       }
