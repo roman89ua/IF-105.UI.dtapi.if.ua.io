@@ -34,6 +34,8 @@ import { ResultsService } from './results/results.service';
 import { GroupModalService } from './group/group-modal.service';
 import { GroupService } from './group/group.service';
 import { TransferStudentModalWindowComponent } from './students/transfer-student-modal-window/transfer-student-modal-window.component';
+import { ImageCropperModule } from 'ngx-image-cropper';
+import { ViewStudentModalWindowComponent } from './students/view-student-modal-window/view-student-modal-window.component';
 
 
 const routes: Routes = [
@@ -81,6 +83,7 @@ const routes: Routes = [
     QuestionTypePipe,
     ResultsComponent,
     TransferStudentModalWindowComponent,
+    ViewStudentModalWindowComponent,
   ],
   imports: [
     CommonModule,
@@ -89,6 +92,7 @@ const routes: Routes = [
     ReactiveFormsModule,
     RouterModule.forChild(routes),
     MatDialogModule,
+    ImageCropperModule
   ],
   providers: [
     AdminUserService,
@@ -109,6 +113,7 @@ const routes: Routes = [
     TimeTableAddDialogComponent,
     TransferStudentModalWindowComponent,
     StudentsModalWindowComponent,
+    ViewStudentModalWindowComponent
   ]
 })
 export class AdminModule { }

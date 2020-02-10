@@ -39,7 +39,7 @@ export class TransferStudentModalWindowComponent implements OnInit {
         password: this.data.student_data.plain_password,
         username: this.username,
         email: this.email,
-        photo: '',
+        photo: this.data.student_data.photo,
         password_confirm: this.data.student_data.plain_password,
         plain_password: this.data.student_data.plain_password
     };
@@ -54,12 +54,13 @@ export class TransferStudentModalWindowComponent implements OnInit {
   }
 
   private getUserData() {
-    if (this.data.student_data) {
-      this.apiService.getEntity('AdminUser', this.data.student_data.user_id).subscribe((result: any) => {
-        this.username = result[0].username;
-        this.email = result[0].email;
-      });
-    }
+    this.apiService.getEntity('AdminUser', this.data.student_data.user_id).subscribe((result: any) => {
+      this.username = result[0].username;
+      this.email = result[0].email;
+    },
+    (error: ResponseInterface) => {
+      this.modalService.openErrorModal('Можливі проблеми із сервером');
+    });
   }
 
   public getFaculty() {
@@ -67,7 +68,7 @@ export class TransferStudentModalWindowComponent implements OnInit {
       .subscribe(response => {
         this.FACULTIES_LIST = response;
       },
-      error => {
+      (error: ResponseInterface) => {
         this.modalService.openErrorModal('Можливі проблеми із сервером');
       });
   }
@@ -88,7 +89,7 @@ export class TransferStudentModalWindowComponent implements OnInit {
       .subscribe(response => {
         this.GROUPS_LIST = response;
       },
-      error => {
+      (error: ResponseInterface) => {
         this.modalService.openErrorModal('Можливі проблеми із сервером');
       });
   }
