@@ -1,13 +1,12 @@
-import { Component, OnInit, AfterViewInit, OnDestroy, } from '@angular/core';
+import { Component, OnInit, AfterViewInit } from '@angular/core';
 import { ViewChild } from '@angular/core';
-import { MatDialog, MatTableDataSource, MatTable, MatSnackBar, MatPaginator } from '@angular/material';
-import { CreateEditComponent } from './create-edit/create-edit.component';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatTableDataSource, MatTable, MatSnackBar } from '@angular/material';
 import { Faculty } from 'src/app/shared/entity.interface';
 import { ModalService } from '../../shared/services/modal.service';
-import { ApiService } from 'src/app/shared/services/api.service';
+import { FacultiesService } from './faculties.service';
 import { PaginatorService } from 'src/app/shared/paginator/paginator.service';
 import { PaginationModel } from 'src/app/shared/paginator/PaganationModel';
-
 
 @Component({
   selector: 'app-faculties',
@@ -28,14 +27,12 @@ export class FacultiesComponent implements OnInit, AfterViewInit {
   matpaginator: MatPaginator;
 
   constructor(
-    private apiService: ApiService,
-    private dialog: MatDialog,
     private snackBar: MatSnackBar,
     private modalService: ModalService,
+    private facultyService: FacultiesService,
     private paginatorService: PaginatorService) { }
 
-
-/*            For Paginator component        */
+  /*            For Paginator component        */
   public onPaginationChanged(paginatorModel: PaginationModel): void {
     this.paginator = paginatorModel;
     this.getRange(paginatorModel);
@@ -45,6 +42,7 @@ export class FacultiesComponent implements OnInit, AfterViewInit {
   getMatPagination(matpaginator: MatPaginator) {
     this.matpaginator = matpaginator;
   }
+
   getRange(paginator: PaginationModel) {
     this.paginatorService.getRange('Faculty', paginator)
       .subscribe(data => this.dataSource.data = data,
@@ -52,19 +50,36 @@ export class FacultiesComponent implements OnInit, AfterViewInit {
   }
 
   getCountRecords() {
-    this.apiService.getCountRecords('Faculty')
+    this.paginatorService.getCountRecords('Faculty')
       .subscribe(data => this.length = data.numberOfRecords);
   }
 
-/*        *****************************************       */
+  /*        *****************************************       */
 
   ngOnInit(): void { }
 
   ngAfterViewInit(): void { }
 
-  addFaculty(faculty: Faculty) {
-    this.apiService.createEntity('Faculty', faculty)
-      .subscribe(response => {
+  openFacultyModal(facultyObj?: Faculty) {
+    if (!facultyObj) {
+      this.facultyService.openAddFacultyDialog()
+        .subscribe((dialogResult: Faculty) => {
+          if (dialogResult) {
+          this.createFaculty(dialogResult);
+          }});
+    } else {
+      this.facultyService.openAddFacultyDialog(facultyObj)
+        .subscribe((dialogResult: Faculty) => {
+          if (dialogResult) {
+            this.updateFaculty(facultyObj.faculty_id, dialogResult);
+          }
+        });
+    }
+  }
+
+  createFaculty(faculty: Faculty) {
+    this.facultyService.createFaculty(faculty)
+      .subscribe(() => {
         this.getRange(this.paginator);
         this.getCountRecords();
         this.openSnackBar('Факультет додано');
@@ -76,9 +91,11 @@ export class FacultiesComponent implements OnInit, AfterViewInit {
         }
       );
   }
+
+
   updateFaculty(id: number, faculty: Faculty) {
-    this.apiService.updEntity('Faculty', faculty, id)
-      .subscribe(response => {
+    this.facultyService.updateFaculty(id, faculty)
+      .subscribe(() => {
         this.openSnackBar('Факультет оновлено');
         this.getRange(this.paginator);
       },
@@ -90,32 +107,6 @@ export class FacultiesComponent implements OnInit, AfterViewInit {
       );
   }
 
-
-  createFacultyDialog() {
-    const dialogRef = this.dialog.open(CreateEditComponent, {
-      width: '400px'
-    });
-    dialogRef.afterClosed().subscribe((dialogResult: Faculty) => {
-      if (dialogResult) {
-        this.addFaculty(dialogResult);
-      } else { return; }
-    });
-  }
-
-
-  updateFacultyDialog(faculty: Faculty) {
-    const dialogRef = this.dialog.open(CreateEditComponent, {
-      width: '400px',
-      data: faculty
-    });
-    dialogRef.afterClosed().subscribe((dialogResult: Faculty) => {
-      if (dialogResult) {
-        this.updateFaculty(faculty.faculty_id, dialogResult);
-      } else { return; }
-    });
-  }
-
-
   openConfirmDialog(faculty: Faculty) {
     const message = `Підтвердіть видалення факультету "${faculty.faculty_name}"?`;
     this.modalService.openConfirmModal(message, () => this.removeFaculty(faculty.faculty_id));
@@ -123,8 +114,8 @@ export class FacultiesComponent implements OnInit, AfterViewInit {
 
 
   removeFaculty(id: number) {
-    this.apiService.delEntity('Faculty', id)
-      .subscribe((response) => {
+    this.facultyService.deleteFaculty(id)
+      .subscribe(() => {
         this.openSnackBar('Факультет видалено');
         this.dataSource.data = this.dataSource.data.filter(item => item.faculty_id !== id);
         if (this.dataSource.data.length > 0) {

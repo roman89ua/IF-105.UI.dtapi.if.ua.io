@@ -28,20 +28,29 @@ import {QuestionTypePipe} from './questions/pipes/question-type.pipe';
 import {StudentsModalWindowComponent} from './students/students-modal-window/students-modal-window.component';
 import { TestListComponent } from './tests/list/test-list.component';
 import { TestAddComponent } from './tests/add/test-add.component';
-import {TimeTablePipe} from './time-table/pipes/time-table.pipe';
+import { FacultiesService } from './faculties/faculties.service';
+import {TimeTablePipe} from '../shared/pipes/time-table.pipe';
 import { ResultsComponent } from './results/results.component';
 import { ResultsService } from './results/results.service';
 import { GroupModalService } from './group/group-modal.service';
 import { GroupService } from './group/group.service';
+import { HttpClient} from '@angular/common/http';
+import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
+import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import { ResultRaitingQuestionComponent } from './results/result-raiting-question/result-raiting-question.component';
+import { ChartsModule } from 'ng2-charts';
+import { DashboardComponent } from './dashboard/dashboard.component';
 import { TransferStudentModalWindowComponent } from './students/transfer-student-modal-window/transfer-student-modal-window.component';
 import { ImageCropperModule } from 'ngx-image-cropper';
 import { ViewStudentModalWindowComponent } from './students/view-student-modal-window/view-student-modal-window.component';
-
+import { ResultDetailComponent } from './results/result-detail/result-detail.component';
 
 const routes: Routes = [
   {
     path: '', component: AdminComponent,
     children: [
+      { path: '', redirectTo: '/admin/dashboard', pathMatch: 'full'},
+      { path: 'dashboard', component: DashboardComponent},
       { path: 'tests/:id/questions/:questionId/:mode', component: NewQuestionComponent },
       { path: 'tests/:id/questions', component: QuestionsComponent },
       { path: 'tests/:id/questions/new', component: NewQuestionComponent },
@@ -81,9 +90,12 @@ const routes: Routes = [
     TimeTablePipe,
     TimeTableAddDialogComponent,
     QuestionTypePipe,
+    DashboardComponent,
     ResultsComponent,
+    ResultRaitingQuestionComponent,
     TransferStudentModalWindowComponent,
     ViewStudentModalWindowComponent,
+    ResultDetailComponent,
   ],
   imports: [
     CommonModule,
@@ -92,14 +104,26 @@ const routes: Routes = [
     ReactiveFormsModule,
     RouterModule.forChild(routes),
     MatDialogModule,
-    ImageCropperModule
+    ImageCropperModule,
+    TranslateModule.forChild({
+      loader: {
+        provide: TranslateLoader,
+        useFactory: HttpLoaderFactory,
+        deps: [HttpClient]
+      }
+    }),
+    ChartsModule
   ],
   providers: [
     AdminUserService,
     StudentsService,
+    FacultiesService,
     ResultsService,
     GroupModalService,
     GroupService
+  ],
+  exports: [
+    TimeTablePipe
   ],
   entryComponents: [
     NavbarComponent,
@@ -111,9 +135,16 @@ const routes: Routes = [
     SubjectsCreateModalComponent,
     TestAddComponent,
     TimeTableAddDialogComponent,
+    StudentsModalWindowComponent,
+    ResultRaitingQuestionComponent,
     TransferStudentModalWindowComponent,
     StudentsModalWindowComponent,
     ViewStudentModalWindowComponent
+    ResultDetailComponent,
   ]
 })
 export class AdminModule { }
+
+export function HttpLoaderFactory(http: HttpClient) {
+  return new TranslateHttpLoader(http);
+}

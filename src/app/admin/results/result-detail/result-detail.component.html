@@ -1,0 +1,38 @@
+<h3 mat-dialog-title>Деталі тестування</h3>
+<mat-dialog-content *ngIf="isLoaded">
+  <ng-container *ngIf="dataSource.data.length">
+    <table mat-table #table [dataSource]="dataSource">
+      <ng-container matColumnDef="id">
+        <th mat-header-cell *matHeaderCellDef>№</th>
+        <td mat-cell *matCellDef="let result; let rIndex = index">
+          {{ rIndex + 1 }}
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="question">
+        <th mat-header-cell *matHeaderCellDef>Текст запитання</th>
+        <td mat-cell *matCellDef="let result">
+          {{ resultsService.getTextQuestion(listQuestionsByTest, result.question_id) }}
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="answer">
+        <th mat-header-cell *matHeaderCellDef>Відповідь</th>
+        <td mat-cell *matCellDef="let result">
+          {{ result.true }}
+        </td>
+      </ng-container>
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+    </table>
+  </ng-container>
+</mat-dialog-content>
+<mat-dialog-actions>
+  <button
+    mat-stroked-button
+    color="primary"
+    type="button"
+    cdkFocusInitial
+    [mat-dialog-close]="true"
+  >
+    Закрити
+  </button>
+</mat-dialog-actions>

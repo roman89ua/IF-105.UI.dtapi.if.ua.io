@@ -6,6 +6,7 @@ import { MatSnackBar } from '@angular/material';
 import { environment } from '../environments/environment';
 import { Router } from '@angular/router';
 import { errorMapping, defaultMessage } from '../app/http.interceptor.constants';
+
 @Injectable()
 export class ApiHttpInterceptor implements HttpInterceptor {
   private environmentUrl = environment.apiUrl;
@@ -17,9 +18,9 @@ export class ApiHttpInterceptor implements HttpInterceptor {
 
     });
   }
-
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    const apiReq = request.clone({ url: `${this.environmentUrl + request.url}` });
+    let apiReq = null;
+    request.url.includes('assets/i18n') ? apiReq = request : apiReq = request.clone({url: `${this.environmentUrl + request.url}`});
     return next.handle(apiReq)
       .pipe(
         catchError((error: HttpErrorResponse) => {
