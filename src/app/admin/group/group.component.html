@@ -60,11 +60,17 @@
       </ng-container>
       <ng-container matColumnDef="speciality">
         <th mat-header-cell *matHeaderCellDef>Спеціальність</th>
-        <td mat-cell *matCellDef="let group"> {{groupService.getNameSpeciality(group.speciality_id, listSpeciality)}}</td>
+        <td mat-cell *matCellDef="let group">
+          {{group.speciality}}
+          <!-- {{groupService.getNameSpeciality(group.speciality_id, listSpeciality)}} -->
+        </td>
       </ng-container>
       <ng-container matColumnDef="faculty">
         <th mat-header-cell *matHeaderCellDef>Факультет</th>
-        <td mat-cell *matCellDef="let group">{{groupService.getNameFaculty(group.faculty_id, listFaculty)}}</td>
+        <td mat-cell *matCellDef="let group">
+          {{group.faculty}}
+          <!-- {{groupService.getNameFaculty(group.faculty_id, listFaculty)}} -->
+        </td>
       </ng-container>
       <ng-container matColumnDef="students">
         <th mat-header-cell *matHeaderCellDef>Студенти</th>

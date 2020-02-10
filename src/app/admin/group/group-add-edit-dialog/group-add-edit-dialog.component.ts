@@ -1,5 +1,5 @@
-import { Component, OnInit, Inject, Input } from "@angular/core";
-import { MatDialogRef, MAT_DIALOG_DATA } from "@angular/material/dialog";
+import { Component, OnInit, Inject, Input } from '@angular/core';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { DialogData } from '../../group/group-modal.interface';
 
@@ -15,7 +15,7 @@ export class GroupAddEditDialogComponent implements OnInit {
     public dialogRef: MatDialogRef<GroupAddEditDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: DialogData,
     private fb: FormBuilder,
-   ) { 
+   ) {
     dialogRef.disableClose = true;
     this.createForm();
   }
@@ -27,8 +27,7 @@ export class GroupAddEditDialogComponent implements OnInit {
         'speciality_id': [this.data.group.speciality_id, Validators.required],
         'faculty_id': [this.data.group.faculty_id, Validators.required]
       });
-    }
-    else {
+    } else {
       this.addEditForm = this.fb.group({
         'group_name': [null, Validators.required],
         'speciality_id': [null, Validators.required],

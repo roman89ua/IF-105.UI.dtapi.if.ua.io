@@ -10,6 +10,7 @@ import { DialogData } from './group-modal.interface';
 import { GroupService } from './group.service';
 import { GroupAddEditDialogComponent } from './group-add-edit-dialog/group-add-edit-dialog.component';
 import { GroupViewDialogComponent } from './group-view-dialog/group-view-dialog.component';
+import { forkJoin } from 'rxjs';
 
 
 @Component({
@@ -57,14 +58,16 @@ export class GroupComponent implements OnInit, AfterViewInit {
 
   ngOnInit() {
     this.getCountRecords('group');
-    this.groupService.getListSpeciality().subscribe(result => {
-      this.listSpeciality = result;
+    forkJoin(
+      this.groupService.getListSpeciality(),
+      this.groupService.getListFaculty(),
+      this.groupService.getListGroup(this.pageSize)
+    ).subscribe(([res1, res2, res3]) => {
+      this.listSpeciality = res1;
+      this.listFaculty = res2;
+      this.listGroups = this.groupService.addPropertyToGroup(res3, res1, res2);
+      this.dataSource.data = this.listGroups;
     }, () => {
-        this.modalService.openErrorModal('Помилка завантаження даних');
-      });
-    this.groupService.getListFaculty().subscribe(result => {
-      this.listFaculty = result;
-    },  () => {
       this.modalService.openErrorModal('Помилка завантаження даних');
     });
     this.getListGroups();
@@ -82,10 +85,10 @@ export class GroupComponent implements OnInit, AfterViewInit {
   }
   /** Get part (size page) list of groups */
   getListGroups(offset: number = 0) {
-    this.apiService.getRecordsRange('group', this.pageSize, offset).subscribe((result: Group[]) => {
+    this.groupService.getListGroup(this.pageSize, offset).subscribe((result: Group[]) => {
       this.isCheckFaculty = false;
       this.isCheckSpeciality = false;
-      this.listGroups = result;
+      this.dataSource.data = this.groupService.addPropertyToGroup(result, this.listSpeciality, this.listFaculty);
       this.dataSource.data = this.listGroups;
     }, () => {
       this.modalService.openErrorModal('Помилка завантаження списку груп');
@@ -219,11 +222,11 @@ export class GroupComponent implements OnInit, AfterViewInit {
   /** Get list groups by speciality or faculty */
   getListGroupsByFeature(action: string, id: number): void {
     this.apiService.getEntityByAction('Group', action, id).subscribe((result: any) => {
-      if (result.response) {
+      if ('response' in result) {
         this.dataSource.data = [];
         this.modalService.openInfoModal('Групи відсутні');
       } else {
-        this.dataSource.data = result;
+        this.dataSource.data = this.groupService.addPropertyToGroup(result, this.listSpeciality, this.listFaculty);
       }
       this.currentPage = 0;
     }, () => {
