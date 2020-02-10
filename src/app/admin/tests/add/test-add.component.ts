@@ -15,7 +15,6 @@ export interface DialogData {
 })
 export class TestAddComponent implements OnInit {
   subjects: Subject[] = [];
-  faculties: Faculty[] = [];
 
   constructor(
     private apiService: ApiService,
@@ -29,8 +28,5 @@ export class TestAddComponent implements OnInit {
       .subscribe((result: Subject[]) => {
         this.subjects = result;
       });
-    this.apiService.getEntity('Faculty').subscribe((result: Faculty[]) => {
-      this.faculties = result;
-    });
   }
 }

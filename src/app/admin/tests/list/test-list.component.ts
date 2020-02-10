@@ -46,13 +46,13 @@ export class TestListComponent implements OnInit {
     this.viewAllTests();
   }
 
-  onChange(newSubjectId: number) {
+  onChangeSubject(newSubjectId: number) {
     this.currentSubjectId = newSubjectId;
     this.router.navigate([], { queryParams: {subject_id: this.currentSubjectId} });
     this.viewAllTests();
   }
 
-  public addTestDialog(): void {
+  public openAddTestDialog(): void {
     const dialogRef = this.dialog.open(TestAddComponent, {
       width: '500px',
       data: {
@@ -156,6 +156,8 @@ export class TestListComponent implements OnInit {
 
         return testItem;
       });
+
+      this.listTests.map((testItem) => testItem.enabled = testItem.enabled === '0');
       this.dataSource.data = this.listTests;
     });
     this.dataSource.paginator = this.paginator;

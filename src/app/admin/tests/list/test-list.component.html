@@ -2,13 +2,13 @@
   <div class="header">
     <h3>Тести <span *ngIf="currentSubjectId">з предмету: {{ getSubjectNameById(currentSubjectId) }}</span></h3>
     <span class="fill-space"></span>
-    <button mat-raised-button color="prime" (click)="addTestDialog()">
+    <button mat-raised-button color="prime" (click)="openAddTestDialog()">
       <mat-icon aria-hidden="false" aria-label="add">add</mat-icon>
       Додати новий тест
     </button>
   </div>
   <div class="search-box">
-    <mat-select [ngModel]="currentSubjectId" (ngModelChange)="onChange($event)" name="current_subject">
+    <mat-select [ngModel]="currentSubjectId" (ngModelChange)="onChangeSubject($event)" name="current_subject">
       <mat-option [value]="subject.subject_id" *ngFor="let subject of listSubjects">{{ subject.subject_name }}</mat-option>
     </mat-select>
   </div>
@@ -62,7 +62,7 @@
         </mat-icon>
         <mat-icon
           aria-hidden="false"
-          matTooltip="Деталі тесту"
+          matTooltip="Параметри тесту"
         >
         description
         </mat-icon>
