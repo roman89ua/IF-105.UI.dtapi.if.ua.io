@@ -2,19 +2,18 @@ import { Component, OnInit, ViewChild, Inject } from '@angular/core';
 import { FormControl, FormGroup, Validators} from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { Subject } from 'src/app/admin/entity.interface';
-import { TranslatePipe } from '@ngx-translate/core';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-subjects-create-modal',
   templateUrl: './subjects-create-modal.component.html',
   styleUrls: ['./subjects-create-modal.component.scss'],
-  providers: [TranslatePipe],
 })
 export class SubjectsCreateModalComponent implements OnInit {
   constructor(
     public newDialogSubject: MatDialogRef<SubjectsCreateModalComponent>,
     @Inject(MAT_DIALOG_DATA) public data: Subject,
-    private translatePipe: TranslatePipe
+    private translate: TranslateService
     ) { }
 
   @ViewChild('addSubject', { static: false }) addsubject;
@@ -41,9 +40,9 @@ export class SubjectsCreateModalComponent implements OnInit {
   }
 
   getErrorMessage(field: FormControl) {
-    return field.hasError('required') ? this.translatePipe.transform('subjects.formErrorRequired') :
-      field.hasError('pattern') ? this.translatePipe.transform('subjects.formErrorPattern') :
-      this.translatePipe.transform('subjects.formErrorMinMax');
+    return field.hasError('required') ? this.translate.instant('subjects.formErrorRequired') :
+      field.hasError('pattern') ? this.translate.instant('subjects.formErrorPattern') :
+      this.translate.instant('subjects.formErrorMinMax');
   }
 
   ngOnInit() {

@@ -252,11 +252,10 @@
         "formEditBtn": "Редагувати",
         "formCencelBtn": "Відмінити",
         
-
         "snackbarMessageCreate":"Предмет створено.",
         "snackbarMessageEdit":"Предмет відредаговано.",
         "snackbarMessageDelete":"Предмет видалено.",
-        "deleteMessagesConfirmation":"Ви видаляєте предмет "
+        "deleteMessagesConfirmation":"Ви видаляєте предмет '"
         
     },
 
@@ -295,7 +294,6 @@
     },
     "shared":{
         "confirmHeader":"Підтведження",
-        "confirmData":"",
         "confirmBtnConfirm":"Підтвердити",
         "confirmBtnCancel":"Відмінити"
     }
