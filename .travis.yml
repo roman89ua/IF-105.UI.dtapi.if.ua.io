@@ -17,7 +17,7 @@ install:
 
 script:
 
-  -ng build --prod --base-href /login/
+  - ng build --prod --base-href /login/
 
 deploy:
   provider: pages
