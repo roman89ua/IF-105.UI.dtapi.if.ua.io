@@ -1,4 +1,13 @@
 {
+    "interceptor": {
+        "status0message":"Відсутнє з'єднання з інтернетот.",
+        "status400message":"Не коректний запит.",
+        "status401message":"Несанкціонований доступ.",
+        "status403message":"Сервер відмовляється відповідати.",
+        "status404message":"Ресурс не знайдено.",
+        "status500message":"Внутрішня помилка серверу.",
+        "defaultMessage":"Ой, щось пішло не так..."
+    },
     "loginform": {
         "header": "Авторизація",
         "enter": "Увійти",
@@ -10,12 +19,13 @@
         "text":"Ресурс не знайдено"
     },
     "sidenav":{
+        "dashboard":"Головна",
         "faculties": "Факультети",
         "group": "Групи",
         "speciality":"Спеціальності",
-        "subjects": "Предмети",
-        "tests": "Тести",
-        "admin-user": "Адміни",
+        "subjects":"Предмети",
+        "results":"Результати",
+        "admin-user":"Адміни",
         "exit": "Вийти"
     },
     "adminUser":{
@@ -215,6 +225,7 @@
         "headerMain": "Предмети",
         "addNew": "Новий предмети",
         "filterPlaceholder": "Пошук",
+
         "tableNum": "№",
         "tableId": "Ідентифікатор",
         "tableName": "Назва",
@@ -224,6 +235,8 @@
         "tableActionGoToTimeTable": "Розклад тестування",
         "tableActionEdit": "Редагувати предмет",
         "tableActionDelete": "Видалити предмет",
+        "tablePaginatorItemsPerPageLabel": "Рядків на сторінці:",
+
         "formHeaderAdd": "Додавання",
         "formHeaderEdit": "Редагування",
         "formHeader": "предмета",
@@ -232,17 +245,19 @@
         "formInputErrorRequired": "",
         "formTextAreaLabel": "Опис предмета",
         "formTextAreaPlaceholder": "Опис",
-        "formTextAreaErrors": "",
+        "formErrorRequired":"Це поле є обовязкове*",
+        "formErrorPattern":"Поле містить недопустимі символи або (Цифри, латинські букви)",
+        "formErrorMinMax":"Мінімум: 2 символи, максимуму: 100",
         "formAddBtn": "Додати",
         "formEditBtn": "Редагувати",
         "formCencelBtn": "Відмінити",
-
-        "deleteMessagesConfirmation":{
-            "firstPart":"Ви видаляєте ",
-            "secondPart":", ви впевнені?"
-        }
+        
+        "snackbarMessageCreate":"Предмет створено.",
+        "snackbarMessageEdit":"Предмет відредаговано.",
+        "snackbarMessageDelete":"Предмет видалено.",
+        "deleteMessagesConfirmation":"Ви видаляєте предмет '"
+        
     },
-
     "studentAdmin":{
         "hederMain":"Студенти",
         "addNewBtn":"Додати студента",
@@ -278,7 +293,6 @@
     },
     "shared":{
         "confirmHeader":"Підтведження",
-        "confirmData":"",
         "confirmBtnConfirm":"Підтвердити",
         "confirmBtnCancel":"Відмінити"
     }
