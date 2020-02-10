@@ -41,6 +41,8 @@ import { ResultRaitingQuestionComponent } from './results/result-raiting-questio
 import { ChartsModule } from 'ng2-charts';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { TransferStudentModalWindowComponent } from './students/transfer-student-modal-window/transfer-student-modal-window.component';
+import { ImageCropperModule } from 'ngx-image-cropper';
+import { ViewStudentModalWindowComponent } from './students/view-student-modal-window/view-student-modal-window.component';
 import { ResultDetailComponent } from './results/result-detail/result-detail.component';
 
 const routes: Routes = [
@@ -92,6 +94,7 @@ const routes: Routes = [
     ResultsComponent,
     ResultRaitingQuestionComponent,
     TransferStudentModalWindowComponent,
+    ViewStudentModalWindowComponent,
     ResultDetailComponent,
   ],
   imports: [
@@ -101,6 +104,7 @@ const routes: Routes = [
     ReactiveFormsModule,
     RouterModule.forChild(routes),
     MatDialogModule,
+    ImageCropperModule,
     TranslateModule.forChild({
       loader: {
         provide: TranslateLoader,
@@ -135,6 +139,7 @@ const routes: Routes = [
     ResultRaitingQuestionComponent,
     TransferStudentModalWindowComponent,
     StudentsModalWindowComponent,
+    ViewStudentModalWindowComponent,
     ResultDetailComponent,
   ]
 })

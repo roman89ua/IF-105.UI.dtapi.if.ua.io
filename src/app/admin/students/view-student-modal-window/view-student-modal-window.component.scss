@@ -1,0 +1,66 @@
+mat-card {
+    .closeForm {
+        display: flex;
+        justify-content: flex-end;
+    
+        mat-icon {
+            cursor: pointer;
+        }
+    }
+
+    .header {
+        margin-top: 20px;
+        margin-bottom: 30px;
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .view__student {
+    margin-bottom: 20px;
+
+    .view__student_container {
+        display: flex;
+        flex-direction: row;
+
+        .student_photo {
+            width: 50%;
+            display: flex;
+            justify-content: center;
+
+            .photo {
+                width: 90%;
+                height: 300px;
+            }
+            img {
+                box-shadow: 0 0 10px gray;
+            }
+        }
+
+        .student_information{
+            width: 50%;
+            .s_title {
+                color: gray;
+                font-size: 12px;
+            }
+            .s_description {
+                font-size: 17px;
+            }
+
+            .student_information_content {
+                margin-bottom: 10px;
+            }
+
+            .group {
+                margin-right: 40px;
+                float: left;
+            }
+        }
+    }
+}
+}
+
+.loadingSpinner {
+    display: flex;
+    justify-content: center; 
+    align-items: center;
+}

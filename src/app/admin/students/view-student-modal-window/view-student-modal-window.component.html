@@ -1,0 +1,60 @@
+<mat-card *ngIf="StudentData !== undefined && GroupData !== undefined && FacultyData !== undefined && SpecialityData !== undefined">
+    <mat-card-title class="header">
+        <h3>Інформація про студента</h3>
+        <mat-card-actions class="closeForm">
+            <mat-icon aria-hidden="false" aria-label="edit" class="closeForm" (click)="closeModalWindow()">close</mat-icon>
+        </mat-card-actions>
+    </mat-card-title>
+
+    <mat-card-content class="view__student">
+        <div class="view__student_container">
+            <div class="student_photo" *ngIf="StudentData.photo !== ''">
+                <img [src]="StudentData.photo" class="photo" alt="Student Photo">
+            </div>
+            <div class="student_photo" *ngIf="StudentData.photo === ''">
+                <img [src]="defaultImg" class="photo" alt="Student Photo">
+            </div>
+            <div class="student_information">
+                <div class="student_information_content">
+                    <div class="s_title">ПІБ</div>
+                    <div class="s_description">{{StudentData.student_surname}} {{StudentData.student_name}} {{StudentData.student_fname}}</div>
+                </div>
+                
+                <div class="student_information_content">
+                    <div class="s_title">Факультет/Інститут</div>
+                    <div class="s_description">{{FacultyData.faculty_name}}</div>
+                </div>
+
+                <div class="student_information_content">
+                    <div class="s_title">Спеціальність</div>
+                    <div class="s_description">{{SpecialityData.speciality_name}}</div>
+                </div>
+                
+                <div class="student_information_content group">
+                    <div class="s_title">Група</div>
+                    <div class="s_description">{{GroupData.group_name}}</div>
+                </div>
+
+                <div class="student_information_content">
+                    <div class="s_title">Номер заліковки</div>
+                    <div class="s_description">{{StudentData.gradebook_id}}</div>
+                </div>
+
+                <div class="student_information_content">
+                    <div class="s_title">Електронна пошта</div>
+                    <div class="s_description">{{email}}</div>
+                </div>
+
+                <div class="student_information_content">
+                    <div class="s_title">Унікальне ім'я користувача в системі:</div>
+                    <div class="s_description">{{username}}</div>
+                </div>
+                
+            </div>
+        </div>
+    </mat-card-content>
+</mat-card>
+
+<mat-card *ngIf="StudentData === undefined && GroupData === undefined && FacultyData === undefined && SpecialityData === undefined" class="loadingSpinner">
+    <mat-progress-spinner color="primary" mode="indeterminate"></mat-progress-spinner>
+</mat-card>
