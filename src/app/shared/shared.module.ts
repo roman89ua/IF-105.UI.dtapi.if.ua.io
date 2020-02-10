@@ -55,7 +55,6 @@ import { PaginatorComponent } from './paginator/paginator.component';
 import { PaginatorService } from './paginator/paginator.service';
 import { ToolbarComponent } from './toolbar/toolbar.component';
 import { RouterModule } from '@angular/router';
-import { TranslatePipe } from '@ngx-translate/core';
 
 
 @NgModule({
@@ -90,8 +89,7 @@ import { TranslatePipe } from '@ngx-translate/core';
   providers: [
     AuthService,
     ModalService,
-    PaginatorService,
-    TranslatePipe
+    PaginatorService
   ],
   entryComponents: [
     ConfirmComponent,
