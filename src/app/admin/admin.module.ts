@@ -139,7 +139,7 @@ const routes: Routes = [
     ResultRaitingQuestionComponent,
     TransferStudentModalWindowComponent,
     StudentsModalWindowComponent,
-    ViewStudentModalWindowComponent
+    ViewStudentModalWindowComponent,
     ResultDetailComponent,
   ]
 })
