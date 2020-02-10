@@ -17,7 +17,7 @@ install:
 
 script:
 
-  - ng build --prod 
+  - ng build --prod --base-href http://yurakhomitsky.github.io/IF-105.UI.dtapi.if.ua.io/
 
 deploy:
   provider: pages
