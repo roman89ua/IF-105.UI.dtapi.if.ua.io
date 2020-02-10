@@ -17,7 +17,7 @@ install:
 
 script:
 
-  - ng build --prod --base-href /IF105/
+  - ng build --prod 
 
 deploy:
   provider: pages
