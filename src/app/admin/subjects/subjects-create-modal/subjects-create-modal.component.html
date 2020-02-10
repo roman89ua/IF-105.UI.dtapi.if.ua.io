@@ -1,11 +1,12 @@
-<h3>{{ !data ? "Додавання" : "Редагування" }} предмета</h3>
+<h3>{{ !data ? ("subjects.formHeaderAdd" | translate) : ("subjects.formHeaderEdit"| translate) }} предмета</h3>
 
 <form [formGroup]="addSubject" class="form-control " #addsubject="ngForm" (ngSubmit)="onSubmit()">
     <mat-form-field appearance="outline">
 
-        <mat-label>Предмети</mat-label>
+        <mat-label>{{'subjects.formInputLabel' | translate}}</mat-label>
 
-        <input matInput formControlName="subject_name" minlength="2" maxlength="100" placeholder="Назва предмета" />
+
+        <input matInput formControlName="subject_name" placeholder="{{'subjects.formInputPlaceholder' | translate}}"/>
 
         <button type="button" mat-button *ngIf="subject_name.value" matSuffix mat-icon-button aria-label="Clear" (click)="subject_name.reset()">
       <mat-icon>close</mat-icon>
@@ -19,8 +20,8 @@
     </mat-form-field>
 
     <mat-form-field appearance="outline">
-        <mat-label>Опис предмета</mat-label>
-        <textarea matInput cdkTextareaAutosize #autosize="cdkTextareaAutosize" minlength="2" maxlength="100" formControlName="subject_description" placeholder="Опис">
+        <mat-label>{{'subjects.formTextAreaLabel' | translate}}</mat-label>
+        <textarea matInput cdkTextareaAutosize #autosize="cdkTextareaAutosize" cdkAutosizeMinRows="5" cdkAutosizeMaxRows="10" formControlName="subject_description" placeholder="{{'subjects.formTextAreaPlaceholder' | translate}}">
         </textarea>
         <button type="button" mat-button *ngIf="subject_description.value" matSuffix mat-icon-button aria-label="Clear" (click)="subject_description.reset()">
             <mat-icon>close</mat-icon>
@@ -30,9 +31,9 @@
         </mat-error>
     </mat-form-field>
     <button mat-raised-button color="primary" class="btn" [disabled]="!data ? addSubject.invalid : addSubject.invalid || !(subject_name.dirty || subject_description.dirty)" type="submit">
-            {{ !data ? "Додати" : "Редагувати" }}
+            {{ !data ? ("subjects.formAddBtn" | translate) : ("subjects.formEditBtn" | translate) }}
         </button>
     <button cdkFocusInitial mat-flat-button color="warn" type="button" class="btn" (click)="onDismiss()">
-    Відмінити
+    {{'subjects.formCencelBtn' | translate}}
   </button>
 </form>

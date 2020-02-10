@@ -48,11 +48,13 @@ import { AlertComponent } from './alert/alert.component';
 import { ModalService } from '../shared/services/modal.service';
 import { SpinnerService } from './services/spinner.service';
 import { SpinnerComponent } from './spinner/spinner.component';
+import { HttpClient} from '@angular/common/http';
+import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
+import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { PaginatorComponent } from './paginator/paginator.component';
 import { PaginatorService } from './paginator/paginator.service';
 import { ToolbarComponent } from './toolbar/toolbar.component';
 import { RouterModule } from '@angular/router';
-
 
 
 @NgModule({
@@ -71,12 +73,18 @@ import { RouterModule } from '@angular/router';
     MatIconModule,
     MatProgressSpinnerModule,
     MatProgressBarModule,
+    TranslateModule.forChild({
+      loader: {
+        provide: TranslateLoader,
+        useFactory: HttpLoaderFactory,
+        deps: [HttpClient]
+      }
+    }),
     MatPaginatorModule,
     MatToolbarModule,
     MatMenuModule,
     MatListModule,
     RouterModule
-
   ],
   providers: [
     AuthService,
@@ -138,3 +146,7 @@ import { RouterModule } from '@angular/router';
   ]
 })
 export class SharedModule { }
+
+export function HttpLoaderFactory(http: HttpClient) {
+  return new TranslateHttpLoader(http);
+}

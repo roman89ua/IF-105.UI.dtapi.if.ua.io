@@ -1,23 +1,23 @@
 <div class="login-form-wrapper">
-  <ng-container class="logo" *ngIf="logo">
-    <img [src]="logo">
-  </ng-container>
+    <ng-container class="logo" *ngIf="logo">
+        <img [src]="logo">
+    </ng-container>
 
-  <form class="">
-    <h3 class="header">Авторизація</h3>
-    <mat-form-field class="input-wrapper">
-      <mat-icon matPrefix aria-hidden="false" aria-label="account_box">account_box</mat-icon>
-      <input matInput placeholder="Логін" [(ngModel)]="userData.username" name="username">
-    </mat-form-field>
+    <form class="">
+        <h3 class="header">{{'loginform.header' | translate}}</h3>
+        <mat-form-field class="input-wrapper">
+            <mat-icon matPrefix aria-hidden="false" aria-label="account_box">account_box</mat-icon>
+            <input matInput placeholder="{{'loginform.username' | translate}}" [(ngModel)]="userData.username" name="username">
+        </mat-form-field>
 
-    <mat-form-field class="input-wrapper">
-      <mat-icon matPrefix aria-hidden="false" aria-label="work">work</mat-icon>
-      <input type="password" matInput placeholder="Пароль" [(ngModel)]="userData.password" name="password">
-    </mat-form-field>
+        <mat-form-field class="input-wrapper">
+            <mat-icon matPrefix aria-hidden="false" aria-label="work">work</mat-icon>
+            <input type="password" matInput placeholder="{{'loginform.userpassword' | translate}}" [(ngModel)]="userData.password" name="password">
+        </mat-form-field>
 
-    <div class="" *ngIf="error">
-      <label>{{ error }}</label>
-    </div>
-    <button class="butt-wrap" mat-flat-button color="primary" (click)="login()">Увійти</button>
-  </form>
+        <div class="" *ngIf="error">
+            <label>{{ error }}</label>
+        </div>
+        <button class="butt-wrap" mat-flat-button color="primary" (click)="login()">{{'loginform.enter' | translate}}</button>
+    </form>
 </div>
