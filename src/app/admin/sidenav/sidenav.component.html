@@ -3,19 +3,19 @@
   <mat-sidenav-container class="sidenav-container">
     <mat-sidenav #sidenav class="sidenav" mode="over" [opened]="false">
       <mat-nav-list *ngIf="(isSmall$ | async) || (isXSmall$ | async)">
-        <a mat-list-item (click)="sidenav.toggle()" routerLink="dashboard">Головна</a>
+        <a mat-list-item (click)="sidenav.toggle()" routerLink="dashboard">{{'sidenav.dashboard'|translate}}</a>
         <mat-divider></mat-divider>
-        <a mat-list-item (click)="sidenav.toggle()" routerLink="faculties">Факультети</a>
+        <a mat-list-item (click)="sidenav.toggle()" routerLink="faculties"> {{'sidenav.faculties'|translate}} </a>
         <mat-divider></mat-divider>
-        <a mat-list-item (click)="sidenav.toggle()" routerLink="group">Групи</a>
+        <a mat-list-item (click)="sidenav.toggle()" routerLink="group"> {{'sidenav.group'|translate}}</a>
         <mat-divider></mat-divider>
-        <a mat-list-item (click)="sidenav.toggle()" routerLink="speciality">Спеціальності</a>
+        <a mat-list-item (click)="sidenav.toggle()" routerLink="speciality">{{'sidenav.speciality'|translate}}</a>
         <mat-divider></mat-divider>
-        <a mat-list-item (click)="sidenav.toggle()" routerLink="subjects">Предмети</a>
+        <a mat-list-item (click)="sidenav.toggle()" routerLink="subjects">{{'sidenav.subjects'|translate}}</a>
         <mat-divider></mat-divider>
-        <a mat-list-item (click)="sidenav.toggle()" routerLink="results">Результати</a>
+        <a mat-list-item (click)="sidenav.toggle()" routerLink="results">{{'sidenav.results'|translate}}</a>
         <mat-divider></mat-divider>
-        <a mat-list-item (click)="sidenav.toggle()" routerLink="admin-user">Адміни</a>
+        <a mat-list-item (click)="sidenav.toggle()" routerLink="admin-user">{{'sidenav.admin-user'|translate}}</a>
       </mat-nav-list>
     </mat-sidenav>
     <mat-sidenav-content>

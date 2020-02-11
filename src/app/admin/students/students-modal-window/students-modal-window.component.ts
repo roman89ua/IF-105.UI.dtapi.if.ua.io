@@ -6,6 +6,8 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { of } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { ResponseInterface } from 'src/app/shared/entity.interface';
+import { ImageCroppedEvent } from 'ngx-image-cropper';
+import { defaultImage } from 'src/app/shared/default-image/default-image';
 
 
 @Component({
@@ -15,10 +17,18 @@ import { ResponseInterface } from 'src/app/shared/entity.interface';
 })
 export class StudentsModalWindowComponent implements OnInit {
 
+  public response: object;
   private username: string;
   private email: string;
+  public imageChangedEvent: any = '';
+  public croppedImage: any = '';
+  public showCurrentPhoto = true;
+  public openCropper = false;
+  public loadImageFail = false;
+  public defaultImg = defaultImage;
 
   public studentForm = new FormGroup({
+    photo: new FormControl(),
     lastname: new FormControl(
       this.data.student_data ? this.data.student_data.student_surname : '',
       Validators.required),
@@ -49,8 +59,6 @@ export class StudentsModalWindowComponent implements OnInit {
     ),
   });
 
-  public response: object;
-
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
     private studentsHttpService: StudentsService,
@@ -74,7 +82,7 @@ export class StudentsModalWindowComponent implements OnInit {
         password: value.password,
         username: value.login,
         email: value.email,
-        photo: '',
+        photo: this.croppedImage,
         password_confirm: value.password_confirm,
         plain_password: value.password
     };
@@ -142,5 +150,23 @@ export class StudentsModalWindowComponent implements OnInit {
         this.studentForm.get('email').setValue(result[0].email, { onlySelf: true });
       });
     }
+  }
+
+  fileChangeEvent(event: any): void {
+    this.imageChangedEvent = event;
+    this.openCropper = true;
+    this.loadImageFail = false;
+  }
+  imageCropped(event: ImageCroppedEvent) {
+    this.croppedImage = event.base64;
+  }
+  loadImageFailed() {
+    this.loadImageFail = true;
+  }
+  imageLoaded() {
+    this.showCurrentPhoto = false;
+  }
+  cropperReady() {
+    //
   }
 }
