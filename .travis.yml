@@ -1,29 +1,16 @@
 language: node_js
 node_js:
-  - "10"
-dist: trusty
-sudo: false
-
+  - "10.0"
 branches:
   only:
-  - master
-
-cache:
-  directories:
-    - node_modules
-
-install:
-  - npm install 
-
+    - master
+before_script:
+  - npm install -g @angular/cli
 script:
-
-  - ng build --prod --base-href https://yurakhomitsky.github.io/IF-105.UI.dtapi.if.ua.io/
-
+  - npm install
+  - npm run build --prod
 deploy:
-  provider: pages
   skip_cleanup: true
-  github_token: $GITHUB_TOKEN
-  local_dir: dist/IF105
-  on:
-    branch: master
-    
+  provider: firebase
+  token: 1//0cUE6qpdXfV6CCgYIARAAGAwSNwF-L9Ir9ORUBuUfzerTITpdTg21nCQtBh2pCtTXZgH6ctYMJLYH3A6Elxu_mw_9V2zwAv6CViE
+    secure: ""
