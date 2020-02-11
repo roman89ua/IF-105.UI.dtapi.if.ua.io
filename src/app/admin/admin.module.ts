@@ -44,6 +44,7 @@ import { TransferStudentModalWindowComponent } from './students/transfer-student
 import { ImageCropperModule } from 'ngx-image-cropper';
 import { ViewStudentModalWindowComponent } from './students/view-student-modal-window/view-student-modal-window.component';
 import { ResultDetailComponent } from './results/result-detail/result-detail.component';
+import { ResultGroupRaitingComponent } from './results/result-group-raiting/result-group-raiting.component';
 
 const routes: Routes = [
   {
@@ -96,6 +97,7 @@ const routes: Routes = [
     TransferStudentModalWindowComponent,
     ViewStudentModalWindowComponent,
     ResultDetailComponent,
+    ResultGroupRaitingComponent,
   ],
   imports: [
     CommonModule,
@@ -141,6 +143,7 @@ const routes: Routes = [
     StudentsModalWindowComponent,
     ViewStudentModalWindowComponent,
     ResultDetailComponent,
+    ResultGroupRaitingComponent,
   ]
 })
 export class AdminModule { }
