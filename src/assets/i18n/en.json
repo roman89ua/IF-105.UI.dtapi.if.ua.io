@@ -1,6 +1,12 @@
 {
-    "footer": {
-        "label": "Language"
+    "interceptor": {
+        "status0message":"No internet connection.",
+        "status400message":"Not a valid request.",
+        "status401message":"Unauthorized access.",
+        "status403message":"The server declines to respond.",
+        "status404message":"Page not found.",
+        "status500message":"Internal server error.",
+        "defaultMessage":"Ooops, something went wrong ..."
     },
     "loginform": {
         "header": "Authorization",
@@ -13,11 +19,12 @@
         "text":"Page not found"
     },
     "sidenav":{
+        "dashboard":"Home",
         "faculties": "Faculties",
         "group": "Groups",
         "speciality":"Specialties",
         "subjects": "Subjects",
-        "tests": "Tests",
+        "results":"Results",
         "admin-user": "Admins",
         "exit": "Logout"
     },
@@ -218,6 +225,7 @@
         "headerMain": "Subjects",
         "addNew": "New subject",
         "filterPlaceholder": "Search",
+
         "tableNum": "#",
         "tableId": "ID",
         "tableName": "Name",
@@ -227,6 +235,8 @@
         "tableActionGoToTimeTable": "Testing schedule",
         "tableActionEdit": "Edit subject",
         "tableActionDelete": "Delete subject",
+        "tablePaginatorItemsPerPageLabel": "Rows on page:",
+
         "formHeaderAdd": "Addition",
         "formHeaderEdit": "Editing",
         "formHeader": "the object",
@@ -235,15 +245,17 @@
         "formInputErrors": "",
         "formTextAreaLabel": "Subject description",
         "formTextAreaPlaceholder": "Description",
-        "formTextAreaErrors": "",
+        "formErrorRequired":"This field is required *",
+        "formErrorPattern":"This field contains invalid characters or (numbers, Latin letters)",
+        "formErrorMinMax":"Minimum: 2 characters, maximum: 100",
         "formAddBtn": "Add",
         "formEditBtn": "Edit",
         "formCencelBtn": "Cancel",
 
-        "deleteMessagesConfirmation":{
-            "firstPart":"You are deleting ",
-            "secondPart":", are you sure?"
-        }
+        "snackbarMessageCreate":"Subject has been created.",
+        "snackbarMessageEdit":"Subject has been edited.",
+        "snackbarMessageDelete":"Subject has been deleted.",
+        "deleteMessagesConfirmation":"You are deleting the subject "
     },
     "studentAdmin":{
         "hederMain":"Students",
