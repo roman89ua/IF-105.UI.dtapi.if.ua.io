@@ -8,6 +8,7 @@ import { MatTable, MatTableDataSource, MatDialog, MatSort } from '@angular/mater
 import { ResultRaitingQuestionComponent } from './result-raiting-question/result-raiting-question.component';
 import { ResultDetailComponent } from './result-detail/result-detail.component';
 import { forkJoin } from 'rxjs';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-results',
@@ -21,6 +22,8 @@ export class ResultsComponent implements OnInit {
   listTestsByGroup: Test[] = [];
   listResults: Results[];
   listStudents: Student[] = [];
+  groupdID: number = null;
+  subjectName$: string;
   searchForm: FormGroup;
   filterForm: FormGroup;
   dataSource = new MatTableDataSource<Results>();
@@ -41,12 +44,18 @@ export class ResultsComponent implements OnInit {
     private fb: FormBuilder,
     public resultsService: ResultsService,
     private modalService: ModalService,
-    public dialog: MatDialog) {}
+    public dialog: MatDialog,
+    public activatedRoute: ActivatedRoute) {}
 
   ngOnInit() {
+    this.groupdID = this.activatedRoute.snapshot.params['id'];
     this.getAllGroups();
     this.getAllTests();
     this.createFormForGetTest();
+    if (this.groupdID) {
+      this.getTestsByGroup(this.groupdID);
+      this.searchForm.get('group_id').setValue(this.groupdID);
+    }
     this.onChangeFieldGroupId();
     this.createFormForFilterResult();
     this.onChangeFieldType();
@@ -63,7 +72,7 @@ export class ResultsComponent implements OnInit {
   private getAllTests() {
     this.resultsService.getListTest().subscribe(result => {
       this.listTests = result;
-      this.listTestsByGroup = this.listTests;
+      //this.listTestsByGroup = this.listTests;
     },  () => {
       this.modalService.openErrorModal('Помилка завантаження даних');
     });
@@ -79,6 +88,7 @@ export class ResultsComponent implements OnInit {
     this.resultsService.getResultTestIdsByGroup(id).subscribe(result => {
       if (result.response) {
         this.listTestsByGroup = [];
+        this.modalService.openInfoModal('Результати тестування відсутні');
       } else {
         this.listTestsByGroup = this.listTests.filter(item1 =>
           result.some(item2 => item2.test_id === item1.test_id )
@@ -100,6 +110,11 @@ export class ResultsComponent implements OnInit {
   onSubmit() {
     const idGroup = this.searchForm.value.group_id;
     const idTest = this.searchForm.value.test_id;
+    const idSubject = this.listTestsByGroup.filter(item => item.test_id === idTest)[0].subject_id;
+    this.resultsService.getSubjectName(idSubject).subscribe( result => {
+      this.subjectName$ = result;
+      console.log(result);
+    })
     forkJoin(
       this.resultsService.getListStudentsBuGroup(idGroup),
       this.resultsService.getRecordsByTestGroupDate(idTest, idGroup)

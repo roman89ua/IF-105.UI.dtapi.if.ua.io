@@ -1,4 +1,6 @@
 <h3 mat-dialog-title>Деталі тестування</h3>
+<div>Студент: {{data.detail.student}}</div>
+<div>Тривалість тестування: {{data.detail.duration}}</div>
 <mat-dialog-content *ngIf="isLoaded">
   <ng-container *ngIf="dataSource.data.length">
     <table mat-table #table [dataSource]="dataSource">

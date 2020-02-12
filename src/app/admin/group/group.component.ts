@@ -27,7 +27,7 @@ export class GroupComponent implements OnInit, AfterViewInit {
     'name',
     'speciality',
     'faculty',
-    'students',
+  //  'students',
     'actions'
   ];
   /** properties for pagination */

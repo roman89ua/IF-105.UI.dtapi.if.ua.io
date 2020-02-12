@@ -33,14 +33,14 @@ export class ResultDetailComponent implements OnInit {
     }
 
   ngOnInit() {
-    this.resultsService.getQuestions(this.getIdQuestions(this.data.detail))
+    this.resultsService.getQuestions(this.getIdQuestions(this.data.detail.true_answers))
       .subscribe(result => {
         this.listQuestionsByTest = result;
         this.isLoaded = true;
       }, () => {
         this.modalService.openErrorModal('Помилка завантаження даних');
       });
-    this.dataSource.data = this.resultsService.getDetailResult(this.data.detail);
+    this.dataSource.data = this.resultsService.getDetailResult(this.data.detail.true_answers);
   }
 
   private getIdQuestions(list: string): number[] {

@@ -63,6 +63,7 @@ const routes: Routes = [
       { path: 'speciality', component: SpecialityListComponent },
       { path: 'timeTable', component: TimeTableComponent },
       { path: 'tests', component: TestListComponent },
+      { path: 'results/:id', component: ResultsComponent },
       { path: 'results', component: ResultsComponent },
     ]}
 ];
