@@ -55,6 +55,7 @@ import { PaginatorComponent } from './paginator/paginator.component';
 import { PaginatorService } from './paginator/paginator.service';
 import { ToolbarComponent } from './toolbar/toolbar.component';
 import { RouterModule } from '@angular/router';
+import { BreadcrumbsComponent } from './breadcrumbs/breadcrumbs.component';
 
 
 @NgModule({
@@ -63,7 +64,8 @@ import { RouterModule } from '@angular/router';
     AlertComponent,
     SpinnerComponent,
     PaginatorComponent,
-    ToolbarComponent
+    ToolbarComponent,
+    BreadcrumbsComponent
   ],
   imports: [
     CommonModule,
@@ -142,7 +144,8 @@ import { RouterModule } from '@angular/router';
     LayoutModule,
     SpinnerComponent,
     PaginatorComponent,
-    ToolbarComponent
+    ToolbarComponent,
+    BreadcrumbsComponent
   ]
 })
 export class SharedModule { }

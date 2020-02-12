@@ -1,40 +1,40 @@
-import {NgModule} from '@angular/core';
-import {CommonModule} from '@angular/common';
-import {AdminComponent} from './admin.component';
-import {Routes, RouterModule} from '@angular/router';
-import {QuestionsComponent} from './questions/questions.component';
-import {NewQuestionComponent} from './questions/new-question/new-question.component';
-import {StudentsComponent} from './students/students.component';
-import {StudentsService} from './students/services/students.service';
-import {FacultiesComponent} from './faculties/faculties.component';
-import {FormsModule, ReactiveFormsModule} from '@angular/forms';
-import {GroupComponent} from './group/group.component';
-import {GroupAddEditDialogComponent} from './group/group-add-edit-dialog/group-add-edit-dialog.component';
-import {GroupViewDialogComponent} from './group/group-view-dialog/group-view-dialog.component';
-import {AdminUserService} from './admin-user/admin-user.service';
-import {CreateUpdateUserComponent} from './admin-user/create-update-user/create-update-user.component';
-import {AdminUserComponent} from './admin-user/admin-user.component';
-import {SharedModule} from '../shared/shared.module';
-import {SpecialityListComponent} from './speciality/speciality-list/speciality-list.component';
-import {DialogFormComponent} from './speciality/dialog-form/dialog-form.component';
-import {NavbarComponent} from './sidenav/sidenav.component';
-import {CreateEditComponent} from './faculties/create-edit/create-edit.component';
-import {SubjectsComponent} from './subjects/subjects.component';
-import {SubjectsCreateModalComponent} from './subjects/subjects-create-modal/subjects-create-modal.component';
-import {MatDialogModule} from '@angular/material';
-import {TimeTableComponent} from './time-table/time-table.component';
-import {TimeTableAddDialogComponent} from './time-table/time-table-add-dialog/time-table-add-dialog.component';
-import {QuestionTypePipe} from './questions/pipes/question-type.pipe';
-import {StudentsModalWindowComponent} from './students/students-modal-window/students-modal-window.component';
+import { NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { AdminComponent } from './admin.component';
+import { Routes, RouterModule } from '@angular/router';
+import { QuestionsComponent } from './questions/questions.component';
+import { NewQuestionComponent } from './questions/new-question/new-question.component';
+import { StudentsComponent } from './students/students.component';
+import { StudentsService } from './students/services/students.service';
+import { FacultiesComponent } from './faculties/faculties.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { GroupComponent } from './group/group.component';
+import { GroupAddEditDialogComponent } from './group/group-add-edit-dialog/group-add-edit-dialog.component';
+import { GroupViewDialogComponent } from './group/group-view-dialog/group-view-dialog.component';
+import { AdminUserService } from './admin-user/admin-user.service';
+import { CreateUpdateUserComponent } from './admin-user/create-update-user/create-update-user.component';
+import { AdminUserComponent } from './admin-user/admin-user.component';
+import { SharedModule } from '../shared/shared.module';
+import { SpecialityListComponent } from './speciality/speciality-list/speciality-list.component';
+import { DialogFormComponent } from './speciality/dialog-form/dialog-form.component';
+import { NavbarComponent } from './sidenav/sidenav.component';
+import { CreateEditComponent } from './faculties/create-edit/create-edit.component';
+import { SubjectsComponent } from './subjects/subjects.component';
+import { SubjectsCreateModalComponent } from './subjects/subjects-create-modal/subjects-create-modal.component';
+import { MatDialogModule } from '@angular/material';
+import { TimeTableComponent } from './time-table/time-table.component';
+import { TimeTableAddDialogComponent } from './time-table/time-table-add-dialog/time-table-add-dialog.component';
+import { QuestionTypePipe } from './questions/pipes/question-type.pipe';
+import { StudentsModalWindowComponent } from './students/students-modal-window/students-modal-window.component';
 import { TestListComponent } from './tests/list/test-list.component';
 import { TestAddComponent } from './tests/add/test-add.component';
 import { FacultiesService } from './faculties/faculties.service';
-import {TimeTablePipe} from '../shared/pipes/time-table.pipe';
+import { TimeTablePipe } from '../shared/pipes/time-table.pipe';
 import { ResultsComponent } from './results/results.component';
 import { ResultsService } from './results/results.service';
 import { GroupModalService } from './group/group-modal.service';
 import { GroupService } from './group/group.service';
-import { HttpClient} from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { ResultRaitingQuestionComponent } from './results/result-raiting-question/result-raiting-question.component';
@@ -50,21 +50,88 @@ const routes: Routes = [
   {
     path: '', component: AdminComponent,
     children: [
-      { path: '', redirectTo: '/admin/dashboard', pathMatch: 'full'},
-      { path: 'dashboard', component: DashboardComponent},
-      { path: 'tests/:id/questions/:questionId/:mode', component: NewQuestionComponent },
-      { path: 'tests/:id/questions', component: QuestionsComponent },
-      { path: 'tests/:id/questions/new', component: NewQuestionComponent },
-      { path: 'Students/:id', component: StudentsComponent },
-      { path: 'admin-user', component: AdminUserComponent},
-      { path: 'faculties', component: FacultiesComponent},
-      { path: 'group', component: GroupComponent },
-      { path: 'subjects', component: SubjectsComponent },
-      { path: 'speciality', component: SpecialityListComponent },
-      { path: 'timeTable', component: TimeTableComponent },
-      { path: 'tests', component: TestListComponent },
-      { path: 'results', component: ResultsComponent },
-    ]}
+      {
+        path: '', redirectTo: 'dashboard', pathMatch: 'full'
+      },
+      {
+        path: 'dashboard', component: DashboardComponent,
+      },
+      {
+        path: 'admin-user', component: AdminUserComponent,
+        data: {
+          breadcrumb: 'Адміни'
+        }
+      },
+      {
+        path: 'faculties', component: FacultiesComponent,
+        data: {
+          breadcrumb: 'Факультети'
+        }
+      },
+      {
+        path: 'group',
+        data: {
+          breadcrumb: 'Групи'
+        },
+        children: [
+          { path: '', component: GroupComponent },
+          {
+            path: 'Students/:id', component: StudentsComponent,
+            data: {
+              breadcrumb: 'Студенти'
+            }
+          }
+        ]
+      },
+      {
+        path: 'subjects',
+        data: {
+          breadcrumb: 'Предмети'
+        },
+        children: [
+          { path: '', component: SubjectsComponent },
+          {
+            path: 'timetable', component: TimeTableComponent,
+            data: {
+              breadcrumb: 'Розклад'
+            }
+          },
+          {
+            path: 'tests',
+            data: {
+              breadcrumb: 'Тести'
+            },
+            children: [
+              { path: '', component: TestListComponent },
+              {
+                path: ':id/questions',
+                data: {
+                  breadcrumb: 'Питання'
+                },
+                children: [
+                  { path: '', component: QuestionsComponent },
+                  { path: ':questionId/:mode', component: NewQuestionComponent },
+                  { path: 'new', component: NewQuestionComponent },
+                ]
+              },
+            ]
+          },
+        ]
+      },
+      {
+        path: 'speciality', component: SpecialityListComponent,
+        data: {
+          breadcrumb: 'Спеціальності'
+        }
+      },
+      {
+        path: 'results', component: ResultsComponent,
+        data: {
+          breadcrumb: 'Результати'
+        }
+      },
+    ]
+  }
 ];
 @NgModule({
   declarations: [
@@ -125,7 +192,7 @@ const routes: Routes = [
     GroupService
   ],
   exports: [
-    TimeTablePipe
+    TimeTablePipe,
   ],
   entryComponents: [
     NavbarComponent,
