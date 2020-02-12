@@ -9,7 +9,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatFormFieldModule, MatInputModule, MatPaginatorIntl } from '@angular/material';
 import { NotFoundComponent } from './not-found/not-found.component';
 import { SpinnerInterceptor } from './shared/services/spinner.interceptor';
-import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
+import { TranslateModule, TranslateLoader, TranslateService } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { getMatPaginatorUkr } from './shared/mat-paginator-config/mat-pagination-intl';
 
@@ -37,7 +37,7 @@ import { getMatPaginatorUkr } from './shared/mat-paginator-config/mat-pagination
   providers: [
     {provide: HTTP_INTERCEPTORS, useClass: ApiHttpInterceptor, multi: true },
     {provide: HTTP_INTERCEPTORS, useClass: SpinnerInterceptor, multi: true },
-    {provide: MatPaginatorIntl, useValue: getMatPaginatorUkr() }
+    {provide: MatPaginatorIntl, useFactory: getMatPaginatorUkr, deps: [TranslateService]}
   ],
   bootstrap: [AppComponent]
 })

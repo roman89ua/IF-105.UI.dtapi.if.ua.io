@@ -294,7 +294,15 @@
         "confirmHeader":"Confirmation",
         "confirmData":"",
         "confirmBtnConfirm":"Confirm",
-        "confirmBtnCancel":"Cancel"
+        "confirmBtnCancel":"Cancel",
+        "matPagination": {
+            "itemsPerPage":"Rows on page:",
+            "firstPage":"The first page",
+            "pageBefore":"Previous page",
+            "nextPage":"Next page",
+            "lastPage":"The last page"
+        }
+
     },
     "studentUser":{
 

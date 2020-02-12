@@ -294,6 +294,13 @@
     "shared":{
         "confirmHeader":"Підтведження",
         "confirmBtnConfirm":"Підтвердити",
-        "confirmBtnCancel":"Відмінити"
+        "confirmBtnCancel":"Відмінити",
+        "matPagination": {
+            "itemsPerPage":"Рядків на сторінці:",
+            "firstPage":"Перша сторінка",
+            "pageBefore":"Попередня сторінка",
+            "nextPage":"Наступна сторінка",
+            "lastPage":"Остання сторінка"
+        }
     }
 }
