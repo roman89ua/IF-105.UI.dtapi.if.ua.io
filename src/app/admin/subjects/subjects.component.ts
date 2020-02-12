@@ -20,7 +20,7 @@ export class SubjectsComponent implements OnInit {
   public displayedColumns: string[] = ['subject_number', /*'subject_id',*/ 'subject_name', 'subject_description', 'subject_menu'];
   public dataSource = new MatTableDataSource<Subject>();
 
-  @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
+  @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
   @ViewChild(MatSort, { static: true }) sort: MatSort;
 
   constructor(
@@ -32,7 +32,7 @@ export class SubjectsComponent implements OnInit {
     private translate: TranslateService,
   ) { }
 
-  ngOnInit(): void  {
+  ngOnInit(): void {
     this.showSubjects();
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
@@ -44,9 +44,9 @@ export class SubjectsComponent implements OnInit {
 
   showSubjects() {
     this.apiService.getEntity('Subject')
-    .subscribe(response => {
-      this.dataSource.data = response;
-    });
+      .subscribe(response => {
+        this.dataSource.data = response;
+      });
   }
 
   openSnackBar(message: string, action?: string) {
@@ -98,7 +98,8 @@ export class SubjectsComponent implements OnInit {
         if (newData) {
           this.showSubjects();
           this.translateSnackBar('subjects.snackbarMessageEdit', 'X');
-        }});
+        }
+      });
   }
 
   openDialog(subject: Subject) {
@@ -116,10 +117,10 @@ export class SubjectsComponent implements OnInit {
   }
 
   navigateToTimeTable(subjectId) {
-    this.route.navigate(['admin/timeTable'], { queryParams: {id: subjectId}});
+    this.route.navigate(['admin/subjects/timetable'], { queryParams: { id: subjectId } })
   }
 
   navigateToTests(subjectId) {
-    this.route.navigate(['admin/tests'], { queryParams: { subject_id: subjectId}});
+    this.route.navigate(['admin/subjects/tests'], { queryParams: { subject_id: subjectId } });
   }
 }

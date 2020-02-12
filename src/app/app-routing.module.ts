@@ -7,8 +7,9 @@ import { StudentGuard } from './guards/student.guard';
 const routes: Routes = [
   { path: 'login', loadChildren: () => import('./login/login.module').then(m => m.LoginModule) },
   {
-    path: 'admin', loadChildren: () => import('./admin/admin.module').then(m => m.AdminModule), canLoad: [AdminGuard], data: {
-      breadcrumb: 'Меню'
+    path: 'admin', loadChildren: () => import('./admin/admin.module').then(m => m.AdminModule), canLoad: [AdminGuard],
+    data: {
+      breadcrumb: 'Головна'
     }
   },
   { path: 'student', loadChildren: () => import('./student/student.module').then(m => m.StudentModule), canLoad: [StudentGuard] },

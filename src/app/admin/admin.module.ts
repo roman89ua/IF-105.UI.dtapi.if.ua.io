@@ -50,32 +50,10 @@ const routes: Routes = [
     path: '', component: AdminComponent,
     children: [
       {
-        path: '', redirectTo: '/admin/dashboard', pathMatch: 'full'
-      },
-      { path: 'dashboard', component: DashboardComponent },
-      {
-        path: 'tests/:id/questions/:questionId/:mode', component: NewQuestionComponent,
-        data: {
-          breadcrumb: 'Запитання'
-        }
+        path: '', redirectTo: 'dashboard', pathMatch: 'full'
       },
       {
-        path: 'tests/:id/questions', component: QuestionsComponent,
-        data: {
-          breadcrumb: 'Запитання'
-        }
-      },
-      {
-        path: 'tests/:id/questions/new', component: NewQuestionComponent,
-        data: {
-          breadcrumb: 'Створення запитання'
-        }
-      },
-      {
-        path: 'Students/:id', component: StudentsComponent,
-        data: {
-          breadcrumb: 'Студенти'
-        }
+        path: 'dashboard', component: DashboardComponent,
       },
       {
         path: 'admin-user', component: AdminUserComponent,
@@ -90,34 +68,59 @@ const routes: Routes = [
         }
       },
       {
-        path: 'group', component: GroupComponent,
+        path: 'group',
         data: {
           breadcrumb: 'Групи'
-        }
+        },
+        children: [
+          { path: '', component: GroupComponent },
+          {
+            path: 'Students/:id', component: StudentsComponent,
+            data: {
+              breadcrumb: 'Студенти'
+            }
+          }
+        ]
       },
       {
-        path: 'subjects', component: SubjectsComponent,
+        path: 'subjects',
         data: {
           breadcrumb: 'Предмети'
-        }
+        },
+        children: [
+          { path: '', component: SubjectsComponent },
+          {
+            path: 'timetable', component: TimeTableComponent,
+            data: {
+              breadcrumb: 'Розклад'
+            }
+          },
+          {
+            path: 'tests',
+            data: {
+              breadcrumb: 'Тести'
+            },
+            children: [
+              { path: '', component: TestListComponent },
+              {
+                path: ':id/questions',
+                data: {
+                  breadcrumb: 'Питання'
+                },
+                children: [
+                  { path: '', component: QuestionsComponent },
+                  { path: ':questionId/:mode', component: NewQuestionComponent },
+                  { path: 'new', component: NewQuestionComponent },
+                ]
+              },
+            ]
+          },
+        ]
       },
       {
-        path: 'speciality',
-        component: SpecialityListComponent,
+        path: 'speciality', component: SpecialityListComponent,
         data: {
           breadcrumb: 'Спеціальності'
-        }
-      },
-      {
-        path: 'timeTable', component: TimeTableComponent,
-        data: {
-          breadcrumb: 'Розклад'
-        }
-      },
-      {
-        path: 'tests', component: TestListComponent,
-        data: {
-          breadcrumb: 'Тести'
         }
       },
       {
