@@ -12,6 +12,7 @@ import { QuestionAnswerComponent } from './question-answer/question-answer.compo
 import { TestPlayerService } from './test-player.service';
 import {MatButtonModule, MatIconModule, MatTableModule, MatTabsModule} from '@angular/material';
 import { StudentInfoComponent } from './student-info/student-info.component';
+import {CountdownModule} from 'ngx-countdown';
 
 const routes: Routes = [
   {
@@ -32,22 +33,23 @@ const routes: Routes = [
     QuestionAnswerComponent,
     StudentInfoComponent,
   ],
-  imports: [
-    CommonModule,
-    RouterModule.forChild(routes),
-    TranslateModule.forChild({
-      loader: {
-        provide: TranslateLoader,
-        useFactory: HttpLoaderFactory,
-        deps: [HttpClient]
-      }
-    }),
-    MatTableModule,
-    MatIconModule,
-    MatTabsModule,
-    MatButtonModule,
-    SharedModule,
-  ],
+    imports: [
+        CommonModule,
+        RouterModule.forChild(routes),
+        TranslateModule.forChild({
+            loader: {
+                provide: TranslateLoader,
+                useFactory: HttpLoaderFactory,
+                deps: [HttpClient]
+            }
+        }),
+        MatTableModule,
+        MatIconModule,
+        MatTabsModule,
+        MatButtonModule,
+        SharedModule,
+        CountdownModule,
+    ],
   providers: [
     TestPlayerService,
   ]
