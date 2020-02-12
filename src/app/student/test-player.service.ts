@@ -17,7 +17,7 @@ export class TestPlayerService {
   getTestDetails(testId: number) {
     return this.http.get(`testDetail/getTestDetailsByTest/${testId}`);
   }
-  
+
   getQuestionByLevel(test_id: number, level: number, tasks: number) {
     return this.http.get(`question/getQuestionIdsByLevelRand/${test_id}/${level}/${tasks}`);
   }
@@ -84,5 +84,9 @@ export class TestPlayerService {
 
   resetSession() {
     return this.http.get('TestPlayer/resetSessionData');
+  }
+
+  getTime() {
+    return this.http.get('TestPlayer/getTimeStamp');
   }
 }

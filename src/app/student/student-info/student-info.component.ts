@@ -106,12 +106,13 @@ export class StudentInfoComponent implements OnInit {
     this.dataSource.data = data;
   }
 
-  public goToTest(testId, enabled) {
+  public goToTest(testId, enabled, time) {
     console.log(enabled);
     if (enabled === '1') {
       this.router.navigate(['student/test-player'], {
         queryParams: {
           test_id: testId,
+          time_for_test: time
         }
       });
     } else {
