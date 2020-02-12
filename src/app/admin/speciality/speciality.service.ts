@@ -2,24 +2,31 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { ApiService } from 'src/app/shared/services/api.service';
 import { Speciality } from '../entity.interface';
-import { forkJoin, Observable } from 'rxjs';
+import { map, tap } from 'rxjs/operators';
+import { of } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class SpecialityService {
+  private serverData = null;
+  constructor(private apiService: ApiService) { }
 
-  private array = [];
-  constructor(private apiService: ApiService, private http: HttpClient) { }
-
-  getSpecialityNameArray() {
-    this.apiService.getEntity('Speciality').subscribe(
-      (data: Speciality[]) => { this.array = data.map(obj => { return obj.speciality_name; }); });
-    return this.array;
+  getSpecialities() {
+    if (!this.serverData) {
+      return this.apiService.getEntity('Speciality')
+        .pipe(
+          tap(((data: Speciality[]) => this.serverData = data)
+          )
+        );
+    } else { return of(this.serverData) };
   }
-  getSpecialityCodeArray() {
-    this.apiService.getEntity('Speciality').subscribe(
-      (data: Speciality[]) => { this.array = data.map(obj => { return obj.speciality_code; }); });
-    return this.array;
+  checkForUniqueValue(controlValue, prop) {
+    return this.getSpecialities()
+      .pipe(
+        map(
+          (specialities: Array<Speciality>) => specialities.find(speciality => speciality[prop] === controlValue)),
+        tap(data => data)
+      );
   }
 }
