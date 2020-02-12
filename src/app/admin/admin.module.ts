@@ -81,7 +81,13 @@ const routes: Routes = [
             data: {
               breadcrumb: 'Студенти'
             }
-          }
+          },
+          {
+            path: 'results/:id', component: ResultsComponent,
+            data: {
+              breadcrumb: 'Результати'
+            }
+          },
         ]
       },
       {

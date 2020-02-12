@@ -57,6 +57,7 @@ export class ResultsComponent implements OnInit {
       this.searchForm.get('group_id').setValue(this.groupdID);
     }
     this.onChangeFieldGroupId();
+    this.onChangeFieldTestId();
     this.createFormForFilterResult();
     this.onChangeFieldType();
   }
@@ -81,6 +82,16 @@ export class ResultsComponent implements OnInit {
   private onChangeFieldGroupId() {
     this.searchForm.get('group_id').valueChanges.subscribe( id => {
       this.getTestsByGroup(id);
+      this.subjectName$ = null;
+    });
+  }
+  private onChangeFieldTestId() {
+    this.searchForm.get('test_id').valueChanges.subscribe( id => {
+      const idSubject = this.listTestsByGroup.filter(item => item.test_id === id)[0].subject_id;
+      this.resultsService.getSubjectName(idSubject).subscribe( result => {
+        this.subjectName$ = result;
+        console.log(result);
+      })
     });
   }
   /** Get all tests for current group */
