@@ -34,7 +34,7 @@ export interface Test {
   subject_id: number;
   tasks: number;
   time_for_test: number;
-  enabled: boolean;
+  enabled: any;
   attempts: number;
 }
 
@@ -61,7 +61,7 @@ export interface Results {
 
 interface Questions {
   question_id: number;
-  answers_id: number[]
+  answers_id: number[];
 }
 
 interface TrueAnswers {

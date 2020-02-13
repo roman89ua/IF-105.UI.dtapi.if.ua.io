@@ -47,25 +47,29 @@
             aria-hidden="false"
             aria-label="edit"
             matTooltip="Редагувати"
-            (click)="editTestDialog(testItem)"
+            (click)="openEditTestDialog(testItem)"
           >
             edit
           </mat-icon>
 
-        <mat-icon
-          aria-hidden="false"
-          aria-label="delete"
-          matTooltip="Видалити"
-          (click)="openDeleteDialog(testItem)"
-        >
-          delete
-        </mat-icon>
-        <mat-icon
-          aria-hidden="false"
-          matTooltip="Параметри тесту"
-        >
-        description
-        </mat-icon>
+
+          <mat-icon
+            aria-hidden="false"
+            aria-label="delete"
+            matTooltip="Видалити"
+            (click)="openDeleteDialog(testItem)"
+          >
+            delete
+          </mat-icon>
+
+          <mat-icon
+            aria-hidden="false"
+            aria-label="description"
+            matTooltip="Параметри тесту"
+            (click)="navigateToTestDetail(testItem.test_id)"
+          >
+          description
+          </mat-icon>
 
         <a [routerLink]="[testItem.test_id, 'questions']" class="question-link">
           <mat-icon

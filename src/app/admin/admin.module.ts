@@ -28,6 +28,8 @@ import {QuestionTypePipe} from './questions/pipes/question-type.pipe';
 import {StudentsModalWindowComponent} from './students/students-modal-window/students-modal-window.component';
 import { TestListComponent } from './tests/list/test-list.component';
 import { TestAddComponent } from './tests/add/test-add.component';
+import { TestDetailListComponent } from './test-detail/list/test-detail-list.component';
+import { TestDetailAddComponent } from './test-detail/add/test-detail-add.component';
 import {TimeTablePipe} from './time-table/pipes/time-table.pipe';
 import { ResultsComponent } from './results/results.component';
 import { ResultsService } from './results/results.service';
@@ -54,6 +56,7 @@ const routes: Routes = [
       { path: 'speciality', component: SpecialityListComponent },
       { path: 'timeTable', component: TimeTableComponent },
       { path: 'tests', component: TestListComponent },
+      { path: 'test-detail', component: TestDetailListComponent },
       { path: 'results', component: ResultsComponent },
     ]}
 ];
@@ -68,6 +71,8 @@ const routes: Routes = [
     GroupViewDialogComponent,
     TestListComponent,
     TestAddComponent,
+    TestDetailListComponent,
+    TestDetailAddComponent,
     QuestionsComponent,
     NewQuestionComponent,
     AdminUserComponent,
@@ -110,6 +115,7 @@ const routes: Routes = [
     GroupViewDialogComponent,
     SubjectsCreateModalComponent,
     TestAddComponent,
+    TestDetailAddComponent,
     TimeTableAddDialogComponent,
     TransferStudentModalWindowComponent,
     StudentsModalWindowComponent,

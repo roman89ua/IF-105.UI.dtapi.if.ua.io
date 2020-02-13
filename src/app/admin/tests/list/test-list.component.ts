@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild, Inject } from '@angular/core';
 import { Subject } from '../../entity.interface';
-import { Group, Test } from '../../entity.interface';
+import { Test } from '../../entity.interface';
 import { MatTableDataSource, MatTable } from '@angular/material';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatDialog } from '@angular/material/dialog';
@@ -10,7 +10,7 @@ import { ApiService } from '../../../shared/services/api.service';
 import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
-  selector: 'app-group',
+  selector: 'app-test',
   templateUrl: './test-list.component.html',
   styleUrls: ['./test-list.component.scss'],
 })
@@ -47,6 +47,8 @@ export class TestListComponent implements OnInit {
   }
 
   onChangeSubject(newSubjectId: number) {
+    this.listTests = [];
+    console.log(this.dataSource.data);
     this.currentSubjectId = newSubjectId;
     this.router.navigate([], { queryParams: {subject_id: this.currentSubjectId} });
     this.viewAllTests();
@@ -71,8 +73,13 @@ export class TestListComponent implements OnInit {
     });
   }
 
-  private prepareTestData(data): Test {
+  private prepareTestData(data: Test): Test {
     data.enabled = Number(data.enabled);
+    data.tasks = Number(data.tasks);
+    data.attempts = Number(data.attempts);
+    data.time_for_test = Number(data.time_for_test);
+    data.test_id = Number(data.test_id);
+    data.subject_id = Number(data.subject_id);
 
     return data;
   }
@@ -83,7 +90,7 @@ export class TestListComponent implements OnInit {
     this.modalService.openConfirmModal(message, () => this.removeTest(test.test_id));
   }
 
-  public editTestDialog(test: Test): void {
+  public openEditTestDialog(test: Test): void {
     const dialogRef = this.dialog.open(TestAddComponent, {
       width: '500px',
       data: {
@@ -123,7 +130,7 @@ export class TestListComponent implements OnInit {
   }
 
   private editTest(test: Test): void {
-    this.apiService.updEntity('test', test, test.test_id).subscribe(() => {
+    this.apiService.updEntity('Test', test, test.test_id).subscribe(() => {
       this.dataSource.data = this.listTests;
     }, (error: any) => {
       this.modalService.openErrorModal('Помилка оновлення');
@@ -148,18 +155,19 @@ export class TestListComponent implements OnInit {
   }
 
   private viewAllTests() {
-    this.apiService.getEntity('test').subscribe((result: Test[]) => {
-      this.listTests = result.filter((testItem: Test) => {
-        if (this.currentSubjectId) {
-          return testItem.subject_id === this.currentSubjectId;
-        }
+    let request = this.apiService.getEntity('test');
 
-        return testItem;
-      });
+    if (this.currentSubjectId) {
+      request = this.apiService.getTestsBySubject('test', this.currentSubjectId);
+    }
 
-      this.listTests.map((testItem) => testItem.enabled = testItem.enabled === '0');
-      this.dataSource.data = this.listTests;
+    request.subscribe((result: Test[]) => {
+      this.listTests = result;
+      return this.dataSource.data = this.listTests;
     });
-    this.dataSource.paginator = this.paginator;
+  }
+
+  public navigateToTestDetail(testId: number) {
+    this.router.navigate(['/admin/test-detail'], { queryParams: { test_id: testId}});
   }
 }

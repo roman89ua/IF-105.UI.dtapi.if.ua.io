@@ -1,13 +1,17 @@
 <div class="container">
   <div class="header">
-    <h3>Налаштування тесту</h3>
+    <h3>Налаштування тесту: <span *ngIf="currentTestId">{{ getTestNameById(currentTestId) }}</span></h3>
     <span class="fill-space"></span>
-    <button mat-raised-button color="prime" (click)="addTestTestsDetailsDialog()">
+    <button mat-raised-button color="prime" (click)="openAddTestDetailsDialog()">
       <mat-icon aria-hidden="false" aria-label="add">add</mat-icon>
       Додати налаштування тесту
     </button>
   </div>
-
+  <div class="search-box">
+    <mat-select [ngModel]="currentTestId" (ngModelChange)="onChangeTest($event)" name="current_test">
+      <mat-option [value]="test.test_id" *ngFor="let test of listTest">{{ test.test_name }}</mat-option>
+    </mat-select>
+  </div>
   <div class="mat-elevationg-z8" >
     <table
       mat-table
@@ -18,11 +22,6 @@
       <ng-container matColumnDef="id">
         <th mat-header-cell *matHeaderCellDef>№</th>
         <td mat-cell *matCellDef="let row; let i = index">{{ paginator.pageSize * paginator.pageIndex + i + 1 }}</td>
-      </ng-container>
-
-      <ng-container matColumnDef="test_id">
-        <th mat-header-cell *matHeaderCellDef>Тест ID</th>
-        <td mat-cell *matCellDef="let testDetailItem">{{ testDetailItem.test_id }}</td>
       </ng-container>
 
       <ng-container matColumnDef="level">
@@ -47,7 +46,7 @@
             aria-hidden="false"
             aria-label="edit"
             matTooltip="Редагувати"
-            (click)="editTestDetailDialog(testDetailItem)"
+            (click)="openEditTestDetailDialog(testDetailItem)"
           >
             edit
           </mat-icon>
@@ -66,5 +65,8 @@
       <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
     </table>
     <mat-paginator  [pageSizeOptions]="[10, 20]"   showFirstLastButtons></mat-paginator>
+  </div>
+  <div>
+    Максимальна кількість балів для даного тесту становить {{ listTestsDetailsRatesSum }}
   </div>
 </div>
