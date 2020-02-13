@@ -4,7 +4,7 @@ import {ApiService} from '../../shared/services/api.service';
 import {Faculty, Group, Speciality, StudentInfo, TimeTable, TestsForStudent} from '../../shared/entity.interface';
 import {Router} from '@angular/router';
 import {Subject, Test} from '../../admin/entity.interface';
-import {MatTable, MatTableDataSource} from '@angular/material';
+import {MatPaginator, MatTable, MatTableDataSource} from '@angular/material';
 import {ModalService} from '../../shared/services/modal.service';
 
 @Component({
@@ -27,7 +27,7 @@ export class StudentInfoComponent implements OnInit {
   ];
 
   @ViewChild('table', {static: false}) table: MatTable<Element>;
-
+  @ViewChild(MatPaginator, {static: false}) paginator: MatPaginator;
 
   constructor(
     public authService: AuthService,
@@ -107,16 +107,13 @@ export class StudentInfoComponent implements OnInit {
       });
     });
     this.dataSource.data = data;
+    this.dataSource.paginator = this.paginator;
   }
 
   private canTestBeStart(row: TestsForStudent) {
     const startDate = new Date(`${row.start_date} ${row.start_time}`);
     const endDate = new Date(`${row.end_date} ${row.end_time}`);
-    if (this.currDate >= startDate && this.currDate <= endDate && +row.enabled === 1) {
-      return true;
-    } else {
-      return false;
-    }
+    return this.currDate >= startDate && this.currDate <= endDate && +row.enabled === 1;
   }
 
   public goToTest(tableEl: TestsForStudent) {
