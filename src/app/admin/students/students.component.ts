@@ -1,6 +1,6 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { MatDialog, MatSnackBar } from '@angular/material';
+import { MatDialog, MatSnackBar, MatPaginator, MatSort, MatTableDataSource, MatTable } from '@angular/material';
 import { ModalService } from '../../shared/services/modal.service';
 import { ApiService } from 'src/app/shared/services/api.service';
 import { ResponseInterface } from 'src/app/shared/entity.interface';
@@ -16,14 +16,19 @@ import { Student } from 'src/app/shared/entity.interface';
   templateUrl: './students.component.html',
   styleUrls: ['./students.component.scss'],
 })
-export class StudentsComponent implements OnInit {
+export class StudentsComponent implements OnInit, AfterViewInit {
 
   public isLoading = true;
   public updateData: boolean;
   public submitButtonText: string;
   public groupdID: number;
-  public STUDENTS_LIST: Student[] = [];
+
   public displayedColumns: string[] = ['numeration', 'gradebookID', 'studentNSF', 'UpdateDelete'];
+  public dataSource = new MatTableDataSource<Student>();
+
+  @ViewChild('table', { static: false }) table: MatTable<Element>;
+  @ViewChild(MatPaginator, { static: false }) paginator: MatPaginator;
+  @ViewChild(MatSort, { static: false }) sort: MatSort;
 
   constructor(
     private apiService: ApiService,
@@ -37,13 +42,18 @@ export class StudentsComponent implements OnInit {
     this.showStudentsByGroup();
   }
 
+  ngAfterViewInit(): void {
+    this.dataSource.paginator = this.paginator;
+    this.dataSource.sort = this.sort;
+  }
+
   showStudentsByGroup() {
     this.groupdID = this.activatedRoute.snapshot.params['id'];
     this.apiService.getEntityByAction('Student', 'getStudentsByGroup', this.groupdID).subscribe((result: any) => {
       if (result.response === 'no records') {
-        return this.STUDENTS_LIST = undefined;
+        return this.dataSource.data = undefined;
       } else {
-        this.STUDENTS_LIST = result;
+        this.dataSource.data = result;
         this.isLoading = false;
       }
     },
@@ -87,7 +97,7 @@ export class StudentsComponent implements OnInit {
     const idNum = Number.parseInt(id, 10);
     this.apiService.delEntity('Student', idNum).subscribe((data: { response?: string; } ) => {
       if (data && data.response === 'ok') {
-        this.STUDENTS_LIST = this.STUDENTS_LIST.filter(student => student.user_id !== id);
+        this.dataSource.data = this.dataSource.data.filter(student => student.user_id !== id);
         return this.showSnackBar('Студент видалений, дані збережено');
       }
     });
