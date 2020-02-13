@@ -40,12 +40,14 @@ export class StudentInfoComponent implements OnInit {
   studentId;
   studentInfo: StudentInfo;
   testInfo: TestsForStudent[];
+  currDate: Date;
 
   ngOnInit() {
     this.authService.getCurrentUser().subscribe(data => {
       this.studentId = data.id;
       this.getStudentInfo(data.id);
     });
+    this.currDate = new Date();
   }
 
   private getStudentInfo(id) {
@@ -95,24 +97,35 @@ export class StudentInfoComponent implements OnInit {
   private formDataSource(timeTableArray: TestsForStudent[], testArray: Test[]) {
     const data = [];
     testArray.forEach(value => {
-      let row = {};
+      let row: TestsForStudent;
       timeTableArray.map(value1 => {
         if (value1.subject_id === value.subject_id) {
           row = Object.assign(value, value1);
+          row.can_be_start = this.canTestBeStart(row);
           data.push(row);
         }
       });
     });
     this.dataSource.data = data;
+    console.log(this.dataSource.data);
   }
 
-  public goToTest(testId, enabled, time) {
-    console.log(enabled);
-    if (enabled === '1') {
+  private canTestBeStart(row: TestsForStudent) {
+    const startDate = new Date(`${row.start_date} ${row.start_time}`);
+    const endDate = new Date(`${row.end_date} ${row.end_time}`);
+    if (this.currDate >= startDate && this.currDate <= endDate && +row.enabled === 1) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  public goToTest(tableEl: TestsForStudent) {
+    if (tableEl.can_be_start) {
       this.router.navigate(['student/test-player'], {
         queryParams: {
-          test_id: testId,
-          time_for_test: time
+          test_id: tableEl.test_id,
+          time_for_test: tableEl.time_for_test
         }
       });
     } else {
