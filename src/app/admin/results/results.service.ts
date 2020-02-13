@@ -26,7 +26,7 @@ export class ResultsService {
     return this.apiService.getResultTestIdsByGroup(id);
   }
 
-  getRecordsByTestGroupDate(idTest: number, idGroup: number): Observable<any> {
+  getRecordsByTestGroupDate(idTest: number, idGroup: number = null): Observable<any> {
     return this.apiService.getRecordsByTestGroupDate(idTest, idGroup);
   }
 

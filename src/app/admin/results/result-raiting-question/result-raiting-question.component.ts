@@ -51,16 +51,21 @@ export class ResultRaitingQuestionComponent implements OnInit {
     }
   };
 
+  public falseQuestion: string[];
+
   ngOnInit() {
     const dataChart = this.resultsService.calculateRatingQuestion(this.data.data);
-    this.barChartLabels = [...dataChart.keys()];
+    this.falseQuestion = [... dataChart.entries()].filter(item => item[1][1] === 0)
+      .map(item => item[0]).sort();
+    this.barChartLabels = [...dataChart.keys()].filter(item => !this.falseQuestion.includes(item));
     const values = [...dataChart.values()];
-    const data: number[] = values.map(item => item[1] / item[0] * 100);
+    const data: number[] = values.filter(item => item[1] !== 0).map(item => item[1] / item[0] * 100);
     this.barChartData = [{
       data,
       label: 'Успішність відповіді',
       minBarLength: 0
     }];
+
   }
 
 }
