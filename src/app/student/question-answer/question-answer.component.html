@@ -6,25 +6,31 @@
     </div>
     <div class="answerWrapper">
         <ul *ngIf="choosenQuestion?.answers && choosenQuestion?.type=='1'">
-           <li *ngFor="let answer of choosenQuestion?.answers">
+           <li *ngFor="let answer of choosenQuestion?.shuffledAnswers">
                <input 
                     type="radio"
                     name="type1"
                     [checked]="isSimpleChoiceChecked(answer.answer_id)"
                     (click)="getRadioAnswer(answer.answer_id)">
-                    {{answer.answer_text}}
+                    <span *ngIf="answer.answer_text">
+                        {{answer.answer_text}}
+                    </span>
+                    <img *ngIf="answer.attachment" width="400" [src]="getAttachmentUrl(answer.attachment)"/>
             </li>
         </ul>
     </div>
 
     <div class="answerWrapper">
         <ul *ngIf="choosenQuestion?.answers && choosenQuestion?.type=='2'">
-            <li *ngFor="let answer of choosenQuestion?.answers">
+            <li *ngFor="let answer of choosenQuestion?.shuffledAnswers">
                 <input
-                   type="checkbox"
-                   (click)="getCheckboxAnswer(answer.answer_id)"
-                   [checked]="isMultiChoiceChecked(answer.answer_id)">
-                   {{answer.answer_text}}
+                    type="checkbox"
+                    (click)="getCheckboxAnswer(answer.answer_id)"
+                    [checked]="isMultiChoiceChecked(answer.answer_id)">
+                    <span *ngIf="answer.answer_text">
+                        {{answer.answer_text}}
+                    </span>
+                    <img *ngIf="answer.attachment" width="400" [src]="getAttachmentUrl(answer.attachment)"/>
                 />
              </li>
          </ul>

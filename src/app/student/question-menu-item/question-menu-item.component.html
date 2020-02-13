@@ -1,7 +1,7 @@
 <div 
     style="position: relative;"
     class="numberWrapper"
-    [ngClass]="{'is-answered': changeStyle(), 'is-marked': isQuestionMarked()}"
+    [ngClass]="{'is-answered': changeStyle(), 'is-marked': isQuestionMarked(), 'is-choosen': isChoosen}"
     (click)="chooseQuestion()">
     {{index}}
 </div>
