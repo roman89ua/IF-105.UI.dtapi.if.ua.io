@@ -45,7 +45,6 @@ import { ImageCropperModule } from 'ngx-image-cropper';
 import { ViewStudentModalWindowComponent } from './students/view-student-modal-window/view-student-modal-window.component';
 import { ResultDetailComponent } from './results/result-detail/result-detail.component';
 import { ScoreAnswerPipe } from './results/pipes/score-answer.pipe';
-//import { ResultGroupRaitingComponent } from './results/result-group-raiting/result-group-raiting.component';
 
 const routes: Routes = [
   {
@@ -60,32 +59,32 @@ const routes: Routes = [
       {
         path: 'admin-user', component: AdminUserComponent,
         data: {
-          breadcrumb: 'Адміни'
+          breadcrumb: 'shared.breadbreadcrumb.admin-user'
         }
       },
       {
         path: 'faculties', component: FacultiesComponent,
         data: {
-          breadcrumb: 'Факультети'
+          breadcrumb: 'shared.breadbreadcrumb.faculties'
         }
       },
       {
         path: 'group',
         data: {
-          breadcrumb: 'Групи'
+          breadcrumb: 'shared.breadbreadcrumb.group'
         },
         children: [
           { path: '', component: GroupComponent },
           {
             path: 'Students/:id', component: StudentsComponent,
             data: {
-              breadcrumb: 'Студенти'
+              breadcrumb: 'shared.breadbreadcrumb.Students'
             }
           },
           {
             path: 'results/:id', component: ResultsComponent,
             data: {
-              breadcrumb: 'Результати'
+              breadcrumb: 'shared.breadbreadcrumb.resultsId'
             }
           },
         ]
@@ -93,27 +92,27 @@ const routes: Routes = [
       {
         path: 'subjects',
         data: {
-          breadcrumb: 'Предмети'
+          breadcrumb: 'shared.breadbreadcrumb.subjects'
         },
         children: [
           { path: '', component: SubjectsComponent },
           {
             path: 'timetable', component: TimeTableComponent,
             data: {
-              breadcrumb: 'Розклад'
+              breadcrumb: 'shared.breadbreadcrumb.timetable'
             }
           },
           {
             path: 'tests',
             data: {
-              breadcrumb: 'Тести'
+              breadcrumb: 'shared.breadbreadcrumb.tests'
             },
             children: [
               { path: '', component: TestListComponent },
               {
                 path: ':id/questions',
                 data: {
-                  breadcrumb: 'Питання'
+                  breadcrumb: 'shared.breadbreadcrumb.questions'
                 },
                 children: [
                   { path: '', component: QuestionsComponent },
@@ -128,13 +127,13 @@ const routes: Routes = [
       {
         path: 'speciality', component: SpecialityListComponent,
         data: {
-          breadcrumb: 'Спеціальності'
+          breadcrumb: 'shared.breadbreadcrumb.speciality'
         }
       },
       {
         path: 'results', component: ResultsComponent,
         data: {
-          breadcrumb: 'Результати'
+          breadcrumb: 'shared.breadbreadcrumb.results'
         }
       },
     ]
@@ -172,7 +171,7 @@ const routes: Routes = [
     ViewStudentModalWindowComponent,
     ResultDetailComponent,
     ScoreAnswerPipe,
-    //ResultGroupRaitingComponent,
+
   ],
   imports: [
     CommonModule,
@@ -218,7 +217,7 @@ const routes: Routes = [
     StudentsModalWindowComponent,
     ViewStudentModalWindowComponent,
     ResultDetailComponent,
-    //ResultGroupRaitingComponent,
+
   ]
 })
 export class AdminModule { }

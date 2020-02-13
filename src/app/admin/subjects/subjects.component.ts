@@ -117,7 +117,7 @@ export class SubjectsComponent implements OnInit {
   }
 
   navigateToTimeTable(subjectId) {
-    this.route.navigate(['admin/subjects/timetable'], { queryParams: { id: subjectId } })
+    this.route.navigate(['admin/subjects/timetable'], { queryParams: { id: subjectId } });
   }
 
   navigateToTests(subjectId) {
