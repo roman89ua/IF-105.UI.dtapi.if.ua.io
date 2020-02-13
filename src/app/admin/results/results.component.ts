@@ -199,11 +199,12 @@ export class ResultsComponent implements OnInit {
     });
   }
 
-  openDetailResult(detail: string): void {
+  openDetailResult(detail: string, subjectName: string): void {
     this.dialog.open(ResultDetailComponent, {
       width: '1000px',
       data: {
         detail,
+        subjectName
       }
     });
   }
