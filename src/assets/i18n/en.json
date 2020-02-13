@@ -26,6 +26,7 @@
         "subjects": "Subjects",
         "results":"Results",
         "admin-user": "Admins",
+        "lang":"Language",
         "exit": "Logout"
     },
     "adminUser":{
@@ -255,7 +256,7 @@
         "snackbarMessageCreate":"Subject has been created.",
         "snackbarMessageEdit":"Subject has been edited.",
         "snackbarMessageDelete":"Subject has been deleted.",
-        "deleteMessagesConfirmation":"You are deleting the subject "
+        "deleteMessagesConfirmation":"You are deleting the subject '"
     },
     "studentAdmin":{
         "hederMain":"Students",

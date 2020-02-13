@@ -35,6 +35,7 @@
     >
   </mat-nav-list>
   <span class="fill-space"></span>
+
   <button mat-button [matMenuTriggerFor]="menu">
     {{ user?.username }}
   </button>
@@ -42,6 +43,14 @@
   <mat-menu #menu="matMenu">
     <button mat-menu-item (click)="logoutHandler()">{{'sidenav.exit'|translate}}</button>
   </mat-menu>
-
+  
+  <button mat-button [matMenuTriggerFor]="langMenu">
+    {{'sidenav.lang'|translate}}
+  </button>
+  
+  <mat-menu #langMenu="matMenu">
+    <button mat-menu-item (click) = "switchLanguage('en')">Eng</button>
+    <button mat-menu-item (click) = "switchLanguage('uk')">Укр</button>
+  </mat-menu>
 </mat-toolbar>
 

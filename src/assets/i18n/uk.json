@@ -26,6 +26,7 @@
         "subjects":"Предмети",
         "results":"Результати",
         "admin-user":"Адміни",
+        "lang":"Мова",
         "exit": "Вийти"
     },
     "adminUser":{
