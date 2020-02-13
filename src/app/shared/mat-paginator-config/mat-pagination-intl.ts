@@ -1,13 +1,14 @@
 import { MatPaginatorIntl } from '@angular/material';
+import { TranslateService } from '@ngx-translate/core';
 
-export function getMatPaginatorUkr() {
+export function getMatPaginatorUkr(translate: TranslateService) {
   const paginatorIntl = new MatPaginatorIntl();
 
-  paginatorIntl.itemsPerPageLabel = 'Рядків на сторінці:';
-  paginatorIntl.firstPageLabel = 'Перша сторінка';
-  paginatorIntl.previousPageLabel = 'Попередня сторінка';
-  paginatorIntl.nextPageLabel = 'Наступна сторінка';
-  paginatorIntl.lastPageLabel = 'Остання сторінка';
+  paginatorIntl.itemsPerPageLabel = translate.instant('shared.matPagination.itemsPerPage');
+  paginatorIntl.firstPageLabel = translate.instant('shared.matPagination.firstPage');
+  paginatorIntl.previousPageLabel = translate.instant('shared.matPagination.pageBefore');
+  paginatorIntl.nextPageLabel = translate.instant('shared.matPagination.nextPage');
+  paginatorIntl.lastPageLabel = translate.instant('shared.matPagination.lastPage');
   paginatorIntl.getRangeLabel = (page: number, pageSize: number, length: number) => {
     const endPage = (() => {
       if ((pageSize + (page * pageSize)) > length) {
