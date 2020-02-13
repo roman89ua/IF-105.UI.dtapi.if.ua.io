@@ -13,12 +13,13 @@ export class DashboardComponent implements OnInit {
   countRecord = [
     { name: 'Факультети', icon: 'school', route: '/faculties', numberOfRecords: null },
     { name: 'Групи', icon: 'group', route: 'group', numberOfRecords: null },
-    { name: 'Адміни', icon: 'person', route: 'admin-user', numberOfRecords: null },
-    { name: 'Предмети', icon: 'local_library', route: 'subjects', numberOfRecords: null },
-    { name: 'Питання', icon: 'question_answer', route: 'tests', numberOfRecords: null },
-    { name: 'Тести', icon: 'spellcheck', route: 'tests', numberOfRecords: null },
-    { name: 'Студенти', icon: 'assignment_ind', route: 'group', numberOfRecords: null },
     { name: 'Спеціальності', icon: 'library_books', route: 'speciality', numberOfRecords: null },
+    { name: 'Предмети', icon: 'local_library', route: 'subjects', numberOfRecords: null },
+    { name: 'Студенти', icon: 'assignment_ind', route: 'group', numberOfRecords: null },
+    { name: 'Питання', icon: 'question_answer', route: 'subjects', numberOfRecords: null },
+    { name: 'Тести', icon: 'spellcheck', route: 'subjects', numberOfRecords: null },
+    { name: 'Адміни', icon: 'person', route: 'admin-user', numberOfRecords: null },
+    { name: 'Результати', icon: 'assessment', route: 'results' },
   ];
   constructor(private apiService: ApiService) { }
 
@@ -31,20 +32,21 @@ export class DashboardComponent implements OnInit {
         catchError(err => of({ numberOfRecords: 0 }))),
       this.apiService.getCountRecords('Group').pipe(
         catchError(err => of({ numberOfRecords: 0 }))),
-      this.apiService.getCountRecords('AdminUser').pipe(
+      this.apiService.getCountRecords('Speciality').pipe(
         catchError(err => of({ numberOfRecords: 0 }))),
       this.apiService.getCountRecords('Subject').pipe(
         catchError(err => of({ numberOfRecords: 0 }))),
-      this.apiService.getCountRecords('Question').pipe(
+        this.apiService.getCountRecords('Student').pipe(
+          catchError(err => of({ numberOfRecords: 0 }))),
+        this.apiService.getCountRecords('Question').pipe(
         catchError(err => of({ numberOfRecords: 0 }))),
       this.apiService.getCountRecords('Test').pipe(
         catchError(err => of({ numberOfRecords: 0 }))),
-      this.apiService.getCountRecords('Student').pipe(
-        catchError(err => of({ numberOfRecords: 0 }))),
-      this.apiService.getCountRecords('Speciality').pipe(
+      this.apiService.getCountRecords('AdminUser').pipe(
         catchError(err => of({ numberOfRecords: 0 })))
     )
       .subscribe(result => {
+
         result.forEach((item, i) => {
           this.countRecord[i].numberOfRecords = item.numberOfRecords;
         });
