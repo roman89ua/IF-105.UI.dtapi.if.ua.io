@@ -34,7 +34,7 @@ import { ResultsComponent } from './results/results.component';
 import { ResultsService } from './results/results.service';
 import { GroupModalService } from './group/group-modal.service';
 import { GroupService } from './group/group.service';
-import { HttpClient} from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { ResultRaitingQuestionComponent } from './results/result-raiting-question/result-raiting-question.component';
@@ -44,26 +44,102 @@ import { TransferStudentModalWindowComponent } from './students/transfer-student
 import { ImageCropperModule } from 'ngx-image-cropper';
 import { ViewStudentModalWindowComponent } from './students/view-student-modal-window/view-student-modal-window.component';
 import { ResultDetailComponent } from './results/result-detail/result-detail.component';
+import { ScoreAnswerPipe } from './results/pipes/score-answer.pipe';
+//import { ResultGroupRaitingComponent } from './results/result-group-raiting/result-group-raiting.component';
+
 
 const routes: Routes = [
   {
     path: '', component: AdminComponent,
     children: [
-      { path: '', redirectTo: '/admin/dashboard', pathMatch: 'full'},
-      { path: 'dashboard', component: DashboardComponent},
-      { path: 'tests/:id/questions/:questionId/:mode', component: NewQuestionComponent },
-      { path: 'tests/:id/questions', component: QuestionsComponent },
-      { path: 'tests/:id/questions/new', component: NewQuestionComponent },
-      { path: 'Students/:id', component: StudentsComponent },
-      { path: 'admin-user', component: AdminUserComponent},
-      { path: 'faculties', component: FacultiesComponent},
-      { path: 'group', component: GroupComponent },
-      { path: 'subjects', component: SubjectsComponent },
-      { path: 'speciality', component: SpecialityListComponent },
-      { path: 'timeTable', component: TimeTableComponent },
-      { path: 'tests', component: TestListComponent },
-      { path: 'results', component: ResultsComponent },
-    ]}
+      {
+        path: '', redirectTo: 'dashboard', pathMatch: 'full'
+      },
+      {
+        path: 'dashboard', component: DashboardComponent,
+      },
+      {
+        path: 'admin-user', component: AdminUserComponent,
+        data: {
+          breadcrumb: 'Адміни'
+        }
+      },
+      {
+        path: 'faculties', component: FacultiesComponent,
+        data: {
+          breadcrumb: 'Факультети'
+        }
+      },
+      {
+        path: 'group',
+        data: {
+          breadcrumb: 'Групи'
+        },
+        children: [
+          { path: '', component: GroupComponent },
+          {
+            path: 'Students/:id', component: StudentsComponent,
+            data: {
+              breadcrumb: 'Студенти'
+            }
+          },
+          {
+            path: 'results/:id', component: ResultsComponent,
+            data: {
+              breadcrumb: 'Результати'
+            }
+          },
+        ]
+      },
+      {
+        path: 'subjects',
+        data: {
+          breadcrumb: 'Предмети'
+        },
+        children: [
+          { path: '', component: SubjectsComponent },
+          {
+            path: 'timetable', component: TimeTableComponent,
+            data: {
+              breadcrumb: 'Розклад'
+            }
+          },
+          {
+            path: 'tests',
+            data: {
+              breadcrumb: 'Тести'
+            },
+            children: [
+              { path: '', component: TestListComponent },
+              {
+                path: ':id/questions',
+                data: {
+                  breadcrumb: 'Питання'
+                },
+                children: [
+                  { path: '', component: QuestionsComponent },
+                  { path: ':questionId/:mode', component: NewQuestionComponent },
+                  { path: 'new', component: NewQuestionComponent },
+                ]
+              },
+            ]
+          },
+        ]
+      },
+      {
+        path: 'speciality', component: SpecialityListComponent,
+        data: {
+          breadcrumb: 'Спеціальності'
+        }
+      },
+      {
+        path: 'results', component: ResultsComponent,
+        data: {
+          breadcrumb: 'Результати'
+        }
+      },
+    ]
+  }
 ];
 @NgModule({
   declarations: [
@@ -96,6 +172,8 @@ const routes: Routes = [
     TransferStudentModalWindowComponent,
     ViewStudentModalWindowComponent,
     ResultDetailComponent,
+    ScoreAnswerPipe,
+    //ResultGroupRaitingComponent,
   ],
   imports: [
     CommonModule,
@@ -123,7 +201,7 @@ const routes: Routes = [
     GroupService
   ],
   exports: [
-    TimeTablePipe
+    TimeTablePipe,
   ],
   entryComponents: [
     NavbarComponent,
@@ -141,6 +219,7 @@ const routes: Routes = [
     StudentsModalWindowComponent,
     ViewStudentModalWindowComponent,
     ResultDetailComponent,
+    //ResultGroupRaitingComponent,
   ]
 })
 export class AdminModule { }

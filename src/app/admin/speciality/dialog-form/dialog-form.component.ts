@@ -2,6 +2,8 @@ import { Component, OnInit, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { SpecialityService } from '../speciality.service';
+import { of } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 
 export interface DialogData {
@@ -19,12 +21,20 @@ export interface DialogData {
 export class DialogFormComponent implements OnInit {
   public controlArr = [];
   public specialityForm = new FormGroup({
-    speciality_code: new FormControl(this.data ? this.data.speciality_code : '',
-      [Validators.required, Validators.pattern('^[0-9]*$'), Validators.maxLength(5), this.getUniqueValidator('speciality_code', 'getSpecialityCodeArray')]),
-    speciality_name: new FormControl(this.data ? this.data.speciality_name : '',
-      [Validators.required, this.getUniqueValidator('speciality_name', 'getSpecialityNameArray')])
+    speciality_code: new FormControl(
+      this.data ? this.data.speciality_code : '',
+      [Validators.required, Validators.pattern('^[0-9]*$'), Validators.maxLength(5)],
+      [this.getUniqueValidator('speciality_code', 'checkForUniqueValue')]),
+    speciality_name: new FormControl(
+      this.data ? this.data.speciality_name : '',
+      [Validators.required],
+      [this.getUniqueValidator('speciality_name', 'checkForUniqueValue')])
   });
-  constructor(private specialityService: SpecialityService, public dialogRef: MatDialogRef<DialogFormComponent>, @Inject(MAT_DIALOG_DATA) public data?: DialogData) { }
+  constructor(
+    private specialityService: SpecialityService,
+    public dialogRef: MatDialogRef<DialogFormComponent>,
+    @Inject(MAT_DIALOG_DATA) public data?: DialogData
+  ) { }
 
   ngOnInit() {
   }
@@ -45,11 +55,18 @@ export class DialogFormComponent implements OnInit {
 
   getUniqueValidator(prop, method) {
     return (control: FormControl) => {
-      if (this.data && this.data[prop] === control.value || !this.specialityService[method]().includes(control.value)) {
-        return null;
+      if (this.data && this.data[prop] === control.value) {
+        return of(null);
       }
       else {
-        return this.specialityService[method]().includes(control.value) ? { propertyIsNotUnique: true } : null;
+        return this.specialityService[method](control.value, prop)
+          .pipe(
+            map(result => {
+              if (result === undefined) {
+                return null;
+              } else { return { propertyIsNotUnique: true } };
+            })
+          )
       }
     };
   }

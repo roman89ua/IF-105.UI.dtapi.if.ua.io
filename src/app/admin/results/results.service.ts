@@ -1,9 +1,11 @@
 import { Injectable } from '@angular/core';
 import { ApiService } from 'src/app/shared/services/api.service';
-import { Observable } from 'rxjs';
+import { Observable, from } from 'rxjs';
 import { Results, TrueAnswers } from '../entity.interface';
 import { Student } from 'src/app/shared/entity.interface';
 import { IQuestion } from '../questions/questions';
+import { Subject } from './../entity.interface'
+import { map, switchMap } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -42,6 +44,9 @@ export class ResultsService {
     }
     return `${currentUser.student_surname} ${currentUser.student_name} ${currentUser.student_fname}`;
   }
+  getSubjectName(id: number): Observable<any> {
+    return this.apiService.getEntity('subject', id).pipe(map( elem => elem[0].subject_name));
+  } 
   /** Get duration test */
   getDurationTest(date: string, startTime: string, endTime: string): string {
     const startDate = `${date} ${startTime}`;
