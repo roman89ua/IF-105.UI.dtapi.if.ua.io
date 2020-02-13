@@ -301,6 +301,20 @@
             "pageBefore":"Попередня сторінка",
             "nextPage":"Наступна сторінка",
             "lastPage":"Остання сторінка"
+        },
+        "breadbreadcrumb": {
+            "Home":"Головна",
+            "admin-user":"Адміни",
+            "faculties":"Факультети",
+            "group":"Групи",
+            "Students":"Студенти",
+            "resultsId":"Результати",
+            "subjects":"Предмети",
+            "timetable":"Розклад",
+            "tests":"Тести",
+            "questions":"Питання",
+            "speciality":"Спеціальності",
+            "results":"Результати"
         }
     }
 }
