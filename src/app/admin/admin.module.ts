@@ -47,6 +47,7 @@ import { ResultDetailComponent } from './results/result-detail/result-detail.com
 import { ScoreAnswerPipe } from './results/pipes/score-answer.pipe';
 //import { ResultGroupRaitingComponent } from './results/result-group-raiting/result-group-raiting.component';
 
+
 const routes: Routes = [
   {
     path: '', component: AdminComponent,
