@@ -9,6 +9,7 @@ export class QuestionMenuItemComponent implements OnInit {
   @Input() index: number;
   @Input() question: any;
   @Input() addedQuestionAnswer: any;
+  @Input() isChoosen: boolean;
   @Input() markedQuestions: any;
   @Output() viewQuestionOutput = new EventEmitter();
   constructor() { }
