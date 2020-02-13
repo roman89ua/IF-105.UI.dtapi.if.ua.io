@@ -1,4 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
+import {AuthService} from '../shared/auth.service';
+import {Router} from '@angular/router';
+import {Observable} from 'rxjs';
+import {User} from '../shared/entity.interface';
 
 @Component({
   selector: 'app-student',
@@ -6,10 +10,13 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./student.component.scss']
 })
 export class StudentComponent implements OnInit {
+  constructor(
+    private auth: AuthService
+  ) {}
 
-  constructor() { }
 
   ngOnInit() {
+    console.log(this.auth.currentUser);
   }
 
 }

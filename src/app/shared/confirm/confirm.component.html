@@ -1,4 +1,4 @@
-<h3 mat-dialog-title>Підтведження</h3>
+<h3 mat-dialog-title>{{'shared.confirmHeader' | translate}}</h3>
 <mat-dialog-content>
   <div class="icon"><mat-icon color="warn">priority_high</mat-icon></div>
   <div class="content">{{ data.content }}</div>
@@ -6,9 +6,9 @@
 <mat-divider></mat-divider>
 <mat-dialog-actions align="center">
    <button  mat-stroked-button color="primary" mat-dialog-close="true">
-    Підтвердити
+    {{'shared.confirmBtnConfirm' | translate}}
   </button>
   <button  mat-stroked-button color="primary" mat-dialog-close cdkFocusInitial>
-    Відмінити
+    {{'shared.confirmBtnCancel' | translate}}
   </button>
 </mat-dialog-actions>

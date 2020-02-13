@@ -3,15 +3,18 @@ import { ActivatedRoute } from '@angular/router';
 import { MatDialog, MatSnackBar } from '@angular/material';
 import { ModalService } from '../../shared/services/modal.service';
 import { ApiService } from 'src/app/shared/services/api.service';
+import { ResponseInterface } from 'src/app/shared/entity.interface';
 
 import { StudentsModalWindowComponent } from './students-modal-window/students-modal-window.component';
-import { TransferStudentModalWindowComponent } from './transfer-student-modal-window/transfer-student-modal-window.component'
+import { TransferStudentModalWindowComponent } from './transfer-student-modal-window/transfer-student-modal-window.component';
+import { ViewStudentModalWindowComponent } from './view-student-modal-window/view-student-modal-window.component';
+
 import { Student } from 'src/app/shared/entity.interface';
 
 @Component({
   selector: 'app-students',
   templateUrl: './students.component.html',
-  styleUrls: ['./students.component.scss']
+  styleUrls: ['./students.component.scss'],
 })
 export class StudentsComponent implements OnInit {
 
@@ -43,6 +46,9 @@ export class StudentsComponent implements OnInit {
         this.STUDENTS_LIST = result;
         this.isLoading = false;
       }
+    },
+    (error: ResponseInterface) => {
+      this.modalService.openErrorModal('Можливі проблеми із сервером');
     });
   }
 
@@ -130,7 +136,18 @@ export class StudentsComponent implements OnInit {
     return this.dialog.open(TransferStudentModalWindowComponent, {
       disableClose: true,
       width: '600px',
-      // height: 'calc(100vh - 50px)',
+      data: {
+          group_id: this.groupdID,
+          student_data: student
+      }
+    });
+  }
+
+  showViewStudentModalWindow(student: Student) {
+    return this.dialog.open(ViewStudentModalWindowComponent, {
+      disableClose: true,
+      width: '700px',
+      panelClass: 'student-view-dialog-container',
       data: {
           group_id: this.groupdID,
           student_data: student

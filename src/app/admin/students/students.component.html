@@ -34,10 +34,10 @@
           <ng-container matColumnDef="UpdateDelete">
             <th mat-header-cell *matHeaderCellDef>Змінити/Видалити</th>
             <td mat-cell *matCellDef="let student">
+              <mat-icon aria-hidden="false" aria-label="view" matTooltip="Переглянути дані студента" (click)="showViewStudentModalWindow(student)">assignment_ind</mat-icon>
               <mat-icon aria-hidden="false" aria-label="edit" matTooltip="Редагувати дані студента" (click)="editStudent(student)">edit</mat-icon>
-              <mat-icon aria-hidden="false" aria-label="delete" matTooltip="Видалити дані студента" (click)="openConfirmDialog(student.student_name, student.student_surname, student.user_id)">delete</mat-icon>
-              <mat-icon aria-hidden="false" aria-label="view" matTooltip="Переглянути дані студента">assignment_ind</mat-icon>
               <mat-icon aria-hidden="false" aria-label="transfer" matTooltip="Перевести в іншу групу" (click)="transferStudent(student)">compare_arrows</mat-icon>
+              <mat-icon aria-hidden="false" aria-label="delete" matTooltip="Видалити дані студента" (click)="openConfirmDialog(student.student_name, student.student_surname, student.user_id)">delete</mat-icon>
             </td>
           </ng-container>
       

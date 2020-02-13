@@ -95,6 +95,43 @@
         </mat-error>
     </mat-form-field>
 
-    <button mat-stroked-button color="primary" type="submit" [disabled]="!studentForm.valid" style="float: left;">{{ this.data.submitButtonText }}</button>
+    <div class="current_student_photo" *ngIf="this.data.updateStudent && this.data.student_data.photo !=='' && showCurrentPhoto">
+        <img [src]="this.data.student_data.photo" class="student_photo" alt="Student Photo">
+    </div>
+
+    <div class="current_student_photo" *ngIf="((this.data.updateStudent && this.data.student_data.photo ==='') || (!this.data.updateStudent)) && showCurrentPhoto">
+        <img [src]="defaultImg" class="student_photo" alt="Student Photo">
+    </div>
+
+    <div class="example-full-width" class="container">
+        <label for="file" class="photo__select">
+            <button type="button" mat-raised-button (click)="fileInput.click()">
+                <i class="material-icons">attach_file</i>Виберіть фотографію
+            </button>
+            <input hidden type="file" #fileInput class="photo__select" (change)="fileChangeEvent($event)" formControlName="photo"/>
+        </label>
+        <div class="cropper__container" *ngIf="openCropper && !loadImageFail">
+            <div class="image__cropper">
+                <h5>Crop Image</h5>
+                <image-cropper 
+                [imageChangedEvent]="imageChangedEvent" 
+                [maintainAspectRatio]="true" 
+                [aspectRatio]="4 / 4"
+                [resizeToWidth]="256" 
+                format="png" 
+                (imageCropped)="imageCropped($event)" 
+                (imageLoaded)="imageLoaded()"
+                (cropperReady)="cropperReady()" 
+                (loadImageFailed)="loadImageFailed()"></image-cropper>
+            </div>
+            <div class="image__preview">
+                <h5>Preview</h5>
+                <img [src]="croppedImage" />
+            </div>
+        </div>
+        <div *ngIf="loadImageFail" class="no__image">Тип даного файлу не підтримується.<br>Будь ласка, використайте png, gif або jpg формат</div>
+    </div>
+
+    <button class="submit" mat-stroked-button color="primary" type="submit" [disabled]="!studentForm.valid" style="float: left;">{{ this.data.submitButtonText }}</button>
       
 </form>

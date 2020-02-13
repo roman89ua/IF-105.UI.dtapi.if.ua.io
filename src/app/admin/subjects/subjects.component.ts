@@ -8,19 +8,19 @@ import { MatTableDataSource } from '@angular/material/table';
 import { ApiService } from 'src/app/shared/services/api.service';
 import { Router } from '@angular/router';
 import { ModalService } from 'src/app/shared/services/modal.service';
-
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-subjects',
   templateUrl: './subjects.component.html',
-  styleUrls: ['./subjects.component.scss']
+  styleUrls: ['./subjects.component.scss'],
 })
 export class SubjectsComponent implements OnInit {
 
   public displayedColumns: string[] = ['subject_number', /*'subject_id',*/ 'subject_name', 'subject_description', 'subject_menu'];
   public dataSource = new MatTableDataSource<Subject>();
 
-  @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
+  @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
   @ViewChild(MatSort, { static: true }) sort: MatSort;
 
   constructor(
@@ -29,13 +29,13 @@ export class SubjectsComponent implements OnInit {
     private apiService: ApiService,
     private route: Router,
     private modalService: ModalService,
+    private translate: TranslateService,
   ) { }
 
-  ngOnInit(): void  {
+  ngOnInit(): void {
     this.showSubjects();
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
-    console.log(this.dataSource);
   }
 
   applyFilter(filterValue: string) {
@@ -44,9 +44,9 @@ export class SubjectsComponent implements OnInit {
 
   showSubjects() {
     this.apiService.getEntity('Subject')
-    .subscribe(response => {
-      this.dataSource.data = response;
-    });
+      .subscribe(response => {
+        this.dataSource.data = response;
+      });
   }
 
   openSnackBar(message: string, action?: string) {
@@ -55,9 +55,13 @@ export class SubjectsComponent implements OnInit {
     });
   }
 
+  translateSnackBar(json: string, action?: string) {
+    this.openSnackBar(this.translate.instant(json), 'X');
+  }
+
   createNewSubject() {
     const newDialogSubject = this.dialog.open(SubjectsCreateModalComponent, {
-      width: '500px',
+      width: '530px',
     });
     newDialogSubject.afterClosed()
       .pipe(
@@ -71,14 +75,14 @@ export class SubjectsComponent implements OnInit {
       .subscribe((newData: Subject[] | null) => {
         if (newData) {
           this.dataSource.data = [...this.dataSource.data, newData[0]];
-          this.openSnackBar('Предмет було створено.', 'X');
+          this.translateSnackBar('subjects.snackbarMessageCreate', 'X');
         }
       });
   }
 
   edit(row: Subject): void {
     const newDialogSubject = this.dialog.open(SubjectsCreateModalComponent, {
-      width: '500px',
+      width: '530px',
       data: row,
     });
     newDialogSubject.afterClosed()
@@ -93,11 +97,14 @@ export class SubjectsComponent implements OnInit {
       .subscribe((newData: Subject[] | null) => {
         if (newData) {
           this.showSubjects();
-          this.openSnackBar('Предмет відредаговано.', 'X');
-        }});
+          this.translateSnackBar('subjects.snackbarMessageEdit', 'X');
+        }
+      });
   }
+
   openDialog(subject: Subject) {
-    const message = `Ви видаляєте предмет "${subject.subject_name}"?`;
+    const firstPart = this.translate.instant('subjects.deleteMessagesConfirmation');
+    const message = firstPart + subject.subject_name + `' ?`;
     this.modalService.openConfirmModal(message, () => this.delSubject(subject.subject_id));
   }
 
@@ -105,15 +112,15 @@ export class SubjectsComponent implements OnInit {
     this.apiService.delEntity('Subject', id)
       .subscribe((response) => {
         this.dataSource.data = this.dataSource.data.filter(item => item.subject_id !== id);
-        this.openSnackBar('Предмет видалено.', 'X');
+        this.translateSnackBar('subjects.snackbarMessageEdit', 'X');
       });
   }
 
   navigateToTimeTable(subjectId) {
-    this.route.navigate(['admin/timeTable'], { queryParams: {id: subjectId}});
+    this.route.navigate(['admin/subjects/timetable'], { queryParams: { id: subjectId } })
   }
 
   navigateToTests(subjectId) {
-    this.route.navigate(['admin/tests'], { queryParams: { subject_id: subjectId}});
+    this.route.navigate(['admin/subjects/tests'], { queryParams: { subject_id: subjectId } });
   }
 }

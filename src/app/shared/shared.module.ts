@@ -24,7 +24,7 @@ import {MatExpansionModule} from '@angular/material/expansion';
 import {MatGridListModule} from '@angular/material/grid-list';
 import {MatIconModule} from '@angular/material/icon';
 import {MatInputModule} from '@angular/material/input';
-import {MatListModule} from '@angular/material/list';
+import {MatListModule, MatNavList} from '@angular/material/list';
 import {MatMenuModule} from '@angular/material/menu';
 import {MatNativeDateModule, MatRippleModule} from '@angular/material/core';
 import {MatPaginatorModule} from '@angular/material/paginator';
@@ -48,9 +48,14 @@ import { AlertComponent } from './alert/alert.component';
 import { ModalService } from '../shared/services/modal.service';
 import { SpinnerService } from './services/spinner.service';
 import { SpinnerComponent } from './spinner/spinner.component';
+import { HttpClient} from '@angular/common/http';
+import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
+import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { PaginatorComponent } from './paginator/paginator.component';
 import { PaginatorService } from './paginator/paginator.service';
-
+import { ToolbarComponent } from './toolbar/toolbar.component';
+import { RouterModule } from '@angular/router';
+import { BreadcrumbsComponent } from './breadcrumbs/breadcrumbs.component';
 
 
 @NgModule({
@@ -58,7 +63,9 @@ import { PaginatorService } from './paginator/paginator.service';
     ConfirmComponent,
     AlertComponent,
     SpinnerComponent,
-    PaginatorComponent
+    PaginatorComponent,
+    ToolbarComponent,
+    BreadcrumbsComponent
   ],
   imports: [
     CommonModule,
@@ -68,8 +75,18 @@ import { PaginatorService } from './paginator/paginator.service';
     MatIconModule,
     MatProgressSpinnerModule,
     MatProgressBarModule,
-    MatPaginatorModule
-
+    TranslateModule.forChild({
+      loader: {
+        provide: TranslateLoader,
+        useFactory: HttpLoaderFactory,
+        deps: [HttpClient]
+      }
+    }),
+    MatPaginatorModule,
+    MatToolbarModule,
+    MatMenuModule,
+    MatListModule,
+    RouterModule
   ],
   providers: [
     AuthService,
@@ -126,7 +143,13 @@ import { PaginatorService } from './paginator/paginator.service';
     ScrollingModule,
     LayoutModule,
     SpinnerComponent,
-    PaginatorComponent
+    PaginatorComponent,
+    ToolbarComponent,
+    BreadcrumbsComponent
   ]
 })
 export class SharedModule { }
+
+export function HttpLoaderFactory(http: HttpClient) {
+  return new TranslateHttpLoader(http);
+}

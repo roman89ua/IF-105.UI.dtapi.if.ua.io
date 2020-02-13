@@ -54,17 +54,17 @@ export interface Results {
   start_time: string;
   end_time: string;
   result: number;
-  questions: Questions[];
-  true_answers: TrueAnswers[];
+  questions: string;
+  true_answers: string;
   answers: number;
 }
 
-interface Questions {
+export interface QuestionsByTest {
   question_id: number;
   answers_id: number[];
 }
 
-interface TrueAnswers {
+export interface TrueAnswers {
   question_id: number;
   true: number;
 }
