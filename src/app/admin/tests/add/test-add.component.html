@@ -21,7 +21,7 @@
         {{item.subject_name}}
       </mat-option>
     </mat-select>
-    <mat-error *ngIf="subject_id.invalid">
+    <mat-error *ngIf="subject_id">
       Слід <strong>обов'язково</strong> вибрати предмет
     </mat-error>
   </mat-form-field>
@@ -76,7 +76,7 @@
     color="warn"
     [disabled]="test_name.invalid || time_for_test.invalid || tasks.invalid || attempts.invalid"
   >
-  <!--  || subject_id.empty -->
+    <!--  || subject_id.empty -->
     <mat-icon aria-hidden="false" aria-label="save">save</mat-icon>
     {{data.description.action}}
   </button>

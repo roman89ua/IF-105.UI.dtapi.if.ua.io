@@ -34,8 +34,16 @@ export interface Test {
   subject_id: number;
   tasks: number;
   time_for_test: number;
-  enabled: boolean;
+  enabled: any;
   attempts: number;
+}
+
+export interface TestDetail {
+  id: number;
+  test_id: number;
+  level: number;
+  tasks: number;
+  rate: number;
 }
 
 export interface Results {

@@ -1,16 +1,16 @@
-import { Component, OnInit, ViewChild, Inject } from '@angular/core';
+import {Component, OnInit, ViewChild, Inject} from '@angular/core';
 import { Subject } from '../../entity.interface';
-import { Group, Test } from '../../entity.interface';
+import { Test } from '../../entity.interface';
 import { MatTableDataSource, MatTable } from '@angular/material';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatDialog } from '@angular/material/dialog';
 import { TestAddComponent } from '../add/test-add.component';
 import { ModalService } from '../../../shared/services/modal.service';
 import { ApiService } from '../../../shared/services/api.service';
-import {ActivatedRoute, Router} from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
-  selector: 'app-group',
+  selector: 'app-test',
   templateUrl: './test-list.component.html',
   styleUrls: ['./test-list.component.scss'],
 })
@@ -27,8 +27,8 @@ export class TestListComponent implements OnInit {
     'action',
   ];
 
-  @ViewChild('table', { static: true }) table: MatTable<Test>;
-  @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
+  @ViewChild('table', {static: true}) table: MatTable<Test>;
+  @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
 
   constructor(
     public dialog: MatDialog,
@@ -46,13 +46,14 @@ export class TestListComponent implements OnInit {
     this.viewAllTests();
   }
 
-  onChange(newSubjectId: number) {
+  onChangeSubject(newSubjectId: number) {
+    this.listTests = [];
     this.currentSubjectId = newSubjectId;
-    this.router.navigate([], { queryParams: {subject_id: this.currentSubjectId} });
+    this.router.navigate([], {queryParams: {subject_id: this.currentSubjectId}});
     this.viewAllTests();
   }
 
-  public addTestDialog(): void {
+  public openAddTestDialog(): void {
     const dialogRef = this.dialog.open(TestAddComponent, {
       width: '500px',
       data: {
@@ -71,19 +72,27 @@ export class TestListComponent implements OnInit {
     });
   }
 
-  private prepareTestData(data): Test {
-    data.enabled = Number(data.enabled);
+  private prepareTestData(data: Test): Test {
+    if (!data.enabled) {
+      data.enabled = '0';
+    }
+    // data.enabled = Number(data.enabled);
+    // data.tasks = Number(data.tasks);
+    // data.attempts = data.attempts;
+    // data.time_for_test = Number(data.time_for_test);
+    // data.test_id = Number(data.test_id);
+    // data.subject_id = Number(data.subject_id);
 
     return data;
   }
 
   public openDeleteDialog(test: Test) {
-    const message = `Підтвердіть видалення тесту ${test.test_name}?`;
+    const message = `Підтвердіть видалення теста ${test.test_name}?`;
 
     this.modalService.openConfirmModal(message, () => this.removeTest(test.test_id));
   }
 
-  public editTestDialog(test: Test): void {
+  public openEditTestDialog(test: Test): void {
     const dialogRef = this.dialog.open(TestAddComponent, {
       width: '500px',
       data: {
@@ -126,7 +135,7 @@ export class TestListComponent implements OnInit {
     this.apiService.updEntity('test', test, test.test_id).subscribe(() => {
       this.dataSource.data = this.listTests;
     }, (error: any) => {
-      this.modalService.openErrorModal('Помилка оновлення');
+      this.modalService.openErrorModal('Помилка оновлення!');
     });
   }
 
@@ -148,16 +157,24 @@ export class TestListComponent implements OnInit {
   }
 
   private viewAllTests() {
-    this.apiService.getEntity('test').subscribe((result: Test[]) => {
-      this.listTests = result.filter((testItem: Test) => {
-        if (this.currentSubjectId) {
-          return testItem.subject_id === this.currentSubjectId;
-        }
+    let request = this.apiService.getEntity('test');
 
-        return testItem;
-      });
+    if (this.currentSubjectId) {
+      request = this.apiService.getTestsBySubject('test', this.currentSubjectId);
+    }
+
+    request.subscribe((result: Test[]) => {
+      if (result['response'] === 'no records') {
+        result = [];
+      }
+
+      this.listTests = result;
       this.dataSource.data = this.listTests;
+      this.dataSource.paginator = this.paginator;
     });
-    this.dataSource.paginator = this.paginator;
+  }
+
+  public navigateToTestDetail(testId: number) {
+    this.router.navigate(['/admin/subjects/tests/test-detail'], { queryParams: { test_id: testId }});
   }
 }
