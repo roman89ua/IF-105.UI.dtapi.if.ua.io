@@ -111,6 +111,7 @@ const routes: Routes = [
             },
             children: [
               { path: '', component: TestListComponent },
+              { path: 'test-detail', component: TestDetailListComponent },
               {
                 path: ':id/questions',
                 data: {

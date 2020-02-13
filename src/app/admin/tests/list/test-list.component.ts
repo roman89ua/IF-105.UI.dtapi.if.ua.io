@@ -48,7 +48,6 @@ export class TestListComponent implements OnInit {
 
   onChangeSubject(newSubjectId: number) {
     this.listTests = [];
-    console.log(this.dataSource.data);
     this.currentSubjectId = newSubjectId;
     this.router.navigate([], { queryParams: {subject_id: this.currentSubjectId} });
     this.viewAllTests();
@@ -168,6 +167,6 @@ export class TestListComponent implements OnInit {
   }
 
   public navigateToTestDetail(testId: number) {
-    this.router.navigate(['/admin/test-detail'], { queryParams: { test_id: testId}});
+    this.router.navigate(['/admin/subjects/tests/test-detail'], { queryParams: { test_id: testId}});
   }
 }
