@@ -1,15 +1,27 @@
 <!-- <mat-toolbar> Тестування почато! Дайте відповіді на питання</mat-toolbar> -->
 <ng-container *ngIf="!isTestDone">
-  <countdown *ngIf="timer > 300" [config]="{leftTime: timer}" (event)="finish($event)"></countdown>
-  <countdown *ngIf="timer <= 300" class="five-minutes" [config]="{leftTime: timer}" (event)="finish($event)"></countdown>
-  <countdown *ngIf="timer <= 10" class="ten-seconds" [config]="{leftTime: timer}" (event)="finish($event)"></countdown>
-  <div class="container-numbers">
-      <div class="numbersWrapper">
-          <app-question-menu-item *ngFor="let question of questions let i = index" [index]="i + 1" [question]="question"
-                [addedQuestionAnswer]="addedQuestionAnswer" [markedQuestions]="markedQuestions"
-                (viewQuestionOutput)="viewQuestionParent($event)">
-            </app-question-menu-item>
-        </div>
+    <p class="countdown-container">
+        <span>
+            До завершення тесту:
+            <countdown *ngIf="timer > 300" [config]="{leftTime: timer}" (event)="finish($event)"></countdown>
+            <countdown *ngIf="timer <= 300" class="five-minutes" [config]="{leftTime: timer}" (event)="finish($event)"></countdown>
+            <countdown *ngIf="timer <= 10" class="ten-seconds" [config]="{leftTime: timer}" (event)="finish($event)"></countdown>
+        </span>
+        <button class="finishTest" (click)="sendAnswersForCheck()">
+            Завершити тест
+        </button>
+    </p>
+  
+    <div class="container-numbers">
+        <app-question-menu-item
+            *ngFor="let question of questions let i = index"
+            [isChoosen]="question.question_id === (choosenQuestionId || questions[0].question_id)"
+            [index]="i + 1"
+            [question]="question"
+            [addedQuestionAnswer]="addedQuestionAnswer"
+            [markedQuestions]="markedQuestions"
+            (viewQuestionOutput)="viewQuestionParent($event)">
+        </app-question-menu-item>
     </div>
 
     <app-question-answer
@@ -17,19 +29,20 @@
         [choosenAnswer]="choosenAnswer"
         (onAnswerChange)="addQuestionAnswer($event)"
         (mark)="addMarkedQuestion($event)"
-     >
+    >
     </app-question-answer>
 
-    <button class="finishTest" (click)="sendAnswersForCheck()">Завершити тест</button>
 </ng-container>
 
 <ng-container *ngIf="isTestDone">
-    <p>
-        Ваша оцінка: {{testResults.full_mark}}
-    </p>
-    <p>
-        Всього правильних відповідей: {{testResults.number_of_true_answers}}
-    </p>
-    <button class="wrapper-exit" routerLink="/student/home">Вийти</button>
+    <div class="resultsWrapper">
+        <p>
+            Ваша оцінка: {{testResults.full_mark}}
+        </p>
+        <p>
+            Всього правильних відповідей: {{testResults.number_of_true_answers}}
+        </p>
+        <button class="wrapper-exit" routerLink="/student/home">Вийти</button>
+    </div>
 </ng-container>
 <!--<app-timer></app-timer>-->

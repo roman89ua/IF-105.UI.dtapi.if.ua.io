@@ -1,5 +1,12 @@
 table {
     width: 100%;
+    th {
+        text-align: center;
+    }
+    td {
+        border-left: 2px solid white;
+        padding: 0px 0.5em;
+    }
 }
 .trueAnswer {
     background-color: #e6ffe6;
