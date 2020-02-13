@@ -2,7 +2,7 @@
 <div mat-dialog-content>
   <mat-form-field class="example-full-width">
     <mat-label>Рівень</mat-label>
-    <mat-select [(ngModel)]="data.data.level" name="level" #level_id="ngModel" required>
+    <mat-select [(ngModel)]="data.data.level" name="level" #level="ngModel" required>
       <mat-option
         *ngFor="let value of levels"
         [value]="value"
