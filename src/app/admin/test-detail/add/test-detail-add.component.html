@@ -1,13 +1,16 @@
 <h3 mat-dialog-title>{{data.description.title}}</h3>
 <div mat-dialog-content>
   <mat-form-field class="example-full-width">
-    <input
-      matInput
-      [(ngModel)]="data.data.level"
-      placeholder="Рівень"
-      #level="ngModel" required
-    >
-    <mat-error *ngIf="level.invalid">
+    <mat-label>Рівень</mat-label>
+    <mat-select [(ngModel)]="data.data.level" name="level" #level_id="ngModel" required>
+      <mat-option
+        *ngFor="let value of levels"
+        [value]="value"
+      >
+        {{ value }}
+      </mat-option>
+    </mat-select>
+    <mat-error *ngIf="!level">
       Слід <strong>обов'язково</strong> рівень питання
     </mat-error>
   </mat-form-field>
@@ -42,7 +45,7 @@
     mat-raised-button
     [mat-dialog-close]="data.data"
     color="warn"
-    [disabled]="level.invalid || tasks.invalid || rate.invalid"
+    [disabled]="!level || tasks.invalid || rate.invalid"
   >
     <mat-icon aria-hidden="false" aria-label="save">save</mat-icon>
     {{data.description.action}}

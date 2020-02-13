@@ -1,18 +1,18 @@
 <div class="container">
   <div class="header">
-    <h3>Налаштування тесту: <span *ngIf="currentTestId">{{ getTestNameById(currentTestId) }}</span></h3>
+    <h3>Налаштування теста: <span *ngIf="currentTest">{{ currentTest.test_name }}</span></h3>
     <span class="fill-space"></span>
-    <button mat-raised-button color="prime" (click)="openAddTestDetailsDialog()">
+    <button mat-raised-button color="prime" (click)="openAddTestDetailsDialog()" aria-label="add">
       <mat-icon aria-hidden="false" aria-label="add">add</mat-icon>
-      Додати налаштування тесту
+      Додати налаштування теста
     </button>
   </div>
   <div class="search-box">
     <mat-select [ngModel]="currentTestId" (ngModelChange)="onChangeTest($event)" name="current_test">
-      <mat-option [value]="test.test_id" *ngFor="let test of listTest">{{ test.test_name }}</mat-option>
+      <mat-option  [value]="test.test_id" *ngFor="let test of listCurrentSubjectTests">{{ test.test_name }}</mat-option>
     </mat-select>
   </div>
-  <div class="mat-elevationg-z8" >
+  <div class="mat-elevationg-z8">
     <table
       mat-table
       [dataSource]="dataSource"
@@ -35,7 +35,7 @@
       </ng-container>
 
       <ng-container matColumnDef="rate">
-        <th mat-header-cell *matHeaderCellDef>Оцінка</th>
+        <th mat-header-cell *matHeaderCellDef>Кількість балів</th>
         <td mat-cell *matCellDef="let testDetailItem">{{ testDetailItem.rate }}</td>
       </ng-container>
 
@@ -64,9 +64,9 @@
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
       <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
     </table>
-    <mat-paginator  [pageSizeOptions]="[10, 20]"   showFirstLastButtons></mat-paginator>
-  </div>
-  <div>
-    Максимальна кількість балів для даного тесту становить {{ listTestsDetailsRatesSum }}
+    <div class="showRatesSum">
+      Максимальна кількість балів: <span>{{ listTestsDetailsRatesSum }}</span>
+    </div>
+    <mat-paginator [pageSizeOptions]="[10, 20]" showFirstLastButtons></mat-paginator>
   </div>
 </div>

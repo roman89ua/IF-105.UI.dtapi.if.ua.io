@@ -1,12 +1,12 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
-import { Test} from '../../entity.interface';
-import { TestDetail } from '../../entity.interface';
-import { MatTableDataSource, MatTable } from '@angular/material';
-import { MatPaginator } from '@angular/material/paginator';
-import { MatDialog } from '@angular/material/dialog';
-import { ModalService } from '../../../shared/services/modal.service';
-import { ApiService } from '../../../shared/services/api.service';
-import { ActivatedRoute, Router } from '@angular/router';
+import {Test} from '../../entity.interface';
+import {TestDetail} from '../../entity.interface';
+import {MatTableDataSource, MatTable} from '@angular/material';
+import {MatPaginator} from '@angular/material/paginator';
+import {MatDialog} from '@angular/material/dialog';
+import {ModalService} from '../../../shared/services/modal.service';
+import {ApiService} from '../../../shared/services/api.service';
+import {ActivatedRoute, Router} from '@angular/router';
 import {TestDetailAddComponent} from '../add/test-detail-add.component';
 
 @Component({
@@ -17,8 +17,10 @@ import {TestDetailAddComponent} from '../add/test-detail-add.component';
 
 export class TestDetailListComponent implements OnInit {
   currentTestId: number;
+  currentTest: Test;
+  listTests: Test[];
+  listCurrentSubjectTests: Test[];
   listTestsDetails: TestDetail[] = [];
-  listTest: Test[] = [];
   listTestsDetailsRatesSum: number;
   dataSource = new MatTableDataSource<TestDetail>();
   displayedColumns: string[] = [
@@ -29,8 +31,9 @@ export class TestDetailListComponent implements OnInit {
     'action',
   ];
 
-  @ViewChild('table', { static: true }) table: MatTable<TestDetail>;
-  @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
+  @ViewChild('table', {static: true}) table: MatTable<TestDetail>;
+  @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
+
   constructor(
     public dialog: MatDialog,
     protected apiService: ApiService,
@@ -40,23 +43,54 @@ export class TestDetailListComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.loadTestsList();
     this.route.queryParamMap.subscribe((params: any) => {
       this.currentTestId = params.params.test_id;
     });
-    this.viewTestDetailsByTest();
+
+    this.initialize();
   }
 
   onChangeTest(newTestId: number) {
     this.currentTestId = newTestId;
-    this.router.navigate([], { queryParams: {test_id: this.currentTestId} });
+    this.router.navigate([], {queryParams: {test_id: this.currentTestId}});
+    this.setCurrentTest();
+    this.loadCurrentSubjectTestsList();
     this.viewTestDetailsByTest();
   }
 
-  private loadTestsList() {
-    this.apiService.getEntity('test').subscribe((result: Test[]) => {
-      this.listTest = result;
+  private setCurrentTest() {
+    this.currentTest = this.listTests.find(testItem => {
+      return testItem.test_id === this.currentTestId;
     });
+  }
+
+  private loadCurrentSubjectTestsList(): void {
+    if (this.currentTest && this.currentTest.subject_id) {
+      this.apiService.getTestsBySubject('test', this.currentTest.subject_id)
+        .subscribe((result: Test[]) => {
+          if (result['response'] === 'no records') {
+            result = [];
+          }
+
+          this.listCurrentSubjectTests = result;
+        });
+    } else {
+      this.listCurrentSubjectTests = this.listTests;
+    }
+  }
+
+  private initialize(): void {
+    this.apiService.getEntity('test')
+      .subscribe((result: Test[]) => {
+        if (result['response'] === 'no records') {
+          result = [];
+        }
+
+        this.listTests = result;
+        this.setCurrentTest();
+        this.loadCurrentSubjectTestsList();
+        this.viewTestDetailsByTest();
+      });
   }
 
   public openDeleteDialog(testDetail: TestDetail) {
@@ -68,11 +102,11 @@ export class TestDetailListComponent implements OnInit {
   private removeTestDetail(id: number) {
     this.apiService.delEntity('TestDetail', id)
       .subscribe((response) => {
-          this.modalService.openInfoModal('Налаштування тесту видалено');
+          this.modalService.openInfoModal('Налаштування теста видалено!');
           this.viewTestDetailsByTest();
         },
         err => {
-          this.modalService.openErrorModal('Помилка видалення');
+          this.modalService.openErrorModal('Помилка видалення!');
         });
   }
 
@@ -81,10 +115,10 @@ export class TestDetailListComponent implements OnInit {
       width: '500px',
       data: {
         data: {
-          test_id: this.currentTestId
+          test_id: this.currentTest ? this.currentTest.test_id : null,
         },
         description: {
-          title: 'Додати нові налаштування тесту',
+          title: 'Додати нові налаштування теста',
           action: 'Додати'
         }
       }
@@ -103,7 +137,7 @@ export class TestDetailListComponent implements OnInit {
       data: {
         data: testDetail,
         description: {
-          title: 'Редагувати інформацію про налаштування тесту',
+          title: 'Редагувати налаштування теста',
           action: 'Зберегти зміни'
         }
       }
@@ -137,12 +171,12 @@ export class TestDetailListComponent implements OnInit {
     this.apiService.updEntity('TestDetail', testDetail, testDetail.id).subscribe(() => {
       this.dataSource.data = this.listTestsDetails;
     }, (error: any) => {
-      this.modalService.openErrorModal('Дані з таким рівнем вже існують');
+      this.modalService.openErrorModal('Помилка оновлення!');
     });
   }
 
   private getRatesSumForCurrentTest(): number {
-    if (!this.listTestsDetails.length) {
+    if (!this.listTestsDetails) {
       return 0;
     }
 
@@ -151,22 +185,17 @@ export class TestDetailListComponent implements OnInit {
     }, 0);
   }
 
-  public getTestNameById(testId: number): string {
-    const test = this.listTest.find(testItem => {
-      return testItem.test_id === testId;
-    });
-
-    if (test) {
-      return test.test_name;
-    }
-    return 'Невизначений';
-  }
-
   private viewTestDetailsByTest() {
-    this.apiService.getTestDetailsByTest('TestDetail', this.currentTestId).subscribe((result: TestDetail[]) => {
+    this.apiService.getTestDetailsByTest('TestDetail', this.currentTest.test_id).subscribe((result: TestDetail[]) => {
+      if (result['response'] === 'no records') {
+        result = [];
+      }
+
       this.listTestsDetails = result;
       this.listTestsDetailsRatesSum = this.getRatesSumForCurrentTest();
-      return this.dataSource.data = this.listTestsDetails;
+      this.dataSource.data = this.listTestsDetails;
+      this.dataSource.paginator = this.paginator;
     });
+
   }
 }

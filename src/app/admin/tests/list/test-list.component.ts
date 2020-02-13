@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, Inject } from '@angular/core';
+import {Component, OnInit, ViewChild, Inject} from '@angular/core';
 import { Subject } from '../../entity.interface';
 import { Test } from '../../entity.interface';
 import { MatTableDataSource, MatTable } from '@angular/material';
@@ -27,8 +27,8 @@ export class TestListComponent implements OnInit {
     'action',
   ];
 
-  @ViewChild('table', { static: true }) table: MatTable<Test>;
-  @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
+  @ViewChild('table', {static: true}) table: MatTable<Test>;
+  @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
 
   constructor(
     public dialog: MatDialog,
@@ -49,7 +49,7 @@ export class TestListComponent implements OnInit {
   onChangeSubject(newSubjectId: number) {
     this.listTests = [];
     this.currentSubjectId = newSubjectId;
-    this.router.navigate([], { queryParams: {subject_id: this.currentSubjectId} });
+    this.router.navigate([], {queryParams: {subject_id: this.currentSubjectId}});
     this.viewAllTests();
   }
 
@@ -73,18 +73,21 @@ export class TestListComponent implements OnInit {
   }
 
   private prepareTestData(data: Test): Test {
-    data.enabled = Number(data.enabled);
-    data.tasks = Number(data.tasks);
-    data.attempts = Number(data.attempts);
-    data.time_for_test = Number(data.time_for_test);
-    data.test_id = Number(data.test_id);
-    data.subject_id = Number(data.subject_id);
+    if (!data.enabled) {
+      data.enabled = '0';
+    }
+    // data.enabled = Number(data.enabled);
+    // data.tasks = Number(data.tasks);
+    // data.attempts = data.attempts;
+    // data.time_for_test = Number(data.time_for_test);
+    // data.test_id = Number(data.test_id);
+    // data.subject_id = Number(data.subject_id);
 
     return data;
   }
 
   public openDeleteDialog(test: Test) {
-    const message = `Підтвердіть видалення тесту ${test.test_name}?`;
+    const message = `Підтвердіть видалення теста ${test.test_name}?`;
 
     this.modalService.openConfirmModal(message, () => this.removeTest(test.test_id));
   }
@@ -129,10 +132,10 @@ export class TestListComponent implements OnInit {
   }
 
   private editTest(test: Test): void {
-    this.apiService.updEntity('Test', test, test.test_id).subscribe(() => {
+    this.apiService.updEntity('test', test, test.test_id).subscribe(() => {
       this.dataSource.data = this.listTests;
     }, (error: any) => {
-      this.modalService.openErrorModal('Помилка оновлення');
+      this.modalService.openErrorModal('Помилка оновлення!');
     });
   }
 
@@ -161,12 +164,17 @@ export class TestListComponent implements OnInit {
     }
 
     request.subscribe((result: Test[]) => {
+      if (result['response'] === 'no records') {
+        result = [];
+      }
+
       this.listTests = result;
-      return this.dataSource.data = this.listTests;
+      this.dataSource.data = this.listTests;
+      this.dataSource.paginator = this.paginator;
     });
   }
 
   public navigateToTestDetail(testId: number) {
-    this.router.navigate(['/admin/subjects/tests/test-detail'], { queryParams: { test_id: testId}});
+    this.router.navigate(['/admin/subjects/tests/test-detail'], { queryParams: { test_id: testId }});
   }
 }

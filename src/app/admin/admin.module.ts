@@ -111,7 +111,12 @@ const routes: Routes = [
             },
             children: [
               { path: '', component: TestListComponent },
-              { path: 'test-detail', component: TestDetailListComponent },
+              {
+                path: 'test-detail', component: TestDetailListComponent,
+                data: {
+                  breadcrumb: 'Налаштування тестів'
+                }
+              },
               {
                 path: ':id/questions',
                 data: {

@@ -1,18 +1,19 @@
 <div class="container">
   <div class="header">
-    <h3>Тести <span *ngIf="currentSubjectId">з предмету: {{ getSubjectNameById(currentSubjectId) }}</span></h3>
+    <h3>Тести <span *ngIf="currentSubjectId">з предмета: {{ getSubjectNameById(currentSubjectId) }}</span></h3>
     <span class="fill-space"></span>
-    <button mat-raised-button color="prime" (click)="openAddTestDialog()">
+    <button mat-raised-button color="prime" (click)="openAddTestDialog()" aria-label="add">
       <mat-icon aria-hidden="false" aria-label="add">add</mat-icon>
       Додати новий тест
     </button>
   </div>
   <div class="search-box">
     <mat-select [ngModel]="currentSubjectId" (ngModelChange)="onChangeSubject($event)" name="current_subject">
-      <mat-option [value]="subject.subject_id" *ngFor="let subject of listSubjects">{{ subject.subject_name }}</mat-option>
+      <mat-option [value]="subject.subject_id"
+                  *ngFor="let subject of listSubjects">{{ subject.subject_name }}</mat-option>
     </mat-select>
   </div>
-  <div class="mat-elevationg-z8" >
+  <div class="mat-elevationg-z8">
     <table
       mat-table
       [dataSource]="dataSource"
@@ -52,7 +53,6 @@
             edit
           </mat-icon>
 
-
           <mat-icon
             aria-hidden="false"
             aria-label="delete"
@@ -65,26 +65,26 @@
           <mat-icon
             aria-hidden="false"
             aria-label="description"
-            matTooltip="Параметри тесту"
-            (click)="navigateToTestDetail(testItem.test_id)"
+            matTooltip="Параметри теста"
+            (click)="navigateToTestDetail(testItem.test_id, currentSubjectId)"
           >
-          description
+            description
           </mat-icon>
 
-        <a [routerLink]="[testItem.test_id, 'questions']" class="question-link">
-          <mat-icon
-          aria-hidden="false"
-          matTooltip="Питання"
-          >
-          list
-          </mat-icon>
-        </a>
-      </td>
-    </ng-container>
+          <a [routerLink]="[testItem.test_id, 'questions']" class="question-link">
+            <mat-icon
+              aria-hidden="false"
+              matTooltip="Питання"
+            >
+              list
+            </mat-icon>
+          </a>
+        </td>
+      </ng-container>
 
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
       <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
     </table>
-    <mat-paginator  [pageSizeOptions]="[10, 20]"   showFirstLastButtons></mat-paginator>
+    <mat-paginator [pageSizeOptions]="[10, 20]" showFirstLastButtons></mat-paginator>
   </div>
 </div>

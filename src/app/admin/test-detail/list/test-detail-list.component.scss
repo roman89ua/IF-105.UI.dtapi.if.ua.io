@@ -6,15 +6,18 @@ mat-form-field {
   margin: 0 auto;
   padding: 1rem;
 }
+
 .header {
   display: flex;
   justify-content: space-between;
   margin: 10px 20px;
   align-items: center;
 }
+
 button {
   margin-left: 5px;
 }
+
 table {
   width: 100%;
 }
@@ -26,6 +29,7 @@ mat-icon {
     &[aria-label="edit"] {
       color: orange;
     }
+
     &[aria-label="delete"] {
       color: red;
     }
@@ -35,4 +39,12 @@ mat-icon {
 .search-box {
   width: 200px;
   margin: 20px;
+}
+
+.showRatesSum {
+  margin-top: 2px;
+  display: block;
+  padding: 8px;
+  border-bottom: 1px solid lightgrey;
+  background: white;
 }

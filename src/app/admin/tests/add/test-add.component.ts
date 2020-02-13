@@ -7,6 +7,7 @@ export interface DialogData {
   data: any;
   description: any;
 }
+
 @Component({
   selector: 'app-test-add',
   templateUrl: './test-add.component.html',
@@ -19,7 +20,7 @@ export class TestAddComponent implements OnInit {
     private apiService: ApiService,
     public dialogRef: MatDialogRef<TestAddComponent>,
     @Inject(MAT_DIALOG_DATA) public data: DialogData
-  ) { }
+  ) {}
 
   ngOnInit() {
     this.apiService
