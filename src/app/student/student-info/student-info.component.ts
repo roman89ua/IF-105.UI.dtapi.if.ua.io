@@ -107,7 +107,6 @@ export class StudentInfoComponent implements OnInit {
       });
     });
     this.dataSource.data = data;
-    console.log(this.dataSource.data);
   }
 
   private canTestBeStart(row: TestsForStudent) {
@@ -124,8 +123,7 @@ export class StudentInfoComponent implements OnInit {
     if (tableEl.can_be_start) {
       this.router.navigate(['student/test-player'], {
         queryParams: {
-          test_id: tableEl.test_id,
-          time_for_test: tableEl.time_for_test
+          id: tableEl.test_id,
         }
       });
     } else {
