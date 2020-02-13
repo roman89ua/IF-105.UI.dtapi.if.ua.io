@@ -16,6 +16,7 @@ export class ResultDetailComponent implements OnInit {
   listQuestionsByTest: IQuestion[];
   dataSource = new MatTableDataSource<TrueAnswers>();
   displayedColumns: string[] = [
+    'counter',
     'id',
     'question',
     'answer',

@@ -8,6 +8,7 @@
     display: table-cell;
     background-color: rgb(236, 220, 220);
     margin-right: 20px;
+    cursor: pointer;
   
     &.is-answered {
         background-color:#6383e9;
@@ -15,7 +16,11 @@
     &.is-marked {
         background-color: #4aca48;
     }
+    &.is-choosen {
+        border-color: brown;
+    }
 }
 .mainWrapper {
     margin-left: 20px;
  }
+ 

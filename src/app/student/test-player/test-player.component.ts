@@ -27,8 +27,7 @@ export class TestPlayerComponent implements OnInit, OnDestroy {
 
   constructor(private testPlayerService: TestPlayerService,
               private route: ActivatedRoute,
-              private modalService: ModalService,
-  ) {
+              private modalService: ModalService) {
     this.questions = [];
   }
 
