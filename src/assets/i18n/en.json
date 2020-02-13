@@ -301,6 +301,20 @@
             "pageBefore":"Previous page",
             "nextPage":"Next page",
             "lastPage":"The last page"
+        },
+        "breadbreadcrumb": {
+            "Home":"Home",
+            "admin-user":"Admins",
+            "faculties":"Faculties",
+            "group":"Groups",
+            "Students":"Students",
+            "resultsId":"Results",
+            "subjects":"Subjects",
+            "timetable":"Timetable",
+            "tests":"Tests",
+            "questions":"Questions",
+            "speciality":"Speciality",
+            "results":"Results"
         }
 
     },
