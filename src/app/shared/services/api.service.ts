@@ -69,11 +69,22 @@ export class ApiService {
   }
   /** GET all test_ids which were passed by students of some group  */
   getResultTestIdsByGroup(group_id: number): Observable<any> {
-    return this.http.get(`${this.apiURI}/Result/getResultTestIdsByGroup/${group_id}`)
+    return this.http.get(`${this.apiURI}/Result/getResultTestIdsByGroup/${group_id}`);
   }
 
   /** GET count records */
   getCountRecords(entity: string): Observable<any> {
     return this.http.get(`${entity}/countRecords`);
   }
+
+  /** GET tests by subject id */
+  getTestsBySubject(entity: string, subject_id: number): Observable<any> {
+    return this.http.get(`${entity}/getTestsBySubject/${subject_id}`);
+  }
+
+  /** GRT test details by test id */
+  getTestDetailsByTest(entity: string, test_id: number): Observable<any> {
+    return  this.http.get(`${entity}/getTestDetailsByTest/${test_id}`);
+  }
+
 }

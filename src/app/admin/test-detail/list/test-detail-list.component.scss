@@ -1,6 +1,5 @@
-body {
-  font-size: 1rem;
-  line-height: 1.6;
+mat-form-field {
+  width: 100%;
 }
 
 .container {
@@ -23,14 +22,6 @@ table {
   width: 100%;
 }
 
-mat-form-field {
-  width: 100%;
-}
-
-.question-link {
-  color: #000;
-}
-
 mat-icon {
   cursor: pointer;
 
@@ -48,4 +39,12 @@ mat-icon {
 .search-box {
   width: 200px;
   margin: 20px;
+}
+
+.showRatesSum {
+  margin-top: 2px;
+  display: block;
+  padding: 8px;
+  border-bottom: 1px solid lightgrey;
+  background: white;
 }
