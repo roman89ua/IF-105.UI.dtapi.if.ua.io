@@ -1,7 +1,7 @@
 <!-- <mat-toolbar> Тестування почато! Дайте відповіді на питання</mat-toolbar> -->
 <ng-container *ngIf="!isTestDone">
   <countdown *ngIf="timer > 300" [config]="{leftTime: timer}" (event)="finish($event)"></countdown>
-  <countdown *ngIf="timer <= 300" class="five-minutes" [config]="{leftTime: timer}" (event)="finish($event)"></countdown>
+  <countdown *ngIf="timer >= 11 && timer <= 300" class="five-minutes" [config]="{leftTime: timer}" (event)="finish($event)"></countdown>
   <countdown *ngIf="timer <= 10" class="ten-seconds" [config]="{leftTime: timer}" (event)="finish($event)"></countdown>
   <div class="container-numbers">
       <div class="numbersWrapper">
@@ -32,4 +32,3 @@
     </p>
     <button class="wrapper-exit" routerLink="/student/home">Вийти</button>
 </ng-container>
-<!--<app-timer></app-timer>-->
