@@ -28,9 +28,52 @@ mat-form-field {
     }
 }
 
-button {
+.submit {
     width: calc(50% - 10px);
     &:first-of-type {
         margin-right: 20px;
+    }
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin-bottom: 30px;
+
+        .no__image{
+            text-align: center;
+            font-size: 20px;
+            letter-spacing: 2px;
+        }
+        .photo__select {
+            margin: 10px auto;
+        }
+        .cropper__container {
+            margin-top: 5%;
+            display: flex;
+            align-items: center;
+            flex-direction: column;
+
+                .image__cropper {
+                    text-align: center;
+                    width: 100%;
+                }
+
+            .image__preview {
+                text-align: center;
+                width: 100%;
+                margin-top: 10px;
+            }
+        }
+}
+
+.current_student_photo {
+    margin: 10px auto;
+    display: flex;
+    justify-content: center;
+    .student_photo{
+        width: 70%;
+        height: 300px;
     }
 }

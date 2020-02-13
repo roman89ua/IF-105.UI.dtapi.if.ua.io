@@ -1,0 +1,47 @@
+<mat-toolbar class="toolbar" color="primary">
+  <button
+    type="button"
+    aria-label="Toggle sidenav"
+    mat-icon-button
+    (click)="sidenav.toggle()"
+    *ngIf="user?.roles.includes('admin') && ((isSmall$ | async) || (isXSmall$ | async))"
+  >
+    <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
+  </button>
+  <span>d-tester</span>
+  <span class="fill-space"></span>
+
+  <mat-nav-list *ngIf="!(isSmall$ | async) && !(isXSmall$ | async) && user?.roles.includes('admin')  ">
+    <a routerLinkActive="mat-raised-button" mat-button routerLink="dashboard"
+      >{{'sidenav.dashboard'|translate}}</a
+    >
+    <a routerLinkActive="mat-raised-button" mat-button routerLink="faculties"
+      >{{'sidenav.faculties'|translate}}</a
+    >
+    <a routerLinkActive="mat-raised-button" mat-button routerLink="group"
+      >{{'sidenav.group'|translate}}</a
+    >
+    <a routerLinkActive="mat-raised-button" mat-button routerLink="speciality"
+      >{{'sidenav.speciality'|translate}}</a
+    >
+    <a routerLinkActive="mat-raised-button" mat-button routerLink="subjects"
+      >{{'sidenav.subjects'|translate}}</a
+    >
+    <a routerLinkActive="mat-raised-button" mat-button routerLink="results"
+      >{{'sidenav.results'|translate}}</a
+    >
+    <a routerLinkActive="mat-raised-button" mat-button routerLink="admin-user"
+      >{{'sidenav.admin-user'|translate}}</a
+    >
+  </mat-nav-list>
+  <span class="fill-space"></span>
+  <button mat-button [matMenuTriggerFor]="menu">
+    {{ user?.username }}
+  </button>
+
+  <mat-menu #menu="matMenu">
+    <button mat-menu-item (click)="logoutHandler()">{{'sidenav.exit'|translate}}</button>
+  </mat-menu>
+
+</mat-toolbar>
+

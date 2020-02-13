@@ -53,10 +53,21 @@ export interface Results {
 
 export interface QuestionsByTest {
   question_id: number;
-  answers_id: number[]
+  answers_id: number[];
 }
 
 export interface TrueAnswers {
   question_id: number;
   true: number;
+}
+
+export interface Student {
+  user_id: string;
+  gradebook_id: string;
+  student_surname: string;
+  student_name: string;
+  student_fname: string;
+  group_id: number;
+  plain_password: string;
+  photo: string;
 }

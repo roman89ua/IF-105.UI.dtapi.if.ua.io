@@ -12,15 +12,17 @@ import { ModalService } from '../../../shared/services/modal.service';
 
 export class SpecialityListComponent implements OnInit {
 
-  // public result: any;
-  // public speciality: Speciality[] = [];
   public displayedColumns: string[] = ['code', 'name', 'buttons'];
   public dataSource = new MatTableDataSource<Speciality>();
 
   @ViewChild('table', { static: false }) table: MatTable<Element>;
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
 
-  constructor(private apiService: ApiService, private dialog: MatDialog, private snackBar: MatSnackBar, private modalService: ModalService) { }
+  constructor(
+    private apiService: ApiService,
+    private dialog: MatDialog,
+    private snackBar: MatSnackBar,
+    private modalService: ModalService) { }
 
   ngOnInit() {
     this.getSpeciality();
@@ -54,7 +56,8 @@ export class SpecialityListComponent implements OnInit {
       if (data) {
         return this.apiService.createEntity('Speciality', data).subscribe((obj: Speciality) => {
           this.openSnackBar('Спеціальність ' + data.speciality_name + ' була успішно створена');
-          this.getSpeciality();
+          this.dataSource.data = [...this.dataSource.data, obj[0]];
+          this.table.renderRows();
         }, err => {
           this.openSnackBar(err.error.response);
         }

@@ -44,15 +44,11 @@ export class QuestionAnswerComponent implements OnInit {
   }
 
   getInputNumberAnswer(event: any) {
-    this.onAnswerChange.emit({question: this.choosenQuestion.question_id, answer: event.target.value})
+    this.onAnswerChange.emit({question: this.choosenQuestion.question_id, answer: +event.target.value})
   }
 
   markQuestion(id: string) {
     this.mark.emit(id);
   }
-  // getInputValue(event) {
-  //   this.answerFromInput= event.target.value;
-  //   console.log(this.answerFromInput);
-  // }
-  
 }
+

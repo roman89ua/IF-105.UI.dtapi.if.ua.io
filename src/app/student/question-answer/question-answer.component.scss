@@ -19,7 +19,15 @@ button {
 }
 .mark-answer {
     margin-top: 30px;
+    margin-left: 20px;
+    margin-bottom: 20px;
+    background-color: #4aca48;
+    border: 1px solid green;
+    box-shadow: 0 0 20px rgba(20, 20, 14, 0.5);
 }
 .text-input-wrapper{
-    width: 100%;
+    width: 50%;
+}
+.mainWrapper {
+    background-color:#dbd9f1;
 }

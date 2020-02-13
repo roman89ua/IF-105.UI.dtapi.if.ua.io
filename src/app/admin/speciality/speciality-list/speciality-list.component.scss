@@ -26,7 +26,14 @@ mat-form-field {
 table {
   width: 100%;
 }
-
+.toolbar {
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 90%;
+  padding: 1em 0;
+}
 .button-wrapper {
   display: flex;
   justify-content: space-between;
