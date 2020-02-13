@@ -45,6 +45,7 @@ import { ImageCropperModule } from 'ngx-image-cropper';
 import { ViewStudentModalWindowComponent } from './students/view-student-modal-window/view-student-modal-window.component';
 import { ResultDetailComponent } from './results/result-detail/result-detail.component';
 import { ScoreAnswerPipe } from './results/pipes/score-answer.pipe';
+import { ResultGroupRaitingComponent } from './results/result-group-raiting/result-group-raiting.component';
 
 const routes: Routes = [
   {
@@ -171,6 +172,7 @@ const routes: Routes = [
     ViewStudentModalWindowComponent,
     ResultDetailComponent,
     ScoreAnswerPipe,
+    ResultGroupRaitingComponent,
 
   ],
   imports: [
@@ -217,7 +219,7 @@ const routes: Routes = [
     StudentsModalWindowComponent,
     ViewStudentModalWindowComponent,
     ResultDetailComponent,
-
+    ResultGroupRaitingComponent,
   ]
 })
 export class AdminModule { }
