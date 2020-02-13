@@ -4,8 +4,7 @@
         <span>
             До завершення тесту:
             <countdown *ngIf="timer > 300" [config]="{leftTime: timer}" (event)="finish($event)"></countdown>
-            <countdown *ngIf="timer >= 11 && timer <= 300" class="five-minutes" [config]="{leftTime: timer}" (event)="finish($event)"></countdown>
-            <countdown *ngIf="timer <= 10" class="ten-seconds" [config]="{leftTime: timer}" (event)="finish($event)"></countdown>
+            <countdown *ngIf="timer <= 300" class="five-minutes" [config]="{leftTime: timer}" (event)="finish($event)"></countdown>
         </span>
         <button class="finishTest" (click)="sendAnswersForCheck()">
             Завершити тест

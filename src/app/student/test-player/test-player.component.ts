@@ -116,7 +116,7 @@ export class TestPlayerComponent implements OnInit, OnDestroy {
   finish(event) {
     if (event.action === 'done') {
       this.sendAnswersForCheck();
-      this.modalService.openInfoModal('Час вийшов');
+      this.modalService.openInfoModal('Час вийшов!');
     }
   }
 }
