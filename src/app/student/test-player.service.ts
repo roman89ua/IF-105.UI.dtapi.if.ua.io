@@ -43,11 +43,11 @@ export class TestPlayerService {
     .pipe(
       catchError(({error}) => {
         if (error.response === 'User is making test at current moment') {
-          return this.getCurrnetTestId();
+          return of(null);
         }
         return throwError(error);
       }),
-      switchMap((id) => {
+      switchMap(() => {
         return this.getTestDetails(testId)
       }),
       switchMap((questionDetails: any) => {

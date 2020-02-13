@@ -23,8 +23,6 @@ export class TestPlayerComponent implements OnInit, OnDestroy {
   serverTime: number;
   testInProgress;
 
-
-
   constructor(private testPlayerService: TestPlayerService,
               private route: ActivatedRoute,
               private modalService: ModalService) {
@@ -49,6 +47,7 @@ export class TestPlayerComponent implements OnInit, OnDestroy {
       this.timeForTest = Number(params.params.time_for_test) * 60;
       this.timer = Number(params.params.time_for_test) * 60;
       this.userTime = Math.floor(Date.now() / 1000) + 7200;
+      
       return this.testPlayerService.getQuestionList(+testId)
         .subscribe(questions => {
           this.questions = questions;
