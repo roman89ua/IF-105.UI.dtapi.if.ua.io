@@ -90,7 +90,6 @@ export class ResultsComponent implements OnInit {
       const idSubject = this.listTestsByGroup.filter(item => item.test_id === id)[0].subject_id;
       this.resultsService.getSubjectName(idSubject).subscribe( result => {
         this.subjectName$ = result;
-        console.log(result);
       })
     });
   }
@@ -124,7 +123,6 @@ export class ResultsComponent implements OnInit {
     const idSubject = this.listTestsByGroup.filter(item => item.test_id === idTest)[0].subject_id;
     this.resultsService.getSubjectName(idSubject).subscribe( result => {
       this.subjectName$ = result;
-      console.log(result);
     })
     forkJoin(
       this.resultsService.getListStudentsBuGroup(idGroup),
