@@ -9,6 +9,7 @@ import { ResultRaitingQuestionComponent } from './result-raiting-question/result
 import { ResultDetailComponent } from './result-detail/result-detail.component';
 import { forkJoin } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
+import { ResultGroupRaitingComponent } from './result-group-raiting/result-group-raiting.component';
 
 @Component({
   selector: 'app-results',
@@ -90,8 +91,7 @@ export class ResultsComponent implements OnInit {
       const idSubject = this.listTestsByGroup.filter(item => item.test_id === id)[0].subject_id;
       this.resultsService.getSubjectName(idSubject).subscribe( result => {
         this.subjectName$ = result;
-        console.log(result);
-      })
+      });
     });
   }
   /** Get all tests for current group */
@@ -124,8 +124,7 @@ export class ResultsComponent implements OnInit {
     const idSubject = this.listTestsByGroup.filter(item => item.test_id === idTest)[0].subject_id;
     this.resultsService.getSubjectName(idSubject).subscribe( result => {
       this.subjectName$ = result;
-      console.log(result);
-    })
+    });
     forkJoin(
       this.resultsService.getListStudentsBuGroup(idGroup),
       this.resultsService.getRecordsByTestGroupDate(idTest, idGroup)
@@ -137,8 +136,7 @@ export class ResultsComponent implements OnInit {
       if (res2 === 'no records') {
         return;
       }
-      this.listResults = res2.map( item => 
-        {
+      this.listResults = res2.map( item => {
           const duration = this.resultsService.getDurationTest(item.session_date, item.start_time, item.end_time);
           const score = (item.result / item.answers * 100).toFixed();
           const student = this.resultsService.getFullNameStudent(item.student_id, res1);
@@ -170,7 +168,7 @@ export class ResultsComponent implements OnInit {
         case 3: this.dataSource.data = this.getMinResult(this.listResults);
           break;
       }
-      
+
     });
   }
 
@@ -182,17 +180,31 @@ export class ResultsComponent implements OnInit {
   }
 
   createChart(): void {
-    this.dialog.open(ResultRaitingQuestionComponent, {
+    this.resultsService.getRecordsByTestGroupDate(this.searchForm.value.test_id)
+      .subscribe(result => {
+        this.dialog.open(ResultRaitingQuestionComponent, {
+          width: '1000px',
+          data: {data: result}
+        });
+      }, () => {
+        this.modalService.openErrorModal('Помилка завантаження даних');
+      });
+
+  }
+
+  createGroupChart(): void {
+    this.dialog.open(ResultGroupRaitingComponent, {
       width: '1000px',
       data: {data: this.dataSource.data}
     });
   }
 
-  openDetailResult(detail: string): void {
+  openDetailResult(detail: string, subjectName: string): void {
     this.dialog.open(ResultDetailComponent, {
       width: '1000px',
       data: {
         detail,
+        subjectName
       }
     });
   }

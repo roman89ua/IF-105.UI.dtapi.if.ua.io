@@ -55,6 +55,7 @@
           </mat-select>
         </mat-form-field>
         <button mat-stroked-button (click)="createChart()">Статистика тесту</button>
+        <button mat-stroked-button (click)="createGroupChart()">Успішність групи</button>
       </form>
     </div>
     <table mat-table #table [dataSource]="dataSource" matSort>
@@ -100,7 +101,7 @@
           <mat-icon 
             aria-label="details"
             matTooltip="Деталі тестування"
-            (click)="openDetailResult(result)">
+            (click)="openDetailResult(result, subjectName$)">
             details</mat-icon>
           <button>Статистика</button>
         </td>

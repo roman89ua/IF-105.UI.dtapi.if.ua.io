@@ -70,7 +70,6 @@ export class GroupComponent implements OnInit, AfterViewInit {
     }, () => {
       this.modalService.openErrorModal('Помилка завантаження даних');
     });
-    this.getListGroups();
   }
 
   ngAfterViewInit() {
@@ -89,7 +88,6 @@ export class GroupComponent implements OnInit, AfterViewInit {
       this.isCheckFaculty = false;
       this.isCheckSpeciality = false;
       this.dataSource.data = this.groupService.addPropertyToGroup(result, this.listSpeciality, this.listFaculty);
-      this.dataSource.data = this.listGroups;
     }, () => {
       this.modalService.openErrorModal('Помилка завантаження списку груп');
     });

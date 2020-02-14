@@ -8,8 +8,9 @@
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
-
+  max-width: 1150px;
   padding: 1rem;
+  margin: 0 auto;
 }
 .dashboard-card {
   max-width: 350px;

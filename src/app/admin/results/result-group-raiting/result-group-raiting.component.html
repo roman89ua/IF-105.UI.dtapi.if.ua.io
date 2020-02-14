@@ -8,9 +8,5 @@
               [chartType]="barChartType">
       </canvas>
     </div>
-    <div *ngIf="falseQuestion.length">
-      Ідентифікатори запитань, на які ніхто не дав правильної відповіді: 
-      <span *ngFor="let item of falseQuestion"> {{item}} </span>
-    </div>
     <button mat-stroked-button color="primary" type="button" [mat-dialog-close]="true">Закрити</button>
   </div>

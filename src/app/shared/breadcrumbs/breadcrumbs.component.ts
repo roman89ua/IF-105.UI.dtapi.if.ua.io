@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router, NavigationEnd } from '@angular/router';
 import { BreadCrumbs } from './breadcrumbs';
 import { filter, distinctUntilChanged } from 'rxjs/operators';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-breadcrumbs',
@@ -9,11 +10,12 @@ import { filter, distinctUntilChanged } from 'rxjs/operators';
   styleUrls: ['./breadcrumbs.component.scss']
 })
 export class BreadcrumbsComponent implements OnInit {
-  public breadcrumbs: BreadCrumbs[]
+  public breadcrumbs: BreadCrumbs[];
 
   constructor(
     private router: Router,
     private activatedRoute: ActivatedRoute,
+    private translate: TranslateService,
   ) {
     this.breadcrumbs = this.buildBreadCrumb(this.activatedRoute.root);
   }
@@ -23,13 +25,13 @@ export class BreadcrumbsComponent implements OnInit {
       distinctUntilChanged(),
     ).subscribe(() => {
       this.breadcrumbs = this.buildBreadCrumb(this.activatedRoute.root);
-    })
+    });
   }
 
   buildBreadCrumb(route: ActivatedRoute, url: string = '', breadcrumbs: BreadCrumbs[] = []): BreadCrumbs[] {
 
-    let label = route.routeConfig && route.routeConfig.data ? route.routeConfig.data.breadcrumb : '';
-    let isClickable = route.routeConfig && route.routeConfig.data && route.routeConfig.data.isClickable;
+    const label = route.routeConfig && route.routeConfig.data ? this.translate.instant(route.routeConfig.data.breadcrumb) : '';
+    const isClickable = route.routeConfig && route.routeConfig.data && route.routeConfig.data.isClickable;
     let path = route.routeConfig && route.routeConfig.data ? route.routeConfig.path : '';
 
     const lastRoutePart = path.split('/').pop();

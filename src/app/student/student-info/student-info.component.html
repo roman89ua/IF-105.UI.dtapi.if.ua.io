@@ -58,12 +58,12 @@
       <ng-container matColumnDef="actions">
         <th mat-header-cell *matHeaderCellDef>Почати тестування</th>
         <td mat-cell *matCellDef="let tableEl">
-          <mat-icon *ngIf="tableEl.enabled === '1'" aria-hidden="false" aria-label="start"
-                    (click)="goToTest(tableEl.test_id, tableEl.enabled,  tableEl.time_for_test)">
+          <mat-icon *ngIf="tableEl.can_be_start" aria-hidden="false" aria-label="start"
+                    (click)="goToTest(tableEl)">
             play_circle_outline
           </mat-icon>
-          <mat-icon *ngIf="tableEl.enabled === '0'" aria-hidden="false" aria-label="start"
-                    (click)="goToTest(tableEl.test_id, tableEl.enabled, tableEl.time_for_test)">
+          <mat-icon *ngIf="!tableEl.can_be_start" aria-hidden="false" aria-label="start"
+                    (click)="goToTest(tableEl)">
             cancel_schedule_send
           </mat-icon>
         </td>
@@ -71,6 +71,10 @@
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
       <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
     </table>
+    <mat-paginator
+      [pageSizeOptions]="[5, 10, 20]"
+      showFirstLastButtons>
+    </mat-paginator>
   </section>
 </div>
 <router-outlet></router-outlet>

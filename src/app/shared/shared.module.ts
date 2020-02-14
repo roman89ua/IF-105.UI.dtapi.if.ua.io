@@ -96,7 +96,6 @@ import { BreadcrumbsComponent } from './breadcrumbs/breadcrumbs.component';
   entryComponents: [
     ConfirmComponent,
     AlertComponent,
-
   ],
   exports: [
     A11yModule,

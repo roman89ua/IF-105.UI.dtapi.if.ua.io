@@ -34,8 +34,16 @@ export interface Test {
   subject_id: number;
   tasks: number;
   time_for_test: number;
-  enabled: boolean;
+  enabled: any;
   attempts: number;
+}
+
+export interface TestDetail {
+  id: number;
+  test_id: number;
+  level: number;
+  tasks: number;
+  rate: number;
 }
 
 export interface Results {
@@ -53,10 +61,21 @@ export interface Results {
 
 export interface QuestionsByTest {
   question_id: number;
-  answers_id: number[]
+  answers_id: number[];
 }
 
 export interface TrueAnswers {
   question_id: number;
   true: number;
+}
+
+export interface Student {
+  user_id: string;
+  gradebook_id: string;
+  student_surname: string;
+  student_name: string;
+  student_fname: string;
+  group_id: number;
+  plain_password: string;
+  photo: string;
 }
