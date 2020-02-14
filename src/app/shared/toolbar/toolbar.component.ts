@@ -6,7 +6,7 @@ import { Router } from '@angular/router';
 import { AuthService } from '../auth.service';
 import { MatSidenav } from '@angular/material';
 import { User } from '../entity.interface';
-
+import { TranslateService } from '@ngx-translate/core';
 @Component({
   selector: 'app-toolbar',
   templateUrl: './toolbar.component.html',
@@ -19,8 +19,10 @@ export class ToolbarComponent implements OnInit {
   constructor(
     private breakpointObserver: BreakpointObserver,
     private router: Router,
-    private authService: AuthService
+    private authService: AuthService,
+    public translate: TranslateService
   ) { }
+
 
   isSmall$: Observable<boolean> = this.breakpointObserver.observe(Breakpoints.Small)
     .pipe(
@@ -40,7 +42,10 @@ export class ToolbarComponent implements OnInit {
         this.user = response;
       });
   }
-
+  switchLanguage(language: string) {
+    this.translate.use(language);
+    localStorage.setItem('lang', language);
+  }
   logoutHandler() {
     this.authService.logout()
       .subscribe(() => {
