@@ -4,6 +4,7 @@ import {ActivatedRoute} from '@angular/router';
 import {switchMap} from 'rxjs/operators';
 import {ModalService} from '../../shared/services/modal.service';
 import {Test} from '../../admin/entity.interface';
+import {SessionStorageService} from 'angular-web-storage';
 
 @Component({
   selector: 'app-test-player',
@@ -27,7 +28,8 @@ export class TestPlayerComponent implements OnInit, OnDestroy {
 
   constructor(private testPlayerService: TestPlayerService,
               private route: ActivatedRoute,
-              private modalService: ModalService) {
+              private modalService: ModalService,
+              public session: SessionStorageService) {
     this.questions = [];
   }
 
@@ -95,6 +97,7 @@ export class TestPlayerComponent implements OnInit, OnDestroy {
       .subscribe((results) => {
         this.testResults = results;
         this.isTestDone = true;
+        this.session.clear();
       });
   }
 

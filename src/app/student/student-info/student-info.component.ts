@@ -6,6 +6,7 @@ import {Router} from '@angular/router';
 import {Subject, Test} from '../../admin/entity.interface';
 import {MatPaginator, MatTable, MatTableDataSource} from '@angular/material';
 import {ModalService} from '../../shared/services/modal.service';
+import {SessionStorageService, SessionStorage} from 'angular-web-storage';
 
 @Component({
   selector: 'app-student-info',
@@ -33,7 +34,8 @@ export class StudentInfoComponent implements OnInit {
     public authService: AuthService,
     private apiService: ApiService,
     private router: Router,
-    private modalService: ModalService
+    private modalService: ModalService,
+    public session: SessionStorageService,
   ) {
   }
 
@@ -41,6 +43,7 @@ export class StudentInfoComponent implements OnInit {
   studentInfo: StudentInfo;
   testInfo: TestsForStudent[];
   currDate: Date;
+  testInProgress: boolean;
 
   ngOnInit() {
     this.authService.getCurrentUser().subscribe(data => {
@@ -118,6 +121,7 @@ export class StudentInfoComponent implements OnInit {
 
   public goToTest(tableEl: TestsForStudent) {
     if (tableEl.can_be_start) {
+      this.session.set('testInProgress', true);
       this.router.navigate(['student/test-player'], {
         queryParams: {
           id: tableEl.test_id,
