@@ -1,10 +1,11 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Component, Input, OnDestroy, OnInit} from '@angular/core';
 import {TestPlayerService} from '../test-player.service';
 import {ActivatedRoute} from '@angular/router';
 import {switchMap} from 'rxjs/operators';
 import {ModalService} from '../../shared/services/modal.service';
 import {Test} from '../../admin/entity.interface';
 import {SessionStorageService} from 'angular-web-storage';
+import {TestLogoutService} from '../../shared/services/test-logout.service';
 
 @Component({
   selector: 'app-test-player',
@@ -24,13 +25,20 @@ export class TestPlayerComponent implements OnInit, OnDestroy {
   userTime: number;
   serverTime: number;
   testInProgress;
-
+  subscription: any;
+  sendAnswers: boolean;
 
   constructor(private testPlayerService: TestPlayerService,
               private route: ActivatedRoute,
               private modalService: ModalService,
-              public session: SessionStorageService) {
+              public session: SessionStorageService,
+              private testLogoutService: TestLogoutService) {
     this.questions = [];
+    this.subscription = this.testLogoutService.getMessage().subscribe(data => {
+      if (data) {
+        this.sendAnswersForCheck();
+      }
+    });
   }
 
   get choosenQuestion() {
@@ -121,5 +129,9 @@ export class TestPlayerComponent implements OnInit, OnDestroy {
       this.sendAnswersForCheck();
       this.modalService.openInfoModal('Час вийшов!');
     }
+  }
+
+  onEventChange($event) {
+    console.log($event);
   }
 }
