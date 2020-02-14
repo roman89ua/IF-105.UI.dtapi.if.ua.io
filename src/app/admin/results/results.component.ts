@@ -180,10 +180,16 @@ export class ResultsComponent implements OnInit {
   }
 
   createChart(): void {
-    this.dialog.open(ResultRaitingQuestionComponent, {
-      width: '1000px',
-      data: {data: this.dataSource.data}
-    });
+    this.resultsService.getRecordsByTestGroupDate(this.searchForm.value.test_id)
+      .subscribe(result => {
+        this.dialog.open(ResultRaitingQuestionComponent, {
+          width: '1000px',
+          data: {data: result}
+        });
+      }, () => {
+        this.modalService.openErrorModal('Помилка завантаження даних');
+      });
+
   }
 
   createGroupChart(): void {
@@ -193,11 +199,12 @@ export class ResultsComponent implements OnInit {
     });
   }
 
-  openDetailResult(detail: string): void {
+  openDetailResult(detail: string, subjectName: string): void {
     this.dialog.open(ResultDetailComponent, {
       width: '1000px',
       data: {
         detail,
+        subjectName
       }
     });
   }

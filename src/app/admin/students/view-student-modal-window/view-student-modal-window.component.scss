@@ -56,6 +56,21 @@ mat-card {
             }
         }
     }
+
+    @media screen and (max-width: 600px) {
+        .view__student_container {
+          flex-direction: column;
+
+          .student_photo{
+              width: 100%;
+          }
+
+          .student_information{
+              width: 100%;
+          }
+        }
+    }
+      
 }
 }
 
