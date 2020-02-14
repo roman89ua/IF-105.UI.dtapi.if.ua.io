@@ -3,6 +3,7 @@ import {TestPlayerService} from '../test-player.service';
 import {ActivatedRoute} from '@angular/router';
 import {switchMap} from 'rxjs/operators';
 import {ModalService} from '../../shared/services/modal.service';
+import {Test} from '../../admin/entity.interface';
 
 @Component({
   selector: 'app-test-player',
@@ -22,6 +23,7 @@ export class TestPlayerComponent implements OnInit, OnDestroy {
   userTime: number;
   serverTime: number;
   testInProgress;
+
 
   constructor(private testPlayerService: TestPlayerService,
               private route: ActivatedRoute,
@@ -43,11 +45,9 @@ export class TestPlayerComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.route.queryParamMap.subscribe((params: any) => {
-      const testId = params.params.test_id;
-      this.timeForTest = Number(params.params.time_for_test) * 60;
-      this.timer = Number(params.params.time_for_test) * 60;
+      const testId = params.params.id;
+      this.getTimeForTest(testId);
       this.userTime = Math.floor(Date.now() / 1000) + 7200;
-      
       return this.testPlayerService.getQuestionList(+testId)
         .subscribe(questions => {
           this.questions = questions;
@@ -98,18 +98,25 @@ export class TestPlayerComponent implements OnInit, OnDestroy {
       });
   }
 
+  getTimeForTest(id): any {
+    this.testPlayerService.getTestInfo(id).subscribe((data: Test[]) => {
+      const time = data[0].time_for_test * 60;
+      this.timeForTest = time;
+      this.timer = time;
+    });
+  }
+
   synchronizeTime() {
-        this.testPlayerService.getTime().subscribe((data: any) => {
-          this.serverTime = data.curtime;
-          console.log('synchronized');
-          this.timer = this.timeForTest - (this.serverTime - this.userTime);
-        });
-    }
+    this.testPlayerService.getTime().subscribe((data: any) => {
+      this.serverTime = data.curtime;
+      this.timer = this.timeForTest - (this.serverTime - this.userTime);
+    });
+  }
 
   finish(event) {
     if (event.action === 'done') {
       this.sendAnswersForCheck();
-      this.modalService.openInfoModal('Час вийшов');
+      this.modalService.openInfoModal('Час вийшов!');
     }
   }
 }

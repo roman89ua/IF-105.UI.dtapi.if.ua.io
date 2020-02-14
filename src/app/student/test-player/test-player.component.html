@@ -5,13 +5,12 @@
             До завершення тесту:
             <countdown *ngIf="timer > 300" [config]="{leftTime: timer}" (event)="finish($event)"></countdown>
             <countdown *ngIf="timer <= 300" class="five-minutes" [config]="{leftTime: timer}" (event)="finish($event)"></countdown>
-            <countdown *ngIf="timer <= 10" class="ten-seconds" [config]="{leftTime: timer}" (event)="finish($event)"></countdown>
         </span>
         <button class="finishTest" (click)="sendAnswersForCheck()">
             Завершити тест
         </button>
     </p>
-  
+
     <div class="container-numbers">
         <app-question-menu-item
             *ngFor="let question of questions let i = index"
@@ -45,4 +44,3 @@
         <button class="wrapper-exit" routerLink="/student/home">Вийти</button>
     </div>
 </ng-container>
-<!--<app-timer></app-timer>-->
