@@ -49,6 +49,7 @@ import { ResultGroupRaitingComponent } from './results/result-group-raiting/resu
 import { TestDetailListComponent } from './test-detail/list/test-detail-list.component';
 import { TestDetailAddComponent } from './test-detail/add/test-detail-add.component';
 
+
 const routes: Routes = [
   {
     path: '', component: AdminComponent,
@@ -230,7 +231,7 @@ const routes: Routes = [
     StudentsModalWindowComponent,
     ViewStudentModalWindowComponent,
     ResultDetailComponent,
-    ResultGroupRaitingComponent,
+    ResultGroupRaitingComponent
   ]
 })
 export class AdminModule { }

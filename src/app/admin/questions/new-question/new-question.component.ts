@@ -186,7 +186,7 @@ export class NewQuestionComponent implements OnInit {
           return of(null);
         }
       }))
-      .subscribe(() => this.router.navigate([`admin/tests/${this.testId}/questions`]));
+      .subscribe(() => this.router.navigate([`admin/subjects/tests/${this.testId}/questions`]));
   }
 
   updateQuestion() {
@@ -225,14 +225,14 @@ export class NewQuestionComponent implements OnInit {
       )
       .subscribe(() => {
         this.modalService.openAlertModal('Питання успішно оновлене', '', 'info');
-        this.router.navigate([`admin/tests/${this.testId}/questions`])
+        this.router.navigate([`admin/subjects/tests/${this.testId}/questions`])
       });
     }
     if (answersToUpdate && !questionToUpdate) {
       this.questionService.updateAnswerCollection( answers, this.questionId)
         .subscribe(() => {
           this.modalService.openAlertModal('Питання успішно оновлене', '', 'info');
-          this.router.navigate([`admin/tests/${this.testId}/questions`])
+          this.router.navigate([`admin/subjects/tests/${this.testId}/questions`])
         });
     }
   }
