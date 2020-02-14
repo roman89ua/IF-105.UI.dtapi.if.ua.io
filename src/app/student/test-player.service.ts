@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import {Injectable, Input} from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { switchMap, map, catchError } from 'rxjs/operators';
 import { forkJoin, of, throwError } from 'rxjs';
