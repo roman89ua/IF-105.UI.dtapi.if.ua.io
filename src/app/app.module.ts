@@ -12,6 +12,7 @@ import { SpinnerInterceptor } from './shared/services/spinner.interceptor';
 import { TranslateModule, TranslateLoader, TranslateService } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { getMatPaginatorUkr } from './shared/mat-paginator-config/mat-pagination-intl';
+import { AngularWebStorageModule } from 'angular-web-storage';
 
 @NgModule({
   declarations: [
@@ -33,6 +34,7 @@ import { getMatPaginatorUkr } from './shared/mat-paginator-config/mat-pagination
     BrowserAnimationsModule,
     MatFormFieldModule,
     MatInputModule,
+    AngularWebStorageModule,
   ],
   providers: [
     {provide: HTTP_INTERCEPTORS, useClass: ApiHttpInterceptor, multi: true },

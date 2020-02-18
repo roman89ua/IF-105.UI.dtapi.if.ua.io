@@ -58,7 +58,13 @@ export interface TestsForStudent {
   start_time: number;
   end_date: number;
   end_time: number;
-  test: [];
+  test_id: number;
+  test_name: string;
+  tasks: number;
+  time_for_test: number;
+  enabled: number;
+  attempts: number;
+  can_be_start: boolean;
 }
 
 export interface User {
@@ -67,3 +73,4 @@ export interface User {
   username: string;
   response: string;
 }
+

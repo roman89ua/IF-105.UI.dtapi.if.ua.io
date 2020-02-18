@@ -4,8 +4,9 @@ import {ApiService} from '../../shared/services/api.service';
 import {Faculty, Group, Speciality, StudentInfo, TimeTable, TestsForStudent} from '../../shared/entity.interface';
 import {Router} from '@angular/router';
 import {Subject, Test} from '../../admin/entity.interface';
-import {MatTable, MatTableDataSource} from '@angular/material';
+import {MatPaginator, MatTable, MatTableDataSource} from '@angular/material';
 import {ModalService} from '../../shared/services/modal.service';
+import {SessionStorageService, SessionStorage} from 'angular-web-storage';
 
 @Component({
   selector: 'app-student-info',
@@ -27,25 +28,29 @@ export class StudentInfoComponent implements OnInit {
   ];
 
   @ViewChild('table', {static: false}) table: MatTable<Element>;
-
+  @ViewChild(MatPaginator, {static: false}) paginator: MatPaginator;
 
   constructor(
     public authService: AuthService,
     private apiService: ApiService,
     private router: Router,
-    private modalService: ModalService
+    private modalService: ModalService,
+    public session: SessionStorageService,
   ) {
   }
 
   studentId;
   studentInfo: StudentInfo;
   testInfo: TestsForStudent[];
+  currDate: Date;
+  testInProgress: boolean;
 
   ngOnInit() {
     this.authService.getCurrentUser().subscribe(data => {
       this.studentId = data.id;
       this.getStudentInfo(data.id);
     });
+    this.currDate = new Date();
   }
 
   private getStudentInfo(id) {
@@ -95,24 +100,31 @@ export class StudentInfoComponent implements OnInit {
   private formDataSource(timeTableArray: TestsForStudent[], testArray: Test[]) {
     const data = [];
     testArray.forEach(value => {
-      let row = {};
+      let row: TestsForStudent;
       timeTableArray.map(value1 => {
         if (value1.subject_id === value.subject_id) {
           row = Object.assign(value, value1);
+          row.can_be_start = this.canTestBeStart(row);
           data.push(row);
         }
       });
     });
     this.dataSource.data = data;
+    this.dataSource.paginator = this.paginator;
   }
 
-  public goToTest(testId, enabled, time) {
-    console.log(enabled);
-    if (enabled === '1') {
+  private canTestBeStart(row: TestsForStudent) {
+    const startDate = new Date(`${row.start_date} ${row.start_time}`);
+    const endDate = new Date(`${row.end_date} ${row.end_time}`);
+    return this.currDate >= startDate && this.currDate <= endDate && +row.enabled === 1;
+  }
+
+  public goToTest(tableEl: TestsForStudent) {
+    if (tableEl.can_be_start) {
+      this.session.set('testInProgress', true);
       this.router.navigate(['student/test-player'], {
         queryParams: {
-          test_id: testId,
-          time_for_test: time
+          id: tableEl.test_id,
         }
       });
     } else {

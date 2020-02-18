@@ -162,6 +162,7 @@ export class TestDetailListComponent implements OnInit {
     this.apiService.createEntity('TestDetail', testDetail).subscribe((result: TestDetail[]) => {
       this.listTestsDetails.push(result[0]);
       this.dataSource.data = this.listTestsDetails;
+      this.listTestsDetailsRatesSum = this.getRatesSumForCurrentTest();
       this.table.renderRows();
       this.dataSource.paginator = this.paginator;
     });
@@ -170,6 +171,7 @@ export class TestDetailListComponent implements OnInit {
   private editTest(testDetail: TestDetail): void {
     this.apiService.updEntity('TestDetail', testDetail, testDetail.id).subscribe(() => {
       this.dataSource.data = this.listTestsDetails;
+      this.listTestsDetailsRatesSum = this.getRatesSumForCurrentTest();
     }, (error: any) => {
       this.modalService.openErrorModal('Помилка оновлення!');
     });

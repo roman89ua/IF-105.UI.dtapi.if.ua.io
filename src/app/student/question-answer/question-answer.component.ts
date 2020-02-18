@@ -16,6 +16,9 @@ export class QuestionAnswerComponent implements OnChanges {
   constructor(private sanitizer: DomSanitizer) { }
 
   ngOnChanges(changes: SimpleChanges) {
+    if (!this.choosenQuestion) {
+      return;
+    }
     if (changes.choosenQuestion && (this.choosenQuestion.type === "1" || this.choosenQuestion.type === "2")) {
       this.choosenQuestion.shuffledAnswers = this.shuffle(this.choosenQuestion.answers);
     }

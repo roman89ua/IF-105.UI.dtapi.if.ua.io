@@ -1,8 +1,4 @@
 import {Component, OnInit} from '@angular/core';
-import {AuthService} from '../shared/auth.service';
-import {Router} from '@angular/router';
-import {Observable} from 'rxjs';
-import {User} from '../shared/entity.interface';
 
 @Component({
   selector: 'app-student',
@@ -11,12 +7,10 @@ import {User} from '../shared/entity.interface';
 })
 export class StudentComponent implements OnInit {
   constructor(
-    private auth: AuthService
   ) {}
 
 
   ngOnInit() {
-    console.log(this.auth.currentUser);
   }
 
 }
