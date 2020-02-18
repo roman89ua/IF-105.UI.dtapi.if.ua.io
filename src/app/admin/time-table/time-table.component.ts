@@ -9,7 +9,7 @@ import {ApiService} from 'src/app/shared/services/api.service';
 import {isString} from 'util';
 import {ActivatedRoute} from '@angular/router';
 import {switchMap} from 'rxjs/operators';
-import {Subscription} from 'rxjs';
+import {EMPTY, Subscription} from 'rxjs';
 
 @Component({
   selector: 'app-time-table',
@@ -42,15 +42,14 @@ export class TimeTableComponent implements OnInit {
   subjectId: any;
   id: any;
   timeTable: TimeTable[] = [];
-  newTimeTable: TimeTable[] = [];
+  isLoaded: boolean;
 
   ngOnInit() {
     this.route.queryParamMap.subscribe((params: any) => {
       this.subjectId = params.params.id;
-      // this.getTimeTable(this.subjectId);
-      this.getNewTimeTable(this.subjectId);
+      this.getTimeTable(this.subjectId);
+      this.getSubject(this.subjectId);
     });
-    this.getSubjects();
   }
 
   addTimeTableDialog(): void {
@@ -76,7 +75,7 @@ export class TimeTableComponent implements OnInit {
         result.start_time = result.start_time.length < 6 ? result.start_time + ':00' : result.start_time;
         result.end_time = result.end_time.length < 6 ? result.end_time + ':00' : result.end_time;
         delete result.timetable_id;
-        this.addNewTimeTable(result);
+        this.addTimeTable(result);
       }
     });
   }
@@ -114,41 +113,45 @@ export class TimeTableComponent implements OnInit {
     });
   }
 
-  private getSubjects() {
-    this.apiService.getEntity('Subject').subscribe((response: Subject[]) => {
-      const filteredSubject = response.filter(value => value.subject_id === this.subjectId);
-      this.subject = filteredSubject[0];
+  private getSubject(id) {
+    this.apiService.getEntity('Subject', id).subscribe((response: Subject[]) => {
+      this.subject = response[0];
     });
   }
 
-  private getNewTimeTable(subjectId): Subscription {
+  private getTimeTable(subjectId): Subscription {
     let table: TimeTable[];
     return this.apiService.getEntityByAction('timeTable', 'getTimeTablesForSubject', subjectId).pipe(
       switchMap(data => {
-        table = data;
-        const ids = table.map(a => Number(a.group_id));
-        return this.apiService.getByEntityManager('Group', ids).pipe(
-          switchMap(value => {
-            table.map(a => {
-              value.find(obj => {
-                if (obj.group_id === a.group_id) {
-                  a.group_name = obj.group_name;
-                }
+        if (!data.response) {
+          table = data;
+          const ids = table.map(a => Number(a.group_id));
+          return this.apiService.getByEntityManager('Group', ids).pipe(
+            switchMap(value => {
+              table.map(a => {
+                value.find(obj => {
+                  if (obj.group_id === a.group_id) {
+                    a.group_name = obj.group_name;
+                  }
+                });
               });
-            });
-            return table;
-          })
-        );
+              return table;
+            })
+          );
+        } else {
+          this.isLoaded = true;
+          return EMPTY;
+        }
       })
     ).subscribe(data => {
-        this.timeTable.push(data);
-        this.dataSource.data.push(data);
-        this.dataSource.paginator = this.paginator;
+      this.timeTable.push(data);
+      this.dataSource.data.push(data);
+      this.dataSource.paginator = this.paginator;
       }
     );
   }
 
-  private addNewTimeTable(data: TimeTable): Subscription {
+  private addTimeTable(data: TimeTable): Subscription {
     let updatedTable: TimeTable[];
     return this.apiService.createEntity('TimeTable', data).pipe(
       switchMap((result: TimeTable[]) => {
