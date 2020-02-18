@@ -8,6 +8,8 @@ import {ModalService} from '../../shared/services/modal.service';
 import {ApiService} from 'src/app/shared/services/api.service';
 import {isString} from 'util';
 import {ActivatedRoute} from '@angular/router';
+import {switchMap} from 'rxjs/operators';
+import {Subscription} from 'rxjs';
 
 @Component({
   selector: 'app-time-table',
@@ -40,11 +42,13 @@ export class TimeTableComponent implements OnInit {
   subjectId: any;
   id: any;
   timeTable: TimeTable[] = [];
+  newTimeTable: TimeTable[] = [];
 
   ngOnInit() {
     this.route.queryParamMap.subscribe((params: any) => {
       this.subjectId = params.params.id;
-      this.getTimeTable(this.subjectId);
+      // this.getTimeTable(this.subjectId);
+      this.getNewTimeTable(this.subjectId);
     });
     this.getSubjects();
   }
@@ -72,7 +76,7 @@ export class TimeTableComponent implements OnInit {
         result.start_time = result.start_time.length < 6 ? result.start_time + ':00' : result.start_time;
         result.end_time = result.end_time.length < 6 ? result.end_time + ':00' : result.end_time;
         delete result.timetable_id;
-        this.addTimeTable(result);
+        this.addNewTimeTable(result);
       }
     });
   }
@@ -117,47 +121,55 @@ export class TimeTableComponent implements OnInit {
     });
   }
 
-  private getTimeTable(subjectId) {
+  private getNewTimeTable(subjectId): Subscription {
     let table: TimeTable[];
-    this.apiService.getEntityByAction('timeTable', 'getTimeTablesForSubject', subjectId)
-      .subscribe((result: any) => {
-        if (!result.response) {
-          table = result;
-          const ids = table.map(a => Number(a.group_id));
-          this.apiService.getByEntityManager('Group', ids).subscribe((value1: Group[]) => {
+    return this.apiService.getEntityByAction('timeTable', 'getTimeTablesForSubject', subjectId).pipe(
+      switchMap(data => {
+        table = data;
+        const ids = table.map(a => Number(a.group_id));
+        return this.apiService.getByEntityManager('Group', ids).pipe(
+          switchMap(value => {
             table.map(a => {
-              value1.find(obj => {
+              value.find(obj => {
                 if (obj.group_id === a.group_id) {
                   a.group_name = obj.group_name;
                 }
               });
             });
-          });
-          this.timeTable = table;
-          this.dataSource.data = table;
-          this.dataSource.paginator = this.paginator;
-        } else {
-          this.timeTable = [];
-          this.dataSource.data = [];
-        }
-      });
+            return table;
+          })
+        );
+      })
+    ).subscribe(data => {
+        this.timeTable.push(data);
+        this.dataSource.data.push(data);
+        this.dataSource.paginator = this.paginator;
+      }
+    );
   }
 
-  private addTimeTable(data: TimeTable) {
-    this.apiService.createEntity('TimeTable', data).subscribe((result: TimeTable[]) => {
-      if (result[0].subject_id === this.subjectId) {
-        const updatedTable: TimeTable[] = result;
-        this.apiService.getEntity('Group', result[0].group_id).subscribe((value: Group[]) => {
-          updatedTable[0].group_name = value[0].group_name;
-          this.dataSource.data.push(updatedTable[0]);
-          this.table.renderRows();
-          this.dataSource.paginator = this.paginator;
-        });
-      }
-    }, (error: any) => {
-      if (error.error.response.includes('Wrong input')) {
+  private addNewTimeTable(data: TimeTable): Subscription {
+    let updatedTable: TimeTable[];
+    return this.apiService.createEntity('TimeTable', data).pipe(
+      switchMap((result: TimeTable[]) => {
+        if (result[0].subject_id === this.subjectId) {
+          updatedTable = result;
+          return this.apiService.getEntity('Group', result[0].group_id).pipe(
+            switchMap((value: Group[]) => {
+              updatedTable[0].group_name = value[0].group_name;
+              return updatedTable;
+            })
+          );
+        }
+      })
+    ).subscribe(() => {
+      this.dataSource.data.push(updatedTable[0]);
+      this.table.renderRows();
+      this.dataSource.paginator = this.paginator;
+    }, (err: any) => {
+      if (err.error.response.includes('Wrong input')) {
         this.modalService.openInfoModal('Не правильно введені дані');
-      } else if (error.error.response.includes('ERROR: SQLSTATE[23000]: Integrity constraint violation')) {
+      } else if (err.error.response.includes('ERROR: SQLSTATE[23000]: Integrity constraint violation')) {
         this.modalService.openInfoModal('Розклад для вибраної групи та предмету вже заданий');
       } else {
         this.modalService.openInfoModal('Помилка оновлення');
@@ -179,9 +191,11 @@ export class TimeTableComponent implements OnInit {
         this.table.renderRows();
         this.dataSource.paginator = this.paginator;
       }
-    }, (error: any) => {
-      if (error.error.response.includes('Wrong input')) {
+    }, (err: any) => {
+      if (err.error.response.includes('Wrong input')) {
         this.modalService.openInfoModal('Не правильно введені дані');
+      } else if (err.error.response.includes('ERROR: SQLSTATE[23000]: Integrity constraint violation')) {
+        this.modalService.openInfoModal('Розклад для вибраної групи та предмету вже заданий');
       } else {
         this.modalService.openInfoModal('Помилка оновлення');
       }
