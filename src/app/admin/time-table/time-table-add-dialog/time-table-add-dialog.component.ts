@@ -34,6 +34,8 @@ export class TimeTableAddDialogComponent implements OnInit {
   groups: Group[] = [];
   subjects: Subject[] = [];
   addEditForm: FormGroup;
+  currDate: Date;
+  startDate: Date;
 
   constructor(
     private apiService: ApiService,
@@ -56,6 +58,8 @@ export class TimeTableAddDialogComponent implements OnInit {
     }, () => {
       this.modalService.openErrorModal('Помилка завантаження даних');
     });
+    this.currDate = new Date();
+    this.startDate = new Date();
 
     this.dialogRef.disableClose = true;
     this.addEditForm = this.fb.group({
@@ -75,5 +79,9 @@ export class TimeTableAddDialogComponent implements OnInit {
 
   onDismiss() {
     this.dialogRef.close();
+  }
+
+  addEvent($event) {
+    this.startDate = $event.value;
   }
 }
