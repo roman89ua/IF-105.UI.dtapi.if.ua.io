@@ -7,6 +7,9 @@ import {Subject, Test} from '../../admin/entity.interface';
 import {MatPaginator, MatTable, MatTableDataSource} from '@angular/material';
 import {ModalService} from '../../shared/services/modal.service';
 import {SessionStorageService, SessionStorage} from 'angular-web-storage';
+import {StudentInfoService} from '../student-info.service';
+import {switchMap} from 'rxjs/operators';
+import {forkJoin, Observable, Subscription} from 'rxjs';
 
 @Component({
   selector: 'app-student-info',
@@ -33,6 +36,7 @@ export class StudentInfoComponent implements OnInit {
   constructor(
     public authService: AuthService,
     private apiService: ApiService,
+    private studentInfoService: StudentInfoService,
     private router: Router,
     private modalService: ModalService,
     public session: SessionStorageService,
@@ -44,13 +48,25 @@ export class StudentInfoComponent implements OnInit {
   testInfo: TestsForStudent[];
   currDate: Date;
   testInProgress: boolean;
+  newStudentInfo: StudentInfo;
 
   ngOnInit() {
     this.authService.getCurrentUser().subscribe(data => {
       this.studentId = data.id;
       this.getStudentInfo(data.id);
+      this.studentInfoService.getData(data.id).subscribe(result => {
+        console.log(result);
+      });
     });
     this.currDate = new Date();
+  }
+
+  private async getData(studId): Promise<Observable<any>> {
+    let studentData;
+    let timeTableData;
+    studentData = await this.studentInfoService.getStudentInfo(studId).toPromise();
+    timeTableData = await this.studentInfoService.getTimeTable(studentData.group_id).toPromise();
+    return forkJoin(studentData, timeTableData);
   }
 
   private getStudentInfo(id) {
