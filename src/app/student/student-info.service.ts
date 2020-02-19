@@ -1,8 +1,9 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
-import {Faculty, Group, Speciality, StudentInfo} from '../shared/entity.interface';
-import {switchMap} from 'rxjs/operators';
+import {Faculty, Group, Speciality, StudentInfo, TimeTable} from '../shared/entity.interface';
+import {concatAll, concatMap, switchMap} from 'rxjs/operators';
 import {forkJoin} from 'rxjs';
+import {Subject, Test} from '../admin/entity.interface';
 
 
 @Injectable({
@@ -33,6 +34,14 @@ export class StudentInfoService {
     return this.http.get(`timeTable/getTimeTablesForGroup/${groupId}`);
   }
 
+  getSubjects() {
+    return this.http.get('Subject/getRecords');
+  }
+
+  getTests() {
+    return this.http.get('Test/getRecords');
+  }
+
   getStudentInfo(id) {
     const studentInfo: StudentInfo[] = [];
     return this.getStudent(id).pipe(
@@ -61,9 +70,34 @@ export class StudentInfoService {
   getTimeTable(groupId) {
     const timeTable = [];
     return this.getTimeTableByGroup(groupId).pipe(
-      switchMap(data => {
-        timeTable.push(data);
+      switchMap((timeTableData: TimeTable[]) => {
+        timeTableData.forEach(item => {
+          delete item.timetable_id;
+          delete item.group_id;
+        });
+        timeTable.push(timeTableData);
+        return this.getSubjects();
+      }),
+      switchMap((subjectsData: Subject[]) => {
+        timeTable[0].forEach(value => {
+          subjectsData.map(value1 => {
+            if (value1.subject_id === value.subject_id) {
+              value.subject_name = value1.subject_name;
+            }
+          });
+        });
         return timeTable;
+      })
+    );
+  }
+
+  getTestsInfo(timeTableData: TimeTable[]) {
+    const timeTable = timeTableData;
+    const filteredTests: any[] = [];
+    return this.getTests().pipe(
+      concatMap((testData: Test[]) => {
+        filteredTests.push(timeTable.map(tt => testData.filter(test => test.subject_id === tt.subject_id)));
+        return filteredTests;
       })
     );
   }
@@ -71,6 +105,7 @@ export class StudentInfoService {
   getData(studentId) {
     const student = [];
     const timeTable = [];
+    const tests = [];
     return this.getStudentInfo(studentId).pipe(
       switchMap(studentData => {
         student.push(studentData);
@@ -78,8 +113,14 @@ export class StudentInfoService {
       }),
       switchMap(timetableData => {
         timeTable.push(timetableData);
-        return forkJoin(student, timeTable);
+        return this.getTestsInfo(timeTable[0]);
+      }),
+      switchMap((testsData: any) => {
+        const merged = [].concat.apply([], testsData);
+        tests.push(merged);
+        return forkJoin(student, timeTable, tests);
       })
     );
   }
 }
+
