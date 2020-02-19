@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {Faculty, Group, Speciality, StudentInfo, TimeTable} from '../shared/entity.interface';
-import {concatAll, concatMap, switchMap} from 'rxjs/operators';
+import {concatMap, switchMap} from 'rxjs/operators';
 import {forkJoin} from 'rxjs';
 import {Subject, Test} from '../admin/entity.interface';
 

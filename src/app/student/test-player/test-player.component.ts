@@ -1,7 +1,7 @@
 import {Component, Input, OnDestroy, OnInit} from '@angular/core';
 import {TestPlayerService} from '../test-player.service';
 import {ActivatedRoute} from '@angular/router';
-import {switchMap} from 'rxjs/operators';
+import {filter, map, switchMap} from 'rxjs/operators';
 import {ModalService} from '../../shared/services/modal.service';
 import {Test} from '../../admin/entity.interface';
 import {SessionStorageService} from 'angular-web-storage';
@@ -26,7 +26,6 @@ export class TestPlayerComponent implements OnInit, OnDestroy {
   serverTime: number;
   testInProgress;
   subscription: any;
-  sendAnswers: boolean;
 
   constructor(private testPlayerService: TestPlayerService,
               private route: ActivatedRoute,
@@ -34,11 +33,10 @@ export class TestPlayerComponent implements OnInit, OnDestroy {
               public session: SessionStorageService,
               private testLogoutService: TestLogoutService) {
     this.questions = [];
-    this.subscription = this.testLogoutService.getMessage().subscribe(data => {
-      if (data) {
-        this.sendAnswersForCheck();
-      }
-    });
+    this.subscription = this.testLogoutService.getMessage().pipe(
+      filter(data => data === true)).subscribe(() => this.sendAnswersForCheck()
+    );
+
   }
 
   get choosenQuestion() {
@@ -70,6 +68,7 @@ export class TestPlayerComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     clearInterval(this.testInProgress);
+    this.subscription.unsubscribe();
   }
 
   viewQuestionParent(id: string) {
@@ -129,9 +128,5 @@ export class TestPlayerComponent implements OnInit, OnDestroy {
       this.sendAnswersForCheck();
       this.modalService.openInfoModal('Час вийшов!');
     }
-  }
-
-  onEventChange($event) {
-    console.log($event);
   }
 }

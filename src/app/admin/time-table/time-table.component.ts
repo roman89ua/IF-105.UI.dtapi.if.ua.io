@@ -120,34 +120,37 @@ export class TimeTableComponent implements OnInit {
   }
 
   private getTimeTable(subjectId): Subscription {
-    let table: TimeTable[];
     return this.apiService.getEntityByAction('timeTable', 'getTimeTablesForSubject', subjectId).pipe(
       switchMap(data => {
         if (!data.response) {
-          table = data;
-          const ids = table.map(a => Number(a.group_id));
-          return this.apiService.getByEntityManager('Group', ids).pipe(
-            switchMap(value => {
-              table.map(a => {
-                value.find(obj => {
-                  if (obj.group_id === a.group_id) {
-                    a.group_name = obj.group_name;
-                  }
-                });
-              });
-              return table;
-            })
-          );
+          return this.getTimeTableInfo(data);
         } else {
           this.isLoaded = true;
           return EMPTY;
         }
       })
-    ).subscribe(data => {
-      this.timeTable.push(data);
-      this.dataSource.data.push(data);
-      this.dataSource.paginator = this.paginator;
+    ).subscribe((data: any) => {
+        this.timeTable.push(data);
+        this.dataSource.data.push(data);
+        this.dataSource.paginator = this.paginator;
       }
+    );
+  }
+
+  private getTimeTableInfo(data) {
+    const table = data;
+    const ids = table.map(a => Number(a.group_id));
+    return this.apiService.getByEntityManager('Group', ids).pipe(
+      switchMap(value => {
+        table.map(a => {
+          value.find(obj => {
+            if (obj.group_id === a.group_id) {
+              a.group_name = obj.group_name;
+            }
+          });
+        });
+        return table;
+      })
     );
   }
 
@@ -157,13 +160,12 @@ export class TimeTableComponent implements OnInit {
       switchMap((result: TimeTable[]) => {
         if (result[0].subject_id === this.subjectId) {
           updatedTable = result;
-          return this.apiService.getEntity('Group', result[0].group_id).pipe(
-            switchMap((value: Group[]) => {
-              updatedTable[0].group_name = value[0].group_name;
-              return updatedTable;
-            })
-          );
+          return this.apiService.getEntity('Group', result[0].group_id);
         }
+      }),
+      switchMap((value: Group[]) => {
+        updatedTable[0].group_name = value[0].group_name;
+        return updatedTable;
       })
     ).subscribe(() => {
       this.dataSource.data.push(updatedTable[0]);
