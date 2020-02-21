@@ -56,6 +56,7 @@ export class StudentInfoComponent implements OnInit {
         return this.studentInfoService.getData(user.id);
       })
     ).subscribe((result: any[]) => {
+      console.log(result);
       this.studentInfo = result[0];
       this.formDataSource(result[1], result[2]);
     });

@@ -71,11 +71,13 @@ export class StudentInfoService {
     const timeTable = [];
     return this.getTimeTableByGroup(groupId).pipe(
       switchMap((timeTableData: TimeTable[]) => {
-        timeTableData.forEach(item => {
+        /*timeTableData.forEach(item => {
           delete item.timetable_id;
           delete item.group_id;
-        });
-        timeTable.push(timeTableData);
+        });*/
+        const filteredTimeTable = timeTableData
+          .map(({timetable_id, group_id, ...rest}) => rest);
+        timeTable.push(filteredTimeTable);
         return this.getSubjects();
       }),
       switchMap((subjectsData: Subject[]) => {
@@ -116,9 +118,13 @@ export class StudentInfoService {
         return this.getTestsInfo(timeTable[0]);
       }),
       switchMap((testsData: any) => {
-        const merged = [].concat.apply([], testsData);
+        const merged = [].concat(...testsData);
         tests.push(merged);
+        console.log('student: ', student);
+        console.log('timeTable: ', timeTable);
+        console.log('tests: ', tests);
         return forkJoin(student, timeTable, tests);
+
       })
     );
   }
