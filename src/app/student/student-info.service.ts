@@ -1,9 +1,9 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {Faculty, Group, Speciality, StudentInfo, TimeTable} from '../shared/entity.interface';
-import {concatMap, switchMap} from 'rxjs/operators';
-import {forkJoin} from 'rxjs';
+import {concatMap, map, switchMap} from 'rxjs/operators';
 import {Subject, Test} from '../admin/entity.interface';
+import {AuthService} from '../shared/auth.service';
 
 
 @Injectable({
@@ -11,7 +11,16 @@ import {Subject, Test} from '../admin/entity.interface';
 })
 export class StudentInfoService {
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient,
+              private authService: AuthService) {
+  }
+
+  getUserData() {
+    return  this.authService.getCurrentUser().pipe(
+      switchMap(user => {
+        return this.getData(user.id);
+      })
+    );
   }
 
   getStudent(studentId) {
@@ -71,10 +80,6 @@ export class StudentInfoService {
     const timeTable = [];
     return this.getTimeTableByGroup(groupId).pipe(
       switchMap((timeTableData: TimeTable[]) => {
-        /*timeTableData.forEach(item => {
-          delete item.timetable_id;
-          delete item.group_id;
-        });*/
         const filteredTimeTable = timeTableData
           .map(({timetable_id, group_id, ...rest}) => rest);
         timeTable.push(filteredTimeTable);
@@ -105,28 +110,24 @@ export class StudentInfoService {
   }
 
   getData(studentId) {
-    const student = [];
-    const timeTable = [];
-    const tests = [];
+    let student;
+    let timeTable;
+    let tests;
     return this.getStudentInfo(studentId).pipe(
       switchMap(studentData => {
-        student.push(studentData);
+        student = (studentData);
         return this.getTimeTable(studentData.group_id);
       }),
       switchMap(timetableData => {
-        timeTable.push(timetableData);
-        return this.getTestsInfo(timeTable[0]);
+        timeTable = timetableData;
+        return this.getTestsInfo(timeTable);
       }),
-      switchMap((testsData: any) => {
-        const merged = [].concat(...testsData);
-        tests.push(merged);
-        console.log('student: ', student);
-        console.log('timeTable: ', timeTable);
-        console.log('tests: ', tests);
-        return forkJoin(student, timeTable, tests);
-
+      map((testsData: any) => {
+        tests = [].concat(...testsData);
+        return [student, timeTable, tests];
       })
     );
   }
 }
+
 

@@ -50,16 +50,11 @@ export class StudentInfoComponent implements OnInit {
 
   ngOnInit() {
     this.currDate = new Date();
-    this.authService.getCurrentUser().pipe(
-      switchMap(user => {
-        this.studentId = user.id;
-        return this.studentInfoService.getData(user.id);
-      })
-    ).subscribe((result: any[]) => {
-      console.log(result);
-      this.studentInfo = result[0];
-      this.formDataSource(result[1], result[2]);
-    });
+    this.studentInfoService.getUserData().subscribe(
+      (result: any[]) => {
+        this.studentInfo = result[0];
+        this.formDataSource(result[1], result[2]);
+      });
   }
 
 
