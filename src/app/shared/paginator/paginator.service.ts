@@ -5,11 +5,13 @@ import { MatTableDataSource } from '@angular/material';
 
 @Injectable()
 export class PaginatorService {
+
     constructor(private apiService: ApiService) {}
-    getRange(entity: string, paginator: PaginationModel) {
-        return this.apiService.getRecordsRange(entity, paginator.pageSize, paginator.pageIndex * paginator.pageSize);
+
+    getRange(entity: string, pageSize, pageIndex) {
+        return this.apiService.getRecordsRange(entity, pageSize, pageIndex * pageSize);
     }
-    getCountRecords(entity) {
+    getCountRecords(entity: string) {
         return this.apiService.getCountRecords(entity);
     }
 }

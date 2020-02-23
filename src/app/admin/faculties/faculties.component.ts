@@ -7,6 +7,7 @@ import { ModalService } from '../../shared/services/modal.service';
 import { FacultiesService } from './faculties.service';
 import { PaginatorService } from 'src/app/shared/paginator/paginator.service';
 import { PaginationModel } from 'src/app/shared/paginator/PaganationModel';
+import { PaginatorComponent } from 'src/app/shared/paginator/paginator.component';
 
 @Component({
   selector: 'app-faculties',
@@ -19,7 +20,7 @@ export class FacultiesComponent implements OnInit, AfterViewInit {
   displayedColumns: string[] = ['id', 'name', 'desc', 'action'];
   dataSource = new MatTableDataSource<Faculty>();
   @ViewChild('table', { static: false }) table: MatTable<Element>;
-
+  @ViewChild(PaginatorComponent, {static: false}) paginatorComponent: PaginatorComponent;
 
   /* for Paginator component */
   length: number;
@@ -30,33 +31,26 @@ export class FacultiesComponent implements OnInit, AfterViewInit {
     private snackBar: MatSnackBar,
     private modalService: ModalService,
     private facultyService: FacultiesService,
-    private paginatorService: PaginatorService) { }
+    public paginatorService: PaginatorService) {
+  }
 
   /*            For Paginator component        */
   public onPaginationChanged(paginatorModel: PaginationModel): void {
-    this.paginator = paginatorModel;
-    this.getRange(paginatorModel);
-    this.getCountRecords();
+    // this.paginator = paginatorModel;
+    // this.getRange(paginatorModel);
+    // this.getCountRecords(paginatorModel);
   }
 
   getMatPagination(matpaginator: MatPaginator) {
     this.matpaginator = matpaginator;
   }
-
-  getRange(paginator: PaginationModel) {
-    this.paginatorService.getRange('Faculty', paginator)
-      .subscribe(data => this.dataSource.data = data,
-        () => this.modalService.openErrorModal('Можливі проблеми із сервером'));
-  }
-
-  getCountRecords() {
-    this.paginatorService.getCountRecords('Faculty')
-      .subscribe(data => this.length = data.numberOfRecords);
-  }
+  PaginData(data: Array<any>) {
+    this.dataSource.data = data;
+    }
 
   /*        *****************************************       */
 
-  ngOnInit(): void { }
+  ngOnInit(): void {}
 
   ngAfterViewInit(): void { }
 
@@ -80,8 +74,8 @@ export class FacultiesComponent implements OnInit, AfterViewInit {
   createFaculty(faculty: Faculty) {
     this.facultyService.createFaculty(faculty)
       .subscribe(() => {
-        this.getRange(this.paginator);
-        this.getCountRecords();
+        this.paginatorComponent.getRange2(data => this.dataSource.data = data);
+        this.paginatorComponent.countRecords++;
         this.openSnackBar('Факультет додано');
       },
         err => {
@@ -97,7 +91,7 @@ export class FacultiesComponent implements OnInit, AfterViewInit {
     this.facultyService.updateFaculty(id, faculty)
       .subscribe(() => {
         this.openSnackBar('Факультет оновлено');
-        this.getRange(this.paginator);
+        this.paginatorComponent.getRange2(data => this.dataSource.data = data);
       },
         err => {
           if (err.error.response.includes('Error when update')) {
@@ -119,13 +113,12 @@ export class FacultiesComponent implements OnInit, AfterViewInit {
         this.openSnackBar('Факультет видалено');
         this.dataSource.data = this.dataSource.data.filter(item => item.faculty_id !== id);
         if (this.dataSource.data.length > 0) {
-          this.getRange(this.paginator);
-          this.getCountRecords();
+          this.paginatorComponent.getRange2(data => this.dataSource.data = data);
+          this.paginatorComponent.countRecords--;
         } else {
-          this.paginator.pageIndex--;
           this.matpaginator.previousPage();
-          this.getRange(this.paginator);
-          this.getCountRecords();
+          this.paginatorComponent.getRange2(data => this.dataSource.data = data);
+          this.paginatorComponent.countRecords--;
         }
       },
         err => {

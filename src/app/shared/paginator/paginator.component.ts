@@ -8,29 +8,47 @@ import { PaginationModel } from './PaganationModel';
   templateUrl: './paginator.component.html',
   styleUrls: ['./paginator.component.scss']
 })
-export class PaginatorComponent implements OnInit {
-  @Input() countRecords;
+export class PaginatorComponent extends PaginationModel implements OnInit {
+  countRecords: number;
+  @Input() entity2: string;
   @Output() changed: EventEmitter<PaginationModel> = new EventEmitter<PaginationModel>();
   @ViewChild('matPaginator', { static: true }) matPaginator: MatPaginator;
   @Output() paginator: EventEmitter<MatPaginator> = new EventEmitter<MatPaginator>();
-
-  pageSize = 10;
+  @Output() data: EventEmitter<Array<any>> = new EventEmitter<Array<any>>();
+  // pageSize = 10;
   pageSizeOptions = [5, 10, 20, 50];
 
 
 
- public onPaginationChange(paginationEvent: PageEvent): void {
-   const page = new PaginationModel(paginationEvent.pageSize, paginationEvent.pageIndex);
-   this.changed.emit(page);
-}
+  public onPaginationChange(paginationEvent: PageEvent): void {
 
-  constructor(private paginatorService: PaginatorService) { }
+    this.pageChange(paginationEvent);
+
+    this.getRange2((response) => {
+      this.data.emit(response);
+     });
+    this.getCountRecords2(data => {
+       this.countRecords = data.numberOfRecords;
+     });
+  }
+
+  constructor(paginatorService: PaginatorService) {
+    super(paginatorService);
+  }
 
 
   ngOnInit() {
-    const page = new PaginationModel(this.pageSize, 0);
-    this.changed.emit(page);
     this.paginator.emit(this.matPaginator);
+    this._entity = this.entity2;
+
+    this.getRange2((response) => {
+     this.data.emit(response);
+    });
+    this.getCountRecords2(data => {
+      this.countRecords = data.numberOfRecords;
+    });
   }
+
+
 
 }
