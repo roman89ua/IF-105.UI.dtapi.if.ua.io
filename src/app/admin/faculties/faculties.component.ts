@@ -35,15 +35,7 @@ export class FacultiesComponent implements OnInit, AfterViewInit {
   }
 
   /*            For Paginator component        */
-  public onPaginationChanged(paginatorModel: PaginationModel): void {
-    // this.paginator = paginatorModel;
-    // this.getRange(paginatorModel);
-    // this.getCountRecords(paginatorModel);
-  }
 
-  getMatPagination(matpaginator: MatPaginator) {
-    this.matpaginator = matpaginator;
-  }
   PaginData(data: Array<any>) {
     this.dataSource.data = data;
     }
@@ -74,7 +66,7 @@ export class FacultiesComponent implements OnInit, AfterViewInit {
   createFaculty(faculty: Faculty) {
     this.facultyService.createFaculty(faculty)
       .subscribe(() => {
-        this.paginatorComponent.getRange2(data => this.dataSource.data = data);
+        this.paginatorComponent.getRange(data => this.dataSource.data = data);
         this.paginatorComponent.countRecords++;
         this.openSnackBar('Факультет додано');
       },
@@ -91,7 +83,7 @@ export class FacultiesComponent implements OnInit, AfterViewInit {
     this.facultyService.updateFaculty(id, faculty)
       .subscribe(() => {
         this.openSnackBar('Факультет оновлено');
-        this.paginatorComponent.getRange2(data => this.dataSource.data = data);
+        this.paginatorComponent.getRange(data => this.dataSource.data = data);
       },
         err => {
           if (err.error.response.includes('Error when update')) {
@@ -113,11 +105,11 @@ export class FacultiesComponent implements OnInit, AfterViewInit {
         this.openSnackBar('Факультет видалено');
         this.dataSource.data = this.dataSource.data.filter(item => item.faculty_id !== id);
         if (this.dataSource.data.length > 0) {
-          this.paginatorComponent.getRange2(data => this.dataSource.data = data);
+          this.paginatorComponent.getRange(data => this.dataSource.data = data);
           this.paginatorComponent.countRecords--;
         } else {
           this.matpaginator.previousPage();
-          this.paginatorComponent.getRange2(data => this.dataSource.data = data);
+          this.paginatorComponent.getRange(data => this.dataSource.data = data);
           this.paginatorComponent.countRecords--;
         }
       },

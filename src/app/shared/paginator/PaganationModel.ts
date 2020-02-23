@@ -23,11 +23,11 @@ export class PaginationModel {
         this._pageIndex = val;
     }
 
-    getRange2(callback) {
+    getRange(callback) {
         this.paginatorService.getRange(this._entity, this._pageSize, this._pageIndex)
             .subscribe(data => callback(data));
     }
-    getCountRecords2(callback) {
+    getCountRecords(callback) {
         this.paginatorService.getCountRecords(this._entity)
             .subscribe(data => callback(data));
     }
