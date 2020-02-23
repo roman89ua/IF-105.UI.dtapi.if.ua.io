@@ -36,7 +36,7 @@ export class FacultiesComponent implements OnInit, AfterViewInit {
 
   /*            For Paginator component        */
 
-  PaginData(data: Array<any>) {
+  getData(data: Array<any>) {
     this.dataSource.data = data;
     }
 
@@ -108,7 +108,7 @@ export class FacultiesComponent implements OnInit, AfterViewInit {
           this.paginatorComponent.getRange(data => this.dataSource.data = data);
           this.paginatorComponent.countRecords--;
         } else {
-          this.matpaginator.previousPage();
+          this.paginatorComponent.matPaginator.previousPage();
           this.paginatorComponent.getRange(data => this.dataSource.data = data);
           this.paginatorComponent.countRecords--;
         }

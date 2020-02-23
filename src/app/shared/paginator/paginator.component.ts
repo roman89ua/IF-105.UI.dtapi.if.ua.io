@@ -41,10 +41,10 @@ export class PaginatorComponent extends PaginationModel implements OnInit {
     this.paginator.emit(this.matPaginator);
     this._entity = this.entity2;
 
-    this.getRange2((response) => {
+    this.getRange((response) => {
      this.data.emit(response);
     });
-    this.getCountRecords2(data => {
+    this.getCountRecords(data => {
       this.countRecords = data.numberOfRecords;
     });
   }
