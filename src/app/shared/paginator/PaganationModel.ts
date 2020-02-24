@@ -2,8 +2,8 @@ import { PaginatorService } from './paginator.service';
 import { PageEvent } from '@angular/material';
 
 export class PaginationModel {
-    
-    protected _entity: string;
+
+    private _entity: string;
     constructor(
         private paginatorService: PaginatorService,
         private _pageSize: number = 10,
@@ -21,6 +21,10 @@ export class PaginationModel {
     // tslint:disable-next-line:adjacent-overload-signatures
     set pageIndex(val: number) {
         this._pageIndex = val;
+    }
+     // tslint:disable-next-line:adjacent-overload-signatures
+    set setEntity(entity: string) {
+        this._entity = entity;
     }
 
     getRange(callback) {

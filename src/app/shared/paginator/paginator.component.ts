@@ -10,18 +10,20 @@ import { PaginationModel } from './PaganationModel';
 })
 export class PaginatorComponent extends PaginationModel implements OnInit {
   countRecords: number;
-  @Input() entity2: string;
-  @Output() changed: EventEmitter<PaginationModel> = new EventEmitter<PaginationModel>();
+
+  @Input() setEntity: string;
   @ViewChild('matPaginator', { static: true }) matPaginator: MatPaginator;
   @Output() paginator: EventEmitter<MatPaginator> = new EventEmitter<MatPaginator>();
   @Output() data: EventEmitter<Array<any>> = new EventEmitter<Array<any>>();
-  // pageSize = 10;
+
+
   pageSizeOptions = [5, 10, 20, 50];
 
-
+  constructor(paginatorService: PaginatorService) {
+    super(paginatorService);
+  }
 
   public onPaginationChange(paginationEvent: PageEvent): void {
-
     this.pageChange(paginationEvent);
 
     this.getRange((response) => {
@@ -32,23 +34,9 @@ export class PaginatorComponent extends PaginationModel implements OnInit {
      });
   }
 
-  constructor(paginatorService: PaginatorService) {
-    super(paginatorService);
-  }
-
-
   ngOnInit() {
     this.paginator.emit(this.matPaginator);
-    this._entity = this.entity2;
-
-    this.getRange((response) => {
-     this.data.emit(response);
-    });
-    this.getCountRecords(data => {
-      this.countRecords = data.numberOfRecords;
-    });
+    this.setEntity = this.entity;
+    this.onPaginationChange({previousPageIndex: 0, pageIndex: 0, pageSize: 10, length: 0});
   }
-
-
-
 }
