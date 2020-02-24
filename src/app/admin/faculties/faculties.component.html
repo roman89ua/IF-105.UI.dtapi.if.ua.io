@@ -42,8 +42,10 @@
 
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
       <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+    
     </table>
    
 <app-paginator  [countRecords]="length" (changed)="onPaginationChanged($event)" (paginator)="getMatPagination($event)"></app-paginator>
+<app-mat-table [data]="dataSource.data"></app-mat-table>
 </section>
 

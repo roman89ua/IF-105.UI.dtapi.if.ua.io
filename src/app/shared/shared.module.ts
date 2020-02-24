@@ -56,6 +56,7 @@ import { PaginatorService } from './paginator/paginator.service';
 import { ToolbarComponent } from './toolbar/toolbar.component';
 import { RouterModule } from '@angular/router';
 import { BreadcrumbsComponent } from './breadcrumbs/breadcrumbs.component';
+import { MatTableComponent } from './mat-table/mat-table.component';
 
 
 @NgModule({
@@ -65,7 +66,8 @@ import { BreadcrumbsComponent } from './breadcrumbs/breadcrumbs.component';
     SpinnerComponent,
     PaginatorComponent,
     ToolbarComponent,
-    BreadcrumbsComponent
+    BreadcrumbsComponent,
+    MatTableComponent
   ],
   imports: [
     CommonModule,
@@ -73,6 +75,7 @@ import { BreadcrumbsComponent } from './breadcrumbs/breadcrumbs.component';
     MatButtonModule,
     MatDividerModule,
     MatIconModule,
+    MatTableModule,
     MatProgressSpinnerModule,
     MatProgressBarModule,
     TranslateModule.forChild({
@@ -144,7 +147,8 @@ import { BreadcrumbsComponent } from './breadcrumbs/breadcrumbs.component';
     SpinnerComponent,
     PaginatorComponent,
     ToolbarComponent,
-    BreadcrumbsComponent
+    BreadcrumbsComponent,
+    MatTableComponent
   ]
 })
 export class SharedModule { }
