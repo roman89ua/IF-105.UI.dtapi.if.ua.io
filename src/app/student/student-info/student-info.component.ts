@@ -1,15 +1,12 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
-import {AuthService} from '../../shared/auth.service';
 import {ApiService} from '../../shared/services/api.service';
-import {Faculty, Group, Speciality, StudentInfo, TimeTable, TestsForStudent} from '../../shared/entity.interface';
+import {StudentInfo, TestsForStudent} from '../../shared/entity.interface';
 import {Router} from '@angular/router';
-import {Subject, Test} from '../../admin/entity.interface';
+import {Test} from '../../admin/entity.interface';
 import {MatPaginator, MatTable, MatTableDataSource} from '@angular/material';
 import {ModalService} from '../../shared/services/modal.service';
-import {SessionStorageService, SessionStorage} from 'angular-web-storage';
+import {SessionStorageService} from 'angular-web-storage';
 import {StudentInfoService} from '../student-info.service';
-import {switchMap} from 'rxjs/operators';
-import {forkJoin, Observable, Subscription} from 'rxjs';
 
 @Component({
   selector: 'app-student-info',
@@ -34,7 +31,6 @@ export class StudentInfoComponent implements OnInit {
   @ViewChild(MatPaginator, {static: false}) paginator: MatPaginator;
 
   constructor(
-    public authService: AuthService,
     private apiService: ApiService,
     private studentInfoService: StudentInfoService,
     private router: Router,
@@ -43,7 +39,6 @@ export class StudentInfoComponent implements OnInit {
   ) {
   }
 
-  studentId;
   studentInfo: StudentInfo;
   currDate: Date;
   testInProgress: boolean;
