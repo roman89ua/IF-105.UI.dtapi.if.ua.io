@@ -18,6 +18,11 @@ export interface Faculty {
   faculty_description: string;
 }
 
+export interface Column {
+  columnDef: string;
+  header: string;
+}
+
 export interface DialogData {
   data: any;
 }

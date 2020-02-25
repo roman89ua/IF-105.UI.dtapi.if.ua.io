@@ -1,5 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { MatTableDataSource, MatTable, MatSnackBar } from '@angular/material';
+import { Column } from '../entity.interface';
 
 @Component({
   selector: 'app-mat-table',
@@ -7,23 +8,18 @@ import { MatTableDataSource, MatTable, MatSnackBar } from '@angular/material';
   styleUrls: ['./mat-table.component.css']
 })
 export class MatTableComponent implements OnInit {
-  // export interface Faculty {
-  //   faculty_id: number;
-  //   faculty_name: string;
-  //   faculty_description: string;
-  // }
 
-  displayedColumns: string[] = ['faculty_id', 'faculty_name', 'faculty_description', 'action'];
-  displayed: string[] = ['ID', 'Фалькутет', 'Опис', 'Дії'];
-  dataSource = new MatTableDataSource<any>();
+
+  displayedColumns;
   @Input() data;
-  @Input() columns;
+  @Input() columns: Column[];
 
 
-  constructor() { }
+  constructor() {
+  }
 
   ngOnInit() {
-
+    this.displayedColumns = this.columns.map(item => item.columnDef);
   }
 
 }

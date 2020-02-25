@@ -2,7 +2,7 @@ import { Component, OnInit, AfterViewInit } from '@angular/core';
 import { ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource, MatTable, MatSnackBar } from '@angular/material';
-import { Faculty } from 'src/app/shared/entity.interface';
+import { Faculty, Column } from 'src/app/shared/entity.interface';
 import { ModalService } from '../../shared/services/modal.service';
 import { FacultiesService } from './faculties.service';
 import { PaginatorService } from 'src/app/shared/paginator/paginator.service';
@@ -20,6 +20,11 @@ export class FacultiesComponent implements OnInit, AfterViewInit {
   dataSource = new MatTableDataSource<Faculty>();
   @ViewChild('table', { static: false }) table: MatTable<Element>;
 
+  columns: Column [] = [
+    {columnDef: 'faculty_id', header: 'ID'},
+    {columnDef: 'faculty_name', header: 'Факультети'},
+    {columnDef: 'faculty_description', header: 'Опис'}
+  ];
 
   /* for Paginator component */
   length: number;
