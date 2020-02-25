@@ -8,6 +8,7 @@ import { TestAddComponent } from '../add/test-add.component';
 import { ModalService } from '../../../shared/services/modal.service';
 import { ApiService } from '../../../shared/services/api.service';
 import { ActivatedRoute, Router } from '@angular/router';
+import { ExportService } from '../../../shared/services/export.service'
 
 @Component({
   selector: 'app-test',
@@ -36,6 +37,7 @@ export class TestListComponent implements OnInit {
     private modalService: ModalService,
     private route: ActivatedRoute,
     private router: Router,
+    private exportService: ExportService,
   ) {}
 
   ngOnInit() {
@@ -177,4 +179,9 @@ export class TestListComponent implements OnInit {
   public navigateToTestDetail(testId: number) {
     this.router.navigate(['/admin/subjects/tests/test-detail'], { queryParams: { test_id: testId }});
   }
+
+  public exportQuestionsByTest(id: number) {
+    this.exportService.getQuestionsByTest(id);
+    console.log(this.exportService.listQuestionByTest);
+  };
 }
