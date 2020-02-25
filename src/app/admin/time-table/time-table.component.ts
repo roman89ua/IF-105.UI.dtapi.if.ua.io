@@ -8,7 +8,7 @@ import {ModalService} from '../../shared/services/modal.service';
 import {ApiService} from 'src/app/shared/services/api.service';
 import {isString} from 'util';
 import {ActivatedRoute} from '@angular/router';
-import {switchMap} from 'rxjs/operators';
+import {catchError, switchMap} from 'rxjs/operators';
 import {EMPTY, Subscription} from 'rxjs';
 
 @Component({
@@ -157,6 +157,15 @@ export class TimeTableComponent implements OnInit {
   private addTimeTable(data: TimeTable): Subscription {
     let updatedTable: TimeTable[];
     return this.apiService.createEntity('TimeTable', data).pipe(
+      catchError((err: any): any => {
+        if (err.error.response.includes('Wrong input')) {
+          this.modalService.openInfoModal('Не правильно введені дані');
+        } else if (err.error.response.includes('ERROR: SQLSTATE[23000]: Integrity constraint violation')) {
+          this.modalService.openInfoModal('Розклад для вибраної групи та предмету вже заданий');
+        } else {
+          this.modalService.openInfoModal('Помилка оновлення');
+        }
+      }),
       switchMap((result: TimeTable[]) => {
         if (result[0].subject_id === this.subjectId) {
           updatedTable = result;
@@ -171,14 +180,6 @@ export class TimeTableComponent implements OnInit {
       this.dataSource.data.push(updatedTable[0]);
       this.table.renderRows();
       this.dataSource.paginator = this.paginator;
-    }, (err: any) => {
-      if (err.error.response.includes('Wrong input')) {
-        this.modalService.openInfoModal('Не правильно введені дані');
-      } else if (err.error.response.includes('ERROR: SQLSTATE[23000]: Integrity constraint violation')) {
-        this.modalService.openInfoModal('Розклад для вибраної групи та предмету вже заданий');
-      } else {
-        this.modalService.openInfoModal('Помилка оновлення');
-      }
     });
   }
 
