@@ -1,11 +1,12 @@
-import { PaginatorService } from './paginator.service';
 import { PageEvent } from '@angular/material';
+import { ApiService } from '../services/api.service';
 
 export class PaginationModel {
 
+    // tslint:disable-next-line:variable-name
     private _entity: string;
     constructor(
-        private paginatorService: PaginatorService,
+        private apiService: ApiService,
         private _pageSize: number = 10,
         private _pageIndex: number = 0) {
     }
@@ -28,11 +29,11 @@ export class PaginationModel {
     }
 
     getRange(callback) {
-        this.paginatorService.getRange(this._entity, this._pageSize, this._pageIndex)
+        this.apiService.getRecordsRange(this._entity, this._pageSize, this._pageIndex * this._pageSize)
             .subscribe(data => callback(data));
     }
     getCountRecords(callback) {
-        this.paginatorService.getCountRecords(this._entity)
+        this.apiService.getCountRecords(this._entity)
             .subscribe(data => callback(data));
     }
     pageChange(event: PageEvent) {

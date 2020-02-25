@@ -1,7 +1,7 @@
 import { Component, OnInit, Input, ViewChild, Output, EventEmitter } from '@angular/core';
-import { PaginatorService } from './paginator.service';
 import { PageEvent, MatPaginator } from '@angular/material';
 import { PaginationModel } from './PaganationModel';
+import { ApiService } from '../services/api.service';
 
 @Component({
   selector: 'app-paginator',
@@ -19,8 +19,8 @@ export class PaginatorComponent extends PaginationModel implements OnInit {
 
   pageSizeOptions = [5, 10, 20, 50];
 
-  constructor(paginatorService: PaginatorService) {
-    super(paginatorService);
+  constructor(apiService: ApiService) {
+    super(apiService);
   }
 
   public onPaginationChange(paginationEvent: PageEvent): void {
