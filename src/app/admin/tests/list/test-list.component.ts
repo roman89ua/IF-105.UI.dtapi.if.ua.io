@@ -182,6 +182,5 @@ export class TestListComponent implements OnInit {
 
   public exportQuestionsByTest(id: number) {
     this.exportService.getQuestionsByTest(id);
-    console.log(this.exportService.listQuestionByTest);
   };
 }

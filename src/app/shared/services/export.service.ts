@@ -22,14 +22,12 @@ export class ExportService {
       return this.questionServise.getTestQuestions(id, result, 0).pipe();
     })).subscribe( (result: IQuestion[]) => {
       this.getQuestionsWithAnswers(result);
-       
     });
   }
   getQuestionsWithAnswers(listQuestion: IQuestion[]) {
     from(listQuestion).pipe(mergeMap( (result) => {
      return this.questionServise.getQuestionAnswers(result.question_id).pipe(map((item: IAnswer[]) => result.answers = item));
     }), combineAll()).subscribe(() => { 
-      console.log(listQuestion);
       const a = document.createElement("a");
       a.href = URL.createObjectURL(new Blob([JSON.stringify(listQuestion, null, 2)], {
         type: "text/json"
