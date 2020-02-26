@@ -8,7 +8,7 @@ import {ModalService} from '../../shared/services/modal.service';
 import {ApiService} from 'src/app/shared/services/api.service';
 import {isString} from 'util';
 import {ActivatedRoute} from '@angular/router';
-import {catchError, switchMap} from 'rxjs/operators';
+import {catchError, map, switchMap} from 'rxjs/operators';
 import {EMPTY, Subscription} from 'rxjs';
 
 @Component({
@@ -100,6 +100,7 @@ export class TimeTableComponent implements OnInit {
         let groupName: string;
         this.apiService.getEntity('Group', result.group_id).subscribe((group: Group[]) => {
           groupName = group[0].group_name;
+          // this.editTimeTable(result, groupName);
           this.editTimeTable(result, groupName);
         });
       }
@@ -157,14 +158,8 @@ export class TimeTableComponent implements OnInit {
   private addTimeTable(data: TimeTable): Subscription {
     let updatedTable: TimeTable[];
     return this.apiService.createEntity('TimeTable', data).pipe(
-      catchError((err: any): any => {
-        if (err.error.response.includes('Wrong input')) {
-          this.modalService.openInfoModal('Не правильно введені дані');
-        } else if (err.error.response.includes('ERROR: SQLSTATE[23000]: Integrity constraint violation')) {
-          this.modalService.openInfoModal('Розклад для вибраної групи та предмету вже заданий');
-        } else {
-          this.modalService.openInfoModal('Помилка оновлення');
-        }
+      catchError(err => {
+        throw err;
       }),
       switchMap((result: TimeTable[]) => {
         if (result[0].subject_id === this.subjectId) {
@@ -180,32 +175,48 @@ export class TimeTableComponent implements OnInit {
       this.dataSource.data.push(updatedTable[0]);
       this.table.renderRows();
       this.dataSource.paginator = this.paginator;
-    });
+    },
+      err => {
+        if (err.error.response.includes('Wrong input')) {
+          this.modalService.openInfoModal('Не правильно введені дані');
+        } else if (err.error.response.includes('ERROR: SQLSTATE[23000]: Integrity constraint violation')) {
+          this.modalService.openInfoModal('Розклад для вибраної групи та предмету вже заданий');
+        } else {
+          this.modalService.openInfoModal('Помилка оновлення');
+        }
+      });
   }
 
   private editTimeTable(data: TimeTable, groupName) {
-    this.apiService.updEntity('timeTable', data, data.timetable_id).subscribe((result: TimeTable[]) => {
-      const index: number = result
-        ? this.timeTable.findIndex(
-          tt => tt.timetable_id === result[0].timetable_id
-        )
-        : -1;
-      if (index > -1) {
-        result[0].group_name = groupName;
-        this.timeTable[index] = result[0];
-        this.dataSource.data[index] = result[0];
-        this.table.renderRows();
-        this.dataSource.paginator = this.paginator;
+    return this.apiService.updEntity('timeTable', data, data.timetable_id).pipe(
+      catchError(err => {
+        throw err;
+      })
+    ).subscribe(
+      (result: TimeTable[]) => {
+        const index: number = result
+          ? this.timeTable.findIndex(
+            tt => tt.timetable_id === result[0].timetable_id
+          )
+          : -1;
+        if (index > -1) {
+          result[0].group_name = groupName;
+          this.timeTable[index] = result[0];
+          this.dataSource.data[index] = result[0];
+          this.table.renderRows();
+          this.dataSource.paginator = this.paginator;
+        }
+      },
+      (err: any) => {
+        if (err.error.response.includes('Wrong input')) {
+          this.modalService.openInfoModal('Не правильно введені дані');
+        } else if (err.error.response.includes('ERROR: SQLSTATE[23000]: Integrity constraint violation')) {
+          this.modalService.openInfoModal('Розклад для вибраної групи та предмету вже заданий');
+        } else {
+          this.modalService.openInfoModal('Помилка оновлення');
+        }
       }
-    }, (err: any) => {
-      if (err.error.response.includes('Wrong input')) {
-        this.modalService.openInfoModal('Не правильно введені дані');
-      } else if (err.error.response.includes('ERROR: SQLSTATE[23000]: Integrity constraint violation')) {
-        this.modalService.openInfoModal('Розклад для вибраної групи та предмету вже заданий');
-      } else {
-        this.modalService.openInfoModal('Помилка оновлення');
-      }
-    });
+    );
   }
 
   private deleteTimeTable(data: TimeTable) {
