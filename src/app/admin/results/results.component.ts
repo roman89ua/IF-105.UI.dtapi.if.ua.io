@@ -10,6 +10,7 @@ import { ResultDetailComponent } from './result-detail/result-detail.component';
 import { forkJoin } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
 import { ResultGroupRaitingComponent } from './result-group-raiting/result-group-raiting.component';
+import { ResultGroupsRaitingComponent } from './result-groups-raiting/result-groups-raiting.component';
 
 @Component({
   selector: 'app-results',
@@ -18,6 +19,7 @@ import { ResultGroupRaitingComponent } from './result-group-raiting/result-group
 })
 
 export class ResultsComponent implements OnInit {
+  idTest: number;
   listGroups: Group[] = [];
   listTests: Test[] = [];
   listTestsByGroup: Test[] = [];
@@ -120,14 +122,14 @@ export class ResultsComponent implements OnInit {
   /** Get all information for current test */
   onSubmit() {
     const idGroup = this.searchForm.value.group_id;
-    const idTest = this.searchForm.value.test_id;
-    const idSubject = this.listTestsByGroup.filter(item => item.test_id === idTest)[0].subject_id;
+    this.idTest = this.searchForm.value.test_id;
+    const idSubject = this.listTestsByGroup.filter(item => item.test_id === this.idTest)[0].subject_id;
     this.resultsService.getSubjectName(idSubject).subscribe( result => {
       this.subjectName$ = result;
     });
     forkJoin(
       this.resultsService.getListStudentsBuGroup(idGroup),
-      this.resultsService.getRecordsByTestGroupDate(idTest, idGroup)
+      this.resultsService.getRecordsByTestGroupDate(this.idTest, idGroup)
     ).subscribe(([res1, res2]) => {
       if (res1 === 'no records') {
         return;
@@ -196,6 +198,15 @@ export class ResultsComponent implements OnInit {
     this.dialog.open(ResultGroupRaitingComponent, {
       width: '1000px',
       data: {data: this.dataSource.data}
+    });
+  }
+
+  createGroupsChart(): void {
+    this.dialog.open(ResultGroupsRaitingComponent, {
+      width: '1000px',
+      data: {
+        testID: this.idTest
+      }
     });
   }
 
