@@ -9,6 +9,7 @@ import { ModalService } from '../../../shared/services/modal.service';
 import { ApiService } from '../../../shared/services/api.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ExportService } from '../../../shared/services/export.service'
+import { ExportImportComponent } from '../export-import/export-import.component';
 
 @Component({
   selector: 'app-test',
@@ -180,7 +181,29 @@ export class TestListComponent implements OnInit {
     this.router.navigate(['/admin/subjects/tests/test-detail'], { queryParams: { test_id: testId }});
   }
 
-  public exportQuestionsByTest(id: number) {
-    this.exportService.getQuestionsByTest(id);
-  };
+  /** Create modal window for checked levelsfoe export test */
+  createSelectLevelTestModal(test_id: number, level: number[]): void {
+    const dialogRef = this.dialog.open(ExportImportComponent, {
+      width: '350px',
+      data: {
+        level,
+        test_id
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.exportService.loadQuestionsByTest(result.test_id, result.level);
+      }
+    });
+  }
+  openModal(test_id: number) {
+    this.exportService.getLevelsByTest(test_id).subscribe((listLevels) => {
+      if (listLevels) {
+        this.createSelectLevelTestModal(test_id, listLevels);
+      } else {
+        this.modalService.openErrorModal('В даному тесті відсутні запитання');
+      }
+    });
+  }
 }
