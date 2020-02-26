@@ -18,11 +18,22 @@ export interface Faculty {
   faculty_description: string;
 }
 
+export enum tableActionsType {
+  edit = 'edit',
+  delete = 'delete',
+  route = 'route',
+}
 export interface Column {
   columnDef: string;
   header: string;
+  actions?: Action[];
 }
+export interface Action {
+  edit: string;
+  delete: string;
+  route: string;
 
+}
 export interface DialogData {
   data: any;
 }

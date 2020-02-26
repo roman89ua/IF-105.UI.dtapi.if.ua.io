@@ -1,5 +1,5 @@
 
-
+ <!-- <td mat-cell *matCellDef="let element; let i = index">{{ matpaginator.pageSize * matpaginator.pageIndex + i + 1 }}</td> -->
 <table mat-table [dataSource]="data" class="mat-elevation-z8">
   <ng-container [matColumnDef]="item.columnDef" *ngFor="let item of columns;  let i = index">
     <th mat-header-cell *matHeaderCellDef> {{item.header}} </th>

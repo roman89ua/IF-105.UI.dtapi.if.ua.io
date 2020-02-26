@@ -23,7 +23,14 @@ export class FacultiesComponent implements OnInit, AfterViewInit {
   columns: Column [] = [
     {columnDef: 'faculty_id', header: 'ID'},
     {columnDef: 'faculty_name', header: 'Факультети'},
-    {columnDef: 'faculty_description', header: 'Опис'}
+    {columnDef: 'faculty_description', header: 'Опис'},
+    {columnDef: 'action', header: 'Дії', actions:[
+      {
+        edit: '',
+        delete: '', 
+        route: ''
+      }
+    ]}
   ];
 
   /* for Paginator component */
