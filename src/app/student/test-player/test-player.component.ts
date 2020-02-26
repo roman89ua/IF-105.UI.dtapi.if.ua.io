@@ -34,7 +34,9 @@ export class TestPlayerComponent implements OnInit, OnDestroy {
               private testLogoutService: TestLogoutService) {
     this.questions = [];
     this.subscription = this.testLogoutService.getMessage().pipe(
-      filter(data => data === true)).subscribe(() => this.sendAnswersForCheck()
+      filter(data => data === true)
+    ).subscribe(
+      () => this.sendAnswersForCheck()
     );
 
   }
