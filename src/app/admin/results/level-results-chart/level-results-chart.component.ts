@@ -45,6 +45,7 @@ export class LevelResultsChartComponent implements OnInit {
     { data: [], label: 'Набрано балів' },
     { data: [], label: 'Максимальна кількість балів' }
   ];
+  testList = this.data.testList.filter(element => element.test_id === this.data.results.test_id)[0];
   ngOnInit() {
     forkJoin(
       this.chartService.getTestDetail(this.data.results.test_id),
