@@ -238,7 +238,7 @@ const routes: Routes = [
     ViewStudentModalWindowComponent,
     ResultDetailComponent,
     ResultGroupRaitingComponent,
-    ResultGroupsRaitingComponent
+    ResultGroupsRaitingComponent,
     ExportImportComponent,
   ]
 })
