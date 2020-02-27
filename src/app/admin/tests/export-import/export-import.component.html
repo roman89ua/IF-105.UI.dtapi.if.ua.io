@@ -1,0 +1,33 @@
+<h3>Виберіть рівень тесту</h3>
+<form [formGroup]="selectDetailDownloadForm" (ngSubmit)="onSubmit()">
+    <mat-form-field class="invisible example-full-width">
+        <input
+        matInput
+        formControlName="test_id"
+        [value]="data.test_id"
+        >
+    </mat-form-field>
+    <mat-form-field class="example-full-width">
+        <mat-label>Рівні тесту</mat-label>
+        <mat-select formControlName="level" placeholder="Виберіть рівень тесту">
+          <mat-option
+            [value]="0"
+          >
+            Всі рівні
+        </mat-option>
+          <mat-option
+            *ngFor="let item of data.level"
+            [value]="item"
+          >
+            {{item}}
+          </mat-option>
+        </mat-select>
+        <mat-error>
+          Виберіть рівень для завантаження 
+        </mat-error>
+      </mat-form-field>
+      <button mat-stroked-button color="primary" type="submit" [disabled]='selectDetailDownloadForm.invalid'>
+        Завантажити
+      </button>
+      <button mat-stroked-button color="primary" type="button" cdkFocusInitial (click)="onDismiss()">Відмінити</button>
+</form>
