@@ -2,7 +2,7 @@ import { Component, OnInit, AfterViewInit } from '@angular/core';
 import { ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource, MatTable, MatSnackBar } from '@angular/material';
-import { Faculty, Column } from 'src/app/shared/entity.interface';
+import { Faculty, Column, tableActionsType } from 'src/app/shared/entity.interface';
 import { ModalService } from '../../shared/services/modal.service';
 import { FacultiesService } from './faculties.service';
 import { PaginatorService } from 'src/app/shared/paginator/paginator.service';
@@ -24,12 +24,9 @@ export class FacultiesComponent implements OnInit, AfterViewInit {
     {columnDef: 'faculty_id', header: 'ID'},
     {columnDef: 'faculty_name', header: 'Факультети'},
     {columnDef: 'faculty_description', header: 'Опис'},
-    {columnDef: 'action', header: 'Дії', actions:[
-      {
-        edit: '',
-        delete: '', 
-        route: ''
-      }
+    {columnDef: 'action', header: 'Дії', actions: [
+      {type: tableActionsType.Edit, icon: 'edit', matTooltip: 'Редагувати', aria_label: 'edit'},
+      {type: tableActionsType.Delete, icon: 'delete', matTooltip: 'Видалити', aria_label: 'delete'}
     ]}
   ];
 

@@ -19,9 +19,9 @@ export interface Faculty {
 }
 
 export enum tableActionsType {
-  edit = 'edit',
-  delete = 'delete',
-  route = 'route',
+  Edit = 'edit',
+  Delete = 'delete',
+  Doute = 'route',
 }
 export interface Column {
   columnDef: string;
@@ -29,10 +29,10 @@ export interface Column {
   actions?: Action[];
 }
 export interface Action {
-  edit: string;
-  delete: string;
-  route: string;
-
+ type: tableActionsType;
+ icon: string;
+ matTooltip: string;
+ aria_label?: string;
 }
 export interface DialogData {
   data: any;

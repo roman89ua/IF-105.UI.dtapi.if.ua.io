@@ -76,6 +76,7 @@ import { MatTableComponent } from './mat-table/mat-table.component';
     MatDividerModule,
     MatIconModule,
     MatTableModule,
+    MatTooltipModule,
     MatProgressSpinnerModule,
     MatProgressBarModule,
     TranslateModule.forChild({
