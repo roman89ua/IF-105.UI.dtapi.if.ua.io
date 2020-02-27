@@ -70,6 +70,14 @@
           >
             description
           </mat-icon>
+          <mat-icon
+            aria-hidden="false"
+            aria-label="export"
+            matTooltip="Експортувати завдання тесту"
+            (click)="openModal(testItem.test_id)"
+          >
+            import_export
+          </mat-icon>
 
           <a [routerLink]="[testItem.test_id, 'questions']" class="question-link">
             <mat-icon

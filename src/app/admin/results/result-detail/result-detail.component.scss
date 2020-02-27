@@ -8,6 +8,9 @@ table {
         padding: 0px 0.5em;
     }
 }
+tr > td:first-child {
+    text-align: center;
+}
 .trueAnswer {
     background-color: #e6ffe6;
 }
