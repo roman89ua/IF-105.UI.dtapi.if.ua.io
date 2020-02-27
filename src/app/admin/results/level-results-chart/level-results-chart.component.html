@@ -1,0 +1,9 @@
+<div style="display: block">
+  <canvas baseChart [datasets]="barChartData" [labels]="barChartLabels" [options]="barChartOptions"
+    [legend]="barChartLegend" [chartType]="barChartType"></canvas>
+  <mat-dialog-actions>
+    <button mat-stroked-button color="primary" type="button" cdkFocusInitial [mat-dialog-close]="true">
+      Закрити
+    </button>
+  </mat-dialog-actions>
+</div>

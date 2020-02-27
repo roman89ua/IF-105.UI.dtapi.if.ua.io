@@ -48,6 +48,7 @@ import { ScoreAnswerPipe } from './results/pipes/score-answer.pipe';
 import { ResultGroupRaitingComponent } from './results/result-group-raiting/result-group-raiting.component';
 import { TestDetailListComponent } from './test-detail/list/test-detail-list.component';
 import { TestDetailAddComponent } from './test-detail/add/test-detail-add.component';
+import { LevelResultsChartComponent } from './results/level-results-chart/level-results-chart.component';
 
 
 const routes: Routes = [
@@ -184,6 +185,7 @@ const routes: Routes = [
     ResultDetailComponent,
     ScoreAnswerPipe,
     ResultGroupRaitingComponent,
+    LevelResultsChartComponent,
 
   ],
   imports: [
@@ -231,7 +233,8 @@ const routes: Routes = [
     StudentsModalWindowComponent,
     ViewStudentModalWindowComponent,
     ResultDetailComponent,
-    ResultGroupRaitingComponent
+    ResultGroupRaitingComponent,
+    LevelResultsChartComponent
   ]
 })
 export class AdminModule { }

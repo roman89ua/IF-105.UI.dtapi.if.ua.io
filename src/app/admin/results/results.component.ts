@@ -10,6 +10,7 @@ import { ResultDetailComponent } from './result-detail/result-detail.component';
 import { forkJoin } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
 import { ResultGroupRaitingComponent } from './result-group-raiting/result-group-raiting.component';
+import { LevelResultsChartComponent } from './level-results-chart/level-results-chart.component';
 
 @Component({
   selector: 'app-results',
@@ -206,6 +207,13 @@ export class ResultsComponent implements OnInit {
         detail,
         subjectName
       }
+    });
+  }
+
+  openChartResultsByLevel(results: string): void {
+    this.dialog.open(LevelResultsChartComponent, {
+      width: '1000px',
+      data: { results }
     });
   }
 }
