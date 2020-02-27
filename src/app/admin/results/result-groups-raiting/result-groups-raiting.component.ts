@@ -11,7 +11,6 @@ import { ApiService } from 'src/app/shared/services/api.service';
 })
 export class ResultGroupsRaitingComponent implements OnInit {
 
-  public groupNames = [];
   public score = [];
   public chardReady = false;
   public isLoading = true;
@@ -64,25 +63,22 @@ export class ResultGroupsRaitingComponent implements OnInit {
   }
 
   private async getTestResultsList() {
-    const promise: any = this.resultsService.getRecordsByTestGroupDate(this.data.testID).toPromise();
-    return Promise.resolve(promise);
+    return this.resultsService.getRecordsByTestGroupDate(this.data.testID).toPromise();
   }
 
   private async getStudentsList() {
-    const testResultsList = [...new Set(await this.getTestResultsList())];
-    const requestArray: number[] = [];
-    testResultsList.forEach((value: Results) => {
-      requestArray.push(value.student_id);
+    const testResultsList: any = [...new Set(await this.getTestResultsList())];
+    const requestArray: number[] = testResultsList.map(item => {
+      return item.student_id;
     });
-    const promise: any = this.apiService.getByEntityManager('Student', requestArray).toPromise();
-    return Promise.resolve(promise);
+    return this.apiService.getByEntityManager('Student', requestArray).toPromise();
   }
 
   private async getGroupsResults() {
-    const studentsList = [...new Set(await this.getStudentsList())];
+    const studentsList: any = await this.getStudentsList();
     let groupIds: number[] = [];
-    studentsList.forEach((value: Student) => {
-      groupIds.push(value.group_id);
+    groupIds = studentsList.map(item => {
+      return item.group_id;
     });
     groupIds = [...new Set(groupIds)];
     return groupIds;
@@ -91,8 +87,8 @@ export class ResultGroupsRaitingComponent implements OnInit {
   private async getGroupNamesForChart() {
     const groupIds = [...new Set(await this.getGroupsResults())];
     this.apiService.getByEntityManager('Group', groupIds).subscribe((data: Group[]) => {
-      data.forEach((value: Group) => {
-        this.groupNames.push(value.group_name);
+      this.barChartLabels = data.map(item => {
+        return item.group_name;
       });
     });
   }
@@ -101,12 +97,10 @@ export class ResultGroupsRaitingComponent implements OnInit {
     const groupIds = [...new Set(await this.getGroupsResults())];
     groupIds.forEach((value: number) => {
       this.resultsService.getRecordsByTestGroupDate(this.data.testID, value).subscribe((data: Results[]) => {
-        let groupResult = 0;
-        data.forEach((item: Results) => {
-          groupResult += (Number(item.result) / Number(item.answers) * 100);
-        });
-        groupResult = Math.round(groupResult / data.length);
-        this.score.push(groupResult);
+        const score = Math.round((data.reduce((groupResult, item) => {
+          return groupResult + (Number(item.result) / Number(item.answers) * 100);
+        }, 0)) / data.length);
+        this.score.push(score);
       });
     });
     this.chardReady = true;
@@ -115,7 +109,6 @@ export class ResultGroupsRaitingComponent implements OnInit {
   }
 
   chartData() {
-    this.barChartLabels = this.groupNames;
     const data: number[] = this.score;
     this.barChartData = [{
       data,
