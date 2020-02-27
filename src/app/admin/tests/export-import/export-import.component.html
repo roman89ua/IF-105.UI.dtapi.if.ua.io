@@ -1,5 +1,17 @@
-<h3>Виберіть рівень тесту</h3>
-<form [formGroup]="selectDetailDownloadForm" (ngSubmit)="onSubmit()">
+<h3 mat-dialog-title>Експорт/імпорт запитань</h3>
+<div id="checkAction" *ngIf="!isDownload && !isUpload">
+  <p>Виберіть дію</p>
+  <button mat-stroked-button color="primary" (click)="openDownloadForm()">
+    Експортувати
+  </button>
+  <button mat-stroked-button color="primary" (click)="openUploadForm()">
+    Імпортувати
+  </button>
+  <button mat-stroked-button color="primary" type="button" cdkFocusInitial (click)="onDismiss()">
+    Відмінити
+  </button>
+</div>
+<form [formGroup]="selectDetailDownloadForm" (ngSubmit)="onSubmit()" *ngIf="isDownload">
     <mat-form-field class="invisible example-full-width">
         <input
         matInput
@@ -31,5 +43,29 @@
       </button>
       <button mat-stroked-button color="primary" type="button" cdkFocusInitial (click)="onDismiss()">Відмінити</button>
 </form>
-<button type="button" mat-raised-button (click)="fileInput.click()">Choose File</button>
-<input hidden (change)="onFileSelected(data.test_id)" #fileInput type="file" id="file">
+<div *ngIf="isUpload" class="uploadForm">
+  <mat-form-field class="example-full-width">
+    <mat-label>Виберіть рівень тесту для імпорту</mat-label>
+    <mat-select name="level" 
+      placeholder="Виберіть рівень тесту для імпорту" 
+      (selectionChange)="changeClient($event.value)"
+    >
+      <mat-option
+        *ngFor="let item of levelQuestion"
+        [value]="item"
+      >
+        {{item}}
+      </mat-option>
+    </mat-select>
+    <mat-error>
+      Виберіть рівень завдань для завантаження 
+    </mat-error>
+  </mat-form-field>
+  <button *ngIf="selectedLevel" type="button" mat-raised-button (click)="fileInput.click()">
+    Виберіть файл
+  </button>
+  <input hidden (change)="onFileSelected(data.test_id)" #fileInput type="file" id="file">
+  <button mat-stroked-button color="primary" type="button" cdkFocusInitial (click)="onDismiss()">
+    Відмінити
+  </button>
+</div>

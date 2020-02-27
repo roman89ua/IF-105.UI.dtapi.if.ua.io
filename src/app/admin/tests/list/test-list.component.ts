@@ -184,7 +184,7 @@ export class TestListComponent implements OnInit {
   /** Create modal window for checked levelsfoe export test */
   createSelectLevelTestModal(test_id: number, level: number[]): void {
     const dialogRef = this.dialog.open(ExportImportComponent, {
-      width: '350px',
+      width: '500px',
       data: {
         level,
         test_id
@@ -199,11 +199,11 @@ export class TestListComponent implements OnInit {
   }
   openModal(test_id: number) {
     this.exportService.getLevelsByTest(test_id).subscribe((listLevels) => {
-      if (listLevels) {
+      //if (listLevels) {
         this.createSelectLevelTestModal(test_id, listLevels);
-      } else {
-        this.modalService.openErrorModal('В даному тесті відсутні запитання');
-      }
+      //} else {
+      //  this.modalService.openErrorModal('В даному тесті відсутні запитання');
+      //}
     });
   }
 }

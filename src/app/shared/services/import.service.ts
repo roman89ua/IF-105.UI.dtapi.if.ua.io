@@ -1,9 +1,8 @@
 import { Injectable } from '@angular/core';
 import { IQuestion, IAnswer } from '../../admin/questions/questions';
 import { ApiService } from '../services/api.service';
-import { QuestionService } from '../../admin/questions/questions.service';
-import { mergeMap, map, } from 'rxjs/operators';
-import { Observable, forkJoin, of } from 'rxjs';
+import { mergeMap } from 'rxjs/operators';
+import { forkJoin } from 'rxjs';
 import { ModalService } from './modal.service';
 
 @Injectable({
@@ -22,12 +21,12 @@ export class ImportService {
     this.setLevelQuestions(listQuestionByTest, level);
     return forkJoin(
       listQuestionByTest.map(question => {
-        const answers: any = JSON.parse(question.answers.toString());
+        const answers: IAnswer[] = JSON.parse(question.answers.toString());
         delete question.answers;
         delete question.question_id;
         return this.apiService.createEntity('Question', question).pipe(mergeMap( (result) => {
           return forkJoin(
-            answers.map((answer) => {
+            answers.map((answer: IAnswer) => {
               delete answer.answer_id;
               answer.question_id = result[0].question_id;
               return this.apiService.createEntity('Answer', answer);
@@ -44,9 +43,6 @@ export class ImportService {
 
   setTestId(listQuestionByTest: IQuestion[], test_id: number) {
     listQuestionByTest.map( question => question.test_id = test_id );
-  }
-  delQuestionId(listQuestionByTest: IQuestion[]) {
-    listQuestionByTest.map( question => delete question.question_id);
   }
 
 }
