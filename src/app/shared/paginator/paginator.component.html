@@ -1,7 +1,7 @@
 <mat-paginator
   #matPaginator
   [length]="this.countRecords"
-  [pageSize]="this.pageSize"
+  [pageSize]="pageSize"
   [pageSizeOptions]="pageSizeOptions"
   (page)="onPaginationChange($event)"
   showFirstLastButtons

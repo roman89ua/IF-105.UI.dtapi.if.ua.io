@@ -1,6 +1,5 @@
 import { Component, OnInit, Input, ViewChild, Output, EventEmitter } from '@angular/core';
 import { PageEvent, MatPaginator } from '@angular/material';
-import { PaginationModel } from './PaganationModel';
 import { ApiService } from '../services/api.service';
 
 @Component({
@@ -8,19 +7,20 @@ import { ApiService } from '../services/api.service';
   templateUrl: './paginator.component.html',
   styleUrls: ['./paginator.component.scss']
 })
-export class PaginatorComponent extends PaginationModel implements OnInit {
+export class PaginatorComponent implements OnInit {
   countRecords: number;
 
-  @Input() setEntity: string;
+  @Input() entity: string;
   @ViewChild('matPaginator', { static: true }) matPaginator: MatPaginator;
   @Output() paginator: EventEmitter<MatPaginator> = new EventEmitter<MatPaginator>();
   @Output() data: EventEmitter<Array<any>> = new EventEmitter<Array<any>>();
 
-
+  pageSize = 10;
+  pageIndex = 0;
   pageSizeOptions = [5, 10, 20, 50];
 
-  constructor(apiService: ApiService) {
-    super(apiService);
+  constructor(private apiService: ApiService) {
+
   }
 
   public onPaginationChange(paginationEvent: PageEvent): void {
@@ -28,15 +28,25 @@ export class PaginatorComponent extends PaginationModel implements OnInit {
 
     this.getRange((response) => {
       this.data.emit(response);
-     });
+    });
     this.getCountRecords(data => {
-       this.countRecords = data.numberOfRecords;
-     });
+      this.countRecords = data.numberOfRecords;
+    });
   }
-
+  getRange(callback) {
+    this.apiService.getRecordsRange(this.entity, this.pageSize, this.pageIndex * this.pageSize)
+      .subscribe(data => callback(data));
+  }
+  getCountRecords(callback) {
+    this.apiService.getCountRecords(this.entity)
+      .subscribe(data => callback(data));
+  }
+  pageChange(event: PageEvent) {
+    this.pageSize = event.pageSize;
+    this.pageIndex = event.pageIndex;
+  }
   ngOnInit() {
     this.paginator.emit(this.matPaginator);
-    this.setEntity = this.entity;
-    this.onPaginationChange({previousPageIndex: 0, pageIndex: 0, pageSize: 10, length: 0});
+    this.onPaginationChange({ previousPageIndex: 0, pageIndex: 0, pageSize: 10, length: 0 });
   }
 }

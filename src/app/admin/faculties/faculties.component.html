@@ -44,6 +44,6 @@
       <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
     </table>
    
-<app-paginator [setEntity]="'Faculty'"  (data)="getData($event)"></app-paginator>
+<app-paginator [entity]="'Faculty'"  (data)="getData($event)"></app-paginator>
 </section>
 
