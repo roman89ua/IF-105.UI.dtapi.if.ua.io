@@ -31,3 +31,5 @@
       </button>
       <button mat-stroked-button color="primary" type="button" cdkFocusInitial (click)="onDismiss()">Відмінити</button>
 </form>
+<button type="button" mat-raised-button (click)="fileInput.click()">Choose File</button>
+<input hidden (change)="onFileSelected(data.test_id)" #fileInput type="file" id="file">

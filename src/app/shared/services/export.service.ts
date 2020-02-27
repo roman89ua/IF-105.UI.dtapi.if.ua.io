@@ -49,7 +49,7 @@ export class ExportService {
       listQuestion.map(question => {
         return this.questionServise
           .getQuestionAnswers(question.question_id)
-          .pipe(map((item: IAnswer[]) => (question.answers = item)));
+          .pipe(map((item: IAnswer[]) => (question.answers = JSON.stringify(item))));
       })
     );
   }
@@ -63,7 +63,7 @@ export class ExportService {
             return of(null);
           }
           else {
-            return this.questionServise.getTestQuestions(id, result, 0);
+            return this.questionServise.getTestQuestionsAttacment(id, result, 0);
           }
         })
       )
