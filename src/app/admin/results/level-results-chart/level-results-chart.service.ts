@@ -20,17 +20,12 @@ export class LevelResultsChartService {
   }
   /** returns object with counted true answers for each level */
   getTrueAnswersbyLevel(testDetails, trueAnswers): Array<object> {
-    const arr = [];
-    let i = 0;
-    testDetails.forEach(element => {
-      i++ , arr.push(
-        ({
-          level: i,
-          task: (trueAnswers.reduce((acc, cur) => cur.level === element.level ? ++acc : acc, 0)),
-        })
-      );
-    });
-    return arr;
+    return testDetails.map(
+      (element, index) => ({
+        level: index++,
+        task: (trueAnswers.reduce((acc, cur) => cur.level === element.level ? ++acc : acc, 0))
+      })
+    );
   }
   /** returns array with labels for each level */
   getLabelsArr(TestDetail): Array<string> {
@@ -46,11 +41,6 @@ export class LevelResultsChartService {
   }
   /** returns array with rates on each level for true answers */
   getRatesArr(TestDetail, trueAnswers): Array<number> {
-    const array = [];
-    for (let i = 0; i < trueAnswers.length; i++) {
-      array.push(trueAnswers[i].task * TestDetail[i].rate);
-    }
-    return array;
+    return trueAnswers.map((item, index) => item.task * TestDetail[index].rate);
   }
 }
-
