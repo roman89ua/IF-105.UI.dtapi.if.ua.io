@@ -65,10 +65,22 @@ export class FacultiesComponent implements OnInit, AfterViewInit {
 
   /*        *****************************************       */
 
-  ngOnInit(): void { }
+  ngOnInit(): void {}
 
   ngAfterViewInit(): void { }
 
+  getAction({actiontype: type, body: {...faculty }}: {actiontype: tableActionsType, body: Faculty} ) {
+    const action = {
+      edit: () => {
+        this.openFacultyModal(faculty)
+      },
+      delete: () => {
+        this.openConfirmDialog(faculty)
+      }
+    };
+    action[type]();
+
+  }
   openFacultyModal(facultyObj?: Faculty) {
     if (!facultyObj) {
       this.facultyService.openAddFacultyDialog()

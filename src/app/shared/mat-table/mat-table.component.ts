@@ -1,6 +1,6 @@
-import { Component, OnInit, Input, OnChanges } from '@angular/core';
+import { Component, OnInit, Input, OnChanges, Output, EventEmitter } from '@angular/core';
 import { MatTableDataSource, MatTable, MatSnackBar } from '@angular/material';
-import { Column } from '../entity.interface';
+import { Column, tableActionsType } from '../entity.interface';
 
 @Component({
   selector: 'app-mat-table',
@@ -13,6 +13,7 @@ export class MatTableComponent implements OnInit, OnChanges {
   displayedColumns;
   @Input() data;
   @Input() columns: Column[];
+  @Output() action: EventEmitter<any> = new EventEmitter<any>();
   dataSource: MatTableDataSource<any>;
 
   constructor() {
@@ -21,11 +22,12 @@ export class MatTableComponent implements OnInit, OnChanges {
     this.dataSource = new MatTableDataSource(this.data);
     this.displayedColumns = this.columns.map(item => item.columnDef);
   }
-  ngOnInit() {
-    console.log(this.columns);
-  }
-  check(element, item) {
-    console.log(element);
-    console.log(item);
-  }
+  ngOnInit() {}
+
+  getEvent(actiontype: tableActionsType, obj: any) {
+    this.action.emit({
+      actiontype,
+     body: {...obj}
+    });
+}
 }

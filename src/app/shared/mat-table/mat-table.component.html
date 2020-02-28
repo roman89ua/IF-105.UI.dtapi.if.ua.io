@@ -6,7 +6,7 @@
     <td mat-cell *matCellDef="let element">{{ element[item.columnDef] }}</td>
   </ng-container>
   <td mat-cell *matCellDef="let element" class="action-link">
-     <mat-icon aria-hidden="false" [attr.aria-label]='icon.aria_label' *ngFor="let icon of item.actions"  [matTooltip]="icon.matTooltip" (click)="check(element,icon.type)">{{icon.icon}}</mat-icon>
+     <mat-icon aria-hidden="false" [attr.aria-label]='action.aria_label' *ngFor="let action of item.actions"  [matTooltip]="action.matTooltip" (click)="getEvent(action.type,element)">{{action.icon}}</mat-icon>
   </ng-container>
 
 

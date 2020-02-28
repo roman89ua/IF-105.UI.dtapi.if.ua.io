@@ -21,14 +21,14 @@ export interface Faculty {
 export enum tableActionsType {
   Edit = 'edit',
   Delete = 'delete',
-  Doute = 'route',
+  Route = 'route',
 }
 export interface Column {
   columnDef: string;
   header: string;
-  actions?: Action[];
+  actions?: ActionButtons[];
 }
-export interface Action {
+export interface ActionButtons {
  type: tableActionsType;
  icon: string;
  matTooltip: string;
