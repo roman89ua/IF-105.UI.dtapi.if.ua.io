@@ -52,7 +52,6 @@ import { HttpClient} from '@angular/common/http';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { PaginatorComponent } from './paginator/paginator.component';
-import { PaginatorService } from './paginator/paginator.service';
 import { ToolbarComponent } from './toolbar/toolbar.component';
 import { RouterModule } from '@angular/router';
 import { BreadcrumbsComponent } from './breadcrumbs/breadcrumbs.component';
@@ -90,8 +89,7 @@ import { BreadcrumbsComponent } from './breadcrumbs/breadcrumbs.component';
   ],
   providers: [
     AuthService,
-    ModalService,
-    PaginatorService
+    ModalService
   ],
   entryComponents: [
     ConfirmComponent,

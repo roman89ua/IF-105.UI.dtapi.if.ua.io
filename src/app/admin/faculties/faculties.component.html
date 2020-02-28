@@ -17,7 +17,7 @@
       class="my-table">
       <ng-container matColumnDef="id">
         <th mat-header-cell *matHeaderCellDef>ID</th>
-        <td mat-cell *matCellDef="let element; let i = index">{{ matpaginator.pageSize * matpaginator.pageIndex + i + 1 }}</td>
+        <td mat-cell *matCellDef="let element; let i = index">{{ paginatorComponent.matPaginator.pageSize * paginatorComponent.matPaginator.pageIndex + i + 1 }}</td>
       </ng-container>
 
       <ng-container matColumnDef="name">
@@ -44,6 +44,6 @@
       <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
     </table>
    
-<app-paginator  [countRecords]="length" (changed)="onPaginationChanged($event)" (paginator)="getMatPagination($event)"></app-paginator>
+<app-paginator [entity]="'Faculty'"  (data)="getData($event)"></app-paginator>
 </section>
 

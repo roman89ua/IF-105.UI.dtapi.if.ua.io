@@ -1,12 +1,12 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
-import {AuthService} from '../../shared/auth.service';
 import {ApiService} from '../../shared/services/api.service';
-import {Faculty, Group, Speciality, StudentInfo, TimeTable, TestsForStudent} from '../../shared/entity.interface';
+import {StudentInfo, TestsForStudent} from '../../shared/entity.interface';
 import {Router} from '@angular/router';
-import {Subject, Test} from '../../admin/entity.interface';
+import {Test} from '../../admin/entity.interface';
 import {MatPaginator, MatTable, MatTableDataSource} from '@angular/material';
 import {ModalService} from '../../shared/services/modal.service';
-import {SessionStorageService, SessionStorage} from 'angular-web-storage';
+import {SessionStorageService} from 'angular-web-storage';
+import {StudentInfoService} from '../student-info.service';
 
 @Component({
   selector: 'app-student-info',
@@ -31,71 +31,27 @@ export class StudentInfoComponent implements OnInit {
   @ViewChild(MatPaginator, {static: false}) paginator: MatPaginator;
 
   constructor(
-    public authService: AuthService,
     private apiService: ApiService,
+    private studentInfoService: StudentInfoService,
     private router: Router,
     private modalService: ModalService,
     public session: SessionStorageService,
   ) {
   }
 
-  studentId;
   studentInfo: StudentInfo;
-  testInfo: TestsForStudent[];
   currDate: Date;
   testInProgress: boolean;
 
   ngOnInit() {
-    this.authService.getCurrentUser().subscribe(data => {
-      this.studentId = data.id;
-      this.getStudentInfo(data.id);
-    });
     this.currDate = new Date();
+    this.studentInfoService.getUserData().subscribe(
+      (result: any[]) => {
+        this.studentInfo = result[0];
+        this.formDataSource(result[1], result[2]);
+      });
   }
 
-  private getStudentInfo(id) {
-    // GET Student Info
-    this.apiService.getEntity('student', id).subscribe((data: StudentInfo[]) => {
-      this.studentInfo = data[0];
-      this.apiService.getEntity('group', this.studentInfo.group_id).subscribe((groupData: Group[]) => {
-        this.studentInfo.group_name = groupData[0].group_name;
-        this.studentInfo.faculty_id = groupData[0].faculty_id;
-        this.studentInfo.speciality_id = groupData[0].speciality_id;
-        this.apiService.getEntity('faculty', this.studentInfo.faculty_id).subscribe((facultyData: Faculty[]) => {
-          this.studentInfo.faculty_name = facultyData[0].faculty_name;
-          this.apiService.getEntity('speciality', this.studentInfo.speciality_id).subscribe((specialityData: Speciality[]) => {
-            this.studentInfo.speciality_code = specialityData[0].speciality_code;
-            this.studentInfo.speciality_name = specialityData[0].speciality_name;
-            // GET Time Table & Test Details
-            this.apiService.getEntityByAction('timeTable', 'getTimeTablesForGroup', this.studentInfo.group_id)
-              .subscribe((result: TimeTable[]) => {
-                let timeTable: any = [];
-                result.forEach(item => {
-                  delete item.timetable_id;
-                  delete item.group_id;
-                });
-                timeTable = result;
-                this.apiService.getEntity('Subject').subscribe((subjectData: Subject[]) => {
-                  timeTable.forEach(value => {
-                    subjectData.map(value1 => {
-                      if (value1.subject_id === value.subject_id) {
-                        value.subject_name = value1.subject_name;
-                      }
-                    });
-                  });
-                  // GET Test Info & make data in correct format for Data Source
-                  this.apiService.getEntity('test').subscribe((testData: Test[]) => {
-                    const filteredTests: any = timeTable.map(tt => testData.filter(test => test.subject_id === tt.subject_id));
-                    const merged: Test[] = [].concat.apply([], filteredTests);
-                    this.formDataSource(timeTable, merged);
-                  });
-                });
-              });
-          });
-        });
-      });
-    });
-  }
 
   private formDataSource(timeTableArray: TestsForStudent[], testArray: Test[]) {
     const data = [];

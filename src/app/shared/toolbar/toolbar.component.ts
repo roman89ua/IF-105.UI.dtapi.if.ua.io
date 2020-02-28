@@ -65,7 +65,7 @@ export class ToolbarComponent implements OnInit {
   logoutHandler() {
     const test = this.session.get('testInProgress');
     if (test) {
-      this.modalService.openConfirmModal('Тест триває! Ваша сппроба буде зарахованва. Ви дійсно хочете вийти?', () => {
+      this.modalService.openConfirmModal('Тест триває! Ваша спроба буде зарахованва. Ви дійсно хочете вийти?', () => {
         this.session.clear();
         this.testLogoutService.updateMessage(true);
         this.logOut();

@@ -16,6 +16,10 @@ export class QuestionService {
     return this.http.get(`question/getRecordsRangeByTest/${id}/${limit}/${offset}/wi`);
   }
 
+  getTestQuestionsAttacment(id: number, limit: number, offset: number) {
+    return this.http.get(`question/getRecordsRangeByTest/${id}/${limit}/${offset}`);
+  }
+
   getQuestionAnswers(id: number) {
     return this.http.get('answer/getAnswersByQuestion/' + id);
   }
