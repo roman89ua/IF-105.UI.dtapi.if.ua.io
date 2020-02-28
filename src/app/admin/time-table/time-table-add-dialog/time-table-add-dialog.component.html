@@ -25,11 +25,14 @@
     <mat-form-field appearance="outline">
       <mat-label>Дата початку</mat-label>
       <input matInput [matDatepicker]="picker1"
+             [min]="currDate"
+             (dateChange)="addEvent($event)"
              placeholder="Виберіть початкову дату"
              formControlName="start_date"
              [value]="data.data.start_date">
       <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
       <mat-datepicker #picker1 disabled="false"></mat-datepicker>
+      <mat-error>Початкова дата не може бути меншою за сьогоднішню</mat-error>
     </mat-form-field>
     <mat-form-field  appearance="outline">
       <mat-label>Час початку</mat-label>
@@ -44,11 +47,13 @@
     <mat-form-field appearance="outline">
       <mat-label>Дата закінчекння</mat-label>
       <input matInput [matDatepicker]="picker2"
+             [min]="startDate"
              placeholder="Виберіть кінцеву дату"
              formControlName="end_date"
              [value]="data.data.end_date">
       <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
       <mat-datepicker #picker2 disabled="false"></mat-datepicker>
+      <mat-error>Кінцева дата менша за початкову або сьогоднішню</mat-error>
     </mat-form-field>
     <mat-form-field appearance="outline">
       <mat-label>Час закінчення</mat-label>

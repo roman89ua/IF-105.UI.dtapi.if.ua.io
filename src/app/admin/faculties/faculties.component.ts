@@ -1,12 +1,10 @@
 import { Component, OnInit, AfterViewInit } from '@angular/core';
 import { ViewChild } from '@angular/core';
-import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource, MatTable, MatSnackBar } from '@angular/material';
 import { Faculty, Column, tableActionsType } from 'src/app/shared/entity.interface';
 import { ModalService } from '../../shared/services/modal.service';
 import { FacultiesService } from './faculties.service';
-import { PaginatorService } from 'src/app/shared/paginator/paginator.service';
-import { PaginationModel } from 'src/app/shared/paginator/PaganationModel';
+import { PaginatorComponent } from 'src/app/shared/paginator/paginator.component';
 
 @Component({
   selector: 'app-faculties',
@@ -32,36 +30,19 @@ export class FacultiesComponent implements OnInit, AfterViewInit {
 
   /* for Paginator component */
   length: number;
-  paginator: PaginationModel;
-  matpaginator: MatPaginator;
+  @ViewChild(PaginatorComponent, {static: false}) paginatorComponent: PaginatorComponent;
 
   constructor(
     private snackBar: MatSnackBar,
     private modalService: ModalService,
-    private facultyService: FacultiesService,
-    private paginatorService: PaginatorService) { }
+    private facultyService: FacultiesService) {
+  }
 
   /*            For Paginator component        */
-  public onPaginationChanged(paginatorModel: PaginationModel): void {
-    this.paginator = paginatorModel;
-    this.getRange(paginatorModel);
-    this.getCountRecords();
-  }
 
-  getMatPagination(matpaginator: MatPaginator) {
-    this.matpaginator = matpaginator;
-  }
-
-  getRange(paginator: PaginationModel) {
-    this.paginatorService.getRange('Faculty', paginator)
-      .subscribe(data => this.dataSource.data = data,
-        () => this.modalService.openErrorModal('Можливі проблеми із сервером'));
-  }
-
-  getCountRecords() {
-    this.paginatorService.getCountRecords('Faculty')
-      .subscribe(data => this.length = data.numberOfRecords);
-  }
+  getData(data: Faculty[]) {
+    this.dataSource.data = data;
+    }
 
   /*        *****************************************       */
 
@@ -101,8 +82,8 @@ export class FacultiesComponent implements OnInit, AfterViewInit {
   createFaculty(faculty: Faculty) {
     this.facultyService.createFaculty(faculty)
       .subscribe(() => {
-        this.getRange(this.paginator);
-        this.getCountRecords();
+        this.paginatorComponent.getRange(data => this.dataSource.data = data);
+        this.paginatorComponent.countRecords++;
         this.openSnackBar('Факультет додано');
       },
         err => {
@@ -115,10 +96,14 @@ export class FacultiesComponent implements OnInit, AfterViewInit {
 
 
   updateFaculty(id: number, faculty: Faculty) {
-    this.facultyService.updateFaculty(id, faculty)
-      .subscribe(() => {
+   const [...newArray] = this.dataSource.data;
+   this.facultyService.updateFaculty(id, faculty)
+      .subscribe((response: Faculty[]) => {
         this.openSnackBar('Факультет оновлено');
-        this.getRange(this.paginator);
+        newArray[newArray.findIndex(el => el.faculty_id === id)] = {
+          ...response[0]
+        };
+        this.dataSource.data = newArray;
       },
         err => {
           if (err.error.response.includes('Error when update')) {
@@ -137,16 +122,12 @@ export class FacultiesComponent implements OnInit, AfterViewInit {
   removeFaculty(id: number) {
     this.facultyService.deleteFaculty(id)
       .subscribe(() => {
-        this.openSnackBar('Факультет видалено');
         this.dataSource.data = this.dataSource.data.filter(item => item.faculty_id !== id);
+        this.openSnackBar('Факультет видалено');
         if (this.dataSource.data.length > 0) {
-          this.getRange(this.paginator);
-          this.getCountRecords();
+          this.paginatorComponent.countRecords--;
         } else {
-          this.paginator.pageIndex--;
-          this.matpaginator.previousPage();
-          this.getRange(this.paginator);
-          this.getCountRecords();
+          this.paginatorComponent.matPaginator.previousPage();
         }
       },
         err => {

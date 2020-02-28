@@ -90,3 +90,31 @@ export interface User {
   response: string;
 }
 
+
+export interface Test {
+  test_id: number;
+  test_name: string;
+  subject_id: number;
+  tasks: number;
+  time_for_test: number;
+  enabled: any;
+  attempts: number;
+}
+
+export interface Results {
+  session_id: number;
+  student_id: number;
+  test_id: number;
+  session_date: string;
+  start_time: string;
+  end_time: string;
+  result: number;
+  questions: string;
+  true_answers: string;
+  answers: number;
+}
+
+export interface GroupsRaiting {
+  group_name: string;
+  score: number;
+}

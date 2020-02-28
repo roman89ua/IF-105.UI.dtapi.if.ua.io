@@ -44,7 +44,7 @@
     <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
   </table>
 
-  <div *ngIf="dataSource.data.length === 0 && subjectId != null" class="no-time">Немає розкладу для заданого предмету.
+  <div *ngIf="dataSource.data.length === 0 && isLoaded" class="no-time">Немає розкладу для заданого предмету.
   </div>
   <mat-paginator
     [pageSizeOptions]="[5, 10, 20]"
