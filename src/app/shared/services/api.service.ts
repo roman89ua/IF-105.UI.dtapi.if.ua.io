@@ -32,7 +32,7 @@ export class ApiService {
     return this.http.get(`${this.apiURI}${entity}/${action}/${id}`);
   }
   /** Returns JSON with entities that have provided id */
-  getByEntityManager(entity: string, idsList: Array<number>) {
+  getByEntityManager(entity: string, idsList: Array<number>): Observable<any> {
     const data = {
       entity: entity,
       ids: idsList
