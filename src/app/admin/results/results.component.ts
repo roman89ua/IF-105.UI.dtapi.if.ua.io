@@ -11,6 +11,7 @@ import { forkJoin } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
 import { ResultGroupRaitingComponent } from './result-group-raiting/result-group-raiting.component';
 import { LevelResultsChartComponent } from './level-results-chart/level-results-chart.component';
+import { ResultGroupsRaitingComponent } from './result-groups-raiting/result-groups-raiting.component';
 
 @Component({
   selector: 'app-results',
@@ -19,6 +20,7 @@ import { LevelResultsChartComponent } from './level-results-chart/level-results-
 })
 
 export class ResultsComponent implements OnInit {
+  idTest: number;
   listGroups: Group[] = [];
   listTests: Test[] = [];
   listTestsByGroup: Test[] = [];
@@ -121,14 +123,14 @@ export class ResultsComponent implements OnInit {
   /** Get all information for current test */
   onSubmit() {
     const idGroup = this.searchForm.value.group_id;
-    const idTest = this.searchForm.value.test_id;
-    const idSubject = this.listTestsByGroup.filter(item => item.test_id === idTest)[0].subject_id;
-    this.resultsService.getSubjectName(idSubject).subscribe(result => {
+    this.idTest = this.searchForm.value.test_id;
+    const idSubject = this.listTestsByGroup.filter(item => item.test_id === this.idTest)[0].subject_id;
+    this.resultsService.getSubjectName(idSubject).subscribe( result => {
       this.subjectName$ = result;
     });
     forkJoin(
       this.resultsService.getListStudentsBuGroup(idGroup),
-      this.resultsService.getRecordsByTestGroupDate(idTest, idGroup)
+      this.resultsService.getRecordsByTestGroupDate(this.idTest, idGroup)
     ).subscribe(([res1, res2]) => {
       if (res1 === 'no records') {
         return;
@@ -200,6 +202,15 @@ export class ResultsComponent implements OnInit {
     });
   }
 
+  createGroupsChart(): void {
+    this.dialog.open(ResultGroupsRaitingComponent, {
+      width: '1000px',
+      data: {
+        testID: this.idTest
+      }
+    });
+  }
+
   openDetailResult(detail: string, subjectName: string): void {
     this.dialog.open(ResultDetailComponent, {
       width: '1000px',
@@ -211,7 +222,6 @@ export class ResultsComponent implements OnInit {
   }
 
   openChartResultsByLevel(results: string): void {
-
     this.dialog.open(LevelResultsChartComponent, {
       width: '1000px',
       data: {

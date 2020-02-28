@@ -63,7 +63,7 @@ export class ExportService {
             return of(null);
           }
           else {
-            return this.questionServise.getTestQuestions(id, result, 0);
+            return this.questionServise.getTestQuestionsAttacment(id, result, 0);
           }
         })
       )
