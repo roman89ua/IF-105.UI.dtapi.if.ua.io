@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { ApiService } from 'src/app/shared/services/api.service';
+import { of } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -12,7 +13,7 @@ export class LevelResultsChartService {
     const questionsArr = JSON.parse(data).filter(element =>
       element.true === 1
     ).map(element => element.question_id);
-    return this.apiService.getByEntityManager('Question', questionsArr);
+    return (questionsArr.length > 0) ? this.apiService.getByEntityManager('Question', questionsArr) : of([]);
   }
   /** returns TestDetail for test with provided id */
   getTestDetail(id) {
