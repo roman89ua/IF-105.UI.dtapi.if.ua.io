@@ -57,9 +57,8 @@ export class MatTableComponent implements OnInit, OnChanges, AfterViewInit {
   }
   getEvent(action: ActionButtons, obj: any) {
     const {type, route} = action;
-    console.log(route ? { type, route, body: {...obj} } : { type, body: {...obj} });
     this.action.emit(
-      route ? { type, route, body: {...obj} } : { type, body: {...obj} }
+      route ? { type, route, body: obj } : { type, body: obj }
      );
 
 }
