@@ -51,7 +51,6 @@ import { SpinnerComponent } from './spinner/spinner.component';
 import { HttpClient} from '@angular/common/http';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
-import { PaginatorComponent } from './paginator/paginator.component';
 import { ToolbarComponent } from './toolbar/toolbar.component';
 import { RouterModule } from '@angular/router';
 import { BreadcrumbsComponent } from './breadcrumbs/breadcrumbs.component';
@@ -63,7 +62,6 @@ import { MatTableComponent } from './mat-table/mat-table.component';
     ConfirmComponent,
     AlertComponent,
     SpinnerComponent,
-    PaginatorComponent,
     ToolbarComponent,
     BreadcrumbsComponent,
     MatTableComponent
@@ -144,7 +142,6 @@ import { MatTableComponent } from './mat-table/mat-table.component';
     ScrollingModule,
     LayoutModule,
     SpinnerComponent,
-    PaginatorComponent,
     ToolbarComponent,
     BreadcrumbsComponent,
     MatTableComponent

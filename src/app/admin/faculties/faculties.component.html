@@ -10,7 +10,14 @@
 </section>
 
 <section class="container">
-<app-mat-table [data]="dataSource.data" [columns] = "columns" (action)='getAction($event)'></app-mat-table>
-<app-paginator  [countRecords]="length" (changed)="onPaginationChanged($event)" (paginator)="getMatPagination($event)"></app-paginator>
+
+<app-mat-table 
+[data]="dataSource.data" 
+[columns]="columns"  
+[countRecords]="length" 
+(action)='getAction($event)' 
+(pageEvent)='pageUpdate($event)'>
+</app-mat-table>
+
 </section>
 
