@@ -99,12 +99,13 @@
       <ng-container matColumnDef="details">
         <th mat-header-cell *matHeaderCellDef>Статистика</th>
         <td mat-cell *matCellDef="let result">
-          <mat-icon 
+          <mat-icon
             aria-label="details"
             matTooltip="Деталі тестування"
             (click)="openDetailResult(result, subjectName$)">
             details</mat-icon>
           <button>Статистика</button>
+          <button (click)="openChartResultsByLevel(result)">Результат по рівнях</button>
         </td>
       </ng-container>
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>

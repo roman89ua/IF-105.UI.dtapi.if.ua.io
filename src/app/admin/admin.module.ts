@@ -51,6 +51,7 @@ import { TestDetailAddComponent } from './test-detail/add/test-detail-add.compon
 import { ResultGroupsRaitingComponent } from './results/result-groups-raiting/result-groups-raiting.component';
 import { ResultsQuestionDetailComponent } from './results/results-question-detail/results-question-detail.component';
 import { ExportImportComponent } from './tests/export-import/export-import.component';
+import { LevelResultsChartComponent } from './results/level-results-chart/level-results-chart.component';
 
 
 
@@ -191,6 +192,8 @@ const routes: Routes = [
     ResultGroupsRaitingComponent,
     ResultsQuestionDetailComponent,
     ExportImportComponent,
+    LevelResultsChartComponent
+
   ],
   imports: [
     CommonModule,
@@ -240,6 +243,8 @@ const routes: Routes = [
     ResultGroupRaitingComponent,
     ResultGroupsRaitingComponent,
     ExportImportComponent,
+    LevelResultsChartComponent
+
   ]
 })
 export class AdminModule { }
