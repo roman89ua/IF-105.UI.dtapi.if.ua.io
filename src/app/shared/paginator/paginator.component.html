@@ -1,6 +1,6 @@
 <mat-paginator
   #matPaginator
-  [length]="countRecords"
+  [length]="this.countRecords"
   [pageSize]="pageSize"
   [pageSizeOptions]="pageSizeOptions"
   (page)="onPaginationChange($event)"

@@ -10,6 +10,8 @@ import { ResultDetailComponent } from './result-detail/result-detail.component';
 import { forkJoin } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
 import { ResultGroupRaitingComponent } from './result-group-raiting/result-group-raiting.component';
+import { LevelResultsChartComponent } from './level-results-chart/level-results-chart.component';
+import { ResultGroupsRaitingComponent } from './result-groups-raiting/result-groups-raiting.component';
 
 @Component({
   selector: 'app-results',
@@ -18,6 +20,7 @@ import { ResultGroupRaitingComponent } from './result-group-raiting/result-group
 })
 
 export class ResultsComponent implements OnInit {
+  idTest: number;
   listGroups: Group[] = [];
   listTests: Test[] = [];
   listTestsByGroup: Test[] = [];
@@ -39,14 +42,14 @@ export class ResultsComponent implements OnInit {
     'details',
   ];
 
-  @ViewChild(MatSort, {static: true}) sort: MatSort;
+  @ViewChild(MatSort, { static: true }) sort: MatSort;
 
   constructor(
     private fb: FormBuilder,
     public resultsService: ResultsService,
     private modalService: ModalService,
     public dialog: MatDialog,
-    public activatedRoute: ActivatedRoute) {}
+    public activatedRoute: ActivatedRoute) { }
 
   ngOnInit() {
     this.groupdID = this.activatedRoute.snapshot.params['id'];
@@ -66,7 +69,7 @@ export class ResultsComponent implements OnInit {
   private getAllGroups() {
     this.resultsService.getListGroup().subscribe(result => {
       this.listGroups = result;
-    },  () => {
+    }, () => {
       this.modalService.openErrorModal('Помилка завантаження даних');
     });
   }
@@ -75,21 +78,21 @@ export class ResultsComponent implements OnInit {
     this.resultsService.getListTest().subscribe(result => {
       this.listTests = result;
       //this.listTestsByGroup = this.listTests;
-    },  () => {
+    }, () => {
       this.modalService.openErrorModal('Помилка завантаження даних');
     });
   }
   /** handler for change field form "groupId" */
   private onChangeFieldGroupId() {
-    this.searchForm.get('group_id').valueChanges.subscribe( id => {
+    this.searchForm.get('group_id').valueChanges.subscribe(id => {
       this.getTestsByGroup(id);
       this.subjectName$ = null;
     });
   }
   private onChangeFieldTestId() {
-    this.searchForm.get('test_id').valueChanges.subscribe( id => {
+    this.searchForm.get('test_id').valueChanges.subscribe(id => {
       const idSubject = this.listTestsByGroup.filter(item => item.test_id === id)[0].subject_id;
-      this.resultsService.getSubjectName(idSubject).subscribe( result => {
+      this.resultsService.getSubjectName(idSubject).subscribe(result => {
         this.subjectName$ = result;
       });
     });
@@ -102,11 +105,11 @@ export class ResultsComponent implements OnInit {
         this.modalService.openInfoModal('Результати тестування відсутні');
       } else {
         this.listTestsByGroup = this.listTests.filter(item1 =>
-          result.some(item2 => item2.test_id === item1.test_id )
+          result.some(item2 => item2.test_id === item1.test_id)
         );
       }
     }, () => {
-        this.modalService.openErrorModal('Помилка завантаження даних');
+      this.modalService.openErrorModal('Помилка завантаження даних');
     });
   }
   /** Create form for search results by current test */
@@ -120,14 +123,14 @@ export class ResultsComponent implements OnInit {
   /** Get all information for current test */
   onSubmit() {
     const idGroup = this.searchForm.value.group_id;
-    const idTest = this.searchForm.value.test_id;
-    const idSubject = this.listTestsByGroup.filter(item => item.test_id === idTest)[0].subject_id;
+    this.idTest = this.searchForm.value.test_id;
+    const idSubject = this.listTestsByGroup.filter(item => item.test_id === this.idTest)[0].subject_id;
     this.resultsService.getSubjectName(idSubject).subscribe( result => {
       this.subjectName$ = result;
     });
     forkJoin(
       this.resultsService.getListStudentsBuGroup(idGroup),
-      this.resultsService.getRecordsByTestGroupDate(idTest, idGroup)
+      this.resultsService.getRecordsByTestGroupDate(this.idTest, idGroup)
     ).subscribe(([res1, res2]) => {
       if (res1 === 'no records') {
         return;
@@ -136,12 +139,12 @@ export class ResultsComponent implements OnInit {
       if (res2 === 'no records') {
         return;
       }
-      this.listResults = res2.map( item => {
-          const duration = this.resultsService.getDurationTest(item.session_date, item.start_time, item.end_time);
-          const score = (item.result / item.answers * 100).toFixed();
-          const student = this.resultsService.getFullNameStudent(item.student_id, res1);
-          return { ...item, student, duration, score};
-        });
+      this.listResults = res2.map(item => {
+        const duration = this.resultsService.getDurationTest(item.session_date, item.start_time, item.end_time);
+        const score = (item.result / item.answers * 100).toFixed();
+        const student = this.resultsService.getFullNameStudent(item.student_id, res1);
+        return { ...item, student, duration, score };
+      });
       this.dataSource.data = this.listResults;
       this.dataSource.sort = this.sort;
     }, () => {
@@ -150,7 +153,7 @@ export class ResultsComponent implements OnInit {
   }
 
   private createFormForFilterResult() {
-  //  this.typeFilter = new FormControl(this.filterOption);
+    //  this.typeFilter = new FormControl(this.filterOption);
     this.filterForm = this.fb.group({
       filter_type: ['']
     });
@@ -158,7 +161,7 @@ export class ResultsComponent implements OnInit {
 
   /** handler for change field filterForm "type" */
   private onChangeFieldType() {
-    this.filterForm.valueChanges.subscribe( value => {
+    this.filterForm.valueChanges.subscribe(value => {
       //this.filterOption[value](this.listResults);
       switch (value.filter_type) {
         case 1: this.dataSource.data = this.listResults;
@@ -184,7 +187,7 @@ export class ResultsComponent implements OnInit {
       .subscribe(result => {
         this.dialog.open(ResultRaitingQuestionComponent, {
           width: '1000px',
-          data: {data: result}
+          data: { data: result }
         });
       }, () => {
         this.modalService.openErrorModal('Помилка завантаження даних');
@@ -195,7 +198,16 @@ export class ResultsComponent implements OnInit {
   createGroupChart(): void {
     this.dialog.open(ResultGroupRaitingComponent, {
       width: '1000px',
-      data: {data: this.dataSource.data}
+      data: { data: this.dataSource.data }
+    });
+  }
+
+  createGroupsChart(): void {
+    this.dialog.open(ResultGroupsRaitingComponent, {
+      width: '1000px',
+      data: {
+        testID: this.idTest
+      }
     });
   }
 
@@ -205,6 +217,16 @@ export class ResultsComponent implements OnInit {
       data: {
         detail,
         subjectName
+      }
+    });
+  }
+
+  openChartResultsByLevel(results: string): void {
+    this.dialog.open(LevelResultsChartComponent, {
+      width: '1000px',
+      data: {
+        results,
+        testList: this.listTestsByGroup
       }
     });
   }

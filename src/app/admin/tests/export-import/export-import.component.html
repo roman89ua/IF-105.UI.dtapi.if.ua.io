@@ -1,0 +1,71 @@
+<h3 mat-dialog-title>Експорт/імпорт запитань</h3>
+<div id="checkAction" *ngIf="!isDownload && !isUpload">
+  <p>Виберіть дію</p>
+  <button mat-stroked-button color="primary" (click)="openDownloadForm()">
+    Експортувати
+  </button>
+  <button mat-stroked-button color="primary" (click)="openUploadForm()">
+    Імпортувати
+  </button>
+  <button mat-stroked-button color="primary" type="button" cdkFocusInitial (click)="onDismiss()">
+    Відмінити
+  </button>
+</div>
+<form [formGroup]="selectDetailDownloadForm" (ngSubmit)="onSubmit()" *ngIf="isDownload">
+    <mat-form-field class="invisible example-full-width">
+        <input
+        matInput
+        formControlName="test_id"
+        [value]="data.test_id"
+        >
+    </mat-form-field>
+    <mat-form-field class="example-full-width">
+        <mat-label>Рівні тесту</mat-label>
+        <mat-select formControlName="level" placeholder="Виберіть рівень тесту">
+          <mat-option
+            [value]="0"
+          >
+            Всі рівні
+        </mat-option>
+          <mat-option
+            *ngFor="let item of data.level"
+            [value]="item"
+          >
+            {{item}}
+          </mat-option>
+        </mat-select>
+        <mat-error>
+          Виберіть рівень для завантаження 
+        </mat-error>
+      </mat-form-field>
+      <button mat-stroked-button color="primary" type="submit" [disabled]='selectDetailDownloadForm.invalid'>
+        Завантажити
+      </button>
+      <button mat-stroked-button color="primary" type="button" cdkFocusInitial (click)="onDismiss()">Відмінити</button>
+</form>
+<div *ngIf="isUpload" class="uploadForm">
+  <mat-form-field class="example-full-width">
+    <mat-label>Виберіть рівень тесту для імпорту</mat-label>
+    <mat-select name="level" 
+      placeholder="Виберіть рівень тесту для імпорту" 
+      (selectionChange)="changeClient($event.value)"
+    >
+      <mat-option
+        *ngFor="let item of levelQuestion"
+        [value]="item"
+      >
+        {{item}}
+      </mat-option>
+    </mat-select>
+    <mat-error>
+      Виберіть рівень завдань для завантаження 
+    </mat-error>
+  </mat-form-field>
+  <button *ngIf="selectedLevel" type="button" mat-raised-button (click)="fileInput.click()">
+    Виберіть файл
+  </button>
+  <input hidden (change)="onFileSelected(data.test_id)" #fileInput type="file" id="file">
+  <button mat-stroked-button color="primary" type="button" cdkFocusInitial (click)="onDismiss()">
+    Відмінити
+  </button>
+</div>

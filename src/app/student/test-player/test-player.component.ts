@@ -1,10 +1,11 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Component, Input, OnDestroy, OnInit} from '@angular/core';
 import {TestPlayerService} from '../test-player.service';
 import {ActivatedRoute} from '@angular/router';
-import {switchMap} from 'rxjs/operators';
+import {filter, map, switchMap} from 'rxjs/operators';
 import {ModalService} from '../../shared/services/modal.service';
 import {Test} from '../../admin/entity.interface';
 import {SessionStorageService} from 'angular-web-storage';
+import {TestLogoutService} from '../../shared/services/test-logout.service';
 
 @Component({
   selector: 'app-test-player',
@@ -24,13 +25,20 @@ export class TestPlayerComponent implements OnInit, OnDestroy {
   userTime: number;
   serverTime: number;
   testInProgress;
-
+  subscription: any;
 
   constructor(private testPlayerService: TestPlayerService,
               private route: ActivatedRoute,
               private modalService: ModalService,
-              public session: SessionStorageService) {
+              public session: SessionStorageService,
+              private testLogoutService: TestLogoutService) {
     this.questions = [];
+    this.subscription = this.testLogoutService.getMessage().pipe(
+      filter(data => data === true)
+    ).subscribe(
+      () => this.sendAnswersForCheck()
+    );
+
   }
 
   get choosenQuestion() {
@@ -62,6 +70,7 @@ export class TestPlayerComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     clearInterval(this.testInProgress);
+    this.subscription.unsubscribe();
   }
 
   viewQuestionParent(id: string) {

@@ -13,6 +13,7 @@ import { TestPlayerService } from './test-player.service';
 import {MatButtonModule, MatIconModule, MatTableModule, MatTabsModule} from '@angular/material';
 import { StudentInfoComponent } from './student-info/student-info.component';
 import {CountdownModule} from 'ngx-countdown';
+import {StudentInfoService} from './student-info.service';
 
 const routes: Routes = [
   {
@@ -52,6 +53,7 @@ const routes: Routes = [
     ],
   providers: [
     TestPlayerService,
+    StudentInfoService,
   ]
 })
 export class StudentModule { }

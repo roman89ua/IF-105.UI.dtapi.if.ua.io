@@ -56,6 +56,7 @@
         </mat-form-field>
         <button mat-stroked-button (click)="createChart()">Статистика тесту</button>
         <button mat-stroked-button (click)="createGroupChart()">Успішність групи</button>
+        <button mat-stroked-button (click)="createGroupsChart()">Успішність по групам</button>
       </form>
     </div>
     <table mat-table #table [dataSource]="dataSource" matSort>
@@ -98,12 +99,13 @@
       <ng-container matColumnDef="details">
         <th mat-header-cell *matHeaderCellDef>Статистика</th>
         <td mat-cell *matCellDef="let result">
-          <mat-icon 
+          <mat-icon
             aria-label="details"
             matTooltip="Деталі тестування"
             (click)="openDetailResult(result, subjectName$)">
             details</mat-icon>
           <button>Статистика</button>
+          <button (click)="openChartResultsByLevel(result)">Результат по рівнях</button>
         </td>
       </ng-container>
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>

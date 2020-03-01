@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import {Component, OnInit, Input } from '@angular/core';
 import { Observable } from 'rxjs';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { map, shareReplay } from 'rxjs/operators';
@@ -9,6 +9,8 @@ import { User } from '../entity.interface';
 import { TranslateService } from '@ngx-translate/core';
 import {SessionStorage, SessionStorageService} from 'angular-web-storage';
 import {ModalService} from '../services/modal.service';
+import { TestLogoutService } from '../services/test-logout.service';
+
 @Component({
   selector: 'app-toolbar',
   templateUrl: './toolbar.component.html',
@@ -26,6 +28,7 @@ export class ToolbarComponent implements OnInit {
     public translate: TranslateService,
     public session: SessionStorageService,
     private modalService: ModalService,
+    private testLogoutService: TestLogoutService,
   ) { }
 
 
@@ -62,8 +65,9 @@ export class ToolbarComponent implements OnInit {
   logoutHandler() {
     const test = this.session.get('testInProgress');
     if (test) {
-      this.modalService.openConfirmModal('Тест триває! Ви дійсно хочете вийти?', () => {
+      this.modalService.openConfirmModal('Тест триває! Ваша спроба буде зарахованва. Ви дійсно хочете вийти?', () => {
         this.session.clear();
+        this.testLogoutService.updateMessage(true);
         this.logOut();
       });
     } else {
