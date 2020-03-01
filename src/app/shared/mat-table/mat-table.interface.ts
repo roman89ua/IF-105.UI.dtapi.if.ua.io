@@ -1,6 +1,6 @@
 export enum tableActionsType {
     Edit = 'edit',
-    Delete = 'delete',
+    Remove = 'remove',
     Route = 'route',
 }
 export interface Column {

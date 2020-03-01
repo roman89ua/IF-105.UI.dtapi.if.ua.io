@@ -6,6 +6,7 @@ import { FacultiesService } from './faculties.service';
 import { PaginationModel } from 'src/app/shared/mat-table/PaginationModel';
 import { ApiService } from 'src/app/shared/services/api.service';
 import { Column, tableActionsType } from 'src/app/shared/mat-table/mat-table.interface';
+import { TableAction } from 'src/app/shared/mat-table/TableAction';
 
 @Component({
   selector: 'app-faculties',
@@ -24,7 +25,7 @@ export class FacultiesComponent extends PaginationModel implements OnInit, After
     {columnDef: 'faculty_description', header: 'Опис'},
     {columnDef: 'action', header: 'Дії', actions: [
       {type: tableActionsType.Edit, icon: 'edit', matTooltip: 'Редагувати', aria_label: 'edit'},
-      {type: tableActionsType.Delete, icon: 'delete', matTooltip: 'Видалити', aria_label: 'delete'}
+      {type: tableActionsType.Remove, icon: 'delete', matTooltip: 'Видалити', aria_label: 'delete'}
     ]}
   ];
 
@@ -49,16 +50,11 @@ export class FacultiesComponent extends PaginationModel implements OnInit, After
   }
   ngAfterViewInit(): void { }
 
-  getAction({type, body: {...faculty }}: {type: tableActionsType, body: Faculty} ) {
-    const action = {
-      edit: () => {
-        this.openFacultyModal(faculty);
-      },
-      delete: () => {
-        this.openConfirmDialog(faculty);
-      }
-    };
-    action[type]();
+  getAction({type, body}: {type: tableActionsType, body: Faculty} ) {
+    TableAction.getAction(type,
+      () => {this.openFacultyModal(body)},
+      () => {this.openConfirmDialog(body)}
+      );
 
   }
   openFacultyModal(facultyObj?: Faculty) {
