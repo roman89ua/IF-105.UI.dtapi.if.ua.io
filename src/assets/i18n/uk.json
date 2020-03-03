@@ -27,7 +27,8 @@
         "results":"Результати",
         "admin-user":"Адміни",
         "lang":"Мова",
-        "exit": "Вийти"
+        "exit": "Вийти",
+        "protocol": "Протокол"
     },
     "adminUser":{
         "headerMain": "Адміни",
@@ -102,7 +103,7 @@
         "viewFormConfirmBtn": "Показати",
         "viewFormCancelmBtn": "Відмінити"
 
-        
+
     },
     "speciality":{
         "header":"Спеціальності",
@@ -252,12 +253,12 @@
         "formAddBtn": "Додати",
         "formEditBtn": "Редагувати",
         "formCencelBtn": "Відмінити",
-        
+
         "snackbarMessageCreate":"Предмет створено.",
         "snackbarMessageEdit":"Предмет відредаговано.",
         "snackbarMessageDelete":"Предмет видалено.",
         "deleteMessagesConfirmation":"Ви видаляєте предмет '"
-        
+
     },
     "studentAdmin":{
         "hederMain":"Студенти",
@@ -315,7 +316,8 @@
             "tests":"Тести",
             "questions":"Питання",
             "speciality":"Спеціальності",
-            "results":"Результати"
+            "results":"Результати",
+            "protocol":"Протокол"
         }
     }
 }

@@ -52,6 +52,7 @@ import { ResultGroupsRaitingComponent } from './results/result-groups-raiting/re
 import { ResultsQuestionDetailComponent } from './results/results-question-detail/results-question-detail.component';
 import { ExportImportComponent } from './tests/export-import/export-import.component';
 import { LevelResultsChartComponent } from './results/level-results-chart/level-results-chart.component';
+import { ProtocolComponent } from './protocol/protocol.component';
 
 
 
@@ -151,6 +152,12 @@ const routes: Routes = [
           breadcrumb: 'shared.breadbreadcrumb.results'
         }
       },
+      {
+        path: 'protocol', component: ProtocolComponent,
+        data: {
+          breadcrumb: 'shared.breadbreadcrumb.protocol'
+        }
+      },
     ]
   }
 ];
@@ -192,7 +199,8 @@ const routes: Routes = [
     ResultGroupsRaitingComponent,
     ResultsQuestionDetailComponent,
     ExportImportComponent,
-    LevelResultsChartComponent
+    LevelResultsChartComponent,
+    ProtocolComponent
 
   ],
   imports: [
