@@ -223,8 +223,8 @@
         "formCancelBtn":"Відмінити"
     },
     "subjects":{
-        "headerMain": "Предмети",
-        "addNew": "Новий предмети",
+        "headerMain": "Предметb",
+        "addNew": "Новий предмет",
         "filterPlaceholder": "Пошук",
 
         "tableNum": "№",
