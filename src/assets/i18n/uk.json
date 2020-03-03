@@ -29,6 +29,21 @@
         "lang":"Мова",
         "exit": "Вийти"
     },
+
+    "dashboard":{
+        "dashboard":"Головна",
+        "faculties": "Факультети",
+        "group": "Групи",
+        "speciality":"Спеціальності",
+        "subjects":"Предмети",
+        "students":"Студенти",
+        "question":"Питання",
+        "tests":"Тести",
+        "results":"Результати",
+        "admin-user":"Адміни",
+        "btn":"Перейти"
+        
+    },
     "adminUser":{
         "headerMain": "Адміни",
         "addAdminMain":"Додати адміна",

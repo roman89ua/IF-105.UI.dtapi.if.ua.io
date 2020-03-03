@@ -29,6 +29,21 @@
         "lang":"Language",
         "exit": "Logout"
     },
+    "dashboard":{
+        "dashboard":"Home",
+        "faculties": "Faculties",
+        "group": "Groups",
+        "speciality":"Specialties",
+        "subjects": "Subjects",
+        "students":"Students",
+        "question":"Questions",
+        "tests":"Tests",
+        "results":"Results",
+        "admin-user": "Admins",
+        "btn":"Go"
+        
+        
+    },
     "adminUser":{
         "headerMain": "Admin",
         "addAdminMain":"Add admin",
