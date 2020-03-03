@@ -262,7 +262,7 @@
         "formTextAreaLabel": "Subject description",
         "formTextAreaPlaceholder": "Description",
         "formErrorRequired":"This field is required *",
-        "formErrorPattern":"This field contains invalid characters or (numbers, Latin letters)",
+        "formErrorPattern":"This field contains invalid characters or start from number",
         "formErrorMinMax":"Minimum: 2 characters, maximum: 100",
         "formAddBtn": "Add",
         "formEditBtn": "Edit",

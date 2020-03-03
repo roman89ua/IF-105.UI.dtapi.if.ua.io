@@ -238,7 +238,7 @@
         "formCancelBtn":"Відмінити"
     },
     "subjects":{
-        "headerMain": "Предметb",
+        "headerMain": "Предмети",
         "addNew": "Новий предмет",
         "filterPlaceholder": "Пошук",
 
@@ -262,7 +262,7 @@
         "formTextAreaLabel": "Опис предмета",
         "formTextAreaPlaceholder": "Опис",
         "formErrorRequired":"Це поле є обовязкове*",
-        "formErrorPattern":"Поле містить недопустимі символи або (Цифри, латинські букви)",
+        "formErrorPattern":"Поле містить недопустимі символи або починається з числа",
         "formErrorMinMax":"Мінімум: 2 символи, максимуму: 100",
         "formAddBtn": "Додати",
         "formEditBtn": "Редагувати",
