@@ -9,40 +9,28 @@
 <form [formGroup]="studentForm" (ngSubmit)="handleSubmit(studentForm.value)">
     
     <mat-form-field class="example-full-width">
-        <label>
-            Прізвище:
-            <input class="studentInput" matInput type="text" formControlName="lastname" required>
-        </label>
+        <input placeholder="Прізвище" matInput type="text" formControlName="lastname">
         <mat-error *ngIf="studentForm.get('lastname').invalid && (studentForm.get('lastname').dirty || studentForm.get('lastname').touched)">
             <span *ngIf="studentForm.get('lastname').errors.required">Поле не заповнене </span>
         </mat-error>
     </mat-form-field>
 
     <mat-form-field class="example-full-width">
-        <label>
-            Ім'я
-            <input class="studentInput" matInput type="text" formControlName="firstname" required>
-        </label>
+        <input placeholder="Ім'я" matInput type="text" formControlName="firstname">
         <mat-error *ngIf="studentForm.get('firstname').invalid && (studentForm.get('firstname').dirty || studentForm.get('firstname').touched)">
             <span *ngIf="studentForm.get('firstname').errors.required">Поле не заповнене </span>
         </mat-error>
     </mat-form-field>
 
     <mat-form-field class="example-full-width">
-        <label>
-            По-батькові:
-            <input class="studentInput" matInput type="text" formControlName="fathername" required>
-        </label>
+        <input placeholder="По-батькові" matInput type="text" formControlName="fathername">
         <mat-error *ngIf="studentForm.get('fathername').invalid && (studentForm.get('fathername').dirty || studentForm.get('fathername').touched)">
             <span *ngIf="studentForm.get('fathername').errors.required">Поле не заповнене </span>
         </mat-error>
     </mat-form-field>
 
     <mat-form-field class="example-full-width">
-        <label>
-            Номер залікової книжки:
-            <input class="studentInput" matInput type="text" formControlName="gradebookID">
-        </label>
+        <input placeholder="Номер залікової книжки" matInput type="text" formControlName="gradebookID">
         <mat-error *ngIf="studentForm.get('gradebookID').invalid && (studentForm.get('gradebookID').dirty || studentForm.get('gradebookID').touched)">
             <span *ngIf="studentForm.get('gradebookID').errors.required">Поле не заповнене </span>
             <span *ngIf="studentForm.get('gradebookID').errors.propertyIsNotUnique">Користувач з таким номером залікової книжки вже існує</span>
@@ -50,10 +38,7 @@
     </mat-form-field>
 
     <mat-form-field class="example-full-width">
-        <label>
-            Унікальне ім'я користувача в системі:
-            <input class="studentInput" matInput type="text" formControlName="login">
-        </label>
+        <input placeholder="Унікальне ім'я користувача в системі" matInput type="text" formControlName="login">
         <mat-error *ngIf="studentForm.get('login').invalid && (studentForm.get('login').dirty || studentForm.get('login').touched)">
             <span *ngIf="studentForm.get('login').errors.required">Поле не заповнене </span>
             <span *ngIf="studentForm.get('login').errors.propertyIsNotUnique">Такий користувач вже існує</span>
@@ -61,10 +46,7 @@
     </mat-form-field>
 
     <mat-form-field class="example-full-width">
-        <label>
-            Електронна пошта:
-            <input class="studentInput" matInput type="text" formControlName="email">
-        </label>
+        <input placeholder="Електронна пошта" matInput type="text" formControlName="email">
         <mat-error *ngIf="studentForm.get('email').invalid && (studentForm.get('email').dirty || studentForm.get('email').touched)">
             <span *ngIf="studentForm.get('email').errors.required">Поле не заповнене </span>
             <span *ngIf="studentForm.get('email').errors.email">Введіть коректну електронну адресу</span>
@@ -73,10 +55,10 @@
     </mat-form-field>
 
     <mat-form-field class="example-full-width">
-        <label>
-            Введіть пароль:
-            <input class="studentInput" matInput type="password" formControlName="password">
-        </label>
+        <input matInput placeholder="Введіть пароль" [type]="hide ? 'password' : 'text'" formControlName="password">
+        <button type="button" mat-icon-button matSuffix (click)="hidePassword()" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
+            <mat-icon class="hide_icon">{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+        </button>
         <mat-error *ngIf="studentForm.get('password').invalid && (studentForm.get('password').dirty || studentForm.get('password').touched)">
             <span *ngIf="studentForm.get('password').errors.required">Поле не заповнене </span>
             <span *ngIf="studentForm.get('password').errors.minlength">Довжина паролю повинна бути більшою ніж 8 символів</span>
@@ -84,10 +66,10 @@
     </mat-form-field>
 
     <mat-form-field class="example-full-width">
-        <label>
-            Підтвердіть пароль:
-            <input class="studentInput" matInput type="password" formControlName="password_confirm">
-        </label>
+        <input matInput placeholder="Підтвердіть пароль" [type]="hide ? 'password' : 'text'" formControlName="password_confirm">
+        <button type="button" mat-icon-button matSuffix (click)="hidePassword()" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
+            <mat-icon class="hide_icon">{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+        </button>
         <mat-error *ngIf="studentForm.get('password_confirm').invalid && (studentForm.get('password_confirm').dirty || studentForm.get('password_confirm').touched)">
             <span *ngIf="studentForm.get('password_confirm').errors.required">Поле не заповнене </span>
             <span *ngIf="studentForm.get('password_confirm').errors.minlength">Довжина паролю повинна бути більшою ніж 8 символів</span>
@@ -132,6 +114,6 @@
         <div *ngIf="loadImageFail" class="no__image">Тип даного файлу не підтримується.<br>Будь ласка, використайте png, gif або jpg формат</div>
     </div>
 
-    <button class="submit" mat-stroked-button color="primary" type="submit" [disabled]="!studentForm.valid" style="float: left;">{{ this.data.submitButtonText }}</button>
+    <button class="submit" mat-stroked-button color="primary" type="submit" [disabled]="!studentForm.valid">{{ this.data.submitButtonText }}</button>
       
 </form>

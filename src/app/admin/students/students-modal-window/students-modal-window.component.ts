@@ -59,6 +59,8 @@ export class StudentsModalWindowComponent implements OnInit {
     ),
   });
 
+  public hide = true;
+
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
     private studentsHttpService: StudentsService,
@@ -132,6 +134,14 @@ export class StudentsModalWindowComponent implements OnInit {
         );
       }
     };
+  }
+
+  hidePassword() {
+    if (this.hide === true) {
+      return this.hide = false;
+    } else {
+      return this.hide = true;
+    }
   }
 
   getUserData() {
