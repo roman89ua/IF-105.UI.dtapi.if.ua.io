@@ -36,7 +36,7 @@ import {MatSidenavModule} from '@angular/material/sidenav';
 import {MatSliderModule} from '@angular/material/slider';
 import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 import {MatSnackBarModule} from '@angular/material/snack-bar';
-import {MatSortModule} from '@angular/material/sort';
+import {MatSortModule, MatSort} from '@angular/material/sort';
 import {MatTableModule} from '@angular/material/table';
 import {MatTabsModule} from '@angular/material/tabs';
 import {MatToolbarModule} from '@angular/material/toolbar';
@@ -55,6 +55,7 @@ import { ToolbarComponent } from './toolbar/toolbar.component';
 import { RouterModule } from '@angular/router';
 import { BreadcrumbsComponent } from './breadcrumbs/breadcrumbs.component';
 import { MatTableComponent } from './mat-table/mat-table.component';
+import { MatFormFieldModule } from '@angular/material';
 
 
 @NgModule({
@@ -74,6 +75,9 @@ import { MatTableComponent } from './mat-table/mat-table.component';
     MatIconModule,
     MatTableModule,
     MatTooltipModule,
+    MatSortModule,
+    MatFormFieldModule,
+    MatInputModule,
     MatProgressSpinnerModule,
     MatProgressBarModule,
     TranslateModule.forChild({

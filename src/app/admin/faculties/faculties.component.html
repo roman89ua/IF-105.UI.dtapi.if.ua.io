@@ -14,7 +14,8 @@
 <app-mat-table 
 [data]="dataSource.data" 
 [columns]="columns"  
-[countRecords]="length" 
+[countRecords]="length"
+[filter]='true'
 (action)='getAction($event)' 
 (pageEvent)='pageUpdate($event)'>
 </app-mat-table>

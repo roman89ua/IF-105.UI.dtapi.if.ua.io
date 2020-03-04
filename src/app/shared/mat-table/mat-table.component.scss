@@ -20,7 +20,14 @@ mat-icon {
 a:hover {
   cursor: pointer;
 }
-
+.filter {
+  display: flex;
+  justify-content: center;
+  align-self: center;
+}
+mat-form-field {
+  width: 60%;
+}
 .material-icons.delete:hover {
   color: red;
 }

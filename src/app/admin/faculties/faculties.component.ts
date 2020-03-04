@@ -6,7 +6,6 @@ import { FacultiesService } from './faculties.service';
 import { PaginationModel } from 'src/app/shared/mat-table/PaginationModel';
 import { ApiService } from 'src/app/shared/services/api.service';
 import { Column, tableActionsType } from 'src/app/shared/mat-table/mat-table.interface';
-import { TableAction } from 'src/app/shared/mat-table/TableAction';
 
 @Component({
   selector: 'app-faculties',
@@ -29,6 +28,16 @@ export class FacultiesComponent extends PaginationModel implements OnInit, After
     ]}
   ];
 
+  actions = {
+    edit: (faculty) => {
+      this.openFacultyModal(faculty);
+    },
+    remove: (faculty) => {
+      this.openConfirmDialog(faculty);
+    }
+
+  };
+
   /* for Paginator */
   length: number;
 
@@ -45,18 +54,17 @@ export class FacultiesComponent extends PaginationModel implements OnInit, After
 
   pageUpdate(event: PageEvent) {
     this.pageChange(event);
-    this.getRange(data => this.dataSource.data = data);
+    this.getRange((data: Faculty[]) => this.dataSource.data = data);
     this.getCountRecords(response => this.length = response.numberOfRecords);
   }
+
   ngAfterViewInit(): void { }
 
   getAction({type, body}: {type: tableActionsType, body: Faculty} ) {
-    TableAction.getAction(type,
-      () => {this.openFacultyModal(body)},
-      () => {this.openConfirmDialog(body)}
-      );
-
+    this.actions[type](body);
   }
+
+
   openFacultyModal(facultyObj?: Faculty) {
     if (!facultyObj) {
       this.facultyService.openAddFacultyDialog()
