@@ -1,0 +1,44 @@
+
+mat-icon {
+  cursor: pointer;
+
+  &:hover {
+    &[aria-label="edit"] {
+      color: orange;
+    }
+    &[aria-label="delete"] {
+      color: red;
+    }
+  }
+}
+
+.btn {
+  width: 200px;
+  margin: 10px 0;
+}
+
+a:hover {
+  cursor: pointer;
+}
+.filter {
+  display: flex;
+  justify-content: center;
+  align-self: center;
+}
+mat-form-field {
+  width: 60%;
+}
+.material-icons.delete:hover {
+  color: red;
+}
+
+.material-icons.edit:hover {
+  color: orange;
+}
+
+table {
+  width: 100%;
+}
+.mat-elevation-z8 {
+   box-shadow: none;
+}
