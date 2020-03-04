@@ -4,16 +4,19 @@
     </ng-container>
 
     <ng-container>
-        <button class="addSubject" color="primary" mat-stroked-button (click)="createNewSubject()">
-            <mat-icon aria-hidden="false" aria-label="add">add</mat-icon>
-            {{'subjects.addNew'| translate}}
-        </button>
+        <div class="mat-elevation-z9 ">
+            <button class="addSubject" mat-stroked-button (click)="createNewSubject()">
+                <mat-icon aria-hidden="false" aria-label="add">add</mat-icon>
+                {{'subjects.addNew'| translate}}
+            </button>
+        </div>
+        
     </ng-container>
 </div>
 <mat-form-field class="filter">
     <input matInput (keyup)="applyFilter($event.target.value)" placeholder="{{'subjects.filterPlaceholder'| translate}}">
 </mat-form-field>
-<div class="mat-elevation-z9">
+<div class="mat-elevation-z9 table">
 
     <table mat-table [dataSource]="dataSource" #table class="mat-elevation-z8" matSort>
         <ng-container matColumnDef="subject_number">

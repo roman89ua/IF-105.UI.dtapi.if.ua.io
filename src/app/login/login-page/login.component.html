@@ -5,6 +5,7 @@
 
     <form class="">
         <h3 class="header">{{'loginform.header' | translate}}</h3>
+  
         <mat-form-field class="input-wrapper">
             <mat-icon matPrefix aria-hidden="false" aria-label="account_box">account_box</mat-icon>
             <input matInput placeholder="{{'loginform.username' | translate}}" [(ngModel)]="userData.username" name="username">
@@ -20,4 +21,15 @@
         </div>
         <button class="butt-wrap" mat-flat-button color="primary" (click)="login()">{{'loginform.enter' | translate}}</button>
     </form>
+</div>
+
+<div class="float__lang__btn">
+    <button  mat-flat-button class="menu__language" [matMenuTriggerFor]="langMenu">
+        <span class="langBtn">{{'sidenav.lang'|translate}}</span>
+    </button>
+            
+    <mat-menu #langMenu="matMenu">
+        <button mat-menu-item (click) = "changeLang('en')"><span class="lang">Eng</span></button>
+        <button mat-menu-item (click) = "changeLang('uk')"><span class="lang">Укр</span> </button>
+    </mat-menu>
 </div>
