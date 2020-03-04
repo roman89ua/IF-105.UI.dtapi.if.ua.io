@@ -1,5 +1,7 @@
 import { Injectable } from '@angular/core';
 import { ApiService } from 'src/app/shared/services/api.service';
+import { of } from 'rxjs';
+import { map, tap } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -12,11 +14,18 @@ export class LevelResultsChartService {
     const questionsArr = JSON.parse(data).filter(element =>
       element.true === 1
     ).map(element => element.question_id);
-    return this.apiService.getByEntityManager('Question', questionsArr);
+    return (questionsArr.length > 0) ? this.apiService.getByEntityManager('Question', questionsArr) : of([]);
   }
-  /** returns TestDetail for test with provided id */
+  /** returns sorted by Levels TestDetail for test with provided id */
   getTestDetail(id) {
-    return this.apiService.getEntityByAction('TestDetail', 'getTestDetailsByTest', id);
+    return this.apiService.getEntityByAction('TestDetail', 'getTestDetailsByTest', id).pipe(
+      map(data => this.sortTestDetailsByLevels(data))
+    );
+  }
+  /** Sorts TestDetails by levels ascending */
+  sortTestDetailsByLevels(data) {
+    return data.sort((a, b) =>
+      +a.level - +b.level);
   }
   /** returns object with counted true answers for each level */
   getTrueAnswersbyLevel(testDetails, trueAnswers): Array<object> {

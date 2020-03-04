@@ -18,7 +18,7 @@ import { ModalService } from 'src/app/shared/services/modal.service';
 import { FormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
-fdescribe('StudentsComponent', () => {
+describe('StudentsComponent', () => {
   let component: StudentsComponent;
   let fixture: ComponentFixture<StudentsComponent>;
 

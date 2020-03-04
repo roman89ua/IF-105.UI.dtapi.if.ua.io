@@ -4,6 +4,7 @@ mat-icon {
 
 .header {
     text-align: center;
+    margin-bottom: 15px;
 }
 
 .closeForm {
@@ -20,18 +21,28 @@ mat-icon {
 
 mat-form-field {
     width: 100%;
+}
 
-    label {
-        .studentInput {
-            margin-top: 5px;
-        }
-    }
+.hide_icon {
+    font-size: 20px!important;
 }
 
 .submit {
     width: calc(50% - 10px);
     &:first-of-type {
         margin-right: 20px;
+    }
+}
+
+@media screen and (max-width: 600px) {
+    .submit {
+        width: 50%;
+    }
+}
+
+@media screen and (max-width: 500px) {
+    .submit {
+        width: 80%;
     }
 }
 
@@ -73,7 +84,20 @@ mat-form-field {
     display: flex;
     justify-content: center;
     .student_photo{
-        width: 70%;
+        width: 60%;
         height: 300px;
+    }
+
+    @media screen and (max-width: 700px) {
+        .student_photo {
+            height: 280px;
+            width: 70%;
+        }
+    }
+
+    @media screen and (max-width: 500px) {
+        .student_photo {
+            height: 200px;
+        }
     }
 }
