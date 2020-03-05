@@ -7,24 +7,23 @@ h3 {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    width: 90%;
+    width: 98%;
     padding: 1em 0;
 }
 
 .filter {
     width: 100%;
     font-size: 16px;
-    padding: 0 5%;
+    padding: 0 1%;
 }
 
 table {
     width: 100%;
 }
 
-.mat-elevation-z9 {
-    width: 90%;
+.mat-elevation-z9.table {
+    width: 98%;
     margin: 0 auto;
-    // padding-top: 1em;
 }
 
 .mat-form-field {

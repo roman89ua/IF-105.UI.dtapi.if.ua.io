@@ -19,8 +19,8 @@ export class SubjectsCreateModalComponent implements OnInit {
   @ViewChild('addSubject', { static: false }) addsubject;
 
   public addSubject = new FormGroup({
-    subject_name: new FormControl('', [Validators.required, Validators.pattern(`[А-ЯІїЄ -]+[А-ЯЄІа-яіїє0-9 ':-]*`)]),
-    subject_description: new FormControl('', [Validators.required, Validators.pattern(`[А-ЯІїЄ -]+[А-ЯЄІа-яіїє0-9 ':-]*`)])
+    subject_name: new FormControl('', [Validators.required, Validators.pattern(`[А-ЯІїЄA-Z -]+[А-ЯA-ZЄІа-яіїєa-z0-9 ':-]*`)]),
+    subject_description: new FormControl('', [Validators.required, Validators.pattern(`[А-ЯA-ZІїЄ -]+[А-ЯA-ZЄІа-яіїєa-z0-9 ':-]*`)])
   });
 
   onSubmit(): void {

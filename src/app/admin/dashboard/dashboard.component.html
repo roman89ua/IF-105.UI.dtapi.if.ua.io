@@ -1,5 +1,5 @@
 <section class="header">
-  <h3>Головна</h3>
+  <h3>{{'sidenav.dashboard' | translate}}</h3>
 </section>
 <section class="container">
   <mat-card class="dashboard-card" *ngFor="let item of countRecord">
@@ -17,7 +17,7 @@
       </section>
     </mat-card-content>
     <mat-card-actions>
-      <button mat-button routerLink="../{{ item.route }}">Перейти</button>
+      <button mat-button routerLink="../{{ item.route }}">{{'dashboard.btn' | translate}}</button>
     </mat-card-actions>
   </mat-card>
 </section>

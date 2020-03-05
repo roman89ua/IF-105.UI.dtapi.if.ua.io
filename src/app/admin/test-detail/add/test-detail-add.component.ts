@@ -1,12 +1,12 @@
-import { Component, OnInit, Inject } from '@angular/core';
+import {Component, OnInit, Inject} from '@angular/core';
 import { Test } from '../../entity.interface';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ApiService } from 'src/app/shared/services/api.service';
-import {range} from 'rxjs';
 
 export interface DialogData {
   data: any;
   description: any;
+  usedLevels: number[];
 }
 
 @Component({
@@ -17,6 +17,7 @@ export interface DialogData {
 
 export class TestDetailAddComponent implements OnInit {
   tests: Test[] = [];
+  defaultLevels: number[];
   levels: number[];
 
   constructor(
@@ -26,11 +27,18 @@ export class TestDetailAddComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.levels = Array.from({length: 20}, (v, k) => k + 1);
+    this.defaultLevels = Array.from({length: 20}, (v, k) => k + 1);
+    this.levels = this.getAvailableLevels();
     this.apiService
       .getEntity('test')
       .subscribe((result: Test[]) => {
         this.tests = result;
       });
+  }
+
+  private getAvailableLevels(): number[] {
+    const usedLevelsExceptCurrent = this.data.usedLevels.filter(n => n !== Number(this.data.data.level));
+
+    return this.defaultLevels.filter(num => !usedLevelsExceptCurrent.includes(num));
   }
 }

@@ -1,0 +1,8 @@
+<h5>Використання мов на front-end частині проекту</h5>
+<div *ngIf="doughnutChartData !== undefined">
+    <canvas baseChart
+                [data]="doughnutChartData"
+                [labels]="doughnutChartLabels"
+                [chartType]="doughnutChartType"
+    ></canvas>
+</div>

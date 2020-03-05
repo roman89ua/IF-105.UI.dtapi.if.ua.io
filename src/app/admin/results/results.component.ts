@@ -197,7 +197,7 @@ export class ResultsComponent implements OnInit {
 
   createGroupChart(): void {
     this.dialog.open(ResultGroupRaitingComponent, {
-      width: '1000px',
+      width: '1200px',
       data: { data: this.dataSource.data }
     });
   }
