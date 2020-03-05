@@ -41,7 +41,9 @@
         "tests":"Tests",
         "results":"Results",
         "admin-user": "Admins",
-        "btn":"Go"
+        "btn":"Go",
+        "protocol": "Protocol"
+
         
         
     },
