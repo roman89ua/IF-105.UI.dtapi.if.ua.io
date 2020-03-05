@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AboutUsService } from '../about-us.service';
+import { forkJoin } from 'rxjs';
 
 @Component({
   selector: 'app-bars-chart',
@@ -62,9 +63,12 @@ export class BarsChartComponent implements OnInit {
 
   private async getUserNames() {
     const data: any = await this.getUserNickNames();
-    data.forEach(element => {
-      this.aboutUsService.getUserNames(element).subscribe((result: any) => {
-        return this.barChartLabels.push(result.name !== null ? result.name  : element);
+    const someConst$: any = data.map(element => {
+      return this.aboutUsService.getUserNames(element);
+    });
+    forkJoin(someConst$).subscribe((result: any) => {
+      this.barChartLabels = result.map(element => {
+        return element.name !== null ? element.name  : element.login;
       });
     });
   }

@@ -137,7 +137,7 @@ export class StudentsModalWindowComponent implements OnInit {
   }
 
   hidePassword() {
-    return this.hide = this.hide === true ? false : true;
+    return this.hide = !this.hide;
   }
 
   getUserData() {
