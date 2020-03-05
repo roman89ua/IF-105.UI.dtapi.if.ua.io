@@ -102,3 +102,8 @@ export interface GroupsRaiting {
   group_name: string;
   score: number;
 }
+
+export interface UserAnswers {
+  question_id: number;
+  answer_ids: number[];
+}

@@ -13,7 +13,10 @@
       </ng-container>
       <ng-container matColumnDef="id">
         <th mat-header-cell *matHeaderCellDef>ID</th>
-        <td mat-cell *matCellDef="let result" [ngClass]="{trueAnswer: result.true, falseAnswer: !result.true}">
+        <td mat-cell *matCellDef="let result" 
+          [ngClass]="{trueAnswer: result.true, falseAnswer: !result.true}"
+          (click)="openModal(result.question_id)"
+          >
           {{ result.question_id }}
         </td>
       </ng-container>
@@ -27,6 +30,16 @@
         <th mat-header-cell *matHeaderCellDef>Відповідь</th>
         <td mat-cell *matCellDef="let result" [ngClass]="{trueAnswer: result.true, falseAnswer: !result.true}">
           {{ result.true | scoreAnswer }}
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="action">
+        <th mat-header-cell *matHeaderCellDef>Детально</th>
+        <td mat-cell *matCellDef="let result" [ngClass]="{trueAnswer: result.true, falseAnswer: !result.true}">
+        <mat-icon
+          aria-label="menu"
+          matTooltip="Деталі тестування"
+          (click)="openModal(result.question_id)">
+          menu</mat-icon>
         </td>
       </ng-container>
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
