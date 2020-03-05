@@ -5,7 +5,7 @@
     <mat-select [(ngModel)]="data.data.level" name="level" #level="ngModel" required>
       <mat-option
         *ngFor="let value of levels"
-        [value]="value"
+        [value]="'' + value"
       >
         {{ value }}
       </mat-option>
@@ -23,7 +23,7 @@
       #tasks="ngModel" required
     >
     <mat-error *ngIf="tasks.invalid">
-      Слід <strong>обов'язково</strong> кількість завдань
+      Слід <strong>обов'язково</strong> вказати кількість завдань
     </mat-error>
   </mat-form-field>
 
@@ -35,7 +35,7 @@
       #rate="ngModel" required
     >
     <mat-error *ngIf="rate.invalid">
-      Слід <strong>обов'язково</strong> кількість балів
+      Слід <strong>обов'язково</strong> вказати кількість балів
     </mat-error>
   </mat-form-field>
 </div>
