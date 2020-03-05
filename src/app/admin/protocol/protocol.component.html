@@ -1,0 +1,52 @@
+<span class="container">Сформувати протокол логів за обраний період</span>
+<form mat-dialog-content class="container" [formGroup]="logsDateForm" (ngSubmit)="onSubmit()">
+  <mat-form-field appearance="outline">
+    <mat-label>Початкова дата</mat-label>
+    <input matInput [matDatepicker]="picker1" placeholder="Виберіть початкову дату" formControlName="startDate">
+    <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+    <mat-datepicker #picker1 disabled="false"></mat-datepicker>
+  </mat-form-field>
+
+  <mat-form-field appearance="outline">
+    <mat-label>Кінцева дата</mat-label>
+    <input matInput [matDatepicker]="picker2" placeholder="Виберіть кінцеву дату" formControlName="endDate">
+    <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+    <mat-datepicker #picker2 disabled="false"></mat-datepicker>
+    <mat-error *ngIf="hasError('endDate', 'dataIsNotCorrect')">Кінцева дата повинна бути більшою за початкову
+    </mat-error>
+  </mat-form-field>
+
+  <button mat-raised-button color="primary" type="submit" [disabled]="logsDateForm.invalid">
+    Пошук
+  </button>
+</form>
+
+<table mat-table [dataSource]="dataSource" #table class="table">
+  <ng-container matColumnDef="userId">
+    <th mat-header-cell *matHeaderCellDef>ID користувача</th>
+    <td mat-cell *matCellDef="let element">{{ element.user_id }}</td>
+  </ng-container>
+  <ng-container matColumnDef="userName">
+    <th mat-header-cell *matHeaderCellDef>Студент</th>
+    <td mat-cell *matCellDef="let element">{{ element.userName }}</td>
+  </ng-container>
+  <ng-container matColumnDef="testName">
+    <th mat-header-cell *matHeaderCellDef>Тест</th>
+    <td mat-cell *matCellDef="let element">{{ element.testName }}</td>
+  </ng-container>
+  <ng-container matColumnDef="ipAddress">
+    <th mat-header-cell *matHeaderCellDef>IP-адреса</th>
+    <td mat-cell *matCellDef="let element">{{ element.remote_ip }}</td>
+  </ng-container>
+  <ng-container matColumnDef="date">
+    <th mat-header-cell *matHeaderCellDef>Дата</th>
+    <td mat-cell *matCellDef="let element">{{ element.log_date }}</td>
+  </ng-container>
+  <ng-container matColumnDef="time">
+    <th mat-header-cell *matHeaderCellDef>Час</th>
+    <td mat-cell *matCellDef="let element">{{ element.log_time }}</td>
+  </ng-container>
+  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+  <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+</table>
+<mat-paginator [pageSizeOptions]="[10, 25, 50]" showFirstLastButtons></mat-paginator>

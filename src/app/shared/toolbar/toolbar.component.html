@@ -30,6 +30,9 @@
     <a routerLinkActive="mat-raised-button" mat-button routerLink="results"
       >{{'sidenav.results'|translate}}</a
     >
+    <a routerLinkActive="mat-raised-button" mat-button routerLink="protocol"
+      >{{'sidenav.protocol'|translate}}</a
+    >
     <a routerLinkActive="mat-raised-button" mat-button routerLink="admin-user"
       >{{'sidenav.admin-user'|translate}}</a
     >
@@ -43,11 +46,11 @@
   <mat-menu #menu="matMenu">
     <button mat-menu-item (click)="logoutHandler()">{{'sidenav.exit'|translate}}</button>
   </mat-menu>
-  
+
   <button mat-button [matMenuTriggerFor]="langMenu">
     {{'sidenav.lang'|translate}}
   </button>
-  
+
   <mat-menu #langMenu="matMenu">
     <button mat-menu-item (click) = "changeLang('en')">Eng</button>
     <button mat-menu-item (click) = "changeLang('uk')">Укр</button>

@@ -27,7 +27,8 @@
         "results":"Results",
         "admin-user": "Admins",
         "lang":"Language",
-        "exit": "Logout"
+        "exit": "Logout",
+        "protocol": "Protocol"
     },
     "dashboard":{
         "dashboard":"Home",
@@ -117,7 +118,7 @@
         "viewFormConfirmBtn": "Show",
         "viewFormCancelmBtn": "Cancel"
 
-        
+
     },
     "speciality":{
         "header":"Specialties",
@@ -330,7 +331,8 @@
             "tests":"Tests",
             "questions":"Questions",
             "speciality":"Speciality",
-            "results":"Results"
+            "results":"Results",
+            "protocol":"Protocol"
         }
 
     },
