@@ -1,0 +1,28 @@
+
+<section *ngIf="filter" class="filter">
+<mat-form-field>
+  <mat-label>Пошук</mat-label>
+  <input matInput  (keyup)="applyFilter($event.target.value)">
+</mat-form-field>
+</section>
+
+<table mat-table [dataSource]="dataSource"  class="mat-elevation-z8" matSort>
+  <ng-container [matColumnDef]="item.columnDef" *ngFor="let item of columns; let i = index">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header [disabled]="item.columnDef=='action'? true : false ">{{ item.header }}</th>
+  <ng-container *ngIf="item.columnDef!=='action'">
+    <td mat-cell *matCellDef="let element; let i = index">{{ item.header =='ID' ?  matPaginator.pageSize * matPaginator.pageIndex + i + 1 : element[item.columnDef] }}</td>
+  </ng-container>
+  <td mat-cell *matCellDef="let element" class="action-link">
+     <mat-icon aria-hidden="false" [attr.aria-label]='action.aria_label' *ngFor="let action of item.actions"  [matTooltip]="action.matTooltip" (click)="getEvent(action,element)">{{action.icon}}</mat-icon>
+  </ng-container>
+
+  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+  <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+</table>
+<mat-paginator
+  #matPaginator
+  [pageSize]="pageSize"
+  [pageSizeOptions]="pageSizeOptions"
+  (page)="onPaginationChange($event)"
+  showFirstLastButtons
+></mat-paginator>

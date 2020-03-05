@@ -56,6 +56,7 @@ import { LevelResultsChartComponent } from './results/level-results-chart/level-
 import { AboutUsComponent } from './about-us/about-us.component';
 import { DoughnutChartComponent } from './about-us/doughnut-chart/doughnut-chart.component';
 import { BarsChartComponent } from './about-us/bars-chart/bars-chart.component';
+import { ProtocolComponent } from './protocol/protocol.component';
 
 
 
@@ -158,6 +159,12 @@ const routes: Routes = [
           breadcrumb: 'shared.breadbreadcrumb.results'
         }
       },
+      {
+        path: 'protocol', component: ProtocolComponent,
+        data: {
+          breadcrumb: 'shared.breadbreadcrumb.protocol'
+        }
+      },
     ]
   }
 ];
@@ -203,6 +210,7 @@ const routes: Routes = [
     AboutUsComponent,
     DoughnutChartComponent,
     BarsChartComponent,
+    ProtocolComponent,
 
   ],
   imports: [

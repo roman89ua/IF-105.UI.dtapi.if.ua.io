@@ -28,7 +28,25 @@
         "admin-user": "Admins",
         "about-us":"About Us",
         "lang":"Language",
-        "exit": "Logout"
+        "exit": "Logout",
+        "protocol": "Protocol"
+    },
+    "dashboard":{
+        "dashboard":"Home",
+        "faculties": "Faculties",
+        "group": "Groups",
+        "speciality":"Specialties",
+        "subjects": "Subjects",
+        "students":"Students",
+        "question":"Questions",
+        "tests":"Tests",
+        "results":"Results",
+        "admin-user": "Admins",
+        "btn":"Go",
+        "protocol": "Protocol"
+
+        
+        
     },
     "adminUser":{
         "headerMain": "Admin",
@@ -103,7 +121,7 @@
         "viewFormConfirmBtn": "Show",
         "viewFormCancelmBtn": "Cancel"
 
-        
+
     },
     "speciality":{
         "header":"Specialties",
@@ -248,7 +266,7 @@
         "formTextAreaLabel": "Subject description",
         "formTextAreaPlaceholder": "Description",
         "formErrorRequired":"This field is required *",
-        "formErrorPattern":"This field contains invalid characters or (numbers, Latin letters)",
+        "formErrorPattern":"This field contains invalid characters or start from number",
         "formErrorMinMax":"Minimum: 2 characters, maximum: 100",
         "formAddBtn": "Add",
         "formEditBtn": "Edit",
@@ -316,7 +334,8 @@
             "tests":"Tests",
             "questions":"Questions",
             "speciality":"Speciality",
-            "results":"Results"
+            "results":"Results",
+            "protocol":"Protocol"
         }
 
     },

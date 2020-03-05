@@ -28,7 +28,24 @@
         "admin-user":"Адміни",
         "about-us":"Про нас",
         "lang":"Мова",
-        "exit": "Вийти"
+        "exit": "Вийти",
+        "protocol": "Протокол"
+    },
+
+    "dashboard":{
+        "dashboard":"Головна",
+        "faculties": "Факультети",
+        "group": "Групи",
+        "speciality":"Спеціальності",
+        "subjects":"Предмети",
+        "students":"Студенти",
+        "question":"Питання",
+        "tests":"Тести",
+        "results":"Результати",
+        "admin-user":"Адміни",
+        "btn":"Перейти",
+        "protocol": "Протокол"
+        
     },
     "adminUser":{
         "headerMain": "Адміни",
@@ -103,7 +120,7 @@
         "viewFormConfirmBtn": "Показати",
         "viewFormCancelmBtn": "Відмінити"
 
-        
+
     },
     "speciality":{
         "header":"Спеціальності",
@@ -225,7 +242,7 @@
     },
     "subjects":{
         "headerMain": "Предмети",
-        "addNew": "Новий предмети",
+        "addNew": "Новий предмет",
         "filterPlaceholder": "Пошук",
 
         "tableNum": "№",
@@ -248,17 +265,17 @@
         "formTextAreaLabel": "Опис предмета",
         "formTextAreaPlaceholder": "Опис",
         "formErrorRequired":"Це поле є обовязкове*",
-        "formErrorPattern":"Поле містить недопустимі символи або (Цифри, латинські букви)",
+        "formErrorPattern":"Поле містить недопустимі символи або починається з числа",
         "formErrorMinMax":"Мінімум: 2 символи, максимуму: 100",
         "formAddBtn": "Додати",
         "formEditBtn": "Редагувати",
         "formCencelBtn": "Відмінити",
-        
+
         "snackbarMessageCreate":"Предмет створено.",
         "snackbarMessageEdit":"Предмет відредаговано.",
         "snackbarMessageDelete":"Предмет видалено.",
         "deleteMessagesConfirmation":"Ви видаляєте предмет '"
-        
+
     },
     "studentAdmin":{
         "hederMain":"Студенти",
@@ -316,7 +333,8 @@
             "tests":"Тести",
             "questions":"Питання",
             "speciality":"Спеціальності",
-            "results":"Результати"
+            "results":"Результати",
+            "protocol":"Протокол"
         }
     }
 }
