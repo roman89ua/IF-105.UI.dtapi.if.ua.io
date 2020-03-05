@@ -61,10 +61,10 @@ export class BarsChartComponent implements OnInit {
 
   private async getUserNames() {
     const data: any = await this.getUserNickNames();
-    const someConst$: any = data.map(element => {
+    const userNamesData: any = data.map(element => {
       return this.aboutUsService.getUserNames(element);
     });
-    forkJoin(someConst$).subscribe((result: any) => {
+    forkJoin(userNamesData).subscribe((result: any) => {
       this.barChartLabels = result.map(element => {
         return element.name !== null ? element.name  : element.login;
       });
