@@ -22,10 +22,9 @@ export class DashboardComponent implements OnInit {
     { name: this.translate.instant('dashboard.speciality'), icon: 'library_books', route: 'speciality', numberOfRecords: null },
     { name: this.translate.instant('dashboard.subjects'), icon: 'local_library', route: 'subjects', numberOfRecords: null },
     { name: this.translate.instant('dashboard.students'), icon: 'assignment_ind', route: 'group', numberOfRecords: null },
-    { name: this.translate.instant('dashboard.question'), icon: 'question_answer', route: 'subjects', numberOfRecords: null },
-    { name: this.translate.instant('dashboard.tests'), icon: 'spellcheck', route: 'subjects', numberOfRecords: null },
     { name: this.translate.instant('dashboard.admin-user'), icon: 'person', route: 'admin-user', numberOfRecords: null },
     { name: this.translate.instant('dashboard.results'), icon: 'assessment', route: 'results' },
+    { name: this.translate.instant('dashboard.protocol'), icon: 'perm_scan_wifi', route: 'protocol' },
   ];
 
   ngOnInit() {
@@ -41,11 +40,7 @@ export class DashboardComponent implements OnInit {
         catchError(err => of({ numberOfRecords: 0 }))),
       this.apiService.getCountRecords('Subject').pipe(
         catchError(err => of({ numberOfRecords: 0 }))),
-        this.apiService.getCountRecords('Student').pipe(
-          catchError(err => of({ numberOfRecords: 0 }))),
-        this.apiService.getCountRecords('Question').pipe(
-        catchError(err => of({ numberOfRecords: 0 }))),
-      this.apiService.getCountRecords('Test').pipe(
+      this.apiService.getCountRecords('Student').pipe(
         catchError(err => of({ numberOfRecords: 0 }))),
       this.apiService.getCountRecords('AdminUser').pipe(
         catchError(err => of({ numberOfRecords: 0 })))

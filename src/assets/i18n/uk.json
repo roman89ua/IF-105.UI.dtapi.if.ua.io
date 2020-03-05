@@ -42,7 +42,8 @@
         "tests":"Тести",
         "results":"Результати",
         "admin-user":"Адміни",
-        "btn":"Перейти"
+        "btn":"Перейти",
+        "protocol": "Протокол"
         
     },
     "adminUser":{
