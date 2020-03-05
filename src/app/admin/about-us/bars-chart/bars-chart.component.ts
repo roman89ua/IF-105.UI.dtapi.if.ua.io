@@ -54,11 +54,9 @@ export class BarsChartComponent implements OnInit {
   }
 
   private async getUserNickNames() {
-    const data: any = await this.getContributorsInfo();
-    const nickNames = data.map(item => {
-      return item.author.login;
-    });
-    return nickNames;
+    return this.getContributorsInfo().then((result: []) => result.map((users: any) => {
+      return users.author.login;
+    }));
   }
 
   private async getUserNames() {
