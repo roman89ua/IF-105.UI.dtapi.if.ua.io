@@ -34,6 +34,7 @@ import { ResultsComponent } from './results/results.component';
 import { ResultsService } from './results/results.service';
 import { GroupModalService } from './group/group-modal.service';
 import { GroupService } from './group/group.service';
+import { AboutUsService } from './about-us/about-us.service';
 import { HttpClient } from '@angular/common/http';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
@@ -52,6 +53,9 @@ import { ResultGroupsRaitingComponent } from './results/result-groups-raiting/re
 import { ResultsQuestionDetailComponent } from './results/results-question-detail/results-question-detail.component';
 import { ExportImportComponent } from './tests/export-import/export-import.component';
 import { LevelResultsChartComponent } from './results/level-results-chart/level-results-chart.component';
+import { AboutUsComponent } from './about-us/about-us.component';
+import { DoughnutChartComponent } from './about-us/doughnut-chart/doughnut-chart.component';
+import { BarsChartComponent } from './about-us/bars-chart/bars-chart.component';
 import { ProtocolComponent } from './protocol/protocol.component';
 
 
@@ -65,6 +69,9 @@ const routes: Routes = [
       },
       {
         path: 'dashboard', component: DashboardComponent,
+      },
+      {
+        path: 'aboutUs', component: AboutUsComponent,
       },
       {
         path: 'admin-user', component: AdminUserComponent,
@@ -200,7 +207,10 @@ const routes: Routes = [
     ResultsQuestionDetailComponent,
     ExportImportComponent,
     LevelResultsChartComponent,
-    ProtocolComponent
+    AboutUsComponent,
+    DoughnutChartComponent,
+    BarsChartComponent,
+    ProtocolComponent,
 
   ],
   imports: [
@@ -226,7 +236,8 @@ const routes: Routes = [
     FacultiesService,
     ResultsService,
     GroupModalService,
-    GroupService
+    GroupService,
+    AboutUsService
   ],
   exports: [
     TimeTablePipe,

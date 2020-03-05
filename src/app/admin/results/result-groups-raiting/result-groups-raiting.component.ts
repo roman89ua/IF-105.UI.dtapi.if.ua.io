@@ -41,13 +41,13 @@ export class ResultGroupsRaitingComponent implements OnInit {
         },
         scaleLabel: {
           display: true,
-          labelString: 'Успішність студента,(%)'
+          labelString: 'Успішність групи,(%)'
         }
       }],
       xAxes: [{
         scaleLabel: {
           display: true,
-          labelString: `Ім'я студента`
+          labelString: `Назва групи`
         }
       }]
     }
@@ -112,7 +112,7 @@ export class ResultGroupsRaitingComponent implements OnInit {
     const data: number[] = this.score;
     this.barChartData = [{
       data,
-      label: 'Успішність студентів групи',
+      label: 'Успішність групи',
       minBarLength: 0
     }];
   }
