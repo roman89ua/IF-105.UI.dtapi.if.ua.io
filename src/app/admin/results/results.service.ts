@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { ApiService } from 'src/app/shared/services/api.service';
-import { Observable, from } from 'rxjs';
+import { Observable, from, forkJoin } from 'rxjs';
 import { Results, TrueAnswers } from '../entity.interface';
 import { Student } from 'src/app/shared/entity.interface';
 import { IQuestion } from '../questions/questions';
@@ -122,5 +122,11 @@ export class ResultsService {
   /** Get question text for id */
   getTextQuestion(listQuestion: IQuestion[], id: number): string {
     return listQuestion.find(item => +item.question_id === +id).question_text;
+  }
+  /** Get Question by id */
+  getQuestionWithAnswers(id: number): Observable<any> {
+    return forkJoin(
+      this.apiService.getEntity('Question', id),
+      this.apiService.getAnswersByQuestion(id));
   }
 }

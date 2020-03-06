@@ -1,0 +1,55 @@
+@import '~@angular/material/theming';
+h4 {
+    padding: 0.5em;
+}
+container, .question, .answer {
+    @include mat-elevation(2);
+    padding: 1em;
+    margin-bottom: 1em;
+}
+.question-level, .question-type {
+    display: inline-block;
+    width: 200px;
+    padding: 0.5em;
+    text-align: center;
+    background-color:rgba($color: hsl(0, 0%, 88%), $alpha: 1.0);
+    border-radius: 20px;
+    margin: 0 1em;
+}
+.answers {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-between;
+}
+.answer {
+    display: inline-flex;
+    flex-direction: column;
+    justify-content: space-between;
+    flex: 1 0 30%;
+}
+.answer-result-container {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-evenly;
+}
+.answer-result, .answer-user {
+    flex: 0 0 45%;;
+    padding: 0.5em;
+    text-align: center;
+    border-radius: 20px;
+    margin: 0 auto;
+    display: inline-block;
+}
+.trueAnswer {
+    background-color:rgba($color: hsl(120, 82%, 83%), $alpha: 1.0);
+}
+.falseAnswer {
+    background-color:rgba($color: hsl(0, 82%, 83%), $alpha: 1.0);
+}
+.answer-user {
+    background-color:rgba($color: hsl(0, 0%, 88%), $alpha: 1.0);
+    margin-left: 1em;
+}
+mat-icon {
+    cursor: pointer;
+}

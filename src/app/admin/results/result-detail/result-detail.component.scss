@@ -5,10 +5,13 @@ table {
     }
     td {
         border-left: 2px solid white;
-        padding: 0px 0.5em;
+        padding: 0.5em;
     }
 }
 tr > td:first-child {
+    text-align: center;
+}
+tr > td:last-child {
     text-align: center;
 }
 .trueAnswer {
@@ -16,4 +19,7 @@ tr > td:first-child {
 }
 .falseAnswer {
     background-color: #ffe6e6;
+}
+mat-icon {
+    cursor: pointer;
 }

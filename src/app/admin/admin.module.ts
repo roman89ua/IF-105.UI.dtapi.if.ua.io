@@ -262,7 +262,8 @@ const routes: Routes = [
     ResultGroupRaitingComponent,
     ResultGroupsRaitingComponent,
     ExportImportComponent,
-    LevelResultsChartComponent
+    LevelResultsChartComponent,
+    ResultsQuestionDetailComponent,
 
   ]
 })
