@@ -58,7 +58,7 @@ export class ResultDetailComponent implements OnInit {
 
   private createQuestionDetailModad(question: IQuestion, answers: IAnswer[], userAnswerIds: number[]): void {
     this.dialog.open(ResultsQuestionDetailComponent, {
-      width: '100%',
+      width: '1000px',
       data: {
         question,
         answers,

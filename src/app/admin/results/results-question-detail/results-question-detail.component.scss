@@ -1,6 +1,6 @@
 @import '~@angular/material/theming';
 h4 {
-    padding: 0 0.5em;
+    padding: 0.5em;
 }
 container, .question, .answer {
     @include mat-elevation(2);
@@ -27,9 +27,13 @@ container, .question, .answer {
     justify-content: space-between;
     flex: 1 0 30%;
 }
-
+.answer-result-container {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-evenly;
+}
 .answer-result, .answer-user {
-    width: 125px;
+    flex: 0 0 45%;;
     padding: 0.5em;
     text-align: center;
     border-radius: 20px;

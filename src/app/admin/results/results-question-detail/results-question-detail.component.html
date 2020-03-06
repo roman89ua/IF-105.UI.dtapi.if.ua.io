@@ -9,8 +9,18 @@
     <div class="question-level">Рівень: {{ data.question.level }}</div>
     <div class="question-type">Тип: {{ data.question.type }}</div>
   </div>
-  <h4>Відповіді</h4>
-  <div *ngIf="!data.userAnswerIds.length">Користувач дав відповіді на дане запитання</div>
+  <h4>Відповідь:
+    <span *ngIf="isNoAnswer()"> 
+      користувач не надав відповіді на дане запитання
+    </span>
+    <span *ngIf="isAnswerText()"> 
+      {{data.userAnswerIds[0]}}
+    </span>
+    <span *ngIf="!isNoAnswer()"> 
+      {{getTextTrueAnswer()}}
+    </span>
+  </h4>
+  
   <div class="answers">
     <div *ngFor="let answer of data.answers" class="answer">
       <div class="answer-text">{{ answer.answer_text }}</div>

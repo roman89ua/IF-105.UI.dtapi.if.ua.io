@@ -27,5 +27,20 @@ export class ResultsQuestionDetailComponent implements OnInit {
       return false;
     }
   }
+  isNoAnswer(): boolean {
+    return !this.data.userAnswerIds[0];
+  }
+  isAnswerText(): boolean {
+    return this.data.question.type == 3 || this.data.question.type == 4; 
+  }
+  getTextTrueAnswer(): string {
+    const trueAnswers = this.data.answers.filter(answer => {
+      return this.data.userAnswerIds.some( id => id == answer.answer_id ); 
+    });
+    const trueAnswersText = trueAnswers.map(element => {
+      return element.answer_text;
+    })
+    return trueAnswersText.join(",");
+  }
 
 }
