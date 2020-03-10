@@ -46,7 +46,6 @@ import { LayoutModule } from '@angular/cdk/layout';
 import { ConfirmComponent } from './confirm/confirm.component';
 import { AlertComponent } from './alert/alert.component';
 import { ModalService } from '../shared/services/modal.service';
-import { SpinnerService } from './services/spinner.service';
 import { SpinnerComponent } from './spinner/spinner.component';
 import { HttpClient} from '@angular/common/http';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';

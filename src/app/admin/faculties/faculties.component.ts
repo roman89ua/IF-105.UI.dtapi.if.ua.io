@@ -1,22 +1,23 @@
-import { Component, OnInit, AfterViewInit } from '@angular/core';
-import { MatTableDataSource, MatSnackBar, PageEvent } from '@angular/material';
+import { Component, OnInit, AfterViewInit, ViewChild } from '@angular/core';
+import {  MatSnackBar, PageEvent } from '@angular/material';
 import { Faculty } from 'src/app/shared/entity.interface';
 import { ModalService } from '../../shared/services/modal.service';
 import { FacultiesService } from './faculties.service';
-import { PaginationModel } from 'src/app/shared/mat-table/PaginationModel';
 import { ApiService } from 'src/app/shared/services/api.service';
 import { Column, tableActionsType } from 'src/app/shared/mat-table/mat-table.interface';
+import { MatTableComponent } from 'src/app/shared/mat-table/mat-table.component';
+import { SpinnerService } from 'src/app/shared/spinner/spinner.service';
 
 @Component({
   selector: 'app-faculties',
   templateUrl: './faculties.component.html',
   styleUrls: ['./faculties.component.scss']
 })
-export class FacultiesComponent extends PaginationModel implements OnInit, AfterViewInit {
+export class FacultiesComponent  implements OnInit, AfterViewInit {
 
   /* TABLE  */
-  dataSource = new MatTableDataSource<Faculty>();
-
+  faculties: Faculty[] = [];
+  @ViewChild(MatTableComponent, {static: false}) mattable: MatTableComponent<Faculty>;
 
   columns: Column [] = [
     {columnDef: 'faculty_id', header: 'ID'},
@@ -45,17 +46,13 @@ export class FacultiesComponent extends PaginationModel implements OnInit, After
   constructor(
     private snackBar: MatSnackBar,
     private modalService: ModalService,
-    private facultyService: FacultiesService,
-    apiService: ApiService) {
-      super('Faculty', apiService);
-  }
+    private facultyService: FacultiesService) {}
 
   ngOnInit(): void {}
 
-  pageUpdate(event: PageEvent) {
-    this.pageChange(event);
-    this.getRange((data: Faculty[]) => this.dataSource.data = data);
-    this.getCountRecords(response => this.length = response.numberOfRecords);
+  pageUpdate() {
+    this.mattable.getRange((data: Faculty[]) => this.faculties = data);
+    this.mattable.getCountRecords(response => this.length = response.numberOfRecords);
   }
 
   ngAfterViewInit(): void { }
@@ -85,7 +82,7 @@ export class FacultiesComponent extends PaginationModel implements OnInit, After
   createFaculty(faculty: Faculty) {
     this.facultyService.createFaculty(faculty)
       .subscribe(() => {
-        this.getRange(data => this.dataSource.data = data);
+        this.mattable.getRange(data => this.faculties = data);
         this.length++;
         this.openSnackBar('Факультет додано');
       },
@@ -99,14 +96,14 @@ export class FacultiesComponent extends PaginationModel implements OnInit, After
 
 
   updateFaculty(id: number, faculty: Faculty) {
-   const [...newArray] = this.dataSource.data;
+   const [...newArray] = this.faculties;
    this.facultyService.updateFaculty(id, faculty)
       .subscribe((response: Faculty[]) => {
         this.openSnackBar('Факультет оновлено');
         newArray[newArray.findIndex(el => el.faculty_id === id)] = {
           ...response[0]
         };
-        this.dataSource.data = newArray;
+        this.faculties = newArray;
       },
         err => {
           if (err.error.response.includes('Error when update')) {
@@ -125,9 +122,9 @@ export class FacultiesComponent extends PaginationModel implements OnInit, After
   removeFaculty(id: number) {
     this.facultyService.deleteFaculty(id)
       .subscribe(() => {
-        this.dataSource.data = this.dataSource.data.filter(item => item.faculty_id !== id);
-        this.openSnackBar('Факультет видалено');
-        if (this.dataSource.data.length > 0) { this.length--; }
+       this.faculties = this.faculties.filter(item => item.faculty_id !== id);
+       this.openSnackBar('Факультет видалено');
+       if (this.faculties.length > 0) { this.length--; }
       },
         err => {
           if (err.error.response.includes('Cannot delete')) {

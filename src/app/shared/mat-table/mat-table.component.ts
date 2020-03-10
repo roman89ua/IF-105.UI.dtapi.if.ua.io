@@ -1,6 +1,10 @@
 import { Component, OnInit, Input, OnChanges, Output, EventEmitter, ViewChild, AfterViewInit } from '@angular/core';
 import { MatTableDataSource, PageEvent, MatPaginator, MatSort } from '@angular/material';
 import { Column, ActionButtons } from './mat-table.interface';
+import { ApiService } from '../services/api.service';
+import { SpinnerService } from '../spinner/spinner.service';
+import { Observable } from 'rxjs';
+import { delay } from 'rxjs/operators';
 
 
 
@@ -12,6 +16,7 @@ import { Column, ActionButtons } from './mat-table.interface';
 export class MatTableComponent<T> implements OnInit, OnChanges, AfterViewInit {
 
   @Input() data: T[] = [];
+  @Input() entity: string;
   @Input() columns: Column[];
   @Input() countRecords: number;
   @Input() filter: boolean;
@@ -25,7 +30,7 @@ export class MatTableComponent<T> implements OnInit, OnChanges, AfterViewInit {
   pageSizeOptions = [5, 10, 20, 50];
   @ViewChild('matPaginator', { static: false }) matPaginator: MatPaginator;
   @ViewChild(MatSort, { static: false }) sort: MatSort;
-  constructor() {}
+  constructor(private apiService: ApiService, public spinnerService: SpinnerService) {}
 
   ngOnChanges(): void {
     if (this.countRecords) {
@@ -43,12 +48,15 @@ export class MatTableComponent<T> implements OnInit, OnChanges, AfterViewInit {
 
   ngOnInit() {
     this.displayedColumns = this.columns.map(item => item.columnDef);
+  }
+
+  ngAfterViewInit(): void {
     this.onPaginationChange({previousPageIndex: 0, pageIndex: 0, pageSize: 10, length: 0});
   }
 
-  ngAfterViewInit(): void {}
-
   onPaginationChange(paginationEvent: PageEvent) {
+    this.pageIndex = paginationEvent.pageIndex;
+    this.pageSize = paginationEvent.pageSize;
     this.pageEvent.emit(paginationEvent);
   }
   checkDataLength(data: Array<T>) {
@@ -72,5 +80,18 @@ export class MatTableComponent<T> implements OnInit, OnChanges, AfterViewInit {
       route ? { type, route, body: obj } : { type, body: obj }
      );
 
+}
+
+getRange(callback) {
+  this.apiService.getRecordsRange(this.entity, this.pageSize, this.pageIndex * this.pageSize)
+      .subscribe(data => callback(data));
+}
+getCountRecords(callback) {
+  this.apiService.getCountRecords(this.entity)
+      .subscribe(data => callback(data));
+}
+getEntity(callback) {
+  this.apiService.getEntity(this.entity)
+  .subscribe(data => callback(data));
 }
 }

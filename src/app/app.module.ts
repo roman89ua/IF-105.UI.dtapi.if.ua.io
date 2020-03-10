@@ -8,7 +8,7 @@ import { SharedModule } from './shared/shared.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatFormFieldModule, MatInputModule, MatPaginatorIntl } from '@angular/material';
 import { NotFoundComponent } from './not-found/not-found.component';
-import { SpinnerInterceptor } from './shared/services/spinner.interceptor';
+import { SpinnerInterceptor } from './shared/spinner/spinner.interceptor';
 import { TranslateModule, TranslateLoader, TranslateService } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { getMatPaginatorUkr } from './shared/mat-paginator-config/mat-pagination-intl';

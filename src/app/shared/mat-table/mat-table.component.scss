@@ -42,3 +42,36 @@ table {
 .mat-elevation-z8 {
    box-shadow: none;
 }
+
+.no-data {
+  width: 100%;
+  padding: 4em;
+  text-align: center;
+  font-size: 30px;
+  color: rgba(0,0,0,.32);
+}
+.example-table-container {
+  position: relative;
+}
+.example-loading-shade {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  background: rgba(0, 0, 0, 0.15);
+  z-index: 999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.example-rate-limit-reached {
+  color: #980000;
+  max-width: 360px;
+  text-align: center;
+}
+.example-container {
+  position: absolute;
+  min-height: 200px;
+}

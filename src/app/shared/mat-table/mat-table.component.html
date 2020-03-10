@@ -6,6 +6,7 @@
 </mat-form-field>
 </section>
 
+<div class="example-table-container">
 <table mat-table [dataSource]="dataSource"  class="mat-elevation-z8" matSort>
   <ng-container [matColumnDef]="item.columnDef" *ngFor="let item of columns; let i = index">
     <th mat-header-cell *matHeaderCellDef mat-sort-header [disabled]="item.columnDef=='action'? true : false ">{{ item.header }}</th>
@@ -19,6 +20,13 @@
   <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
   <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
 </table>
+<div class="example-loading-shade" *ngIf="dataSource.data.length === 0 || (spinnerService.isLoading$ | async)">
+  <mat-spinner *ngIf="spinnerService.isLoading$ | async"></mat-spinner>
+  <div *ngIf="dataSource.data.length === 0 && !(spinnerService.isLoading$ | async)" class="no-data">Дані відсутні.</div>
+</div>
+</div>
+
+
 <mat-paginator
   #matPaginator
   [pageSize]="pageSize"
