@@ -90,5 +90,7 @@ export class ApiService {
   getAnswersByQuestion(test_id: number) {
     return this.http.get('answer/getAnswersByQuestion/' + test_id);
   }
-
+  getSearch(entity: string, searchStr: string) {
+    return this.http.get(`${entity}/getRecordsBySearch/${searchStr}`);
+  }
 }

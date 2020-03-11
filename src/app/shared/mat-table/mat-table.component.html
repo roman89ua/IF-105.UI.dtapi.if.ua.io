@@ -2,7 +2,7 @@
 <section *ngIf="filter" class="filter">
 <mat-form-field>
   <mat-label>Пошук</mat-label>
-  <input matInput  (keyup)="applyFilter($event.target.value)">
+  <input matInput #search >
 </mat-form-field>
 </section>
 
@@ -20,9 +20,8 @@
   <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
   <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
 </table>
-<div class="example-loading-shade" *ngIf="dataSource.data.length === 0 || (spinnerService.isLoading$ | async)">
-  <mat-spinner *ngIf="spinnerService.isLoading$ | async"></mat-spinner>
-  <div *ngIf="dataSource.data.length === 0 && !(spinnerService.isLoading$ | async)" class="no-data">Дані відсутні.</div>
+<div class="example-loading-shade" *ngIf="dataSource.data.length === 0">
+  <div *ngIf="dataSource.data.length === 0 && !isLoading" class="no-data">Дані відсутні.</div>
 </div>
 </div>
 

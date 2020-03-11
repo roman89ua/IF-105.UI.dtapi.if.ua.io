@@ -1,10 +1,10 @@
-import { Component, OnInit, Input, OnChanges, Output, EventEmitter, ViewChild, AfterViewInit } from '@angular/core';
+import { Component, OnInit, Input, OnChanges, Output, EventEmitter, ViewChild, AfterViewInit, ElementRef } from '@angular/core';
 import { MatTableDataSource, PageEvent, MatPaginator, MatSort } from '@angular/material';
 import { Column, ActionButtons } from './mat-table.interface';
 import { ApiService } from '../services/api.service';
 import { SpinnerService } from '../spinner/spinner.service';
-import { Observable } from 'rxjs';
-import { delay } from 'rxjs/operators';
+import { debounceTime, distinctUntilChanged, switchMap, map, tap } from 'rxjs/operators';
+import { fromEvent, of } from 'rxjs';
 
 
 
@@ -28,9 +28,14 @@ export class MatTableComponent<T> implements OnInit, OnChanges, AfterViewInit {
   pageSize = 10;
   pageIndex = 0;
   pageSizeOptions = [5, 10, 20, 50];
+  isLoading = false;
+
   @ViewChild('matPaginator', { static: false }) matPaginator: MatPaginator;
   @ViewChild(MatSort, { static: false }) sort: MatSort;
-  constructor(private apiService: ApiService, public spinnerService: SpinnerService) {}
+  @ViewChild('search', { static: false }) input: ElementRef;
+
+  constructor(private apiService: ApiService, public spinnerService: SpinnerService) {
+  }
 
   ngOnChanges(): void {
     if (this.countRecords) {
@@ -39,7 +44,7 @@ export class MatTableComponent<T> implements OnInit, OnChanges, AfterViewInit {
       this.matPaginator.length = this.countRecords;
       this.dataSource.sort = this.sort;
     } else {
-      this.dataSource  = new MatTableDataSource(this.data);
+      this.dataSource = new MatTableDataSource(this.data);
       this.dataSource.paginator = this.matPaginator;
       this.dataSource.sort = this.sort;
     }
@@ -51,9 +56,26 @@ export class MatTableComponent<T> implements OnInit, OnChanges, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    this.onPaginationChange({previousPageIndex: 0, pageIndex: 0, pageSize: 10, length: 0});
+    this.onPaginationChange({ previousPageIndex: 0, pageIndex: 0, pageSize: 10, length: 0 });
+    if (this.filter) {
+      fromEvent<any>(this.input.nativeElement, 'keyup')
+        .pipe(
+          tap(event => this.dataSource.filter = event.target.value),
+          map(event => event.target.value),
+          debounceTime(400),
+          distinctUntilChanged(),
+          switchMap(search => this.checkInput(search) ? this.apiService.getSearch(this.entity, search) : of(this.data))
+        )
+        .subscribe((response: any) => {
+          if (response.response === 'no records') {
+            this.dataSource.data = [];
+          } else { this.dataSource.data = response; }
+        });
+    }
   }
-
+  checkInput(str: string) {
+    return str.trim() && !this.data.find(item => JSON.stringify(item).includes(str));
+  }
   onPaginationChange(paginationEvent: PageEvent) {
     this.pageIndex = paginationEvent.pageIndex;
     this.pageSize = paginationEvent.pageSize;
@@ -65,33 +87,30 @@ export class MatTableComponent<T> implements OnInit, OnChanges, AfterViewInit {
     }
   }
 
-  applyFilter(event: string) {
-    event = event.trim();
-    event = event.toLowerCase();
-    this.dataSource.filter = event;
-    if (this.dataSource.paginator) {
-      this.dataSource.paginator.firstPage();
-    }
-  }
-
   getEvent(action: ActionButtons, obj: T) {
-    const {type, route} = action;
+    const { type, route } = action;
     this.action.emit(
       route ? { type, route, body: obj } : { type, body: obj }
-     );
+    );
+
+  }
+
+  getRange(callback) {
+    setTimeout(() => this.isLoading = true);
+    this.apiService.getRecordsRange(this.entity, this.pageSize, this.pageIndex * this.pageSize)
+      .subscribe(data => {
+        callback(data);
+        this.isLoading = false;
+      });
+  }
+  getCountRecords(callback) {
+    this.apiService.getCountRecords(this.entity)
+      .subscribe(callback);
+  }
+  getEntity(callback) {
+    this.apiService.getEntity(this.entity)
+      .subscribe(data => callback(data));
+  }
 
 }
 
-getRange(callback) {
-  this.apiService.getRecordsRange(this.entity, this.pageSize, this.pageIndex * this.pageSize)
-      .subscribe(data => callback(data));
-}
-getCountRecords(callback) {
-  this.apiService.getCountRecords(this.entity)
-      .subscribe(data => callback(data));
-}
-getEntity(callback) {
-  this.apiService.getEntity(this.entity)
-  .subscribe(data => callback(data));
-}
-}
