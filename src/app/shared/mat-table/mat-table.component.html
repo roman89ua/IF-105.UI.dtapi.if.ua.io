@@ -6,7 +6,7 @@
 </mat-form-field>
 </section>
 
-<div class="example-table-container">
+<div class="table-container">
 <table mat-table [dataSource]="dataSource"  class="mat-elevation-z8" matSort>
   <ng-container [matColumnDef]="item.columnDef" *ngFor="let item of columns; let i = index">
     <th mat-header-cell *matHeaderCellDef mat-sort-header [disabled]="item.columnDef=='action'? true : false ">{{ item.header }}</th>
@@ -20,7 +20,7 @@
   <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
   <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
 </table>
-<div class="example-loading-shade" *ngIf="dataSource.data.length === 0">
+<div class="loading-shade" *ngIf="dataSource.data.length === 0">
   <div *ngIf="dataSource.data.length === 0 && !isLoading" class="no-data">Дані відсутні.</div>
 </div>
 </div>
