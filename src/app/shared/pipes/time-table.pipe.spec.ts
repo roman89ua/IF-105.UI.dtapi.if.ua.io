@@ -1,8 +1,8 @@
-import { TimeTablePipe } from './time-table.pipe';
+// import { TimeTablePipe } from './time-table.pipe';
 
-describe('TimeTablePipe', () => {
-  it('create an instance', () => {
-    const pipe = new TimeTablePipe();
-    expect(pipe).toBeTruthy();
-  });
-});
+// describe('TimeTablePipe', () => {
+//   it('create an instance', () => {
+//     const pipe = new TimeTablePipe();
+//     expect(pipe).toBeTruthy();
+//   });
+// });
