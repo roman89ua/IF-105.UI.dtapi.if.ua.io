@@ -13,9 +13,9 @@ import { fromEvent, of } from 'rxjs';
   templateUrl: './mat-table.component.html',
   styleUrls: ['./mat-table.component.scss']
 })
-export class MatTableComponent<T> implements OnInit, OnChanges, AfterViewInit {
+export class MatTableComponent implements OnInit, OnChanges, AfterViewInit {
 
-  @Input() data: T[] = [];
+  @Input() data: any[] = [];
   @Input() entity: string;
   @Input() columns: Column[];
   @Input() countRecords: number;
@@ -23,7 +23,7 @@ export class MatTableComponent<T> implements OnInit, OnChanges, AfterViewInit {
   @Output() action: EventEmitter<any> = new EventEmitter<any>();
   @Output() pageEvent = new EventEmitter<PageEvent>();
 
-  dataSource: MatTableDataSource<T>;
+  dataSource: MatTableDataSource<any>;
   displayedColumns;
   pageSize = 10;
   pageIndex = 0;
@@ -81,13 +81,13 @@ export class MatTableComponent<T> implements OnInit, OnChanges, AfterViewInit {
     this.pageSize = paginationEvent.pageSize;
     this.pageEvent.emit(paginationEvent);
   }
-  checkDataLength(data: Array<T>) {
+  checkDataLength(data: Array<any>) {
     if (!data.length) {
       this.matPaginator.previousPage();
     }
   }
 
-  getEvent(action: ActionButtons, obj: T) {
+  getEvent(action: ActionButtons, obj: any) {
     const { type, route } = action;
     this.action.emit(
       route ? { type, route, body: obj } : { type, body: obj }

@@ -1,12 +1,10 @@
 import { Component, OnInit, AfterViewInit, ViewChild } from '@angular/core';
-import {  MatSnackBar, PageEvent } from '@angular/material';
+import {  MatSnackBar} from '@angular/material';
 import { Faculty } from 'src/app/shared/entity.interface';
 import { ModalService } from '../../shared/services/modal.service';
 import { FacultiesService } from './faculties.service';
-import { ApiService } from 'src/app/shared/services/api.service';
 import { Column, tableActionsType } from 'src/app/shared/mat-table/mat-table.interface';
 import { MatTableComponent } from 'src/app/shared/mat-table/mat-table.component';
-import { SpinnerService } from 'src/app/shared/spinner/spinner.service';
 
 @Component({
   selector: 'app-faculties',
@@ -17,7 +15,7 @@ export class FacultiesComponent  implements OnInit, AfterViewInit {
 
   /* TABLE  */
   faculties: Faculty[] = [];
-  @ViewChild(MatTableComponent, {static: false}) mattable: MatTableComponent<Faculty>;
+  @ViewChild(MatTableComponent, {static: false}) mattable: MatTableComponent;
 
   columns: Column [] = [
     {columnDef: 'faculty_id', header: 'ID'},
