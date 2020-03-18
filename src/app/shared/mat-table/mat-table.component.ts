@@ -56,7 +56,6 @@ export class MatTableComponent implements OnInit, OnChanges, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    this.onPaginationChange({ previousPageIndex: 0, pageIndex: 0, pageSize: 10, length: 0 });
     if (this.filter) {
       fromEvent<any>(this.input.nativeElement, 'keyup')
         .pipe(

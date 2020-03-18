@@ -15,6 +15,8 @@ export class FacultiesComponent  implements OnInit, AfterViewInit {
 
   /* TABLE  */
   faculties: Faculty[] = [];
+  length: number;
+
   @ViewChild(MatTableComponent, {static: false}) mattable: MatTableComponent;
 
   columns: Column [] = [
@@ -37,9 +39,6 @@ export class FacultiesComponent  implements OnInit, AfterViewInit {
 
   };
 
-  /* for Paginator */
-  length: number;
-
 
   constructor(
     private snackBar: MatSnackBar,
@@ -53,7 +52,10 @@ export class FacultiesComponent  implements OnInit, AfterViewInit {
     this.mattable.getCountRecords(response => this.length = response.numberOfRecords);
   }
 
-  ngAfterViewInit(): void { }
+  ngAfterViewInit(): void {
+    this.mattable.getRange((data: Faculty[]) => this.faculties = data);
+    this.mattable.getCountRecords(response => this.length = response.numberOfRecords);
+  }
 
   getAction({type, body}: {type: tableActionsType, body: Faculty} ) {
     this.actions[type](body);
