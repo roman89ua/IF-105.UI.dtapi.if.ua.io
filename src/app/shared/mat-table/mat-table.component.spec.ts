@@ -6,8 +6,8 @@ import { DebugElement } from '@angular/core';
 import { MatTableComponent } from './mat-table.component';
 
 describe('MatTableComponent', () => {
-  let component: MatTableComponent;
-  let fixture: ComponentFixture<MatTableComponent>;
+  let component: MatTableComponent<any>;
+  let fixture: ComponentFixture<MatTableComponent<any>>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
