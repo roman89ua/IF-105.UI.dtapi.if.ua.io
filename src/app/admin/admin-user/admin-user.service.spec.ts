@@ -1,12 +1,20 @@
-import { TestBed } from '@angular/core/testing';
+import { TestBed, inject } from '@angular/core/testing';
 
 import { AdminUserService } from './admin-user.service';
+import { ICreateUpdateAdminUser, IAdminUser } from './admin-user.interface';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 
-describe('AdminUserService', () => {
-  beforeEach(() => TestBed.configureTestingModule({}));
+fdescribe('AdminUserService', () => {
+  let service: AdminUserService ;
+  beforeEach(() => {
+    TestBed.configureTestingModule({
+    imports: [HttpClientTestingModule],
+    providers: [AdminUserService]
+    });
+    service = TestBed.get(AdminUserService);
+  });
 
   it('should be created', () => {
-    const service: AdminUserService = TestBed.get(AdminUserService);
     expect(service).toBeTruthy();
   });
 });
