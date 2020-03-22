@@ -29,7 +29,7 @@ export class ProtocolService {
     return data.filter((element) => {
       const logsdate = new Date(element.log_date);
       const startDate = new Date(date.startDate);
-      const endDate = this.getEndDate(date.endDate);
+      const endDate = this.getEndDate(new Date(date.endDate));
       return (logsdate >= startDate && logsdate <= endDate);
     });
   }
@@ -58,14 +58,14 @@ export class ProtocolService {
     const test = data.find(obj => {
       return obj.test_id === testId;
     });
-    return test.test_name;
+    return test === undefined ? undefined : test.test_name;
   }
   /** returns user object for provided id */
   findUserObj(data, userId): object {
     const user = data.find(obj => {
       return obj.user_id === userId;
     });
-    return user;
+    return user === undefined ? undefined : user;
   }
   /** returns concated full student name from (name + surname + last name) */
   getStudentFullName(user): string {
