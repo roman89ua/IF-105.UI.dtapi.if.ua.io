@@ -74,7 +74,7 @@ fdescribe('TranslateService', () => {
     expect(translate instanceof TranslateService).toBeTruthy();
   });
 
-  it(`should return the key when it doesn\'t find a translation`, () => {
+  it(`should return the key when it doesn't find a translation`, () => {
     translate.use('en');
     translate.get('TEST2').subscribe((res: string) => {
       expect(res).toEqual('TEST2');
