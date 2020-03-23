@@ -1,5 +1,5 @@
 import { async, fakeAsync, ComponentFixture, TestBed, tick, getTestBed } from '@angular/core/testing';
-import { SharedModule,} from '../../shared/shared.module';
+import { SharedModule} from '../../shared/shared.module';
 import { By } from '@angular/platform-browser';
 import { DebugElement, Component } from '@angular/core';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
