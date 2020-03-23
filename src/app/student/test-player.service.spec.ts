@@ -1,12 +1,12 @@
-// import { TestBed } from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
 
-// import { TestPlayerService } from './test-player.service';
+import { TestPlayerService } from './test-player.service';
 
-// describe('TestPlayerServiceService', () => {
-//   beforeEach(() => TestBed.configureTestingModule({}));
+describe('TestPlayerServiceService', () => {
+  beforeEach(() => TestBed.configureTestingModule({}));
 
-//   it('should be created', () => {
-//     const service: TestPlayerService = TestBed.get(TestPlayerService);
-//     expect(service).toBeTruthy();
-//   });
-// });
+  it('should be created', () => {
+    const service: TestPlayerService = TestBed.get(TestPlayerService);
+    expect(service).toBeTruthy();
+  });
+});

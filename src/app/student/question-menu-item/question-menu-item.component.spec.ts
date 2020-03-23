@@ -1,25 +1,25 @@
-// import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-// import { QuestionMenuItemComponent } from './question-menu-item.component';
+import { QuestionMenuItemComponent } from './question-menu-item.component';
 
-// describe('QuestionMenuItemComponent', () => {
-//   let component: QuestionMenuItemComponent;
-//   let fixture: ComponentFixture<QuestionMenuItemComponent>;
+describe('QuestionMenuItemComponent', () => {
+  let component: QuestionMenuItemComponent;
+  let fixture: ComponentFixture<QuestionMenuItemComponent>;
 
-//   beforeEach(async(() => {
-//     TestBed.configureTestingModule({
-//       declarations: [ QuestionMenuItemComponent ]
-//     })
-//     .compileComponents();
-//   }));
+  beforeEach(async(() => {
+    TestBed.configureTestingModule({
+      declarations: [ QuestionMenuItemComponent ]
+    })
+    .compileComponents();
+  }));
 
-//   beforeEach(() => {
-//     fixture = TestBed.createComponent(QuestionMenuItemComponent);
-//     component = fixture.componentInstance;
-//     fixture.detectChanges();
-//   });
+  beforeEach(() => {
+    fixture = TestBed.createComponent(QuestionMenuItemComponent);
+    component = fixture.componentInstance;
+    fixture.detectChanges();
+  });
 
-//   it('should create', () => {
-//     expect(component).toBeTruthy();
-//   });
-// });
+  it('should create', () => {
+    expect(component).toBeTruthy();
+  });
+});

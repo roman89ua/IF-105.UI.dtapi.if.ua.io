@@ -1,12 +1,12 @@
-// import { TestBed } from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
 
-// import { AboutUsService } from './about-us.service';
+import { AboutUsService } from './about-us.service';
 
-// describe('AboutUsService', () => {
-//   beforeEach(() => TestBed.configureTestingModule({}));
+describe('AboutUsService', () => {
+  beforeEach(() => TestBed.configureTestingModule({}));
 
-//   it('should be created', () => {
-//     const service: AboutUsService = TestBed.get(AboutUsService);
-//     expect(service).toBeTruthy();
-//   });
-// });
+  it('should be created', () => {
+    const service: AboutUsService = TestBed.get(AboutUsService);
+    expect(service).toBeTruthy();
+  });
+});
