@@ -1,7 +1,7 @@
-import { Component, OnInit } from '@angular/core';
-import { SpinnerService } from '../services/spinner.service';
-import { Subject } from 'rxjs';
+import { Component, OnInit, Input } from '@angular/core';
+import { Subject, BehaviorSubject, Observable } from 'rxjs';
 import { delay } from 'rxjs/operators';
+import { SpinnerService } from './spinner.service';
 
 @Component({
   selector: 'app-spinner',
@@ -9,7 +9,7 @@ import { delay } from 'rxjs/operators';
   styleUrls: ['./spinner.component.scss']
 })
 export class SpinnerComponent implements OnInit {
-  loading$;
+  loading$: Observable<boolean>;
 
   constructor(private spinnerService: SpinnerService) { }
 

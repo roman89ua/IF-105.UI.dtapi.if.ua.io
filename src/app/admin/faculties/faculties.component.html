@@ -12,10 +12,11 @@
 <section class="container">
 
 <app-mat-table 
-[data]="dataSource.data" 
+[data]="faculties" 
 [columns]="columns"  
 [countRecords]="length"
 [filter]='true'
+[entity]="'Faculty'"
 (action)='getAction($event)' 
 (pageEvent)='pageUpdate($event)'>
 </app-mat-table>

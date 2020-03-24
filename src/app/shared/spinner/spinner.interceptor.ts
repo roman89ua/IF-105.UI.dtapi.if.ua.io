@@ -26,8 +26,8 @@ export class SpinnerInterceptor implements HttpInterceptor {
             );
     }
     checkURL(req: HttpRequest<any>): boolean {
-        if (req.url.includes(apiEndpoints[0]) || req.url.includes(apiEndpoints[1]) || req.url.includes(apiEndpoints[2])) {
-           return true;
-        }
+        if (Object.values(apiEndpoints).find(item => req.url.includes(item))) {
+            return true;
+        } else { return false; }
     }
 }
