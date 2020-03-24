@@ -12,6 +12,7 @@
     "src/**/*.ts"
   ],
   "exclude": [
+    "**/*.mock.ts",
     "src/test.ts",
     "src/**/*.spec.ts"
   ]
