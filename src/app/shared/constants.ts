@@ -1,5 +1,6 @@
-export const apiEndpoints = [
-    'AdminUser/checkUserName',
-    'AdminUser/checkEmailAddress',
-    'Student/checkGradebookID'
-];
+export const apiEndpoints = {
+    adminUser: 'AdminUser/checkUserName',
+    adminEmail: 'AdminUser/checkEmailAddress',
+    student: 'Student/checkGradebookID',
+};
+

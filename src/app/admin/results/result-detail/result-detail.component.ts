@@ -1,10 +1,12 @@
 import { Component, OnInit, Inject, ViewChild } from '@angular/core';
 import { ResultsService } from '../results.service';
 import {Results, TrueAnswers} from '../../entity.interface';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
+import { MAT_DIALOG_DATA, MatDialogRef, MatDialog } from '@angular/material';
 import { MatTable, MatTableDataSource } from '@angular/material';
-import { IQuestion } from '../../questions/questions';
+import { IQuestion, IAnswer } from '../../questions/questions';
 import { ModalService } from 'src/app/shared/services/modal.service';
+import { ResultsQuestionDetailComponent } from '../results-question-detail/results-question-detail.component'
+import { UserAnswers } from 'src/app/shared/entity.interface';
 
 @Component({
   selector: 'app-detail-result',
@@ -20,6 +22,7 @@ export class ResultDetailComponent implements OnInit {
     'id',
     'question',
     'answer',
+    'action',
   ];
 
   @ViewChild('table', { static: true }) table: MatTable<Results>;
@@ -29,6 +32,7 @@ export class ResultDetailComponent implements OnInit {
     public dialogRef: MatDialogRef<ResultDetailComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
     private modalService: ModalService,
+    public dialog: MatDialog,
     ) {
       dialogRef.disableClose = true;
     }
@@ -52,4 +56,25 @@ export class ResultDetailComponent implements OnInit {
     return ids;
   }
 
+  private createQuestionDetailModad(question: IQuestion, answers: IAnswer[], userAnswerIds: number[]): void {
+    this.dialog.open(ResultsQuestionDetailComponent, {
+      width: '1000px',
+      data: {
+        question,
+        answers,
+        userAnswerIds,
+      }
+    });
+  }
+  private getUserAnswersByQuestion(question_id: number, userAnswers: UserAnswers[]): number[] {
+    let [userAnswersByQuestion] = userAnswers.filter(item => item.question_id == question_id);
+    return userAnswersByQuestion.answer_ids;
+  }
+  openModal(test_id: number) {
+    this.resultsService.getQuestionWithAnswers(test_id).subscribe(([question, answers]) => {
+      let question_id = question[0].question_id;
+      const userAnswerIds = this.getUserAnswersByQuestion(question_id, this.data.listUserAnswers);
+      this.createQuestionDetailModad(question[0], answers, userAnswerIds);
+    });
+  }
 }

@@ -112,7 +112,7 @@ export class SubjectsComponent implements OnInit {
     this.apiService.delEntity('Subject', id)
       .subscribe((response) => {
         this.dataSource.data = this.dataSource.data.filter(item => item.subject_id !== id);
-        this.translateSnackBar('subjects.snackbarMessageEdit', 'X');
+        this.translateSnackBar('subjects.snackbarMessageDelete', 'X');
       });
   }
 

@@ -1,13 +1,13 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
-import {Test} from '../../entity.interface';
-import {TestDetail} from '../../entity.interface';
-import {MatTableDataSource, MatTable} from '@angular/material';
-import {MatPaginator} from '@angular/material/paginator';
-import {MatDialog} from '@angular/material/dialog';
-import {ModalService} from '../../../shared/services/modal.service';
-import {ApiService} from '../../../shared/services/api.service';
-import {ActivatedRoute, Router} from '@angular/router';
-import {TestDetailAddComponent} from '../add/test-detail-add.component';
+import { Test } from 'src/app/shared/entity.interface';
+import { TestDetail } from 'src/app/shared/entity.interface';
+import { MatTableDataSource, MatTable } from '@angular/material';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatDialog } from '@angular/material/dialog';
+import { ModalService } from '../../../shared/services/modal.service';
+import { ApiService } from '../../../shared/services/api.service';
+import { ActivatedRoute, Router } from '@angular/router';
+import { TestDetailAddComponent } from '../add/test-detail-add.component';
 
 @Component({
   selector: 'app-test-detail',
@@ -40,7 +40,8 @@ export class TestDetailListComponent implements OnInit {
     private modalService: ModalService,
     private route: ActivatedRoute,
     private router: Router,
-  ) {}
+  ) {
+  }
 
   ngOnInit() {
     this.route.queryParamMap.subscribe((params: any) => {
@@ -120,7 +121,8 @@ export class TestDetailListComponent implements OnInit {
         description: {
           title: 'Додати нові налаштування теста',
           action: 'Додати'
-        }
+        },
+        usedLevels: this.getUsedLevelsFromTestDetails(),
       }
     });
 
@@ -139,7 +141,8 @@ export class TestDetailListComponent implements OnInit {
         description: {
           title: 'Редагувати налаштування теста',
           action: 'Зберегти зміни'
-        }
+        },
+        usedLevels: this.getUsedLevelsFromTestDetails(),
       }
     });
 
@@ -173,7 +176,11 @@ export class TestDetailListComponent implements OnInit {
       this.dataSource.data = this.listTestsDetails;
       this.listTestsDetailsRatesSum = this.getRatesSumForCurrentTest();
     }, (error: any) => {
-      this.modalService.openErrorModal('Помилка оновлення!');
+      if (error.error.response.includes('Error when update')) {
+        this.modalService.openErrorModal('Дані не оновлювалися');
+      } else {
+        this.modalService.openErrorModal('Помилка оновлення!');
+      }
     });
   }
 
@@ -199,5 +206,9 @@ export class TestDetailListComponent implements OnInit {
       this.dataSource.paginator = this.paginator;
     });
 
+  }
+
+  private getUsedLevelsFromTestDetails(): number[] {
+    return this.listTestsDetails.map(testDetail => Number(testDetail.level));
   }
 }

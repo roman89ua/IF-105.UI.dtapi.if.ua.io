@@ -1,1 +1,54 @@
-<p>results-question-detail works!</p>
+<h3 mat-dialog-title>Деталі запитання № {{ data.question.question_id }}</h3>
+<mat-dialog-content class="container">
+  <h4>Запитання</h4>
+  <div class="question">
+    <div class="question-content">{{ data.question.question_text }}</div>
+    <div class="question-attachment">
+      <img [src]="data.question.attachment" alt="" />
+    </div>
+    <div class="question-level">Рівень: {{ data.question.level }}</div>
+    <div class="question-type">Тип: {{ data.question.type }}</div>
+  </div>
+  <h4>Відповідь:
+    <span *ngIf="isNoAnswer()"> 
+      користувач не надав відповіді на дане запитання
+    </span>
+    <span *ngIf="isAnswerText()"> 
+      {{data.userAnswerIds[0]}}
+    </span>
+    <span *ngIf="!isNoAnswer()"> 
+      {{getTextTrueAnswer()}}
+    </span>
+  </h4>
+  
+  <div class="answers">
+    <div *ngFor="let answer of data.answers" class="answer">
+      <div class="answer-text">{{ answer.answer_text }}</div>
+      <div class="answer-attachment">
+        <img [src]="answer.attachment" alt="" />
+      </div>
+      <div class="answer-result-container"> 
+        <div
+        class="answer-result"
+        [ngClass]="{trueAnswer: +answer.true_answer, falseAnswer: !+answer.true_answer}"
+      >
+       {{ +answer.true_answer | scoreAnswer }}
+      </div>
+      <div *ngIf="isAnswerChecked(answer, data.userAnswerIds)" class="answer-user">
+        Вибрано
+      </div>
+      </div>
+    </div>
+  </div>
+</mat-dialog-content>
+<mat-dialog-actions>
+  <button
+    mat-stroked-button
+    color="primary"
+    type="button"
+    cdkFocusInitial
+    [mat-dialog-close]="true"
+  >
+    Закрити
+  </button>
+</mat-dialog-actions>

@@ -37,14 +37,8 @@
       Слід <strong>обов'язково</strong> вказати кількість завдань
     </mat-error>
   </mat-form-field>
-  <mat-checkbox
-    [(ngModel)]="data.data.enabled"
-    name="enabled"
-  >
-    Включений
-  </mat-checkbox>
   <mat-form-field class="example-full-width">
-    <mat-label>Час</mat-label>
+    <mat-label>Час (хв)</mat-label>
     <input
       matInput
       type="number"
@@ -67,6 +61,11 @@
       Слід <strong>обов'язково</strong> вказати кількість спроб
     </mat-error>
   </mat-form-field>
+  <label class="example-margin">Стан:</label>
+  <mat-radio-group [(ngModel)]="data.data.enabled">
+    <mat-radio-button value="1" class="radio-btn">Включений</mat-radio-button>
+    <mat-radio-button value="0" class="radio-btn">Виключений</mat-radio-button>
+  </mat-radio-group>
 </div>
 <div mat-dialog-actions>
   <button mat-raised-button mat-dialog-close>Відмінити</button>
@@ -76,7 +75,6 @@
     color="warn"
     [disabled]="test_name.invalid || time_for_test.invalid || tasks.invalid || attempts.invalid"
   >
-    <!--  || subject_id.empty -->
     <mat-icon aria-hidden="false" aria-label="save">save</mat-icon>
     {{data.description.action}}
   </button>

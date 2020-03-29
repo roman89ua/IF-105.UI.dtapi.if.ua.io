@@ -1,0 +1,76 @@
+mat-icon {
+  cursor: pointer;
+
+  &:hover {
+    &[aria-label="edit"] {
+      color: orange;
+    }
+    &[aria-label="delete"] {
+      color: red;
+    }
+  }
+}
+
+.btn {
+  width: 200px;
+  margin: 10px 0;
+}
+
+a:hover {
+  cursor: pointer;
+}
+.filter {
+  display: flex;
+  justify-content: center;
+  align-self: center;
+}
+mat-form-field {
+  width: 60%;
+}
+.material-icons.delete:hover {
+  color: red;
+}
+
+.material-icons.edit:hover {
+  color: orange;
+}
+
+table {
+  width: 100%;
+}
+.mat-elevation-z8 {
+  box-shadow: none;
+}
+
+.no-data {
+  position: absolute;
+  width: 100%;
+  text-align: center;
+  font-size: 30px;
+  color: rgba(0, 0, 0, 0.32);
+}
+.table-container {
+  position: relative;
+}
+.loading-shade {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  background: rgba(0, 0, 0, 0.15);
+  z-index: 999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.rate-limit-reached {
+  color: #980000;
+  max-width: 360px;
+  text-align: center;
+}
+.container {
+  position: absolute;
+  min-height: 200px;
+}

@@ -82,9 +82,15 @@ export class ApiService {
     return this.http.get(`${entity}/getTestsBySubject/${subject_id}`);
   }
 
-  /** GRT test details by test id */
+  /** GET test details by test id */
   getTestDetailsByTest(entity: string, test_id: number): Observable<any> {
     return  this.http.get(`${entity}/getTestDetailsByTest/${test_id}`);
   }
-
+  /** GET answers which related to question with question_id  */
+  getAnswersByQuestion(test_id: number) {
+    return this.http.get('answer/getAnswersByQuestion/' + test_id);
+  }
+  getSearch(entity: string, searchStr: string) {
+    return this.http.get(`${entity}/getRecordsBySearch/${searchStr}`);
+  }
 }

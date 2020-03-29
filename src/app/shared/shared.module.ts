@@ -36,7 +36,7 @@ import {MatSidenavModule} from '@angular/material/sidenav';
 import {MatSliderModule} from '@angular/material/slider';
 import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 import {MatSnackBarModule} from '@angular/material/snack-bar';
-import {MatSortModule} from '@angular/material/sort';
+import {MatSortModule, MatSort} from '@angular/material/sort';
 import {MatTableModule} from '@angular/material/table';
 import {MatTabsModule} from '@angular/material/tabs';
 import {MatToolbarModule} from '@angular/material/toolbar';
@@ -46,15 +46,15 @@ import { LayoutModule } from '@angular/cdk/layout';
 import { ConfirmComponent } from './confirm/confirm.component';
 import { AlertComponent } from './alert/alert.component';
 import { ModalService } from '../shared/services/modal.service';
-import { SpinnerService } from './services/spinner.service';
 import { SpinnerComponent } from './spinner/spinner.component';
 import { HttpClient} from '@angular/common/http';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
-import { PaginatorComponent } from './paginator/paginator.component';
 import { ToolbarComponent } from './toolbar/toolbar.component';
 import { RouterModule } from '@angular/router';
 import { BreadcrumbsComponent } from './breadcrumbs/breadcrumbs.component';
+import { MatTableComponent } from './mat-table/mat-table.component';
+import { MatFormFieldModule } from '@angular/material';
 
 
 @NgModule({
@@ -62,9 +62,9 @@ import { BreadcrumbsComponent } from './breadcrumbs/breadcrumbs.component';
     ConfirmComponent,
     AlertComponent,
     SpinnerComponent,
-    PaginatorComponent,
     ToolbarComponent,
-    BreadcrumbsComponent
+    BreadcrumbsComponent,
+    MatTableComponent
   ],
   imports: [
     CommonModule,
@@ -72,6 +72,11 @@ import { BreadcrumbsComponent } from './breadcrumbs/breadcrumbs.component';
     MatButtonModule,
     MatDividerModule,
     MatIconModule,
+    MatTableModule,
+    MatTooltipModule,
+    MatSortModule,
+    MatFormFieldModule,
+    MatInputModule,
     MatProgressSpinnerModule,
     MatProgressBarModule,
     TranslateModule.forChild({
@@ -140,9 +145,9 @@ import { BreadcrumbsComponent } from './breadcrumbs/breadcrumbs.component';
     ScrollingModule,
     LayoutModule,
     SpinnerComponent,
-    PaginatorComponent,
     ToolbarComponent,
-    BreadcrumbsComponent
+    BreadcrumbsComponent,
+    MatTableComponent
   ]
 })
 export class SharedModule { }

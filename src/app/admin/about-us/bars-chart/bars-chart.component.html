@@ -1,0 +1,12 @@
+<h5 class="header">Комміти розробників front-end команди</h5>
+<div *ngIf="this.chardReady">
+    <div>
+      <canvas baseChart
+              [datasets]="barChartData"
+              [labels]="barChartLabels"
+              [options]="barChartOptions"
+              [legend]="barChartLegend"
+              [chartType]="barChartType">
+      </canvas>
+    </div>
+</div>

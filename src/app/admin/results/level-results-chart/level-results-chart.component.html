@@ -1,6 +1,9 @@
 <div class="title-box">
   <h3 *ngIf="testList">Результати проходження тесту: {{testList.test_name}}</h3>
 </div>
+<div class="title-box">
+  <h3 *ngIf="data">Студент: {{data.results.student}}</h3>
+</div>
 <div style="display: block">
   <canvas baseChart [datasets]="barChartData" [labels]="barChartLabels" [options]="barChartOptions"
     [legend]="barChartLegend" [chartType]="barChartType"></canvas>

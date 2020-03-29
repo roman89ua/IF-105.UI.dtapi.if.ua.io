@@ -100,12 +100,16 @@
         <th mat-header-cell *matHeaderCellDef>Статистика</th>
         <td mat-cell *matCellDef="let result">
           <mat-icon
-            aria-label="details"
+            aria-label="menu"
             matTooltip="Деталі тестування"
-            (click)="openDetailResult(result, subjectName$)">
-            details</mat-icon>
-          <button>Статистика</button>
-          <button (click)="openChartResultsByLevel(result)">Результат по рівнях</button>
+            (click)="openDetailResult(result, subjectName$, result.questions)">
+            menu</mat-icon>
+          <mat-icon 
+            aria-label="bar_chart"
+            matTooltip="Результати за рівнями"
+            (click)="openChartResultsByLevel(result)">
+            bar_chart
+          </mat-icon>
         </td>
       </ng-container>
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>

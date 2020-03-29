@@ -1,6 +1,6 @@
 import {Component, OnInit, ViewChild, Inject} from '@angular/core';
 import { Subject } from '../../entity.interface';
-import { Test } from '../../entity.interface';
+import { Test } from 'src/app/shared/entity.interface';
 import { MatTableDataSource, MatTable } from '@angular/material';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatDialog } from '@angular/material/dialog';
@@ -8,7 +8,7 @@ import { TestAddComponent } from '../add/test-add.component';
 import { ModalService } from '../../../shared/services/modal.service';
 import { ApiService } from '../../../shared/services/api.service';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ExportService } from '../../../shared/services/export.service'
+import { ExportService } from '../../../shared/services/export.service';
 import { ExportImportComponent } from '../export-import/export-import.component';
 
 @Component({
@@ -79,13 +79,6 @@ export class TestListComponent implements OnInit {
     if (!data.enabled) {
       data.enabled = '0';
     }
-    // data.enabled = Number(data.enabled);
-    // data.tasks = Number(data.tasks);
-    // data.attempts = data.attempts;
-    // data.time_for_test = Number(data.time_for_test);
-    // data.test_id = Number(data.test_id);
-    // data.subject_id = Number(data.subject_id);
-
     return data;
   }
 
@@ -138,7 +131,11 @@ export class TestListComponent implements OnInit {
     this.apiService.updEntity('test', test, test.test_id).subscribe(() => {
       this.dataSource.data = this.listTests;
     }, (error: any) => {
-      this.modalService.openErrorModal('Помилка оновлення!');
+      if (error.error.response.includes('Error when update')) {
+        this.modalService.openErrorModal('Дані не оновлювалися');
+      } else {
+        this.modalService.openErrorModal('Помилка оновлення!');
+      }
     });
   }
 

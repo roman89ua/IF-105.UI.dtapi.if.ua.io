@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { AuthService } from '../../shared/auth.service';
 import { LoginService } from '../login.service';
 import { SafeResourceUrl } from '@angular/platform-browser';
+import { LangBtnService } from '../../shared/services/lang-btn.service';
 
 @Component({
   selector: 'app-login',
@@ -20,7 +21,8 @@ export class LoginComponent implements OnInit {
   constructor(
     private loginService: LoginService,
     private authService: AuthService,
-    private router: Router
+    private router: Router,
+    private langBtnService: LangBtnService
   ) { }
 
   ngOnInit() {
@@ -47,5 +49,8 @@ export class LoginComponent implements OnInit {
         const navigateTo = response.roles.includes('admin') ? 'admin' : 'student';
         this.router.navigate([navigateTo]);
       });
+  }
+  changeLang(language: string) {
+    this.langBtnService.switchLanguage(language);
   }
 }

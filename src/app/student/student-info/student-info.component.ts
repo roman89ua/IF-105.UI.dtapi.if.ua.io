@@ -7,6 +7,7 @@ import {MatPaginator, MatTable, MatTableDataSource} from '@angular/material';
 import {ModalService} from '../../shared/services/modal.service';
 import {SessionStorageService} from 'angular-web-storage';
 import {StudentInfoService} from '../student-info.service';
+import {defaultImage} from '../../shared/default-image/default-image';
 
 @Component({
   selector: 'app-student-info',
@@ -47,7 +48,12 @@ export class StudentInfoComponent implements OnInit {
     this.currDate = new Date();
     this.studentInfoService.getUserData().subscribe(
       (result: any[]) => {
-        this.studentInfo = result[0];
+        if (result[0].photo === '') {
+          result[0].photo = defaultImage;
+          this.studentInfo = result[0];
+        } else {
+          this.studentInfo = result[0];
+        }
         this.formDataSource(result[1], result[2]);
       });
   }

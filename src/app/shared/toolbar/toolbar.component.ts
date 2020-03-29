@@ -1,15 +1,16 @@
 import {Component, OnInit, Input } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, from } from 'rxjs';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { map, shareReplay } from 'rxjs/operators';
 import { Router } from '@angular/router';
 import { AuthService } from '../auth.service';
 import { MatSidenav } from '@angular/material';
 import { User } from '../entity.interface';
-import { TranslateService } from '@ngx-translate/core';
+
 import {SessionStorage, SessionStorageService} from 'angular-web-storage';
 import {ModalService} from '../services/modal.service';
 import { TestLogoutService } from '../services/test-logout.service';
+import {LangBtnService} from '../services/lang-btn.service';
 
 @Component({
   selector: 'app-toolbar',
@@ -25,10 +26,10 @@ export class ToolbarComponent implements OnInit {
     private breakpointObserver: BreakpointObserver,
     private router: Router,
     private authService: AuthService,
-    public translate: TranslateService,
     public session: SessionStorageService,
     private modalService: ModalService,
     private testLogoutService: TestLogoutService,
+    private langBtnService: LangBtnService
   ) { }
 
 
@@ -50,10 +51,10 @@ export class ToolbarComponent implements OnInit {
         this.user = response;
       });
   }
-  switchLanguage(language: string) {
-    this.translate.use(language);
-    localStorage.setItem('lang', language);
+  changeLang(language: string) {
+    this.langBtnService.switchLanguage(language);
   }
+
   logOut() {
     this.authService.logout()
       .subscribe(() => {

@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormGroup, Validators, FormBuilder, FormControl } from '@angular/forms';
-import { Group, Student } from 'src/app/shared/entity.interface';
+import { Group, Student, UserAnswers } from 'src/app/shared/entity.interface';
 import { Test, Results } from '../entity.interface';
 import { ResultsService } from './results.service';
 import { ModalService } from '../../shared/services/modal.service';
@@ -197,7 +197,7 @@ export class ResultsComponent implements OnInit {
 
   createGroupChart(): void {
     this.dialog.open(ResultGroupRaitingComponent, {
-      width: '1000px',
+      width: '1200px',
       data: { data: this.dataSource.data }
     });
   }
@@ -211,12 +211,14 @@ export class ResultsComponent implements OnInit {
     });
   }
 
-  openDetailResult(detail: string, subjectName: string): void {
+  openDetailResult(detail: string, subjectName: string, userAnswers: string): void {
+    const listUserAnswers = JSON.parse(userAnswers);
     this.dialog.open(ResultDetailComponent, {
       width: '1000px',
       data: {
         detail,
-        subjectName
+        subjectName,
+        listUserAnswers,
       }
     });
   }
