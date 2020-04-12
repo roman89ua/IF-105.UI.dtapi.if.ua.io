@@ -9,6 +9,9 @@ import { SharedModule } from '../shared/shared.module';
 import { HttpClient} from '@angular/common/http';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import { StoreModule } from '@ngrx/store';
+import * as fromLogin from './reducers';
+import { EffectsModule } from '@ngrx/effects';
 
 const loginRoutes: Routes = [
   { path: '', component: LoginComponent },
@@ -30,7 +33,9 @@ const loginRoutes: Routes = [
         useFactory: HttpLoaderFactory,
         deps: [HttpClient]
       }
-    })
+    }),
+    StoreModule.forFeature('login', fromLogin.authReducer),
+    EffectsModule.forFeature([])
   ]
 })
 export class LoginModule { }

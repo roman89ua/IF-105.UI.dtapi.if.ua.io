@@ -5,12 +5,16 @@ import { map, shareReplay } from 'rxjs/operators';
 import { Router } from '@angular/router';
 import { AuthService } from '../auth.service';
 import { MatSidenav } from '@angular/material';
-import { User } from '../entity.interface';
+import { User, UserLogin } from '../entity.interface';
 
 import {SessionStorage, SessionStorageService} from 'angular-web-storage';
 import {ModalService} from '../services/modal.service';
 import { TestLogoutService } from '../services/test-logout.service';
 import {LangBtnService} from '../services/lang-btn.service';
+import { Store, select } from '@ngrx/store';
+import { AppState } from 'src/app/reducers';
+import { selectUserData } from 'src/app/login/store/login.selectors';
+import { logout } from 'src/app/login/store/login.action';
 
 @Component({
   selector: 'app-toolbar',
@@ -20,7 +24,7 @@ import {LangBtnService} from '../services/lang-btn.service';
 export class ToolbarComponent implements OnInit {
   @Input() sidenav: MatSidenav;
   currentUser$: Observable<any>;
-  user: User;
+  user: UserLogin;
 
   constructor(
     private breakpointObserver: BreakpointObserver,
@@ -29,7 +33,8 @@ export class ToolbarComponent implements OnInit {
     public session: SessionStorageService,
     private modalService: ModalService,
     private testLogoutService: TestLogoutService,
-    private langBtnService: LangBtnService
+    private langBtnService: LangBtnService,
+    private store: Store<AppState>
   ) { }
 
 
@@ -46,11 +51,9 @@ export class ToolbarComponent implements OnInit {
     );
 
   ngOnInit(): void {
-    this.authService.getCurrentUser()
-      .subscribe((response: User) => {
-        this.user = response;
-      });
+  this.currentUser$ = this.store.pipe(select(selectUserData));
   }
+
   changeLang(language: string) {
     this.langBtnService.switchLanguage(language);
   }
@@ -59,6 +62,7 @@ export class ToolbarComponent implements OnInit {
     this.authService.logout()
       .subscribe(() => {
         this.router.navigate(['login']);
+        this.store.dispatch(logout());
       });
 
   }

@@ -4,14 +4,14 @@
     aria-label="Toggle sidenav"
     mat-icon-button
     (click)="sidenav.toggle()"
-    *ngIf="user?.roles.includes('admin') && ((isSmall$ | async) || (isXSmall$ | async))"
+    *ngIf="(currentUser$ | async)?.roles.includes('admin') && ((isSmall$ | async) || (isXSmall$ | async))"
   >
     <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
   </button>
   <span>d-tester</span>
   <span class="fill-space"></span>
 
-  <mat-nav-list *ngIf="!(isSmall$ | async) && !(isXSmall$ | async) && user?.roles.includes('admin')  ">
+  <mat-nav-list *ngIf="!(isSmall$ | async) && !(isXSmall$ | async) && (currentUser$ | async)?.roles.includes('admin')  ">
     <a routerLinkActive="mat-raised-button" mat-button routerLink="dashboard"
       >{{'sidenav.dashboard'|translate}}</a
     >
@@ -37,7 +37,7 @@
   <span class="fill-space"></span>
 
   <button mat-button [matMenuTriggerFor]="menu">
-    {{ user?.username }}
+   {{ (currentUser$ | async)?.username}}
   </button>
 
   <mat-menu #menu="matMenu">

@@ -31,12 +31,6 @@ export class AuthService {
       );
   }
   getCurrentUser() {
-    if (this.currentUser) {
-      return of(this.currentUser)
-        .pipe(
-          first()
-        );
-    }
     return this.http
       .get('login/isLogged')
       .pipe(

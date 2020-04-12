@@ -128,5 +128,8 @@
       }
     }
   },
-  "defaultProject": "IF105"
+  "defaultProject": "IF105",
+  "cli": {
+    "defaultCollection": "@ngrx/schematics"
+  }
 }

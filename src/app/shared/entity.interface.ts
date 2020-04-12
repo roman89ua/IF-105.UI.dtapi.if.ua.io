@@ -73,7 +73,11 @@ export interface User {
   username: string;
   response: string;
 }
-
+export interface UserLogin {
+  id: string;
+  username: string;
+  roles: Array<string>;
+}
 
 export interface Test {
   test_id: number;

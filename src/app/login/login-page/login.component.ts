@@ -6,6 +6,9 @@ import { AuthService } from '../../shared/auth.service';
 import { LoginService } from '../login.service';
 import { SafeResourceUrl } from '@angular/platform-browser';
 import { LangBtnService } from '../../shared/services/lang-btn.service';
+import { Store } from '@ngrx/store';
+import { AppState } from 'src/app/reducers';
+import { login } from '../store/login.action';
 
 @Component({
   selector: 'app-login',
@@ -22,7 +25,8 @@ export class LoginComponent implements OnInit {
     private loginService: LoginService,
     private authService: AuthService,
     private router: Router,
-    private langBtnService: LangBtnService
+    private langBtnService: LangBtnService,
+    private store: Store<AppState>
   ) { }
 
   ngOnInit() {
@@ -36,19 +40,19 @@ export class LoginComponent implements OnInit {
   login() {
     this.authService
       .login(this.userData)
-      .pipe(
-        catchError(({ error }) => {
-          this.error = error.response;
+        .subscribe((response: any) => {
+          const {id, username, roles} = response;
+          this.error = null;
+
+          this.store.dispatch(login({user: {id, username, roles}}));
+
+          const navigateTo = response.roles.includes('admin') ? 'admin' : 'student';
+          this.router.navigate([navigateTo]);
+        }, ({error}) => {
           this.userData.username = null;
           this.userData.password = null;
-          return of();
-        }),
-      )
-      .subscribe((response: any) => {
-        this.error = null;
-        const navigateTo = response.roles.includes('admin') ? 'admin' : 'student';
-        this.router.navigate([navigateTo]);
-      });
+          this.error = 'Не вірний пароль або логін';
+        });
   }
   changeLang(language: string) {
     this.langBtnService.switchLanguage(language);
