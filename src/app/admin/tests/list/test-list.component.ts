@@ -1,7 +1,7 @@
 import {Component, OnInit, ViewChild, Inject} from '@angular/core';
 import { Subject } from '../../entity.interface';
 import { Test } from 'src/app/shared/entity.interface';
-import { MatTableDataSource, MatTable } from '@angular/material';
+import { MatTableDataSource, MatTable } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatDialog } from '@angular/material/dialog';
 import { TestAddComponent } from '../add/test-add.component';

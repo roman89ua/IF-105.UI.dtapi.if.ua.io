@@ -1,5 +1,5 @@
 import { Component, OnInit, AfterViewInit, ViewChild } from '@angular/core';
-import {  MatSnackBar} from '@angular/material';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { Faculty } from 'src/app/shared/entity.interface';
 import { ModalService } from '../../shared/services/modal.service';
 import { FacultiesService } from './faculties.service';
@@ -17,7 +17,7 @@ export class FacultiesComponent  implements OnInit, AfterViewInit {
   faculties: Faculty[] = [];
   length: number;
 
-  @ViewChild(MatTableComponent, {static: false}) mattable: MatTableComponent;
+  @ViewChild(MatTableComponent) mattable: MatTableComponent;
 
   columns: Column [] = [
     {columnDef: 'faculty_id', header: 'ID'},

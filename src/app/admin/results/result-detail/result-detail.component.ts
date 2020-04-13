@@ -1,8 +1,8 @@
 import { Component, OnInit, Inject, ViewChild } from '@angular/core';
 import { ResultsService } from '../results.service';
 import {Results, TrueAnswers} from '../../entity.interface';
-import { MAT_DIALOG_DATA, MatDialogRef, MatDialog } from '@angular/material';
-import { MatTable, MatTableDataSource } from '@angular/material';
+import { MAT_DIALOG_DATA, MatDialogRef, MatDialog } from '@angular/material/dialog';
+import { MatTable, MatTableDataSource } from '@angular/material/table';
 import { IQuestion, IAnswer } from '../../questions/questions';
 import { ModalService } from 'src/app/shared/services/modal.service';
 import { ResultsQuestionDetailComponent } from '../results-question-detail/results-question-detail.component'

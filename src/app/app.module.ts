@@ -6,7 +6,9 @@ import { HttpClientModule, HTTP_INTERCEPTORS, HttpClient } from '@angular/common
 import { ApiHttpInterceptor } from './http.interceptor';
 import { SharedModule } from './shared/shared.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MatFormFieldModule, MatInputModule, MatPaginatorIntl } from '@angular/material';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatPaginatorIntl } from '@angular/material/paginator';
 import { NotFoundComponent } from './not-found/not-found.component';
 import { SpinnerInterceptor } from './shared/spinner/spinner.interceptor';
 import { TranslateModule, TranslateLoader, TranslateService } from '@ngx-translate/core';

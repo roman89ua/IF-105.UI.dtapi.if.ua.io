@@ -1,8 +1,8 @@
 import { Component, OnInit, Inject, ViewChild } from '@angular/core';
 import { LevelResultsChartService } from './level-results-chart.service';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { Results } from '../../entity.interface';
-import { MatTable } from '@angular/material';
+import { MatTable } from '@angular/material/table';
 import { forkJoin } from 'rxjs';
 
 @Component({

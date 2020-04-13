@@ -1,7 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import { ApiService } from 'src/app/shared/services/api.service';
 import { FacultiesService } from './faculties.service';
-import { MatDialog } from '@angular/material';
+import { MatDialog } from '@angular/material/dialog';
 import { Faculty } from 'src/app/shared/entity.interface';
 import { of, Observable } from 'rxjs';
 

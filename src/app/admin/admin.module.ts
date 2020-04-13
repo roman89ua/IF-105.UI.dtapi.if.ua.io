@@ -21,7 +21,7 @@ import { NavbarComponent } from './sidenav/sidenav.component';
 import { CreateEditComponent } from './faculties/create-edit/create-edit.component';
 import { SubjectsComponent } from './subjects/subjects.component';
 import { SubjectsCreateModalComponent } from './subjects/subjects-create-modal/subjects-create-modal.component';
-import { MatDialogModule } from '@angular/material';
+import { MatDialogModule } from '@angular/material/dialog';
 import { TimeTableComponent } from './time-table/time-table.component';
 import { TimeTableAddDialogComponent } from './time-table/time-table-add-dialog/time-table-add-dialog.component';
 import { QuestionTypePipe } from './questions/pipes/question-type.pipe';

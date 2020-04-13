@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Faculty } from 'src/app/shared/entity.interface';
 import { ApiService } from 'src/app/shared/services/api.service';
-import { MatDialog } from '@angular/material';
+import { MatDialog } from '@angular/material/dialog';
 import { CreateEditComponent } from './create-edit/create-edit.component';
 
 

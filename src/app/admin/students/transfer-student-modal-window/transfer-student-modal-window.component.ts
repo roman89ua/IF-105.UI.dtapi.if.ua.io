@@ -1,6 +1,6 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { ApiService } from 'src/app/shared/services/api.service';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Faculty, Group, ResponseInterface } from 'src/app/shared/entity.interface';
 import { ModalService } from 'src/app/shared/services/modal.service';
 

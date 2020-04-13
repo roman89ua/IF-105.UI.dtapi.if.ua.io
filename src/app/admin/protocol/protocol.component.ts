@@ -4,7 +4,9 @@ import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms'
 import { mergeMap } from 'rxjs/operators';
 import { forkJoin, of } from 'rxjs';
 import { Protocol } from './protocol.interface';
-import { MatTableDataSource, MatTable, MatPaginator, MatSnackBar } from '@angular/material';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatTableDataSource, MatTable } from '@angular/material/table';
 
 @Component({
   selector: 'app-protocol',
@@ -16,7 +18,7 @@ export class ProtocolComponent implements OnInit, AfterViewInit {
   public displayedColumns: string[] = ['userId', 'userName', 'testName', 'ipAddress', 'date', 'time'];
   public dataSource = new MatTableDataSource<Protocol>();
 
-  @ViewChild('table', { static: false }) table: MatTable<Element>;
+  @ViewChild('table') table: MatTable<Element>;
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
   logsDateForm: FormGroup;
   constructor(private protocolService: ProtocolService, private fb: FormBuilder, private snackBar: MatSnackBar, ) { }

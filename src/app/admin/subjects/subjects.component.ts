@@ -1,5 +1,8 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { MatDialog, MatSort, MatSnackBar, MatPaginator } from '@angular/material';
+import { MatDialog } from '@angular/material/dialog';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatSort } from '@angular/material/sort';
 import { SubjectsCreateModalComponent } from './subjects-create-modal/subjects-create-modal.component';
 import { Subject } from 'src/app/admin/entity.interface';
 import { mergeMap } from 'rxjs/operators';

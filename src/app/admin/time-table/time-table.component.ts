@@ -2,7 +2,9 @@ import {Component, OnInit, ViewChild} from '@angular/core';
 import {Group, Subject} from '../entity.interface';
 import {FormBuilder} from '@angular/forms';
 import {TimeTable} from '../../shared/entity.interface';
-import {MatDialog, MatPaginator, MatTable, MatTableDataSource} from '@angular/material';
+import { MatDialog } from '@angular/material/dialog';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatTable, MatTableDataSource } from '@angular/material/table';
 import {TimeTableAddDialogComponent} from './time-table-add-dialog/time-table-add-dialog.component';
 import {ModalService} from '../../shared/services/modal.service';
 import {ApiService} from 'src/app/shared/services/api.service';
@@ -28,7 +30,7 @@ export class TimeTableComponent implements OnInit {
     'actions'
   ];
 
-  @ViewChild('table', {static: false}) table: MatTable<Element>;
+  @ViewChild('table') table: MatTable<Element>;
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
 
   constructor(private apiService: ApiService,

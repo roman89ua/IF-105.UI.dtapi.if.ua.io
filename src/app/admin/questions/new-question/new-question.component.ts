@@ -6,7 +6,7 @@ import { switchMap, map } from 'rxjs/operators';
 import { of } from 'rxjs';
 import { IAnswer, IQuestion } from '../questions';
 import { ModalService } from '../../../shared/services/modal.service';
-import { MAT_CHECKBOX_CLICK_ACTION } from '@angular/material';
+import { MAT_CHECKBOX_CLICK_ACTION } from '@angular/material/checkbox';
 import { ApiService } from 'src/app/shared/services/api.service';
 
 @Component({

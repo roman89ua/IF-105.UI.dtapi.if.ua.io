@@ -3,7 +3,8 @@ import {ApiService} from '../../shared/services/api.service';
 import {StudentInfo, TestsForStudent} from '../../shared/entity.interface';
 import {Router} from '@angular/router';
 import {Test} from '../../admin/entity.interface';
-import {MatPaginator, MatTable, MatTableDataSource} from '@angular/material';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatTable, MatTableDataSource } from '@angular/material/table';
 import {ModalService} from '../../shared/services/modal.service';
 import {SessionStorageService} from 'angular-web-storage';
 import {StudentInfoService} from '../student-info.service';
@@ -28,8 +29,8 @@ export class StudentInfoComponent implements OnInit {
     'actions'
   ];
 
-  @ViewChild('table', {static: false}) table: MatTable<Element>;
-  @ViewChild(MatPaginator, {static: false}) paginator: MatPaginator;
+  @ViewChild('table') table: MatTable<Element>;
+  @ViewChild(MatPaginator) paginator: MatPaginator;
 
   constructor(
     private apiService: ApiService,

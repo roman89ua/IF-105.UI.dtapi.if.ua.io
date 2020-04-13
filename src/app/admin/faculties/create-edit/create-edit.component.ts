@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild, Inject } from '@angular/core';
 import { FormGroup, FormControl, Validators, FormArray } from '@angular/forms';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Faculty } from 'src/app/shared/entity.interface';
 
 
@@ -13,7 +13,7 @@ export class CreateEditComponent implements OnInit {
 
 
   constructor(public dialogRef: MatDialogRef<CreateEditComponent>, @Inject(MAT_DIALOG_DATA) public data: Faculty) { }
-  @ViewChild('addform', { static: false }) addform;
+  @ViewChild('addform') addform;
 
   addForm = new FormGroup({
     faculty_name: new FormControl('',

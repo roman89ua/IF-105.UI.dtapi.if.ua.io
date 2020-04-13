@@ -1,9 +1,10 @@
 import {Component, Inject, OnInit} from '@angular/core';
 import {Group, TimeTable} from '../../../shared/entity.interface';
 import {Subject} from '../../entity.interface';
-import {MAT_DIALOG_DATA, MatDialogRef, ErrorStateMatcher, ShowOnDirtyErrorStateMatcher} from '@angular/material';
+import { ErrorStateMatcher, ShowOnDirtyErrorStateMatcher } from '@angular/material/core';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import {NgModule} from '@angular/core';
-import {DateAdapter, MAT_DATE_FORMATS} from '@angular/material';
+import { DateAdapter, MAT_DATE_FORMATS } from '@angular/material/core';
 import {AppDateAdapter, APP_DATE_FORMATS} from '../../../shared/format-datepicker/format-datepicker';
 import {ApiService} from 'src/app/shared/services/api.service';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
@@ -28,7 +29,6 @@ export interface DialogData {
     {provide: ErrorStateMatcher, useClass: ShowOnDirtyErrorStateMatcher}
   ]
 })
-@NgModule({})
 export class TimeTableAddDialogComponent implements OnInit {
   timeTable: TimeTable[] = [];
   groups: Group[] = [];

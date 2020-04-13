@@ -2,7 +2,10 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { Speciality } from '.././../entity.interface';
 import { ApiService } from '../../../shared/services/api.service';
 import { DialogFormComponent } from '../dialog-form/dialog-form.component';
-import { MatDialog, MatTableDataSource, MatTable, MatPaginator, MatSnackBar } from '@angular/material';
+import { MatDialog } from '@angular/material/dialog';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatTableDataSource, MatTable } from '@angular/material/table';
 import { ModalService } from '../../../shared/services/modal.service';
 @Component({
   selector: 'app-speciality-list',
@@ -15,7 +18,7 @@ export class SpecialityListComponent implements OnInit {
   public displayedColumns: string[] = ['code', 'name', 'buttons'];
   public dataSource = new MatTableDataSource<Speciality>();
 
-  @ViewChild('table', { static: false }) table: MatTable<Element>;
+  @ViewChild('table') table: MatTable<Element>;
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
 
   constructor(

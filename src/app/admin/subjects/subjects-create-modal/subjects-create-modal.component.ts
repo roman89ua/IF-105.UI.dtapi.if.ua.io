@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild, Inject } from '@angular/core';
 import { FormControl, FormGroup, Validators} from '@angular/forms';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Subject } from 'src/app/admin/entity.interface';
 import { TranslateService } from '@ngx-translate/core';
 
@@ -16,7 +16,7 @@ export class SubjectsCreateModalComponent implements OnInit {
     private translate: TranslateService
     ) { }
 
-  @ViewChild('addSubject', { static: false }) addsubject;
+  @ViewChild('addSubject') addsubject;
 
   public addSubject = new FormGroup({
     subject_name: new FormControl('', [Validators.required, Validators.pattern(`[А-ЯІїЄA-Z -]+[А-ЯA-ZЄІа-яіїєa-z0-9 ':-]*`)]),

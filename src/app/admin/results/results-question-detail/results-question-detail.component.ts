@@ -1,7 +1,7 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { ResultsService } from '../results.service';
 import { ModalService } from '../../../shared/services/modal.service';
-import { MAT_DIALOG_DATA } from '@angular/material';
+import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { IAnswer } from '../../questions/questions';
 import { UserAnswers } from 'src/app/shared/entity.interface';
 

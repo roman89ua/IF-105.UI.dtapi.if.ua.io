@@ -2,7 +2,7 @@ import { Component, OnInit, Inject } from '@angular/core';
 import { FormGroup, FormControl, Validators, ValidatorFn, ValidationErrors } from '@angular/forms';
 import { StudentsService } from '../services/students.service';
 import { ApiService } from 'src/app/shared/services/api.service';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { of } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { ResponseInterface } from 'src/app/shared/entity.interface';

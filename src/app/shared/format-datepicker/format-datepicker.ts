@@ -1,5 +1,5 @@
-import {NativeDateAdapter} from '@angular/material';
-import {MatDateFormats} from '@angular/material';
+import { NativeDateAdapter } from '@angular/material/core';
+import { MatDateFormats } from '@angular/material/core';
 
 export class AppDateAdapter extends NativeDateAdapter {
   // tslint:disable-next-line:ban-types

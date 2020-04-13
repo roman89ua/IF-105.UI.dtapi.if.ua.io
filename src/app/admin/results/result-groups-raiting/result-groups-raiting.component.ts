@@ -1,6 +1,6 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { ResultsService } from '../results.service';
-import { MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Results, Student, Group } from 'src/app/shared/entity.interface';
 import { ApiService } from 'src/app/shared/services/api.service';
 

@@ -11,7 +11,11 @@ import { MatTableComponent } from 'src/app/shared/mat-table/mat-table.component'
 import { MockComponent } from 'ng-mocks';
 import { By } from '@angular/platform-browser';
 import { facultiesMock, faculty } from './mock-data';
-import { MatIconModule, MatFormFieldModule, MatTableModule, MatSnackBarModule,  MatDialogModule } from '@angular/material';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatIconModule } from '@angular/material/icon';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatTableModule } from '@angular/material/table';
 import { ModalService } from 'src/app/shared/services/modal.service';
 
 fdescribe('FacultiesComponent', () => {
