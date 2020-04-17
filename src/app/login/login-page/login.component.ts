@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { catchError } from 'rxjs/operators';
-import { of } from 'rxjs';
+import { catchError, withLatestFrom, map } from 'rxjs/operators';
+import { of, combineLatest, BehaviorSubject } from 'rxjs';
 import { Router } from '@angular/router';
 import { AuthService } from '../../shared/auth.service';
 import { LoginService } from '../login.service';
@@ -31,11 +31,51 @@ export class LoginComponent implements OnInit {
 
   ngOnInit() {
     this.getLogo();
+    const facultiesSubject = new BehaviorSubject([])
+    facultiesSubject.next([
+      { id: 1, name: 'faculty 1' },
+      { id: 2, name: 'faculty 2' },
+      { id: 3, name: 'faculty 3' },
+  ]);
+  const groupsSubject = new BehaviorSubject([])
+     groupsSubject.next([
+      { faculty_id: 1, group_name: 'PI-16' },
+      { faculty_id: 2, group_name: 'PI-15' },
+      { faculty_id: 3, group_name: 'PI-14' },
+  ]);
+  facultiesSubject.next(
+    [
+      { id: 1, name: 'faculty 11' },
+      { id: 2, name: 'faculty 22' },
+      { id: 3, name: 'faculty 33' },
+  ]
+  );
+   groupsSubject.pipe(
+      withLatestFrom(facultiesSubject),
+      map(([groups,faculties]) => {
+        console.log(groups, faculties);
+        return this.finder(groups,faculties)
+      })
+    )
+    .subscribe(data => console.log(data));
   }
 
   getLogo() {
     this.loginService.getLogo()
       .subscribe(data => this.logo = data);
+  }
+  finder(groups, faculties) {
+   return groups.map((item) => {
+      const faculty = this.findFacultyById(faculties,item.faculty_id);
+      return {
+        ...item,
+        fack: faculty.name
+      }
+    });
+
+    }
+  findFacultyById(faculty: Array<any>,id: number) {
+   return faculty.find((item) => item.id === id);
   }
   login() {
     this.authService

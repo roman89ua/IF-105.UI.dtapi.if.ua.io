@@ -5,6 +5,13 @@ import { ModalService } from '../../shared/services/modal.service';
 import { FacultiesService } from './faculties.service';
 import { Column, tableActionsType } from 'src/app/shared/mat-table/mat-table.interface';
 import { MatTableComponent } from 'src/app/shared/mat-table/mat-table.component';
+import { Store, select } from '@ngrx/store';
+import { AppState } from 'src/app/reducers';
+import { loadAllFaculties, facultyUpdate, facultyDelete, facultyCreate } from '../store/faculty/faculty-actions';
+import { selectAllFaculties, areFacultiesLoaded } from '../store/faculty/faculty-selectors';
+import { take, tap } from 'rxjs/operators';
+import { selectAll } from '../store/faculty/faculty-reducers';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-faculties',
@@ -14,6 +21,7 @@ import { MatTableComponent } from 'src/app/shared/mat-table/mat-table.component'
 export class FacultiesComponent  implements OnInit, AfterViewInit {
 
   /* TABLE  */
+  faculties$: Observable<Faculty[]>;
   faculties: Faculty[] = [];
   length: number;
 
@@ -43,18 +51,31 @@ export class FacultiesComponent  implements OnInit, AfterViewInit {
   constructor(
     private snackBar: MatSnackBar,
     private modalService: ModalService,
-    private facultyService: FacultiesService) {}
+    private facultyService: FacultiesService,
+    private store: Store<AppState>) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.store.pipe(
+      select(areFacultiesLoaded),
+      tap((hasLoaded) => {
+        if (!hasLoaded) {
+          this.store.dispatch(loadAllFaculties())
+        }
+      })
+    ).subscribe();
+
+
+   this.faculties$ = this.store.pipe(select(selectAllFaculties))
+  }
 
   pageUpdate() {
-    this.mattable.getRange((data: Faculty[]) => this.faculties = data);
-    this.mattable.getCountRecords(response => this.length = response.numberOfRecords);
+    // this.mattable.getRange((data: Faculty[]) => this.faculties = data);
+    // this.mattable.getCountRecords(response => this.length = response.numberOfRecords);
   }
 
   ngAfterViewInit(): void {
-    this.mattable.getRange((data: Faculty[]) => this.faculties = data);
-    this.mattable.getCountRecords(response => this.length = response.numberOfRecords);
+    // this.mattable.getRange((data: Faculty[]) => this.faculties = data);
+    // this.mattable.getCountRecords(response => this.length = response.numberOfRecords);
   }
 
   getAction({type, body}: {type: tableActionsType, body: Faculty} ) {
@@ -82,8 +103,9 @@ export class FacultiesComponent  implements OnInit, AfterViewInit {
   createFaculty(faculty: Faculty) {
     this.facultyService.createFaculty(faculty)
       .subscribe(() => {
-        this.mattable.getRange(data => this.faculties = data);
-        this.length++;
+        this.store.dispatch(facultyCreate({create: faculty}));
+        // this.mattable.getRange(data => this.faculties = data);
+        // this.length++;
         this.openSnackBar('Факультет додано');
       },
         err => {
@@ -96,21 +118,27 @@ export class FacultiesComponent  implements OnInit, AfterViewInit {
 
 
   updateFaculty(id: number, faculty: Faculty) {
-   const [...newArray] = this.faculties;
-   this.facultyService.updateFaculty(id, faculty)
-      .subscribe((response: Faculty[]) => {
-        this.openSnackBar('Факультет оновлено');
-        newArray[newArray.findIndex(el => el.faculty_id === id)] = {
-          ...response[0]
-        };
-        this.faculties = newArray;
-      },
-        err => {
-          if (err.error.response.includes('Error when update')) {
-            this.openSnackBar('Інформація про факультет не змінювалась');
-          }
-        }
-      );
+  //  const [...newArray] = this.faculties;
+   this.store.dispatch(facultyUpdate({
+     update: {
+       id,
+       changes: faculty
+     }
+   }))
+  //  this.facultyService.updateFaculty(id, faculty)
+  //     .subscribe((response: Faculty[]) => {
+  //       this.openSnackBar('Факультет оновлено');
+  //       // newArray[newArray.findIndex(el => el.faculty_id === id)] = {
+  //       //   ...response[0]
+  //       // };
+  //       // this.faculties = newArray;
+  //     },
+  //       err => {
+  //         if (err.error.response.includes('Error when update')) {
+  //           this.openSnackBar('Інформація про факультет не змінювалась');
+  //         }
+  //       }
+  //     );
   }
 
   openConfirmDialog(faculty: Faculty) {
@@ -122,9 +150,10 @@ export class FacultiesComponent  implements OnInit, AfterViewInit {
   removeFaculty(id: number) {
     this.facultyService.deleteFaculty(id)
       .subscribe(() => {
-       this.faculties = this.faculties.filter(item => item.faculty_id !== id);
+        this.store.dispatch(facultyDelete({id}));
+      //  this.faculties = this.faculties.filter(item => item.faculty_id !== id);
        this.openSnackBar('Факультет видалено');
-       if (this.faculties.length > 0) { this.length--; }
+      //  if (this.faculties.length > 0) { this.length--; }
       },
         err => {
           if (err.error.response.includes('Cannot delete')) {

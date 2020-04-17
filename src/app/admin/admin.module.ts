@@ -57,6 +57,10 @@ import { AboutUsComponent } from './about-us/about-us.component';
 import { DoughnutChartComponent } from './about-us/doughnut-chart/doughnut-chart.component';
 import { BarsChartComponent } from './about-us/bars-chart/bars-chart.component';
 import { ProtocolComponent } from './protocol/protocol.component';
+import { StoreModule } from '@ngrx/store';
+import { reducers } from './store/MainReducer';
+import { EffectsModule } from '@ngrx/effects';
+import { FacultyEffects } from './store/faculty/faculty-effects';
 
 
 
@@ -228,7 +232,9 @@ const routes: Routes = [
         deps: [HttpClient]
       }
     }),
-    ChartsModule
+    ChartsModule,
+    StoreModule.forFeature('admin',reducers),
+    EffectsModule.forFeature([FacultyEffects])
   ],
   providers: [
     AdminUserService,

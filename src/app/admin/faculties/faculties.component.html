@@ -12,7 +12,7 @@
 <section class="container">
 
 <app-mat-table 
-[data]="faculties" 
+[data]="faculties$ | async" 
 [columns]="columns"  
 [countRecords]="length"
 [filter]='true'

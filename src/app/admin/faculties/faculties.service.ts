@@ -24,7 +24,7 @@ export class FacultiesService {
     return this.apiService.createEntity('Faculty', faculty);
 
   }
-  updateFaculty(id: number, faculty: Faculty) {
+  updateFaculty(id: number, faculty: any) {
     return this.apiService.updEntity('Faculty', faculty, id);
   }
 

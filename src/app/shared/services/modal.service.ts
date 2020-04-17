@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { AlertComponent } from '../alert/alert.component';
 import { ConfirmComponent } from '../confirm/confirm.component';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Injectable()
 export class ModalService {
@@ -34,5 +35,10 @@ export class ModalService {
     this.openAlertModal(message, 'Помилка', 'error');
   }
 
-  constructor( public dialog: MatDialog) { }
+  openSnackBar(message: string, action?: string) {
+    this.snackBar.open(message, action, {
+      duration: 2500,
+    });
+  }
+  constructor( public dialog: MatDialog, private snackBar: MatSnackBar) { }
 }

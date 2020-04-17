@@ -40,13 +40,12 @@ export class MatTableComponent implements OnInit, OnChanges, AfterViewInit {
   }
 
   ngOnChanges(): void {
+    this.dataSource = new MatTableDataSource(this.data);
     if (this.countRecords) {
       this.checkDataLength(this.data);
-      this.dataSource = new MatTableDataSource(this.data);
       this.matPaginator.length = this.countRecords;
       this.dataSource.sort = this.sort;
     } else {
-      this.dataSource = new MatTableDataSource(this.data);
       this.dataSource.paginator = this.matPaginator;
       this.dataSource.sort = this.sort;
     }
@@ -58,6 +57,7 @@ export class MatTableComponent implements OnInit, OnChanges, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
+    this.dataSource.paginator = this.matPaginator;
     if (this.filter) {
       fromEvent<any>(this.input.nativeElement, 'keyup')
         .pipe(

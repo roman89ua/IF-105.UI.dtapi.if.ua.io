@@ -18,6 +18,16 @@
         "source": "**",
         "destination": "/index.html"
       }
-    ]
+    ],
+    "hosting": {
+      "public": ".",
+      "headers": [ {
+          "source" : "**",
+          "headers" : [{
+            "key" : "Access-Control-Allow-Origin",
+            "value" : "*"
+          }]
+      }]
+    }
   }
 }

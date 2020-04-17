@@ -7,6 +7,9 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatTableDataSource, MatTable } from '@angular/material/table';
 import { ModalService } from '../../../shared/services/modal.service';
+import { Store, select } from '@ngrx/store';
+import { AdminState } from '../../store/MainReducer';
+import { allSpecialitiesLoaded } from '../../store/speciality/speciality-actions';
 @Component({
   selector: 'app-speciality-list',
   templateUrl: './speciality-list.component.html',
@@ -25,7 +28,8 @@ export class SpecialityListComponent implements OnInit {
     private apiService: ApiService,
     private dialog: MatDialog,
     private snackBar: MatSnackBar,
-    private modalService: ModalService) { }
+    private modalService: ModalService,
+    private store: Store<AdminState>) { }
 
   ngOnInit() {
     this.getSpeciality();
@@ -34,7 +38,10 @@ export class SpecialityListComponent implements OnInit {
     this.dataSource.paginator = this.paginator;
   }
   getSpeciality(): any {
-    this.apiService.getEntity('Speciality').subscribe((data: Speciality[]) => this.dataSource.data = data);
+    this.apiService.getEntity('Speciality').subscribe((data: Speciality[]) =>{
+       this.dataSource.data = data;
+      this.store.dispatch(allSpecialitiesLoaded({specialities: data}));
+      });
   }
 
   openConfirmDialog(speciality: Speciality) {
